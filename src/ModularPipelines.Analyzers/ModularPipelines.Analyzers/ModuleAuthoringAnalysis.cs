@@ -6339,6 +6339,9 @@ internal static partial class ModuleAuthoringAnalysis
             .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .Where(candidate => IsLinearPredecessor(candidate, operation))
+            // Branch results are available only after the branch completes, never
+            // while evaluating its condition, governing expression, or arms.
+            .Where(candidate => candidate.Syntax.Span.End <= operation.Syntax.SpanStart)
             .Where(candidate => DefinitelyAssignsLocal(candidate, local))
             .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
             .FirstOrDefault();

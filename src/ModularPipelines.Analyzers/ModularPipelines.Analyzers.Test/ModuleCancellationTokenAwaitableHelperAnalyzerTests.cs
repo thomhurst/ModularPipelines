@@ -530,6 +530,46 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
         await Verify($"CancellationToken saved = default; _ = ({input}) switch {{ {arms} }};", warns, token: "saved");
     }
 
+    [TestMethod]
+    [DataRow("for (int i = 0; i < 2; i++)")]
+    [DataRow("foreach (var item in new[] { 1, 2 })")]
+    [DataRow("while (context != null)")]
+    public async Task Per_Iteration_Initializer_Kills_Later_Write(string loop)
+    {
+        await Verify($"{loop} {{ var saved = cancellationToken; await Task.Delay(1, saved); saved = default; }}", false);
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Per_Iteration_Initializer_Preserves_Helper_Payload(string taskType)
+    {
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token) {{ for (int i = 0; ; i++) {{ var saved = token; if (i == 1) return {taskType}.FromResult(saved); saved = default; }} }}", false, token: "await Pass(cancellationToken)");
+    }
+
+    [TestMethod]
+    public async Task Switch_Arms_Do_Not_Replace_Governing_Expression_Input()
+    {
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+                protected override async Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    CancellationToken saved = default;
+                    _ = (await {|#0:Task.Run(() => true, saved)|}) switch
+                    {
+                        true => saved = cancellationToken,
+                        false => saved = cancellationToken
+                    };
+                }
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Run")]);
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";

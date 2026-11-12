@@ -208,10 +208,20 @@ internal static partial class ModuleAuthoringAnalysis
 
     private static bool HasLoopLocalReset(IOperation write, ILocalReferenceOperation use)
     {
-        var assignments = FindLocalAssignments(GetRoot(use), use, use.Local, GetEnclosingCallable(use));
-        return assignments.Any(assignment =>
+        var root = GetRoot(use);
+        var callable = GetEnclosingCallable(use);
+        var resets = FindLocalAssignments(root, use, use.Local, callable)
+            .Where(static assignment => !assignment.IsRef)
+            .Cast<IOperation>();
+        if (FindLocalDeclarator(root, use, use.Local, callable) is { Initializer: not null } declarator
+            && use.Local.RefKind == RefKind.None)
         {
-            if (assignment.IsRef || !IsLinearPredecessor(assignment, use))
+            resets = resets.Append(declarator);
+        }
+
+        return resets.Any(reset =>
+        {
+            if (!IsLinearPredecessor(reset, use))
             {
                 return false;
             }
@@ -219,7 +229,7 @@ internal static partial class ModuleAuthoringAnalysis
             for (var parent = write.Parent; parent is not null; parent = parent.Parent)
             {
                 if (parent is ILoopOperation && HasAncestor(use, parent)
-                    && !HasAncestor(assignment, parent))
+                    && !HasAncestor(reset, parent))
                 {
                     return false;
                 }
