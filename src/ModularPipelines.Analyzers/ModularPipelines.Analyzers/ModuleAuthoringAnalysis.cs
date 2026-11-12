@@ -6141,10 +6141,23 @@ internal static class ModuleAuthoringAnalysis
         var assignments = FindLocalAssignments(GetRoot(reference), reference, reference.Local, GetEnclosingCallable(reference))
             .Where(IsInReachableBranch).ToArray();
         var definite = assignments.FirstOrDefault(assignment => IsDefiniteContainerPredecessor(assignment, reference));
-        return definite is null
-            ? FindReachingLocalValues(reference, reference.Local)
-            : assignments.Where(assignment => assignment.Syntax.SpanStart >= definite.Syntax.SpanStart)
+        if (definite is not null)
+        {
+            return assignments.Where(assignment => assignment.Syntax.SpanStart >= definite.Syntax.SpanStart)
                 .Select(static assignment => assignment.Value);
+        }
+
+        // A forward jump can bypass the linear predecessor used by the general
+        // value lookup. Retain the original storage as well as every possible write.
+        if (assignments.Any(assignment => HasBypassingContainerGoto(assignment, reference)))
+        {
+            var values = assignments.Select(static assignment => assignment.Value);
+            var initializer = FindLocalDeclarator(GetRoot(reference), reference, reference.Local, GetEnclosingCallable(reference))
+                ?.Initializer?.Value;
+            return initializer is not null ? values.Append(initializer) : values;
+        }
+
+        return FindReachingLocalValues(reference, reference.Local);
     }
 
     private static bool IsDefiniteContainerPredecessor(IOperation candidate, IOperation reference)
@@ -6153,7 +6166,7 @@ internal static class ModuleAuthoringAnalysis
         {
             if (ancestor is IBlockOperation && HasAncestor(reference, ancestor))
             {
-                return true;
+                return !HasBypassingContainerGoto(candidate, reference);
             }
 
             if (ancestor is ILoopOperation or ISwitchOperation or ITryOperation
@@ -6164,6 +6177,20 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool HasBypassingContainerGoto(IOperation candidate, IOperation reference)
+    {
+        var operations = GetReachableContainerOperations(GetRoot(reference)).ToArray();
+        var callable = GetEnclosingCallable(reference);
+        return operations.OfType<IBranchOperation>().Any(branch =>
+            branch.BranchKind == BranchKind.GoTo
+            && branch.Syntax.SpanStart < candidate.Syntax.SpanStart
+            && ReferenceEquals(GetEnclosingCallable(branch), callable)
+            && operations.OfType<ILabeledOperation>().Any(label =>
+                SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+                && label.Syntax.SpanStart > candidate.Syntax.SpanStart
+                && label.Syntax.SpanStart <= reference.Syntax.SpanStart));
     }
 
     private static bool HasLoopCarriedContainerAssignment(ILocalReferenceOperation reference)
@@ -6274,7 +6301,10 @@ internal static class ModuleAuthoringAnalysis
             }
 
             foreach (var binding in bindings.Where(binding => binding.Syntax.SpanStart > reference.Syntax.SpanStart
-                         && binding.Syntax.SpanStart < branch.Syntax.SpanStart))
+                         && binding.Syntax.SpanStart < branch.Syntax.SpanStart
+                         && !bindings.Any(later => later.Syntax.SpanStart > binding.Syntax.SpanStart
+                             && later.Syntax.SpanStart < branch.Syntax.SpanStart
+                             && IsDefiniteContainerPredecessor(later, branch))))
             {
                 yield return binding;
             }

@@ -7,6 +7,12 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenContainerHelperAnalyzerTests
 {
     [TestMethod]
+    [DataRow("var scratch = value; if (flag) goto Write; scratch = new CancellationToken[1]; Write: scratch[0] = default;", true)]
+    [DataRow("var scratch = value; (scratch, _) = (value, 0); if (flag) goto Write; scratch = new CancellationToken[1]; Write: scratch[0] = default;", true)]
+    [DataRow("var scratch = value; if (false) goto Write; scratch = new CancellationToken[1]; Write: scratch[0] = default;", false)]
+    [DataRow("var scratch = value; if (flag) goto Reset; Reset: scratch = new CancellationToken[1]; scratch[0] = default;", false)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; int passes = 0; Again: alias[0] = default; alias = ref value; alias = ref scratch; if (passes++ == 0) goto Again;", false)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; int passes = 0; Again: alias[0] = default; alias = ref value; if (flag) goto Jump; alias = ref scratch; Jump: if (passes++ == 0) goto Again;", true)]
     [DataRow("var scratch = value; void Bind() { scratch = value; } void BindIndirect() { Bind(); } BindIndirect(); scratch = new CancellationToken[1]; scratch[0] = default;", false)]
     [DataRow("var scratch = value; Action bind = () => scratch = value; bind(); scratch = new CancellationToken[1]; scratch[0] = default;", false)]
     [DataRow("var scratch = value; void Bind() { scratch = value; } scratch = new CancellationToken[1]; if (flag) Bind(); scratch[0] = default;", true)]
