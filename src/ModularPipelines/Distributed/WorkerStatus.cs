@@ -1,7 +1,9 @@
+using ModularPipelines.Reporting;
+
 namespace ModularPipelines.Distributed;
 
 /// <summary>
-/// Reports a distributed worker's liveness, its in-flight work and, finally, its command metrics.
+/// Reports a distributed worker's liveness, its in-flight work and, finally, its command metrics and machine resource usage.
 /// </summary>
 public sealed record WorkerStatus
 {
@@ -18,10 +20,13 @@ public sealed record WorkerStatus
 
     /// <summary>
     /// Gets whether this is the worker's final status, published after it stopped executing work.
-    /// A final status carries the worker's command metrics and keeps its registration visible after
+    /// A final status carries the worker's command metrics and machine resource usage, keeping its registration visible after
     /// its heartbeat expires.
     /// </summary>
     public bool IsFinal { get; init; }
+
+    /// <summary>Gets machine-wide resource usage sampled by this worker, when available.</summary>
+    public ResourceUsage? ResourceUsage { get; init; }
 
     /// <summary>Gets the worker's count of commands executed outside a module context.</summary>
     public int UnattributedCommandCount { get; init; }
