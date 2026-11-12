@@ -158,7 +158,9 @@ internal static partial class ModuleAuthoringAnalysis
     private static bool HasUnsupportedLocalPayloadWrite(ILocalReferenceOperation localReference)
     {
         var callable = GetEnclosingCallable(localReference);
-        return GetRoot(localReference).DescendantsAndSelf().OfType<ILocalReferenceOperation>().Any(reference =>
+        var root = GetRoot(localReference);
+        var hasJump = HasPayloadJump(callable ?? root);
+        return root.DescendantsAndSelf().OfType<ILocalReferenceOperation>().Any(reference =>
         {
             if (!SymbolEqualityComparer.Default.Equals(reference.Local, localReference.Local)
                 || !IsInReachableBranch(reference))
@@ -172,13 +174,23 @@ internal static partial class ModuleAuthoringAnalysis
                 return IsPotentialScalarWrite(reference);
             }
 
-            return (reference.Syntax.SpanStart < localReference.Syntax.SpanStart
-                    || SharesLoop(reference, localReference))
+            // A loop backedge or jump can execute a textually later write first.
+            // Ordinary assignments are otherwise handled by reaching-value analysis.
+            if (SharesLoop(reference, localReference) || hasJump)
+            {
+                return IsPotentialScalarWrite(reference);
+            }
+
+            return reference.Syntax.SpanStart < localReference.Syntax.SpanStart
                 && (HasRefStorageAncestor(reference)
                     || reference.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
                     || (reference.Parent is ITupleOperation && IsPayloadAssignmentTarget(reference)));
         });
     }
+
+    private static bool HasPayloadJump(IOperation operation) =>
+        operation.DescendantsAndSelf().OfType<IBranchOperation>()
+            .Any(static branch => branch.BranchKind == BranchKind.GoTo);
 
     private static bool SharesLoop(IOperation candidate, IOperation reference)
     {
@@ -210,7 +222,12 @@ internal static partial class ModuleAuthoringAnalysis
     {
         for (var parent = reference.Parent; parent is not null; parent = parent.Parent)
         {
-            if (parent is ISimpleAssignmentOperation { IsRef: true, Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref } }
+            if (parent is ISimpleAssignmentOperation
+                {
+                    IsRef: true,
+                    Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref }
+                        or IFieldReferenceOperation { Field.RefKind: RefKind.Ref },
+                }
                 or IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } })
             {
                 return true;

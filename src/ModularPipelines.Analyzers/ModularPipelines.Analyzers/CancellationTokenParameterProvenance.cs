@@ -320,10 +320,28 @@ internal static class CancellationTokenParameterProvenance
 
             // CFG operations have no semantic model; recover the source invocation
             // for helper lookup while retaining the already evaluated caller values.
-            var original = compilation.GetSemanticModel(invocation.Syntax.SyntaxTree)
-                .GetOperation(invocation.Syntax) as IInvocationOperation;
-            return original is not null && ModuleAuthoringAnalysis.FlowsFromAssignedCancellationTokenHelper(
-                original, input => values.TryGetValue(input.Syntax.Span, out var value) && value == true);
+            if (compilation.GetSemanticModel(invocation.Syntax.SyntaxTree)
+                .GetOperation(invocation.Syntax) is not IInvocationOperation original)
+            {
+                return null;
+            }
+
+            if (ModuleAuthoringAnalysis.FlowsFromAssignedCancellationTokenHelper(
+                original, input => values.TryGetValue(input.Syntax.Span, out var value) && value == true))
+            {
+                return true;
+            }
+
+            // Unknown caller provenance must not become a definite replacement
+            // merely because a source helper forwards it unchanged.
+            if (values.Values.Any(static value => value is null)
+                && ModuleAuthoringAnalysis.FlowsFromAssignedCancellationTokenHelper(
+                    original, input => values.TryGetValue(input.Syntax.Span, out var value) && value != false))
+            {
+                return null;
+            }
+
+            return false;
         }
 
         private bool? EvaluateParameter(IParameterReferenceOperation parameter, State state)

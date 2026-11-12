@@ -372,6 +372,66 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
         await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token, bool choose) {{ var saved = token; while (choose) {{ if (!choose) return {taskType}.FromResult(saved); (saved, _) = (default, 0); }} return {taskType}.FromResult(saved); }}", true, token: "await Pass(cancellationToken, context != null)");
     }
 
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Helper_Input_Preserves_Unknown_Linked_Source_Provenance(bool replaced)
+    {
+        var input = replaced ? "CancellationToken.None" : "CancellationTokenSource.CreateLinkedTokenSource(cancellationToken).Token";
+        await Verify($"static CancellationToken Pass(CancellationToken token) => token; cancellationToken = Pass({input});", replaced);
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Ordinary_Writes_Across_Loop_Backedge_Reject_Helper_Proof(string taskType)
+    {
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token) {{ var saved = token; for (int i = 0; ; i++) {{ if (i == 1) return {taskType}.FromResult(saved); saved = default; }} }}", true, token: "await Pass(cancellationToken)");
+    }
+
+    [TestMethod]
+    [DataRow("saved = default;")]
+    [DataRow("(saved, _) = (default, 0);")]
+    [DataRow("ref var alias = ref saved; alias = default;")]
+    public async Task Backward_Jumps_Reject_Helper_Local_Proof(string write)
+    {
+        await Verify($"static Task<CancellationToken> Pass(CancellationToken token) {{ var saved = token; goto Replace; Use: return Task.FromResult(saved); Replace: {write} goto Use; }}", true, token: "await Pass(cancellationToken)");
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Writable_Ref_Field_Escapes_Reject_Helper_Proof(bool localCopy)
+    {
+        var setup = localCopy ? "var saved = token;" : "";
+        var value = localCopy ? "saved" : "token";
+        await Verify($"static Task<CancellationToken> Pass(CancellationToken token) {{ {setup} CancellationToken other = default; var box = new Box(ref other); box.Token = ref {value}; box.Token = default; return Task.FromResult({value}); }}", true, """
+            public ref struct Box
+            {
+                public ref CancellationToken Token;
+                public Box(ref CancellationToken token) { Token = ref token; }
+            }
+            """, token: "await Pass(cancellationToken)");
+    }
+
+    [TestMethod]
+    public async Task Helper_Replacement_Rejects_Unknown_Linked_Source_Input()
+    {
+        await Verify("static CancellationToken Pass(CancellationToken token) => default; cancellationToken = Pass(CancellationTokenSource.CreateLinkedTokenSource(cancellationToken).Token);", true);
+    }
+
+    [TestMethod]
+    public async Task Readonly_Ref_Field_Alias_Preserves_Helper_Payload()
+    {
+        await Verify("static Task<CancellationToken> Pass(CancellationToken token) { CancellationToken other = default; var box = new Box(ref other); box.Token = ref token; return Task.FromResult(token); }", false, """
+            public ref struct Box
+            {
+                public ref readonly CancellationToken Token;
+                public Box(ref CancellationToken token) { Token = ref token; }
+            }
+            """, token: "await Pass(cancellationToken)");
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";
