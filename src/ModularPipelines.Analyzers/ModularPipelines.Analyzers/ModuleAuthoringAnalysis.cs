@@ -5433,6 +5433,11 @@ internal static partial class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        if (GetCancellationPayloadInput(value) is { } payload)
+        {
+            return FlowsFromCancellationToken(payload, cancellationToken, visitedLocals, visitedMethods);
+        }
+
         return value switch
         {
             IConversionOperation { OperatorMethod: null } conversion => FlowsFromCancellationToken(
@@ -5440,10 +5445,6 @@ internal static partial class ModuleAuthoringAnalysis
                 cancellationToken,
                 visitedLocals,
                 visitedMethods),
-            IAwaitOperation awaited when GetCancellationPayloadInput(awaited) is { } payload => FlowsFromCancellationToken(
-                payload, cancellationToken, visitedLocals, visitedMethods),
-            IObjectCreationOperation creation when GetCancellationPayloadInput(creation) is { } payload =>
-                FlowsFromCancellationToken(payload, cancellationToken, visitedLocals, visitedMethods),
             IParameterReferenceOperation parameterReference =>
                 IsStableCapturedCancellationToken(parameterReference)
                 && ((SymbolEqualityComparer.Default.Equals(

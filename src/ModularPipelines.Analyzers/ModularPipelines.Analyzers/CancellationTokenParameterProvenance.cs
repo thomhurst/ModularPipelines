@@ -42,13 +42,7 @@ internal static class CancellationTokenParameterProvenance
         if (!operations.OfType<ISimpleAssignmentOperation>().Any(assignment =>
                 assignment.Target is IParameterReferenceOperation parameter
                 && SymbolEqualityComparer.Default.Equals(parameter.Parameter, source))
-            || operations.Any(static operation => operation is ITryOperation
-                or ILoopOperation
-                or IDeconstructionAssignmentOperation
-                or ISimpleAssignmentOperation { IsRef: true }
-                or ILocalReferenceOperation { Local.RefKind: not RefKind.None }
-                or IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None }
-                or IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out })
+            || HasUnsupportedScalarOperations(operations)
             || operations.Any(HasCapturedWrite)
             || root.SemanticModel is not { } model)
         {
@@ -66,6 +60,15 @@ internal static class CancellationTokenParameterProvenance
             return [];
         }
     }
+
+    private static bool HasUnsupportedScalarOperations(IOperation[] operations) =>
+        operations.Any(static operation => operation is ITryOperation
+            or ILoopOperation
+            or IDeconstructionAssignmentOperation
+            or ISimpleAssignmentOperation { IsRef: true }
+            or ILocalReferenceOperation { Local.RefKind: not RefKind.None }
+            or IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None }
+            or IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out });
 
     private static bool HasNestedCallableAncestor(IOperation operation, IOperation root)
     {
