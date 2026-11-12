@@ -3298,6 +3298,7 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("alias = default; switch (choice) { case 0: switch (choice) { default: alias = third; MayThrow(); break; } break; default: alias = third; MayThrow(); break; }")]
     [DataRow("alias = default; switch (choice) { case 0: alias = third; MayThrow(); break; } alias = third;")]
     [DataRow("try { alias = default; } finally { switch (choice) { case 0: { alias = third; MayThrow(); break; } default: alias = third; MayThrow(); break; } }")]
+    [DataRow("var skip = DateTime.UtcNow.Ticks > 0; switch (choice) { case 0: alias = default; if (skip) break; alias = third; MayThrow(); break; default: alias = third; break; } alias = third;")]
     public async Task Does_Not_Report_CancellationToken_Restored_Before_Switch_Exception(string body)
     {
         var source = ReboundCancellationTokenHelperSource(
@@ -3325,6 +3326,37 @@ public class ModuleAuthoringAnalyzerTests
             "ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; var skip = DateTime.UtcNow.Ticks > 0; var error = new Exception(); try { alias = default; " + body
             + " } catch (Exception) {} return alias; static long MayThrow() => throw new Exception();",
             "default", report: true);
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0).WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("try { first = default; MayThrow(); first = third; } catch { return third; } return first;")]
+    [DataRow("ref var alias = ref first; try { alias = default; MayThrow(); alias = third; } catch { return third; } return alias;")]
+    [DataRow("try { first = default; MayThrow(); first = third; } catch { throw; } return first;")]
+    [DataRow("try { first = default; MayThrow(); first = third; } catch { if (DateTime.UtcNow.Ticks > 0) return third; else return third; } return first;")]
+    public async Task Does_Not_Report_CancellationToken_Preserved_Only_By_Exiting_Catch(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            body + " static void MayThrow() => throw new Exception();", "default", report: false);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("try { first = default; MayThrow(); first = third; } catch { if (skip) return third; } return first;")]
+    [DataRow("try { first = default; MayThrow(); first = third; } catch { return first; } return third;")]
+    [DataRow("try { try { first = default; MayThrow(); first = third; } catch { throw; } } catch {} return first;")]
+    [DataRow("switch (choice) { case 0: alias = default; if (skip) break; alias = third; break; default: alias = third; break; } MayThrow(); alias = third; return alias;")]
+    [DataRow("switch (choice) { case 0: { alias = default; if (skip) break; alias = third; break; } default: alias = third; break; } MayThrow(); alias = third; return alias;")]
+    [DataRow("switch (choice) { case 0: alias = ref second; if (skip) break; alias = ref third; break; default: alias = ref third; break; } MayThrow(); alias = ref third; return alias;")]
+    public async Task Reports_CancellationToken_Preserved_By_Catch_Or_Early_Case_Exit(string body)
+    {
+        var isSwitch = body.StartsWith("switch", StringComparison.Ordinal);
+        var source = ReboundCancellationTokenHelperSource(
+            "ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; var skip = DateTime.UtcNow.Ticks > 0; "
+            + (isSwitch ? "try { " + body.Replace("return alias;", "") + " } catch {} return alias;" : body)
+            + " static void MayThrow() => throw new Exception();", "default", report: true);
         var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
             .WithLocation(0).WithArguments("Delay");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);

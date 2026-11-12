@@ -6246,7 +6246,8 @@ internal static class ModuleAuthoringAnalysis
                 && !FinallyOverwritesCancellationStorage(attempt, read, symbol, isRef)
                 && ((attempt.Finally is { } finallyBlock && HasAncestor(read, finallyBlock))
                     || (!HasAncestor(read, attempt.Body) && attempt.Catches.Any(handler =>
-                        !DefinitelyWritesCancellationStorage(handler.Handler, symbol, isRef))))
+                        HasAncestor(read, handler.Handler)
+                            || !DefinitelyWritesCancellationStorageOrExits(handler.Handler, symbol, isRef, read))))
                 && CanThrowBeforeCancellationStorageOverwrite(write, attempt.Body, symbol, isRef))
             {
                 return true;
@@ -6372,6 +6373,7 @@ internal static class ModuleAuthoringAnalysis
         OperationExceptionClassifier classifier, out bool overwritten)
     {
         overwritten = false;
+        var canBypassOverwrite = false;
         foreach (var child in operations)
         {
             if (CancellationStorageOperationCanThrowBeforeOverwrite(child, symbol, isRef, classifier, out overwritten))
@@ -6381,8 +6383,14 @@ internal static class ModuleAuthoringAnalysis
 
             if (overwritten)
             {
+                // The continuing path is now safe, but an earlier branch can
+                // leave the case without this write. Resume the enclosing scan
+                // without claiming that the bypassed path overwrites storage.
+                overwritten = !canBypassOverwrite;
                 return false;
             }
+
+            canBypassOverwrite |= ContainsCancellationStorageBranchOrReturn(child);
         }
 
         return false;
