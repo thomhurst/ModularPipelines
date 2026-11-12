@@ -70,7 +70,8 @@ Schema v6 introduced failed-module rerun metadata:
   result types, and dependency edges for rerun compatibility; and
 - `ModuleRunReport.ResultStartTime` and `ResultEndTime`, which retain the original result timestamps,
   including when the current run reuses a result. These are separate from the module's current-run
-  `Start` and `End` execution timestamps.
+  `ModuleRunReport.StartTime` and `EndTime` execution timestamps. The current-run timestamps retain
+  the JSON field names `start` and `end` for compatibility with older report files.
 
 ### Rerun baseline requirements
 
