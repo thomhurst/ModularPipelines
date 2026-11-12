@@ -287,6 +287,83 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
             warnings.Select(d => source.Substring(d.Location.SourceSpan.Start, d.Location.SourceSpan.Length)).ToArray());
     }
 
+    [TestMethod]
+    [DataRow("execute", false)]
+    [DataRow("lifecycle", false)]
+    [DataRow("configuration", false)]
+    [DataRow("execute", true)]
+    [DataRow("lifecycle", true)]
+    [DataRow("configuration", true)]
+    public async Task Reports_Once_For_Overwritten_Capture_In_Returned_Lambda(string root, bool functionPointer)
+    {
+        var source = ModuleSource(root, $$"""
+            private static Task HelperAsync(CancellationToken token)
+            {
+                {{(functionPointer ? "ref var alias = ref token;" : "")}}
+                try { {{(functionPointer ? "unsafe { delegate* managed<void> action = &Throw; action(); }" : "Throw();")}} }
+                catch { {{(functionPointer ? "alias" : "token")}} = default; }
+                return Task.Run(() => {|#0:Task.Delay(1, token)|}, token);
+            }
+
+            private static void Throw() => throw new InvalidOperationException();
+            """);
+        var test = new VerifyCS.Test
+        {
+            TestCode = source,
+            ReferenceAssemblies = Net.Net110,
+            TestState = { AdditionalReferences = { typeof(IModuleContext).Assembly.Location } },
+        };
+        test.SolutionTransforms.Add((solution, projectId) => solution.WithProjectCompilationOptions(
+            projectId, ((CSharpCompilationOptions) solution.GetProject(projectId)!.CompilationOptions!).WithAllowUnsafe(true)));
+        test.ExpectedDiagnostics.Add(VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0).WithArguments("Delay"));
+        await test.RunAsync(CancellationToken.None);
+    }
+
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Preserves_Distinct_Returned_Callback_Findings(string root)
+    {
+        var source = ModuleSource(root, """
+            private static Task HelperAsync(CancellationToken token)
+            {
+                try { Throw(); }
+                catch { token = default; }
+                return Task.WhenAll(
+                    Task.Run(() => {|#0:Task.Delay(1, token)|}, token),
+                    Task.Run(() => {|#1:Task.Delay(2, token)|}, token));
+            }
+
+            private static void Throw() => throw new InvalidOperationException();
+            """);
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(1).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Recognizes_Valid_Handler_Rebinding_In_Returned_Callback(string root)
+    {
+        var source = ModuleSource(root, """
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { Throw(); }
+                catch { alias = ref other; alias = default; }
+                return Task.Run(() => Task.Delay(1, token), token);
+            }
+
+            private static void Throw() => throw new InvalidOperationException();
+            """);
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
     private static string ModuleSource(string root, string helper)
     {
         var entry = root switch
