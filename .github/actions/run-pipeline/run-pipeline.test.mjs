@@ -27,3 +27,13 @@ for (const event of ['push', 'pull_request']) {
     });
   }
 }
+
+test('pipeline stdout is piped only where resource samples are merged into it', () => {
+  const environment = {
+    RUNNER_OS: 'Linux', MODULARPIPELINES_INSTANCE_INDEX: '0',
+    RUNNER_TEMP: '/runner/temp', GITHUB_WORKSPACE: '/runner/workspace',
+  };
+  startPipeline(environment, (command, args, options) => {
+    assert.deepEqual(options.stdio, ['inherit', 'pipe', 'inherit']);
+  });
+});

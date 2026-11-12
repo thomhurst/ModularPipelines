@@ -15,17 +15,90 @@ export async function captureDiagnostics(run = execute, read = readFile) {
     /^(MemTotal|MemAvailable|SwapTotal|SwapFree|Dirty|Writeback):/.test(line));
   // Do not collect command arguments or environment variables: they can contain credentials.
   return [
-    `Pipeline resource sample ${new Date().toISOString()}`,
+    `::group::Pipeline resource sample ${new Date().toISOString()}`,
     ...counters,
     ...stdout.trimEnd().split('\n').slice(0, 21),
+    '::endgroup::',
   ].join('\n');
 }
 
+export function samplesResources(environment) {
+  return environment.RUNNER_OS === 'Linux' && environment.MODULARPIPELINES_INSTANCE_INDEX === '0';
+}
+
+// Samples come from this process, outside the pipeline's output lock. GitHub log groups do not
+// nest, so forward the pipeline's stdout and write a sample only at a line start outside a group.
+export function forwardOutput(source, sink, child) {
+  let grouped = false;
+  let line = '';
+  let pending;
+  let exited = false;
+  let ended = source.readableEnded || source.destroyed;
+  let backpressured = false;
+  let cleanupTimer;
+  let remainingForwardingTime = 30_000;
+  let forwardingSince;
+  function resetCleanup() {
+    clearTimeout(cleanupTimer);
+    const now = Date.now();
+    if (forwardingSince !== undefined) {
+      remainingForwardingTime -= Math.max(0, now - forwardingSince);
+      forwardingSince = undefined;
+    }
+    // A descendant may hold stdout open, but output waiting on the sink is not idle.
+    if (exited && !ended && !backpressured) {
+      // Keep a total forwarding budget as well as the idle deadline: a descendant
+      // writing continuously must not keep the action alive. Backpressure spends neither.
+      forwardingSince = now;
+      cleanupTimer = setTimeout(() => source.destroy(), Math.max(0, Math.min(5000, remainingForwardingTime)));
+      cleanupTimer.unref();
+    }
+  }
+  child?.once('exit', () => { exited = true; resetCleanup(); });
+  function finish() { ended = true; clearTimeout(cleanupTimer); }
+  source.once('end', finish);
+  source.once('close', finish);
+  function forward(chunk) {
+    if (!sink.write(chunk) && !backpressured) {
+      backpressured = true;
+      source.pause();
+      sink.once('drain', () => {
+        backpressured = false;
+        resetCleanup();
+        source.resume();
+      });
+    }
+    resetCleanup();
+  }
+  source.on('data', chunk => {
+    forward(chunk);
+    const lines = (line + chunk.toString('latin1')).split('\n');
+    // Only the start of a line identifies a workflow command.
+    line = lines.pop().slice(0, 16);
+    for (const complete of lines) {
+      if (complete.startsWith('::group::')) grouped = true;
+      else if (complete.startsWith('::endgroup::')) grouped = false;
+    }
+    if (pending && !grouped && !line) {
+      forward(pending);
+      pending = undefined;
+    }
+  });
+  return text => {
+    if (grouped || line) pending = `${text}\n`;
+    else forward(`${text}\n`);
+  };
+}
+
 export function startDiagnostics(environment, child, {
-  capture = captureDiagnostics, write = console.log, schedule = setInterval, cancel = clearInterval,
+  capture = captureDiagnostics, write, stdout = process.stdout, schedule = setInterval, cancel = clearInterval,
 } = {}) {
-  if (environment.RUNNER_OS !== 'Linux' || environment.MODULARPIPELINES_INSTANCE_INDEX !== '0') {
+  if (!samplesResources(environment)) {
     return;
+  }
+
+  if (!write) {
+    write = forwardOutput(child.stdout, stdout, child);
   }
 
   let stopped = false;
