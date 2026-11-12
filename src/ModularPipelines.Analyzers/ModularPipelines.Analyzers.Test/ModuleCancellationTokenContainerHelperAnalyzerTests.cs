@@ -88,6 +88,12 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("Action clear = () => tokens[0] = default; tokens = new[] { cancellationToken }; clear();", true)]
     [DataRow("void ClearLocal() { tokens[0] = default; } ClearLocal();", true)]
     [DataRow("var alias = (tokens = new[] { cancellationToken }); alias[0] = default;", true)]
+    [DataRow("ReplaceAfter();", true)]
+    [DataRow("ReplaceIndirect();", true)]
+    [DataRow("if (false) ReplaceAfter();", false)]
+    [DataRow("ReplaceAfter(); tokens = new[] { cancellationToken };", false)]
+    [DataRow("void ReplaceTuple() { (tokens, _) = (new CancellationToken[1], 0); } ReplaceTuple();", true)]
+    [DataRow("var alias = tokens; void ReplaceAlias() { alias = new CancellationToken[1]; } ReplaceAlias();", false)]
     [DataRow("ClearAfter();", true)]
     [DataRow("ClearIndirect();", true)]
     [DataRow("if (false) ClearAfter();", false)]
@@ -114,6 +120,8 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
                     return new List<string>();
                     void ClearAfter() { tokens[0] = default; }
                     void ClearIndirect() { ClearAfter(); }
+                    void ReplaceAfter() { tokens = new CancellationToken[1]; }
+                    void ReplaceIndirect() { ReplaceAfter(); }
                 }
 
                 private static void Clear(CancellationToken[] value) => value[0] = default;

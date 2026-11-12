@@ -6197,9 +6197,14 @@ internal static class ModuleAuthoringAnalysis
             var relevant = GetForwardedContainerSymbols(root, [], localReference, storageStart);
             if (GetCallerContainerOperations(root, localReference, storageStart).Any(child =>
                     !child.Syntax.Span.Contains(localReference.Syntax.Span)
-                    && (ExposesCancellationContainer(child)
-                        || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
-                    && ReferencesContainer(child, relevant)))
+                    && (((ExposesCancellationContainer(child)
+                            || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
+                            && ReferencesContainer(child, relevant))
+                        || (child is IAssignmentOperation assignment
+                            && !ReferenceEquals(GetEnclosingCallable(child), GetEnclosingCallable(localReference))
+                            && GetContainerStorageReferences(assignment.Target)
+                                .OfType<ILocalReferenceOperation>()
+                                .Any(target => SymbolEqualityComparer.Default.Equals(target.Local, localReference.Local))))))
             {
                 return false;
             }
