@@ -319,11 +319,7 @@ internal static class CancellationTokenParameterProvenance
                     return null;
                 case IRecursivePatternOperation { DeclaredSymbol: { } recursiveDeclared }:
                     Set(state.Values, recursiveDeclared, null);
-                    foreach (var child in operation.ChildOperations)
-                    {
-                        Evaluate(child, state);
-                    }
-
+                    EvaluateChildren(operation, state);
                     return null;
                 case ILocalReferenceOperation local:
                     return GetSymbolValue(state, local.Local);
@@ -340,15 +336,10 @@ internal static class CancellationTokenParameterProvenance
                     return Evaluate(payload, state);
                 case IPropertyReferenceOperation { Property.Name: "Result" } property
                     when property.Type?.ToDisplayString() == "System.Threading.CancellationToken":
-                    foreach (var child in property.ChildOperations)
-                    {
-                        Evaluate(child, state);
-                    }
-
+                    EvaluateChildren(property, state);
                     return false;
                 case IConversionOperation conversion:
-                    var converted = Evaluate(conversion.Operand, state);
-                    return conversion.OperatorMethod is not null ? false : conversion.Conversion.IsIdentity || conversion.Operand is IDefaultValueOperation ? converted : null;
+                    return EvaluateConversion(conversion, state);
                 case IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
                     when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource":
                     return Evaluate(instance, state);
@@ -363,11 +354,7 @@ internal static class CancellationTokenParameterProvenance
                 case IAnonymousFunctionOperation or IFlowAnonymousFunctionOperation or ILocalFunctionOperation:
                     return false;
                 default:
-                    foreach (var child in operation.ChildOperations)
-                    {
-                        Evaluate(child, state);
-                    }
-
+                    EvaluateChildren(operation, state);
                     return IsReplacementValue(operation) ? false : null;
             }
         }
@@ -457,6 +444,26 @@ internal static class CancellationTokenParameterProvenance
             // A captured input is absent from this callable's initial state.
             // Its provenance is unknown, not a definite replacement.
             return SymbolEqualityComparer.Default.Equals(symbol.ContainingSymbol, source.ContainingSymbol) ? false : null;
+        }
+
+        private void EvaluateChildren(IOperation operation, State state)
+        {
+            foreach (var child in operation.ChildOperations)
+            {
+                Evaluate(child, state);
+            }
+        }
+
+        private bool? EvaluateConversion(IConversionOperation conversion, State state)
+        {
+            var converted = Evaluate(conversion.Operand, state);
+            if (conversion.OperatorMethod is not null)
+            {
+                return false;
+            }
+
+            return conversion.Conversion.IsIdentity || conversion.Operand is IDefaultValueOperation ? converted : null;
+
         }
 
         private bool? EvaluateFrameworkInvocation(IInvocationOperation invocation, IOperation payload, State state)

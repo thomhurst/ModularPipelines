@@ -5801,7 +5801,7 @@ internal static partial class ModuleAuthoringAnalysis
     {
         return operation switch
         {
-            IConversionOperation conversion => GetReachableValueLeaves(conversion.Operand),
+            IConversionOperation { OperatorMethod: null } conversion => GetReachableValueLeaves(conversion.Operand),
             IConditionalOperation conditional => GetReachableConditionalLeaves(conditional),
             ICoalesceOperation coalesce => GetReachableCoalesceLeaves(coalesce),
             ISwitchExpressionOperation switchExpression => switchExpression.Arms

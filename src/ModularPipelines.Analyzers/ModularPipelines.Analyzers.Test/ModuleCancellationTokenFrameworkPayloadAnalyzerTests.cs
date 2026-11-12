@@ -128,6 +128,30 @@ public class ModuleCancellationTokenFrameworkPayloadAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("Task", false)]
+    [DataRow("ValueTask", false)]
+    [DataRow("Task", true)]
+    [DataRow("ValueTask", true)]
+    public async Task Helper_Return_Conversions_Do_Not_Prove_Payload(string taskType, bool replaced)
+    {
+        var payload = replaced
+            ? $"({taskType}<CancellationToken>)(ReplacingAwaitable){taskType}.FromResult(token)"
+            : $"{taskType}.FromResult(token)";
+        var extra = $$"""
+            public static class Helpers
+            {
+                public static {{taskType}}<CancellationToken> Wrap(CancellationToken token) => {{payload}};
+            }
+            public struct ReplacingAwaitable
+            {
+                public static explicit operator ReplacingAwaitable({{taskType}}<CancellationToken> value) => new();
+                public static explicit operator {{taskType}}<CancellationToken>(ReplacingAwaitable value) => {{taskType}}.FromResult(CancellationToken.None);
+            }
+            """;
+        await Verify("", replaced, extra, "await Helpers.Wrap(cancellationToken)");
+    }
+
+    [TestMethod]
     [DataRow("Task")]
     [DataRow("ValueTask")]
     public async Task ConfigureAwait_Evaluates_Receiver_Before_Arguments(string taskType)
