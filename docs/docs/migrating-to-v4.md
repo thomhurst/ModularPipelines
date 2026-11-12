@@ -40,6 +40,7 @@ for the released APIs. This migration guide describes the upcoming V4 release.
 - [ ] Update tool access, command method names, named cancellation parameters, logging options, and generated arguments.
 - [ ] Rewrite Git information and command calls for the async, grouped Git API.
 - [ ] Review timeouts, output capture limits, working directories, skip propagation, and failure handling.
+- [ ] Ignore or disable the new [default run history](#default-run-history) before running the pipeline.
 - [ ] Rebuild custom integrations with the V4 source generator and update analyzer suppressions.
 - [ ] Build and test the migrated pipeline, including command arguments and failure/skip paths, before running deployment modules.
 
@@ -1657,6 +1658,36 @@ capture is required and its memory cost is acceptable.
 
 Required result access, read-only options, generated command validation, and pipeline-scoped working
 directories described above also change behavior. Include them in migration acceptance tests.
+
+### Default run history
+
+Unlike V3.2.8, V4 saves run reports by default on local and CI runs, even when explicit JSON
+report writing is disabled. The built-in history store writes to `.modularpipelines/run-history`
+relative to the Git repository root when available, or the pipeline working directory otherwise.
+Retained reports supply the baseline for duration deltas.
+
+Add this entry to your repository's `.gitignore` to keep the new directory out of source control:
+
+```gitignore
+.modularpipelines/run-history/
+```
+
+To disable history retention and future history writes, set `RunReport.HistoryRetention` to `0`:
+
+```csharp
+builder.ConfigureOptions(options => options with
+{
+    RunReport = options.RunReport with
+    {
+        HistoryRetention = 0,
+    },
+});
+```
+
+This disables history-based duration deltas and successful-result reuse with `--rerun-failed`.
+It does not disable explicit report output or automatic CI reports. See
+[Run reports and history](./how-to/run-reports.md#local-history-and-deltas) for changing the
+history directory, retention limits, and report output settings.
 
 ## New Features in V4
 
