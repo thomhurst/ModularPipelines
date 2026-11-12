@@ -72,7 +72,17 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
             ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
             : []);
     }
+
     [TestMethod]
+    [DataRow("tokens[0] = default; tokens = new[] { cancellationToken };", false)]
+    [DataRow("var old = tokens; tokens = new[] { cancellationToken }; old[0] = default;", false)]
+    [DataRow("tokens[0] = default; tokens = tokens;", true)]
+    [DataRow("tokens[0] = default; if (context != null) tokens = new[] { cancellationToken };", true)]
+    [DataRow("Action clear = () => tokens[0] = default;", false)]
+    [DataRow("void ClearLocal() { tokens[0] = default; }", false)]
+    [DataRow("Action clear = () => tokens[0] = default; clear();", true)]
+    [DataRow("Action clear = () => tokens[0] = default; tokens = new[] { cancellationToken }; clear();", true)]
+    [DataRow("void ClearLocal() { tokens[0] = default; } ClearLocal();", true)]
     [DataRow("tokens[0] = default;", true)]
     [DataRow("var alias = tokens; alias[0] = default;", true)]
     [DataRow("Clear(tokens);", true)]
@@ -103,5 +113,4 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
             ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
             : []);
     }
-
 }

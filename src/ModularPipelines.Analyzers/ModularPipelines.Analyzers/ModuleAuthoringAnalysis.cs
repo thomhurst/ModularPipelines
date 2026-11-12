@@ -5659,7 +5659,8 @@ internal static class ModuleAuthoringAnalysis
 
     private static HashSet<ISymbol> GetForwardedContainerSymbols(
         IOperation operation, HashSet<IParameterSymbol> flowedParameters,
-        ILocalReferenceOperation? callerReference = null)
+        ILocalReferenceOperation? callerReference = null,
+        int storageStart = int.MinValue)
     {
         var relevant = new HashSet<ISymbol>(flowedParameters.Where(static parameter => IsCancellationContainer(parameter.Type)), SymbolEqualityComparer.Default);
         if (callerReference is not null)
@@ -5669,6 +5670,9 @@ internal static class ModuleAuthoringAnalysis
 
         var children = operation.DescendantsAndSelf()
             .Where(IsInReachableBranch)
+            .Where(child => callerReference is null || IsInsideReachableNestedCallable(child))
+            .Where(child => child.Syntax.SpanStart >= storageStart
+                || GetEnclosingCallable(child) is not null)
             .Where(child => callerReference is null || child.Syntax.SpanStart < callerReference.Syntax.SpanStart)
             .ToArray();
         // Caller-owned containers can alias even when only one has proven provenance.
@@ -6149,12 +6153,26 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        var localValues = FindReachingLocalValues(
+                localReference,
+                localReference.Local)
+            .ToArray();
         if (IsCancellationContainer(localReference.Type))
         {
+            // A fresh allocation severs all older storage aliases and mutations.
+            // Keep the whole history for forwarded values: they can still refer
+            // to an array mutated before the local was reassigned.
+            var storageStart = localValues.Length > 0
+                && localValues.All(static value => value is IArrayCreationOperation)
+                    ? localValues.Min(static value => value.Syntax.SpanStart)
+                    : int.MinValue;
             var root = GetRoot(localReference);
-            var relevant = GetForwardedContainerSymbols(root, [], localReference);
+            var relevant = GetForwardedContainerSymbols(root, [], localReference, storageStart);
             if (root.DescendantsAndSelf().Any(child =>
-                    child.Syntax.SpanStart < localReference.Syntax.SpanStart
+                    (child.Syntax.SpanStart >= storageStart
+                        || GetEnclosingCallable(child) is not null)
+                    && child.Syntax.SpanStart < localReference.Syntax.SpanStart
+                    && IsInsideReachableNestedCallable(child)
                     && !child.Syntax.Span.Contains(localReference.Syntax.Span)
                     && IsInReachableBranch(child)
                     && (ExposesCancellationContainer(child)
@@ -6165,10 +6183,6 @@ internal static class ModuleAuthoringAnalysis
             }
         }
 
-        var localValues = FindReachingLocalValues(
-                localReference,
-                localReference.Local)
-            .ToArray();
         return localValues.Length > 0
                && localValues.All(localValue =>
                    FlowsFromCancellationToken(
