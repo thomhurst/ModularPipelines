@@ -23,7 +23,6 @@ internal readonly record struct MachineResourceReading(
 /// </summary>
 internal sealed record ResourcePressureCounters(
     string Source,
-    long? ThrottledPeriods,
     long? ThrottledMicroseconds,
     long? CpuStallMicroseconds,
     long? MemoryStallMicroseconds,
@@ -33,5 +32,4 @@ internal sealed record ResourcePressureCounters(
 
 internal sealed record CgroupCpuThrottlingCounters(
     string Source,
-    long? ThrottledPeriods,
     long? ThrottledMicroseconds);

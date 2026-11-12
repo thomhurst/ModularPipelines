@@ -96,9 +96,9 @@ usage fraction supplies the reading. Memory includes other processes in that cgr
 file cache (`inactive_file` from `memory.stat`) is subtracted from usage when available. Unlimited, invalid,
 or unreadable cgroup data falls back to host memory from `/proc/meminfo`.
 
-The monitor reads `cpu.stat` from the process cgroup and every visible ancestor, detecting increases in its `nr_throttled` or `throttled_usec` and in the `some`
+The monitor reads `cpu.stat` from the process cgroup and every visible ancestor, detecting increases in its `throttled_usec` and in the `some`
 stall-time total from `cpu.pressure` and `memory.pressure`. If cgroup pressure files are unavailable,
-it reads `/proc/pressure/cpu` and `/proc/pressure/memory` instead; these cover the host. A PSI stall increase must cover at least 10% of the actual elapsed sample interval to count as a stall sample; brief routine contention is ignored. Any positive CPU throttling increase counts. Both signals remain subject to `SustainedSamples`. Each counter source has its own baseline, so losing one pressure file does not discard unrelated
+it reads `/proc/pressure/cpu` and `/proc/pressure/memory` instead; these cover the host. A PSI stall or CPU throttling increase must cover at least 10% of the actual elapsed sample interval to count as a stall sample; brief routine contention and quota hits are ignored. Both signals remain subject to `SustainedSamples`. Each counter source has its own baseline, so losing one pressure file does not discard unrelated
 counters. Historical totals alone do not trigger warnings. Missing counters are ignored without disabling ordinary monitoring.
 
 See the kernel documentation for [cgroup v2](https://docs.kernel.org/admin-guide/cgroup-v2.html)

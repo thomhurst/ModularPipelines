@@ -130,9 +130,9 @@ internal sealed class ResourceUsageMonitor(
             var pressure = reading.Pressure;
             var baseline = last.Pressure;
             var sameSource = pressure is not null && baseline is not null && pressure.Source == baseline.Source;
-            var cpuStalled = sameSource && (Increased(pressure!.ThrottledPeriods, baseline!.ThrottledPeriods)
-                || Increased(pressure.ThrottledMicroseconds, baseline.ThrottledMicroseconds));
-            cpuStalled |= AncestorThrottlingIncreased(pressure?.AncestorThrottling, baseline?.AncestorThrottling);
+            var cpuStalled = sameSource
+                && SignificantStall(pressure!.ThrottledMicroseconds, baseline!.ThrottledMicroseconds, elapsed);
+            cpuStalled |= AncestorThrottled(pressure?.AncestorThrottling, baseline?.AncestorThrottling, elapsed);
             cpuStalled |= pressure is not null && baseline is not null
                 && (pressure.CpuPressureSource ?? pressure.Source) == (baseline.CpuPressureSource ?? baseline.Source)
                 && SignificantStall(pressure.CpuStallMicroseconds, baseline.CpuStallMicroseconds, elapsed);
@@ -146,9 +146,10 @@ internal sealed class ResourceUsageMonitor(
         return true;
     }
 
-    private static bool AncestorThrottlingIncreased(
+    private static bool AncestorThrottled(
         IReadOnlyList<CgroupCpuThrottlingCounters>? current,
-        IReadOnlyList<CgroupCpuThrottlingCounters>? previous)
+        IReadOnlyList<CgroupCpuThrottlingCounters>? previous,
+        TimeSpan elapsed)
     {
         if (current is null || previous is null)
         {
@@ -157,14 +158,10 @@ internal sealed class ResourceUsageMonitor(
 
         var baselines = previous.ToDictionary(counter => counter.Source, StringComparer.Ordinal);
         return current.Any(counter => baselines.TryGetValue(counter.Source, out var baseline)
-            && (Increased(counter.ThrottledPeriods, baseline.ThrottledPeriods)
-                || Increased(counter.ThrottledMicroseconds, baseline.ThrottledMicroseconds)));
+            && SignificantStall(counter.ThrottledMicroseconds, baseline.ThrottledMicroseconds, elapsed));
     }
 
-    private static bool Increased(long? current, long? previous) =>
-        current is { } value && previous is { } baseline && value > baseline;
-
-    // PSI includes routine brief contention; require at least 10% of the actual sample interval.
+    // Brief contention and quota hits are routine; require at least 10% of the actual sample interval.
     private static bool SignificantStall(long? current, long? previous, TimeSpan elapsed) =>
         elapsed > TimeSpan.Zero && current is { } value && previous is { } baseline
         && value > baseline && (double) value - baseline >= elapsed.TotalMicroseconds * 0.1;

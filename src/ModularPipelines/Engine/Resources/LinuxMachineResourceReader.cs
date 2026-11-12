@@ -36,7 +36,6 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
         memoryPressure ??= Read("/proc/pressure/memory");
         var pressure = new ResourcePressureCounters(
             directory ?? string.Empty,
-            FindCounter(cpuStat, "nr_throttled"),
             FindCounter(cpuStat, "throttled_usec"),
             FindPressureTotal(cpuPressure),
             FindPressureTotal(memoryPressure),
@@ -60,8 +59,7 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
             }
 
             var stat = Read(CombineLinuxPath(ancestor, "cpu.stat"));
-            counters.Add(new CgroupCpuThrottlingCounters(ancestor,
-                FindCounter(stat, "nr_throttled"), FindCounter(stat, "throttled_usec")));
+            counters.Add(new CgroupCpuThrottlingCounters(ancestor, FindCounter(stat, "throttled_usec")));
         }
 
         return counters;
