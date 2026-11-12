@@ -5946,6 +5946,13 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CancellationBranchEscapesBlock(IBranchOperation branch, IBlockOperation block)
     {
+        if (branch.BranchKind == BranchKind.GoTo)
+        {
+            // Only labels inside this block keep the branch before its final return.
+            return !block.DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
+                SymbolEqualityComparer.Default.Equals(label.Label, branch.Target));
+        }
+
         if (branch.BranchKind is not (BranchKind.Break or BranchKind.Continue))
         {
             return false;

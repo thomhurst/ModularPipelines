@@ -7,6 +7,10 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { second = default; while (Flag) { break; } if (Flag) goto done; return saved; } done: return first;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { second = default; if (Flag) goto done; return saved; } done: return first;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { second = default; while (Flag) { break; } if (Flag) goto done; done: return saved; } return first;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; switch (Flag.GetHashCode()) { case 0: second = default; while (Flag) { break; } if (Flag) goto default; return saved; default: return first; }", true)]
     [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { second = default; for (int i = 0; i < 1; i++) continue; return saved; } return first;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { second = default; while (Flag) { break; } return saved; } return first;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; while (Flag) { if (Flag) { second = default; continue; } return first; } return saved;", true)]
