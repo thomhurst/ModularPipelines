@@ -5655,6 +5655,13 @@ internal static class ModuleAuthoringAnalysis
             return HasAliasedCancellationWrite(invocation, method, body, spread.Operand, parameter, visitedMethods, visitedSnapshots);
         }
 
+        return HasAliasedCancellationValueWrite(invocation, method, body, returnValue, parameter, visitedMethods, visitedSnapshots);
+    }
+
+    private static bool HasAliasedCancellationValueWrite(
+        IInvocationOperation invocation, IMethodSymbol method, IOperation body, IOperation returnValue,
+        IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods, HashSet<ILocalSymbol> visitedSnapshots)
+    {
         var elements = GetCancellationInputElements(returnValue);
         if (!elements.IsDefault)
         {
@@ -5976,6 +5983,11 @@ internal static class ModuleAuthoringAnalysis
             return ReferencesCancellationArray(assignment.Value, initializer, visitedSymbols);
         }
 
+        return MatchesCancellationArrayAllocation(value, initializer);
+    }
+
+    private static bool? MatchesCancellationArrayAllocation(IOperation value, IOperation initializer)
+    {
         if (value.Syntax.SyntaxTree == initializer.Syntax.SyntaxTree && value.Syntax.Span == initializer.Syntax.Span)
         {
             return true;
@@ -6295,15 +6307,22 @@ internal static class ModuleAuthoringAnalysis
         var methods = visitedMethods is null
             ? new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default)
             : CloneVisitedMethods(visitedMethods);
-        if (!methods.Add(method)
-            || invocation.SemanticModel?.Compilation is not { } compilation
-            || GetMethodOperation(method, compilation, default) is not { } body
-            || GetTargetParameter(method, argument.Parameter) is not { } parameter)
+        if (!methods.Add(method))
         {
             return false;
         }
 
-        return !HasCancellationParameterWrite(body, parameter, methods);
+        return HasUnchangedCancellationParameterBody(invocation, method, argument.Parameter, methods);
+    }
+
+    private static bool HasUnchangedCancellationParameterBody(
+        IInvocationOperation invocation, IMethodSymbol method, IParameterSymbol argumentParameter,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        return invocation.SemanticModel?.Compilation is { } compilation
+            && GetMethodOperation(method, compilation, default) is { } body
+            && GetTargetParameter(method, argumentParameter) is { } parameter
+            && !HasCancellationParameterWrite(body, parameter, visitedMethods);
     }
 
     private static bool HasCancellationParameterWrite(
