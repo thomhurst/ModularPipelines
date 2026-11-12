@@ -5961,15 +5961,7 @@ internal static class ModuleAuthoringAnalysis
         // A nested loop or switch consumes its own branches before the block's return.
         for (var ancestor = branch.Parent; ancestor is not null && ancestor != block; ancestor = ancestor.Parent)
         {
-            if (ancestor is ILoopOperation loop
-                && (SymbolEqualityComparer.Default.Equals(loop.ExitLabel, branch.Target)
-                    || SymbolEqualityComparer.Default.Equals(loop.ContinueLabel, branch.Target)))
-            {
-                return false;
-            }
-
-            if (ancestor is ISwitchOperation switchOperation
-                && SymbolEqualityComparer.Default.Equals(switchOperation.ExitLabel, branch.Target))
+            if (CancellationConstructConsumesBranch(ancestor, branch))
             {
                 return false;
             }
@@ -5977,6 +5969,17 @@ internal static class ModuleAuthoringAnalysis
 
         return true;
     }
+
+    private static bool CancellationConstructConsumesBranch(IOperation operation, IBranchOperation branch)
+        => operation switch
+        {
+            ILoopOperation loop =>
+                SymbolEqualityComparer.Default.Equals(loop.ExitLabel, branch.Target)
+                || SymbolEqualityComparer.Default.Equals(loop.ContinueLabel, branch.Target),
+            ISwitchOperation switchOperation =>
+                SymbolEqualityComparer.Default.Equals(switchOperation.ExitLabel, branch.Target),
+            _ => false,
+        };
 
     private static bool CancellationBlockJumpsPastRead(IBlockOperation block, IOperation read)
     {
