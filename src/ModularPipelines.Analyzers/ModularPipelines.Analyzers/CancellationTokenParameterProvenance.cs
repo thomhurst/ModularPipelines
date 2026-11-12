@@ -98,9 +98,9 @@ internal static class CancellationTokenParameterProvenance
 
         // Calls can change captured scalar values without appearing as writes in
         // the caller's CFG. Keep the existing proof until helper effects are tracked.
-        return operation.Descendants().OfType<ISimpleAssignmentOperation>().Any(assignment =>
+        return operation.Descendants().Where(ModuleAuthoringAnalysis.IsPotentialScalarWrite).Any(reference =>
         {
-            var target = assignment.Target switch
+            var target = reference switch
             {
                 IParameterReferenceOperation parameter => (ISymbol) parameter.Parameter,
                 ILocalReferenceOperation local => local.Local,

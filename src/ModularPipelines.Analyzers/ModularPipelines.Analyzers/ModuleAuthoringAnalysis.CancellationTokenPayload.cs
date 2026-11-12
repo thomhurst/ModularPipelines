@@ -15,9 +15,10 @@ internal static partial class ModuleAuthoringAnalysis
         && named.OriginalDefinition.ToDisplayString() is
             "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>");
 
-    private static bool IsCancellationPayloadAwaitableType(ITypeSymbol? type) =>
+    private static bool IsCancellationPayloadAwaitableType(ITypeSymbol? type, ITypeSymbol? mappedPayload = null) =>
         type is INamedTypeSymbol { TypeArguments.Length: 1 } named
-        && named.TypeArguments[0].ToDisplayString() == CancellationTokenMetadataName
+        && (named.TypeArguments[0].ToDisplayString() == CancellationTokenMetadataName
+            || SymbolEqualityComparer.Default.Equals(named.TypeArguments[0], mappedPayload))
         && named.OriginalDefinition.ToDisplayString() is
             "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>"
             or "System.Runtime.CompilerServices.ConfiguredTaskAwaitable<TResult>"
@@ -106,6 +107,12 @@ internal static partial class ModuleAuthoringAnalysis
 
     private static bool ProveReturnedPayload(IOperation value, IParameterSymbol[] parameters, IMethodSymbol method)
     {
+        if (value is IAwaitOperation awaited
+            && parameters.Any(parameter => IsCancellationPayloadAwaitableType(awaited.Operation.Type, parameter.Type)))
+        {
+            return ProveReturnedPayload(awaited.Operation, parameters, method);
+        }
+
         if (GetCancellationPayloadInput(value) is { } payload)
         {
             return ProveReturnedPayload(payload, parameters, method);
@@ -144,9 +151,34 @@ internal static partial class ModuleAuthoringAnalysis
     private static bool HasPayloadParameterWrite(IOperation operation, IParameterSymbol parameter) =>
         operation.DescendantsAndSelf().OfType<IParameterReferenceOperation>().Any(reference =>
             SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
-            && (IsPayloadAssignmentTarget(reference)
-                || reference.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
-                || reference.Parent is IIncrementOrDecrementOperation));
+            && IsPotentialScalarWrite(reference));
+
+    // A writable alias can mutate the referenced storage without another direct
+    // reference to it. Treat escape as a write rather than trying to track aliases.
+    internal static bool IsPotentialScalarWrite(IOperation reference) =>
+        IsPayloadAssignmentTarget(reference)
+        || reference.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
+            or IIncrementOrDecrementOperation
+        || HasRefStorageAncestor(reference);
+
+    private static bool HasRefStorageAncestor(IOperation reference)
+    {
+        for (var parent = reference.Parent; parent is not null; parent = parent.Parent)
+        {
+            if (parent is ISimpleAssignmentOperation { IsRef: true }
+                or IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None } })
+            {
+                return true;
+            }
+
+            if (parent is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            {
+                break;
+            }
+        }
+
+        return false;
+    }
 
     private static bool IsPayloadAssignmentTarget(IOperation reference)
     {

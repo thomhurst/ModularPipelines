@@ -223,6 +223,67 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
             """, expression);
     }
 
+    [TestMethod]
+    [DataRow("Task", false)]
+    [DataRow("ValueTask", false)]
+    [DataRow("Task", true)]
+    [DataRow("ValueTask", true)]
+    public async Task Ref_Alias_Writes_Reject_Helper_Proof(string taskType, bool replaced)
+    {
+        var mutation = replaced ? "alias = default;" : "";
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token) {{ ref var alias = ref token; {mutation} return {taskType}.FromResult(token); }} cancellationToken = await Pass(cancellationToken);", true);
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Conditional_Ref_Alias_Writes_Reject_Helper_Proof(string taskType)
+    {
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token, bool choose) {{ ref var alias = ref (choose ? ref token : ref token); alias = default; return {taskType}.FromResult(token); }} cancellationToken = await Pass(cancellationToken, context != null);", true);
+    }
+
+    [TestMethod]
+    [DataRow("Task", false, false)]
+    [DataRow("ValueTask", false, false)]
+    [DataRow("Task", true, false)]
+    [DataRow("ValueTask", true, false)]
+    [DataRow("Task", false, true)]
+    [DataRow("ValueTask", false, true)]
+    [DataRow("Task", true, true)]
+    [DataRow("ValueTask", true, true)]
+    public async Task Generic_Awaited_Return_Tracks_Mapped_Payload(string taskType, bool configured, bool replaced)
+    {
+        var value = replaced ? "default(T)" : "token";
+        var configure = configured ? ".ConfigureAwait(false)" : "";
+        await Verify($"static async {taskType}<T> Pass<T>(T token) where T : struct => await {taskType}.FromResult({value}){configure}; cancellationToken = await Pass(cancellationToken);", replaced);
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Generic_Custom_Awaiter_Does_Not_Prove_Mapped_Payload(string taskType)
+    {
+        await Verify($"static async {taskType}<T> Pass<T>(T token) where T : struct => await token; cancellationToken = await Pass(cancellationToken);", true, """
+            public static class Helpers
+            {
+                public static System.Runtime.CompilerServices.TaskAwaiter<T> GetAwaiter<T>(this T token) where T : struct
+                    => Task.FromResult(default(T)).GetAwaiter();
+            }
+            """);
+    }
+
+    [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(true, false)]
+    [DataRow(false, true)]
+    [DataRow(true, true)]
+    public async Task Captured_Tuple_Writes_Keep_Scalar_Analysis_Conservative(bool nested, bool lambda)
+    {
+        var write = nested ? "((cancellationToken, _), _) = ((saved, 0), 0);" : "(cancellationToken, _) = (saved, 0);";
+        var helper = lambda ? $"System.Action restore = () => {{ {write} }}; restore();" : $"void Restore() {{ {write} }} Restore();";
+        await Verify($"var saved = cancellationToken; cancellationToken = default; {helper}", false);
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";
