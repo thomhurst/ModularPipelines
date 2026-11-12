@@ -5673,7 +5673,7 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol>? visitedSnapshots = null)
     {
         visitedSnapshots ??= [with(SymbolEqualityComparer.Default)];
-        if (returnValue is IConditionalOperation or ISwitchExpressionOperation)
+        if (returnValue is IConditionalOperation or ISwitchExpressionOperation or ICoalesceOperation)
         {
             return HasAliasedCancellationBranchWrite(invocation, method, body, returnValue, parameter, visitedMethods, visitedSnapshots);
         }
@@ -5820,7 +5820,6 @@ internal static class ModuleAuthoringAnalysis
         HashSet<IMethodSymbol> visitedMethods,
         IOperation? evaluationEnd = null)
     {
-        var position = evaluationEnd ?? read;
         // A snapshot can survive later writes to its source, but not writes to its own slot.
         // Compare a preserving write with the snapshot's original value, not its copied slot.
         return body.DescendantsAndSelf()
@@ -5828,9 +5827,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(write => ReferenceEquals(GetEnclosingCallable(write.Target), GetEnclosingCallable(read)))
             .Where(write => IsInReachableBranch(write.Target)
                 && CanCancellationWriteReachSnapshot(write.Target, read)
-                && (write.Target.Syntax.SpanStart < position.Syntax.SpanStart
-                    || (evaluationEnd is not null && HasAncestor(write.Target, evaluationEnd))
-                    || CancellationOperationsMayRepeat(write.Target, read))
+                && IsCancellationWriteBeforeSnapshotRead(write.Target, source, read, evaluationEnd)
                 && (ReferenceEquals(source, read) || write.Target.Syntax.SpanStart > source.Syntax.SpanStart
                     || CancellationOperationsMayRepeat(write.Target, source)))
             .Where(write => MayShareCancellationStorage(write.Target, read, caller.Invocation, caller.Method))
@@ -5841,6 +5838,40 @@ internal static class ModuleAuthoringAnalysis
                     : write.Target.Parent is IArgumentOperation argument
                         && IsCancellationPreservingRefWrite(argument, source, body, caller,
                             new HashSet<IOperation>(visitedWrites) { write.Target }, visitedMethods)));
+    }
+
+    private static bool IsCancellationWriteBeforeSnapshotRead(
+        IOperation write, IOperation source, IOperation read, IOperation? evaluationEnd)
+    {
+        var position = evaluationEnd ?? read;
+        return write.Syntax.SpanStart < position.Syntax.SpanStart
+            || (evaluationEnd is not null && HasAncestor(write, evaluationEnd))
+            || (CancellationOperationsMayRepeat(write, read)
+                && !IsCancellationSnapshotReinitialized(source, read, write));
+    }
+
+    private static bool IsCancellationSnapshotReinitialized(IOperation source, IOperation read, IOperation write)
+    {
+        if (read is not ILocalReferenceOperation { Local.RefKind: RefKind.None } local
+            || source.Parent is not IVariableInitializerOperation { Parent: IVariableDeclaratorOperation declaration }
+            || !SymbolEqualityComparer.Default.Equals(declaration.Symbol, local.Local)
+            || !IsLinearPredecessor(declaration, read))
+        {
+            return false;
+        }
+
+        // A declaration inside the repeated loop resets its slot before this read.
+        // Writes in the current iteration still pass the source-order check above.
+        for (var ancestor = read.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ILoopOperation loop && HasAncestor(write, loop))
+            {
+                return HasAncestor(declaration, loop.Body)
+                    && !HasCancellationJumpBackToRead(loop.Body, read);
+            }
+        }
+
+        return false;
     }
 
     private static bool IsCancellationPreservingRefWrite(
@@ -5954,17 +5985,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool CancellationOperationsMayRepeat(IOperation first, IOperation second)
-    {
-        var root = GetRoot(first);
-        return root.DescendantsAndSelf().OfType<ILoopOperation>().Any(loop =>
-                HasAncestor(first, loop) && HasAncestor(second, loop))
-            || root.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
-                branch.BranchKind == BranchKind.GoTo
-                && branch.Syntax.SpanStart >= Math.Max(first.Syntax.SpanStart, second.Syntax.SpanStart)
-                && root.DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
-                    SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
-                    && label.Syntax.SpanStart <= Math.Min(first.Syntax.SpanStart, second.Syntax.SpanStart)));
-    }
+        => CancellationWriteCanReachReentry(GetRoot(first), first, second);
 
     private static bool CancellationThrowMayReachRead(IBlockOperation block, IOperation read)
     {
@@ -6099,7 +6120,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     // A later label can jump back into the skipped region, including through chains.
-    private static bool HasCancellationJumpBackToRead(IBlockOperation outerBody, IOperation read)
+    private static bool HasCancellationJumpBackToRead(IOperation outerBody, IOperation read)
         => outerBody.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
             branch.BranchKind == BranchKind.GoTo
             && branch.Syntax.SpanStart > read.Syntax.SpanStart
@@ -6156,16 +6177,16 @@ internal static class ModuleAuthoringAnalysis
         ISwitchCaseOperation current, IOperation write, IBranchOperation branch, bool afterWrite)
         => branch.BranchKind == BranchKind.GoTo && IsInReachableBranch(branch)
             && (!afterWrite || ((branch.Syntax.SpanStart >= write.Syntax.SpanStart
-                    || CancellationWriteCanReachEarlierJump(current, write, branch))
+                    || CancellationWriteCanReachReentry(current, write, branch))
                 && CanCancellationWriteReachSnapshot(write, branch)));
 
-    private static bool CancellationWriteCanReachEarlierJump(
-        ISwitchCaseOperation switchCase, IOperation write, IBranchOperation jump)
+    private static bool CancellationWriteCanReachReentry(
+        IOperation region, IOperation write, IOperation read)
     {
-        // A loop can revisit a jump that precedes the write in source order.
-        for (var ancestor = write.Parent; ancestor is not null && !ReferenceEquals(ancestor, switchCase); ancestor = ancestor.Parent)
+        // A loop can revisit a read or jump that precedes the write in source order.
+        for (var ancestor = write.Parent; ancestor is not null && !ReferenceEquals(ancestor, region); ancestor = ancestor.Parent)
         {
-            if (ancestor is ILoopOperation loop && HasAncestor(jump, ancestor)
+            if (ancestor is ILoopOperation loop && HasAncestor(read, ancestor)
                 && CancellationWriteCanReachLoopBackedge(loop, write))
             {
                 return true;
@@ -6174,13 +6195,14 @@ internal static class ModuleAuthoringAnalysis
 
         // Retain the write conservatively when a later goto can revisit an earlier label.
         // This also covers chains of ordinary labels without recursively walking their cycles.
-        return switchCase.DescendantsAndSelf().OfType<IBranchOperation>().Any(backedge =>
+        return region.DescendantsAndSelf().OfType<IBranchOperation>().Any(backedge =>
             backedge.BranchKind == BranchKind.GoTo
+            && ReferenceEquals(GetEnclosingCallable(backedge), GetEnclosingCallable(write))
             && backedge.Syntax.SpanStart > write.Syntax.SpanStart
             && IsInReachableBranch(backedge)
-            && switchCase.DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
+            && region.DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
                 SymbolEqualityComparer.Default.Equals(label.Label, backedge.Target)
-                && label.Syntax.SpanStart <= jump.Syntax.SpanStart));
+                && label.Syntax.SpanStart <= read.Syntax.SpanStart));
     }
 
     private static bool CancellationWriteCanReachLoopBackedge(ILoopOperation loop, IOperation write)

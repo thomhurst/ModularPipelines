@@ -7,6 +7,35 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("for (var i = 0; i < 2; i++) { var saved = first; if (i == 1) return saved; ref CancellationToken alias = ref saved; alias = default; } return first;", false)]
+    [DataRow("for (var i = 0; i < 2; i++) { var saved = first; ref CancellationToken alias = ref saved; alias = default; if (i == 1) return saved; } return first;", true)]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (i == 1) return saved; ref CancellationToken alias = ref saved; alias = default; } return first;", true)]
+    [DataRow("int i = 0; for (var saved = first; i < 2; i++) { if (i == 1) return saved; ref CancellationToken alias = ref saved; alias = default; } return first;", true)]
+    [DataRow("for (var i = 0; i < 2; i++) { var saved = first; for (var j = 0; j < 2; j++) { if (j == 1) return saved; ref CancellationToken alias = ref saved; alias = default; } } return first;", true)]
+    [DataRow("for (var i = 0; i < 2; i++) { var saved = first; again: if (Flag) return saved; ref CancellationToken alias = ref saved; alias = default; goto again; } return first;", true)]
+    [DataRow("for (var i = 0; i < 2; i++) { var saved = first; if (i == 1) return saved; second = default; } return first;", true)]
+    [DataRow("while (Flag) { var saved = first; second = default; return saved; } return first;", false)]
+    [DataRow("var saved = first; second = default; var result = (CancellationToken?)saved ?? first; return result;", false)]
+    [DataRow("var saved = default(CancellationToken); var result = (CancellationToken?)saved ?? first; return result;", true)]
+    [DataRow("second = default; var result = (CancellationToken?)null ?? first; return result;", true)]
+    [DataRow("var saved = first; second = default; var result = (Flag ? (CancellationToken?)saved : null) ?? first; return result;", true)]
+    public async Task Checks_Helper_Reinitialized_And_Coalesced_Snapshots(string body, bool reports)
+        => await VerifyStorage("ref token, ref token", "", body, reports, firstByRef: true);
+
+    [TestMethod]
+    [DataRow("ref token, ref token", "var saved = first; for (var i = 0; i < 2; i++) { if (i == 1) return first; second = default; break; } return saved;", false)]
+    [DataRow("ref token, ref token", "var saved = first; try { second = default; throw new Exception(); } catch { return saved; }", false)]
+    [DataRow("ref token, ref token", "var saved = first; if (Flag) { second = default; throw new Exception(); } return first;", false)]
+    [DataRow("ref token, ref token", "var saved = first; int i = 0; again: if (i++ == 0) { second = default; goto again; } else { return first; }", true)]
+    [DataRow("ref token, ref token", "var saved = first; if (Flag) { second = default; } else { return first; } return saved;", false)]
+    [DataRow("ref token, ref token", "var saved = first; switch (Count) { case 0: second = default; break; case 1: return first; } return saved;", false)]
+    [DataRow("ref token, ref token", "return Pick(ignored: second = default, value: ref first);", true)]
+    [DataRow("ref token, ref token", "return PickValue(first, second = default);", false)]
+    [DataRow("ref token, ref Field", "ref CancellationToken alias = ref second; for (var i = 0; i < 2; i++) { alias = default; alias = ref first; break; } return first;", false)]
+    public async Task Checks_Helper_Repeated_Execution_And_Ref_Inputs(string arguments, string body, bool reports)
+        => await VerifyStorage(arguments, "", body, reports, firstByRef: true);
+
+    [TestMethod]
     [DataRow("ref token, ref token", "", "var saved = first; for (var i = 0; i < 2; i++) { if (i == 1) return first; second = default; } return saved;", true)]
     [DataRow("ref token, ref token", "", "try { second = default; throw new Exception(); } catch { return first; }", true)]
     [DataRow("ref token, ref token", "", "var saved = first; for (var i = 0; i < 2; i++) { if (i == 0) { second = default; } else { return first; } } return saved;", true)]
@@ -293,6 +322,7 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 }
 
                 private static CancellationToken Identity(scoped ref CancellationToken ignored, scoped ref CancellationToken value) => value;
+                private static CancellationToken PickValue(CancellationToken value, CancellationToken ignored) => value;
 
                 private static void Observe(scoped ref CancellationToken value, int[] counts) => counts[0] = 1;
                 private static void ObserveNested(scoped ref CancellationToken value, int[] counts) => Observe(ref value, counts);
