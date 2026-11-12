@@ -175,9 +175,23 @@ internal static partial class ModuleAuthoringAnalysis
             }
 
             // A loop backedge or jump can execute a textually later write first.
-            // Ordinary assignments are otherwise handled by reaching-value analysis.
-            if (SharesLoop(reference, localReference) || hasJump)
+            // A direct assignment before the use is handled by reaching values;
+            // a dominating reset in the loop also kills ordinary backedge writes.
+            if (hasJump)
             {
+                return IsPotentialScalarWrite(reference);
+            }
+
+            if (SharesLoop(reference, localReference))
+            {
+                if (reference.Parent is ISimpleAssignmentOperation { IsRef: false } assignment
+                    && ReferenceEquals(assignment.Target, reference)
+                    && (reference.Syntax.SpanStart < localReference.Syntax.SpanStart
+                        || HasLoopLocalReset(reference, localReference)))
+                {
+                    return false;
+                }
+
                 return IsPotentialScalarWrite(reference);
             }
 
@@ -185,6 +199,29 @@ internal static partial class ModuleAuthoringAnalysis
                 && (HasRefStorageAncestor(reference)
                     || reference.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
                     || (reference.Parent is ITupleOperation && IsPayloadAssignmentTarget(reference)));
+        });
+    }
+
+    private static bool HasLoopLocalReset(IOperation write, ILocalReferenceOperation use)
+    {
+        var assignments = FindLocalAssignments(GetRoot(use), use, use.Local, GetEnclosingCallable(use));
+        return assignments.Any(assignment =>
+        {
+            if (assignment.IsRef || !IsLinearPredecessor(assignment, use))
+            {
+                return false;
+            }
+
+            for (var parent = write.Parent; parent is not null; parent = parent.Parent)
+            {
+                if (parent is ILoopOperation && HasAncestor(use, parent)
+                    && !HasAncestor(assignment, parent))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         });
     }
 

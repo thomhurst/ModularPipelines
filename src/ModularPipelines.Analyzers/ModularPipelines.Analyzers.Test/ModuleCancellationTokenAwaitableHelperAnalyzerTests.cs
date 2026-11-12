@@ -382,6 +382,29 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("foreach (var item in new[] { 1, 2 })")]
+    [DataRow("for (var i = 0; i < 2; i++)")]
+    [DataRow("while (context != null)")]
+    public async Task Definitely_Assigned_Loop_Local_Preserves_Token(string loop)
+    {
+        await Verify($"CancellationToken saved; {loop} {{ saved = cancellationToken; await Task.Delay(1, saved); }}", false);
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Loop_Reset_Before_Return_Preserves_Helper_Payload(string taskType)
+    {
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token) {{ var saved = token; for (int i = 0; ; i++) {{ saved = token; if (i == 1) return {taskType}.FromResult(saved); saved = default; }} }}", false, token: "await Pass(cancellationToken)");
+    }
+
+    [TestMethod]
+    public async Task Conditional_Loop_Reset_Does_Not_Hide_Replaced_Payload()
+    {
+        await Verify("static Task<CancellationToken> Pass(CancellationToken token) { var saved = token; for (int i = 0; ; i++) { if (i == 0) saved = token; if (i == 1) return Task.FromResult(saved); saved = default; } }", true, token: "await Pass(cancellationToken)");
+    }
+
+    [TestMethod]
     [DataRow("Task")]
     [DataRow("ValueTask")]
     public async Task Ordinary_Writes_Across_Loop_Backedge_Reject_Helper_Proof(string taskType)
