@@ -6248,6 +6248,15 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
+            if (current is ISwitchCaseOperation sourceCase && parent is ISwitchOperation switchOperation
+                && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } targetCase
+                && !ReferenceEquals(sourceCase, targetCase)
+                && !SharesCancellationStorageLoop(binding, read)
+                && !CanTransferCancellationStorageBetweenCases(sourceCase, targetCase, switchOperation))
+            {
+                return false;
+            }
+
             if (parent is IConditionalOperation conditional
                 && ((ReferenceEquals(conditional.WhenTrue, current)
                         && conditional.WhenFalse is { } whenFalse && HasAncestor(read, whenFalse))
@@ -6260,6 +6269,54 @@ internal static class ModuleAuthoringAnalysis
 
         return true;
     }
+
+    private static bool CanTransferCancellationStorageBetweenCases(
+        ISwitchCaseOperation source,
+        ISwitchCaseOperation target,
+        ISwitchOperation switchOperation)
+    {
+        var pending = new Stack<ISwitchCaseOperation>();
+        var visited = new HashSet<ISwitchCaseOperation>();
+        pending.Push(source);
+        while (pending.Count > 0)
+        {
+            var current = pending.Pop();
+            if (ReferenceEquals(current, target))
+            {
+                return true;
+            }
+
+            if (!visited.Add(current))
+            {
+                continue;
+            }
+
+            var labels = current.DescendantsAndSelf().OfType<IBranchOperation>()
+                .Where(static branch => branch.BranchKind == BranchKind.GoTo)
+                .Select(static branch => branch.Target).ToArray();
+            // A jump outside the switch may re-enter it through a later case.
+            if (labels.Any(label => !switchOperation.Cases.Any(candidate =>
+                    IsCancellationStorageCaseTarget(candidate, label))))
+            {
+                return true;
+            }
+
+            foreach (var candidate in switchOperation.Cases)
+            {
+                if (labels.Any(label => IsCancellationStorageCaseTarget(candidate, label)))
+                {
+                    pending.Push(candidate);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static bool IsCancellationStorageCaseTarget(ISwitchCaseOperation candidate, ILabelSymbol label) =>
+        candidate.Clauses.Any(clause => SymbolEqualityComparer.Default.Equals(label, clause.Label))
+        || candidate.DescendantsAndSelf().OfType<ILabeledOperation>().Any(operation =>
+            SymbolEqualityComparer.Default.Equals(label, operation.Label));
 
     private static bool CanReachReadThroughCaughtCancellationStorageThrow(IOperation operation, IOperation read)
     {
