@@ -6374,6 +6374,13 @@ internal static class ModuleAuthoringAnalysis
 
         for (var current = write; current.Parent is { } parent; current = parent)
         {
+            // A guard may fail after the write, so later arms remain reachable.
+            // Arm values are exclusive once selected and keep the normal exclusion.
+            if (CancellationStorageFailedGuardCanThrow(write, current, parent, symbol, isRef, classifier, body))
+            {
+                return true;
+            }
+
             if (CancellationStorageSequenceCanThrowBeforeOverwrite(
                 GetCancellationStorageFollowingOperations(current, parent),
                 symbol, isRef, classifier, body, out var overwritten))
@@ -6402,6 +6409,15 @@ internal static class ModuleAuthoringAnalysis
 
         return false;
     }
+
+    private static bool CancellationStorageFailedGuardCanThrow(
+        IOperation write, IOperation current, IOperation parent, ISymbol? symbol, bool? isRef,
+        OperationExceptionClassifier classifier, IOperation boundary) =>
+        current is ISwitchExpressionArmOperation { Guard: { } guard } arm
+        && parent is ISwitchExpressionOperation expression && HasAncestor(write, guard)
+        && expression.Arms.SkipWhile(candidate => !ReferenceEquals(candidate, arm)).Skip(1)
+            .Any(candidate => CancellationStorageOperationCanThrowBeforeOverwrite(
+                candidate, symbol, isRef, classifier, boundary, out _));
 
     private static IEnumerable<IOperation> GetCancellationStorageFollowingOperations(IOperation current, IOperation parent) =>
         parent switch
@@ -7961,7 +7977,8 @@ internal static class ModuleAuthoringAnalysis
         {
             if (ancestor is IConditionalOperation
                 or ILoopOperation
-                or ISwitchOperation)
+                or ISwitchOperation
+                or ISwitchExpressionOperation)
             {
                 return true;
             }

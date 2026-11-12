@@ -3545,10 +3545,15 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("return choice switch { 0 when Check(first = third) => third, _ => first };", false)]
     [DataRow("return choice switch { 0 => first, _ when Check(first = default) => third, _ => third };", false)]
     [DataRow("return choice switch { 0 => Pick(first = default, third), _ => first };", false)]
+    [DataRow("return choice switch { 0 when Check(second = third) => third, _ => second };", true)]
+    [DataRow("ref var alias = ref second; return choice switch { 0 when Check(alias = third) => third, _ => alias };", true)]
+    [DataRow("try { _ = choice switch { 0 when (first = default) is var cleared && skip => third, _ => throw error }; first = third; } catch {} return first;", true)]
+    [DataRow("try { _ = choice switch { 0 when (first = default) is var cleared && skip => third, _ => third }; first = third; } catch {} return first;", false)]
+    [DataRow("try { _ = choice switch { 0 => first = default, _ => throw error }; first = third; } catch {} return first;", false)]
     public async Task Tracks_CancellationToken_Switch_Expression_Guard_Writes(string body, bool report)
     {
         var source = ReboundCancellationTokenHelperSource(
-            "var choice = DateTime.UtcNow.Ticks; " + body
+            "var choice = DateTime.UtcNow.Ticks; var skip = choice > 0; var error = new Exception(); " + body
             + " static bool Check(CancellationToken token) => false;"
             + " static CancellationToken Pick(CancellationToken first, CancellationToken second) => second;",
             "default", report);
