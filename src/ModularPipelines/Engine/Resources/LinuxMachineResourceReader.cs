@@ -8,7 +8,7 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
     {
         reading = default;
         if (!TryParseCpu(File.ReadLines("/proc/stat").FirstOrDefault(), out var idle, out var total)
-            || !TryParseMemory(File.ReadLines("/proc/meminfo"), out var memoryTotal, out var memoryAvailable))
+            || !TryParseMemory(File.ReadAllLines("/proc/meminfo"), out var memoryTotal, out var memoryAvailable))
         {
             return false;
         }
@@ -55,41 +55,23 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
         return true;
     }
 
-    internal static bool TryParseMemory(IEnumerable<string> lines, out long totalBytes, out long availableBytes)
+    internal static bool TryParseMemory(IReadOnlyList<string> lines, out long totalBytes, out long availableBytes)
     {
-        long? total = null;
-        long? available = null;
-        foreach (var line in lines)
-        {
-            if (line.StartsWith("MemTotal:", StringComparison.Ordinal))
-            {
-                total = ParseKilobytes(line);
-            }
-            else if (line.StartsWith("MemAvailable:", StringComparison.Ordinal))
-            {
-                available = ParseKilobytes(line);
-            }
-
-            if (total is not null && available is not null)
-            {
-                break;
-            }
-        }
-
-        totalBytes = total ?? 0;
-        availableBytes = available ?? 0;
-        return total is not null && available is not null;
+        totalBytes = FindKilobytes(lines, "MemTotal:") * 1024;
+        availableBytes = FindKilobytes(lines, "MemAvailable:") * 1024;
+        return totalBytes > 0 && availableBytes >= 0;
     }
 
-    private static long? ParseKilobytes(string line)
+    private static long FindKilobytes(IReadOnlyList<string> lines, string name)
     {
-        var fields = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (fields.Length >= 2
+        var line = lines.FirstOrDefault(candidate => candidate.StartsWith(name, StringComparison.Ordinal));
+        var fields = line?.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (fields is { Length: >= 2 }
             && long.TryParse(fields[1], NumberStyles.None, CultureInfo.InvariantCulture, out var kilobytes))
         {
-            return kilobytes * 1024;
+            return kilobytes;
         }
 
-        return null;
+        return -1;
     }
 }
