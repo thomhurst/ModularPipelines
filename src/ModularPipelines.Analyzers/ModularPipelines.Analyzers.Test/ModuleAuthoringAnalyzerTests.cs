@@ -3653,6 +3653,12 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref first; var text = DateTime.UtcNow.Ticks > 0 ? null : string.Empty; var error = new Exception(); try { _ = ((alias = default) is var cleared ? text : null) ?? throw error; alias = third; } catch {} return alias;", true)]
     [DataRow("var text = DateTime.UtcNow.Ticks > 0 ? null : string.Empty; try { _ = ((first = default) is var cleared ? text : null) ?? \"\"; first = third; } catch {} return first;", false)]
     [DataRow("var text = DateTime.UtcNow.Ticks > 0 ? null : string.Empty; var error = new Exception(); try { _ = ((first = default) is var cleared ? text : null) ?? Restore(first = third); first = third; } catch {} return first; static string Restore(CancellationToken token) => throw new Exception();", false)]
+    [DataRow("var error = new Exception(); try { _ = ((first = default) is var cleared ? \"ok\" : \"ok\") ?? throw error; first = third; } catch {} return first;", false)]
+    [DataRow("ref var alias = ref first; var error = new Exception(); try { _ = ((alias = default) is var cleared ? \"ok\" : \"ok\") ?? throw error; alias = third; } catch {} return alias;", false)]
+    [DataRow("var error = new Exception(); try { _ = ((first = default).CanBeCanceled ? \"ok\" : null) ?? throw error; first = third; } catch {} return first;", true)]
+    [DataRow("var choose = DateTime.UtcNow.Ticks > 0; var error = new Exception(); try { _ = ((first = default) is var cleared ? (choose ? \"a\" : \"b\") : \"ok\") ?? throw error; first = third; } catch {} return first;", false)]
+    [DataRow("var error = new Exception(); try { _ = (((first = default) is var cleared) switch { true => \"a\", false => \"b\" }) ?? throw error; first = third; } catch {} return first;", false)]
+    [DataRow("var error = new Exception(); try { _ = (((first = default) is var cleared) switch { true => \"a\", false => (string?)null }) ?? throw error; first = third; } catch {} return first;", true)]
     public async Task Tracks_CancellationToken_Conditional_Expression_Continuations(string body, bool report)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report);

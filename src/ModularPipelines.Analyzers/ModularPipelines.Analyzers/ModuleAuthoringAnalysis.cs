@@ -7445,7 +7445,9 @@ internal static class ModuleAuthoringAnalysis
             value = conversion.Operand;
         }
 
-        return false;
+        return GetReachableValueLeaves(value).All(static leaf =>
+            leaf.ConstantValue is { HasValue: true, Value: not null }
+            || AlwaysThrows(leaf));
     }
 
     private static bool IsNullableValueType(ITypeSymbol type) =>
