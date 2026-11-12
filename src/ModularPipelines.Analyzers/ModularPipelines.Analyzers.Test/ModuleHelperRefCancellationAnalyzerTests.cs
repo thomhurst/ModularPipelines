@@ -7,6 +7,10 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "ClearPairLocal(ref second); return first;", true)]
+    [DataRow("ref token, ref token", "", "ClearPairCall(ref first); return first;", true)]
+    [DataRow("ref token, ref token", "", "ClearNestedPair(ref second); return first;", true)]
+    [DataRow("ref token, ref token", "", "ObservePair(ref first); return first;", false)]
     [DataRow("ref token, ref token", "", "Observe(ref first, new int[1]); return first;", false)]
     [DataRow("ref token, ref token", "", "ObserveNested(ref first, new int[1]); return first;", false)]
     [DataRow("ref token, ref token", "", "ObserveAndClear(ref first, new int[1]); return first;", true)]
@@ -216,6 +220,26 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 {
                     counts[0] = 1;
                     value = default;
+                }
+
+                private static (CancellationToken, int) GetPair() => (default, 0);
+                private static void ClearPairLocal(scoped ref CancellationToken value)
+                {
+                    var pair = GetPair();
+                    int count;
+                    (value, count) = pair;
+                }
+                private static void ClearPairCall(scoped ref CancellationToken value) => (value, _) = GetPair();
+                private static void ClearNestedPair(scoped ref CancellationToken value)
+                {
+                    var pair = (0, GetPair());
+                    int count;
+                    (_, (value, count)) = pair;
+                }
+                private static void ObservePair(scoped ref CancellationToken value)
+                {
+                    int first, second;
+                    (first, second) = (1, 2);
                 }
 
                 private static void Clear(scoped ref CancellationToken value) => value = default;

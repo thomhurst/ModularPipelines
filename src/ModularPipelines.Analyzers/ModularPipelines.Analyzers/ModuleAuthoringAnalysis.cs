@@ -6353,7 +6353,7 @@ internal static class ModuleAuthoringAnalysis
             || !SymbolEqualityComparer.Default.Equals(GetCancellationStorage(value, [], preserveParameters: true), parameter);
     }
 
-    private static IEnumerable<(IOperation Target, IOperation? Value)> GetCancellationTupleWrites(IOperation target, IOperation value)
+    private static IEnumerable<(IOperation Target, IOperation? Value)> GetCancellationTupleWrites(IOperation target, IOperation? value)
     {
         if (value is IConversionOperation conversion)
         {
@@ -6364,6 +6364,13 @@ internal static class ModuleAuthoringAnalysis
             && targets.Elements.Length == values.Elements.Length)
         {
             return targets.Elements.SelectMany((element, index) => GetCancellationTupleWrites(element, values.Elements[index]));
+        }
+
+        // A tuple-valued local or call has no per-element value proof. Still inspect
+        // every target slot so its aggregate tuple type cannot hide a token write.
+        if (target is ITupleOperation unknownTargets)
+        {
+            return unknownTargets.Elements.SelectMany(element => GetCancellationTupleWrites(element, null));
         }
 
         return [(target, value)];
