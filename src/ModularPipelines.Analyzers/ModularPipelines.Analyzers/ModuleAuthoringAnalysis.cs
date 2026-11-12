@@ -7466,9 +7466,9 @@ internal static class ModuleAuthoringAnalysis
     {
         while (value is IConversionOperation conversion)
         {
-            // Try-casts and user-defined conversions may return null even when
+            // Explicit try-casts and user-defined conversions may return null even when
             // their operand is non-null, so they cannot prove a continuation runs.
-            if (conversion.IsTryCast || conversion.OperatorMethod is not null)
+            if ((conversion.IsTryCast && !conversion.Conversion.IsImplicit) || conversion.OperatorMethod is not null)
             {
                 return false;
             }

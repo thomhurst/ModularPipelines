@@ -3690,6 +3690,35 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("try { _ = (((object)((first = default) is var cleared ? \"ok\" : \"ok\")) as IDisposable)?.Equals(first = third); MayThrow(); first = third; } catch {} return first;", true)]
+    [DataRow("ref var alias = ref first; try { _ = (((object)((alias = default) is var cleared ? \"ok\" : \"ok\")) as IDisposable)?.Equals(alias = third); MayThrow(); alias = third; } catch {} return alias;", true)]
+    [DataRow("var error = new Exception(); try { _ = (((object)((first = default) is var cleared ? \"ok\" : \"ok\")) as IDisposable) ?? throw error; first = third; } catch {} return first;", true)]
+    [DataRow("try { _ = (((object)((first = default) is var cleared ? true : false)) as int?)?.Equals(first = third); MayThrow(); first = third; } catch {} return first;", true)]
+    [DataRow("try { _ = ((object)((first = default) is var cleared ? \"ok\" : \"ok\"))?.Equals(first = third); MayThrow(); first = third; } catch {} return first;", false)]
+    [DataRow("try { _ = ((object)((first = default) is var cleared ? true : false))?.Equals(first = third); MayThrow(); first = third; } catch {} return first;", false)]
+    [DataRow("try { _ = (((object)((first = default) is var cleared ? \"ok\" : \"ok\")) as IDisposable)?.Equals(first = third); first = third; } catch {} return first;", false)]
+    [DataRow("try { _ = (((first = default) is var cleared ? \"ok\" : \"ok\") as object)?.Equals(first = third); MayThrow(); first = third; } catch {} return first;", false)]
+    [DataRow("try { _ = ((string?)((first = default) is var cleared ? default(NullReceiver) : default(NullReceiver)))?.Equals(first = third); MayThrow(); first = third; } catch {} return first;", true)]
+    [DataRow("try { _ = new[] { first = default, first = third }; MayThrow(); first = third; } catch {} return first;", false)]
+    [DataRow("ref var alias = ref first; try { _ = new[] { alias = default, alias = third }; MayThrow(); alias = third; } catch {} return alias;", false)]
+    [DataRow("try { _ = new[,] { { first = default, first = third } }; MayThrow(); first = third; } catch {} return first;", false)]
+    [DataRow("try { _ = new[] { first = default, MayThrowToken(), first = third }; first = third; } catch {} return first; static CancellationToken MayThrowToken() => throw new Exception();", true)]
+    public async Task Tracks_CancellationToken_Conversion_And_Initializer_Continuations(string body, bool report)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            body + " static void MayThrow() => throw new Exception();", "default", report)
+            + " public struct NullReceiver { public static explicit operator string?(NullReceiver receiver) => null; }";
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
+        if (report)
+        {
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
+    }
+
+    [TestMethod]
     [DataRow(true)]
     [DataRow(false)]
     public async Task Tracks_CancellationToken_Left_Nested_Coalesce(bool report)
