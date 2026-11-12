@@ -6383,12 +6383,15 @@ internal static class ModuleAuthoringAnalysis
                 CancellationStorageLoopExitOperations(loop),
             // Operands and arguments evaluate in order. Conditional alternatives
             // are handled by their branch scans rather than as a linear sequence.
-            _ when parent.Syntax is ExpressionSyntax
-                && parent is not (IConditionalOperation or ICoalesceOperation or IAnonymousFunctionOperation
-                    or IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr }) =>
+            _ when IsLinearCancellationStorageExpression(parent) =>
                 parent.ChildOperations.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1),
             _ => [],
         };
+
+    private static bool IsLinearCancellationStorageExpression(IOperation operation) =>
+        operation.Syntax is ExpressionSyntax
+        && operation is not (IConditionalOperation or ICoalesceOperation or IAnonymousFunctionOperation
+            or IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr });
 
     private static IEnumerable<IOperation> CancellationStorageLoopExitOperations(ILoopOperation loop)
     {
