@@ -1,5 +1,4 @@
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.CodeAnalysis.Text;
@@ -417,9 +416,12 @@ internal static class CancellationTokenCollectionProvenance
         private readonly Queue<BasicBlock> _pending = new();
         private readonly Dictionary<TextSpan, bool?> _results = [];
         private readonly HashSet<TextSpan> _summarizedArrays = [];
+        private readonly Dictionary<CaptureId, List<IFlowCaptureReferenceOperation>> _captureReferences = [];
+        private readonly Dictionary<CaptureId, List<IOperation>> _captureValues = [];
 
         public Dictionary<TextSpan, bool?> Run()
         {
+            IndexCaptureReferences();
             var initial = new State();
             initial.Values.Add(source, Value.Original);
             Enqueue(graph.Blocks[0], initial);
@@ -453,6 +455,37 @@ internal static class CancellationTokenCollectionProvenance
             }
 
             return _results;
+        }
+
+        private void IndexCaptureReferences()
+        {
+            foreach (var block in graph.Blocks)
+            {
+                foreach (var operation in block.Operations.Concat(block.BranchValue is { } branch ? [branch] : []))
+                {
+                    foreach (var node in operation.DescendantsAndSelf())
+                    {
+                        if (node is IFlowCaptureReferenceOperation reference)
+                        {
+                            if (!_captureReferences.TryGetValue(reference.Id, out var references))
+                            {
+                                _captureReferences.Add(reference.Id, references = []);
+                            }
+
+                            references.Add(reference);
+                        }
+                        else if (node is IFlowCaptureOperation capture)
+                        {
+                            if (!_captureValues.TryGetValue(capture.Id, out var values))
+                            {
+                                _captureValues.Add(capture.Id, values = []);
+                            }
+
+                            values.Add(capture.Value);
+                        }
+                    }
+                }
+            }
         }
 
         private void Follow(ControlFlowBranch? branch, State state)
@@ -701,7 +734,7 @@ internal static class CancellationTokenCollectionProvenance
 
             foreach (var value in values.Values)
             {
-                InvalidateInvocationArrays(value, ReturnsWritableAlias(invocation), state);
+                InvalidateInvocationArrays(value, invocation.TargetMethod.ReturnsByRef && ReferenceSurvives(invocation, writableOnly: true), state);
             }
 
             // Source-helper and awaitable payload proofs remain with the existing
@@ -734,7 +767,7 @@ internal static class CancellationTokenCollectionProvenance
             // A call cannot write ref/out targets until every argument is evaluated.
             foreach (var (target, value) in references)
             {
-                InvalidateInvocationArrays(value, ReturnsWritableAlias(invocation), state);
+                InvalidateInvocationArrays(value, invocation.TargetMethod.ReturnsByRef && ReferenceSurvives(invocation, writableOnly: true), state);
 
                 if (UsesReturnedReference(invocation)
                     || invocation.Type?.IsRefLikeType == true)
@@ -1129,17 +1162,56 @@ internal static class CancellationTokenCollectionProvenance
             return result ?? Value.None;
         }
 
-        private static bool UsesReturnedReference(IInvocationOperation invocation) =>
+        private bool UsesReturnedReference(IInvocationOperation invocation) =>
             (invocation.TargetMethod.ReturnsByRef || invocation.TargetMethod.ReturnsByRefReadonly)
-            && (invocation.Parent is ISimpleAssignmentOperation { IsRef: true }
-                || invocation.Syntax.Ancestors().FirstOrDefault(static syntax => syntax is not ParenthesizedExpressionSyntax) is RefExpressionSyntax
-                || invocation.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out });
+            && ReferenceSurvives(invocation, writableOnly: false);
 
-        private static bool ReturnsWritableAlias(IInvocationOperation invocation) => invocation.TargetMethod.ReturnsByRef
-            && UsesReturnedReference(invocation)
-            && invocation.Parent is not ISimpleAssignmentOperation { Target: ILocalReferenceOperation { Local.RefKind: RefKind.RefReadOnly } }
-            && !invocation.Syntax.Ancestors().OfType<VariableDeclarationSyntax>()
-                .Any(static declaration => declaration.Type is RefTypeSyntax { ReadOnlyKeyword.RawKind: not 0 });
+        private bool ReferenceSurvives(IOperation operation, bool writableOnly, HashSet<CaptureId>? visited = null)
+        {
+            return operation.Parent switch
+            {
+                ISimpleAssignmentOperation { IsRef: true } assignment => !writableOnly || IsWritableReferenceTarget(assignment.Target, []),
+                IVariableInitializerOperation { Parent: IVariableDeclaratorOperation declaration } => declaration.Symbol.RefKind == RefKind.Ref || (!writableOnly && declaration.Symbol.RefKind != RefKind.None),
+                IConversionOperation conversion => ReferenceSurvives(conversion, writableOnly, visited),
+                IFlowCaptureOperation capture => CaptureReferenceSurvives(capture.Id, writableOnly, visited ?? []),
+                IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out, Parent: IInvocationOperation invocation } => ArgumentReferenceSurvives(invocation, writableOnly, visited),
+                IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out, Parent: IObjectCreationOperation creation } => creation.Type?.IsRefLikeType == true,
+                _ => false,
+            };
+        }
+
+        private bool IsWritableReferenceTarget(IOperation target, HashSet<CaptureId> visited)
+        {
+            if (target is IFlowCaptureReferenceOperation capture && visited.Add(capture.Id))
+            {
+                var writable = !_captureValues.TryGetValue(capture.Id, out var values)
+                    || values.Any(value => IsWritableReferenceTarget(value, visited));
+                visited.Remove(capture.Id);
+                return writable;
+            }
+
+            return target switch
+            {
+                ILocalReferenceOperation local => local.Local.RefKind == RefKind.Ref,
+                IConversionOperation conversion => IsWritableReferenceTarget(conversion.Operand, visited),
+                _ => true,
+            };
+        }
+
+        private bool CaptureReferenceSurvives(CaptureId id, bool writableOnly, HashSet<CaptureId> visited)
+        {
+            // Conditional references are lowered into captures. Follow their
+            // consumers to distinguish surviving aliases from value copies.
+            return visited.Add(id) && _captureReferences.TryGetValue(id, out var references)
+                && references.Any(reference => ReferenceSurvives(reference, writableOnly, visited));
+        }
+
+        private bool ArgumentReferenceSurvives(IInvocationOperation invocation, bool writableOnly, HashSet<CaptureId>? visited)
+        {
+            return invocation.Type?.IsRefLikeType == true
+                || ((invocation.TargetMethod.ReturnsByRef || (!writableOnly && invocation.TargetMethod.ReturnsByRefReadonly))
+                    && ReferenceSurvives(invocation, writableOnly, visited));
+        }
 
         private static void InvalidateInvocationArrays(Value value, bool returnsWritableReference, State state)
         {

@@ -433,6 +433,21 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
             "private static CancellationToken[] Pack(CancellationToken token) => new[] { token }; private static Span<CancellationToken> PackSpan(CancellationToken token) => new CancellationToken[] { token }; private static ReadOnlySpan<CancellationToken> PackReadonly(CancellationToken token) => new CancellationToken[] { token };");
     }
 
+    [TestMethod]
+    [DataRow("var slot = Forward(ref First(tokens));", false)]
+    [DataRow("ref CancellationToken slot = ref Forward(ref First(tokens));", true)]
+    [DataRow("ref readonly CancellationToken slot = ref Forward(ref First(tokens));", false)]
+    [DataRow("ref readonly CancellationToken slot = ref tokens[0]; slot = ref (context != null ? ref First(tokens) : ref First(tokens));", false)]
+    [DataRow("ref CancellationToken slot = ref tokens[0]; slot = ref (context != null ? ref First(tokens) : ref First(tokens));", true)]
+    [DataRow("var slot = ReadFirst(ref tokens); tokens = new[] { cancellationToken };", false)]
+    [DataRow("var slot = context != null ? First(tokens) : First(tokens);", false)]
+    [DataRow("var holder = new Holder(ref First(tokens));", true)]
+    public async Task Helper_Reference_Consumers_Determine_Persistent_Escapes(string binding, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; {binding} tokens[0] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", warns,
+            "private static ref CancellationToken First(CancellationToken[] items) => ref items[0]; private static ref readonly CancellationToken ReadFirst(ref CancellationToken[] items) => ref items[0]; private static ref CancellationToken Forward(ref CancellationToken token) => ref token; private ref struct Holder { public ref CancellationToken Slot; public Holder(ref CancellationToken token) { Slot = ref token; } }");
+    }
+
     public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")
