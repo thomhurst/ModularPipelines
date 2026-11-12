@@ -6061,7 +6061,7 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
-        return new HashSet<IOperation>(GetCallerContainerOperations(GetRoot(reference), reference, reset.Syntax.Span.End));
+        return [.. GetCallerContainerOperations(GetRoot(reference), reference, reset.Syntax.Span.End)];
     }
 
     private static bool IsSupersededContainerDeconstruction(
