@@ -11,6 +11,10 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "ClearPairCall(ref first); return first;", true)]
     [DataRow("ref token, ref token", "", "ClearNestedPair(ref second); return first;", true)]
     [DataRow("ref token, ref token", "", "ObservePair(ref first); return first;", false)]
+    [DataRow("ref token, ref token", "", "ObserveDiscard(ref first); return first;", false)]
+    [DataRow("ref token, ref token", "", "ObserveFreshArray(ref first); return first;", false)]
+    [DataRow("ref token, ref token", "", "ObserveFreshArrayNested(ref first); return first;", false)]
+    [DataRow("ref token, ref token", "", "ObserveFreshArrayAndClear(ref first); return first;", true)]
     [DataRow("ref token, ref token", "", "Observe(ref first, new int[1]); return first;", false)]
     [DataRow("ref token, ref token", "", "ObserveNested(ref first, new int[1]); return first;", false)]
     [DataRow("ref token, ref token", "", "ObserveAndClear(ref first, new int[1]); return first;", true)]
@@ -235,6 +239,23 @@ public class ModuleHelperRefCancellationAnalyzerTests
                     var pair = (0, GetPair());
                     int count;
                     (_, (value, count)) = pair;
+                }
+                private static void ObserveDiscard(scoped ref CancellationToken value)
+                {
+                    var pair = GetPair();
+                    int count;
+                    (_, count) = pair;
+                }
+                private static void ObserveFreshArray(scoped ref CancellationToken value)
+                {
+                    CancellationToken[] scratch = [default];
+                    scratch[0] = default;
+                }
+                private static void ObserveFreshArrayNested(scoped ref CancellationToken value) => ObserveFreshArray(ref value);
+                private static void ObserveFreshArrayAndClear(scoped ref CancellationToken value)
+                {
+                    ObserveFreshArray(ref value);
+                    value = default;
                 }
                 private static void ObservePair(scoped ref CancellationToken value)
                 {

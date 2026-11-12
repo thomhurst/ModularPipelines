@@ -6336,6 +6336,15 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CancellationWriteChangesParameter(IOperation target, IOperation? value, IParameterSymbol parameter)
     {
+        // Discards have no storage, and fresh helper-local arrays cannot contain
+        // the incoming ref parameter's caller slot.
+        if (target is IDiscardOperation
+            || (target is IArrayElementReferenceOperation element
+                && IsNewCancellationArrayInScope(element.ArrayReference, target)))
+        {
+            return false;
+        }
+
         // Safe C# cannot alias storage of a different type, even when its slot is unknown.
         if (target.Type is { } targetType && !SymbolEqualityComparer.Default.Equals(targetType, parameter.Type))
         {
@@ -6439,8 +6448,13 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsNewCancellationArrayDisjointFromParameter(IOperation array, IOperation reference)
     {
-        if (GetCancellationStorage(reference, [], preserveParameters: true) is not IParameterSymbol
-            || array is not ILocalReferenceOperation local)
+        return GetCancellationStorage(reference, [], preserveParameters: true) is IParameterSymbol
+            && IsNewCancellationArrayInScope(array, reference);
+    }
+
+    private static bool IsNewCancellationArrayInScope(IOperation array, IOperation reference)
+    {
+        if (array is not ILocalReferenceOperation local)
         {
             return false;
         }
