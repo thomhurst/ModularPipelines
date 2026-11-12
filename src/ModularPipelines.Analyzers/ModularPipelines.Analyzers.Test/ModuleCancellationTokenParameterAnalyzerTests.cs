@@ -54,6 +54,15 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("var saved = cancellationToken; cancellationToken = default; void Restore() => cancellationToken = saved; Restore();")]
+    [DataRow("var saved = cancellationToken; cancellationToken = default; Action restore = () => cancellationToken = saved; restore();")]
+    [DataRow("var saved = default(CancellationToken); void Restore() => saved = cancellationToken; Restore(); cancellationToken = saved;")]
+    public async Task Captured_Writes_Keep_Existing_Behavior(string statements)
+    {
+        await Verify(statements, false, false);
+    }
+
+    [TestMethod]
     [Timeout(30000, CooperativeCancellation = true)]
     public async Task Conditional_Copies_Have_Bounded_Cost()
     {

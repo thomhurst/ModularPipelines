@@ -47,6 +47,7 @@ internal static class CancellationTokenParameterProvenance
                 or ILocalReferenceOperation { Local.RefKind: not RefKind.None }
                 or IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None }
                 or IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out })
+            || operations.Any(HasCapturedWrite)
             || root.SemanticModel is not { } model)
         {
             return [];
@@ -62,6 +63,34 @@ internal static class CancellationTokenParameterProvenance
         {
             return [];
         }
+    }
+
+    private static bool HasCapturedWrite(IOperation operation)
+    {
+        var function = operation switch
+        {
+            ILocalFunctionOperation local => local.Symbol,
+            IAnonymousFunctionOperation anonymous => anonymous.Symbol,
+            _ => null,
+        };
+        if (function is null)
+        {
+            return false;
+        }
+
+        // Calls can change captured scalar values without appearing as writes in
+        // the caller's CFG. Keep the existing proof until helper effects are tracked.
+        return operation.Descendants().OfType<ISimpleAssignmentOperation>().Any(assignment =>
+        {
+            var target = assignment.Target switch
+            {
+                IParameterReferenceOperation parameter => (ISymbol) parameter.Parameter,
+                ILocalReferenceOperation local => local.Local,
+                _ => null,
+            };
+            return target is not null
+                && !SymbolEqualityComparer.Default.Equals(target.ContainingSymbol, function);
+        });
     }
 
     // true means original, false means replaced on a reachable path; null marks
