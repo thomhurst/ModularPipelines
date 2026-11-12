@@ -24,6 +24,7 @@ internal sealed class ResourceUsageMonitor(
 
     private MachineResourceReading? _previous;
     private bool _monitoring;
+    private long _previousTimestamp;
     private int _sampleCount;
     private double _cpuSum;
     private double _peakCpu;
@@ -93,6 +94,9 @@ internal sealed class ResourceUsageMonitor(
         }
 
         var previous = _previous;
+        var timestamp = timeProvider.GetTimestamp();
+        var elapsed = timeProvider.GetElapsedTime(_previousTimestamp, timestamp);
+        _previousTimestamp = timestamp;
         _previous = reading;
         if (previous is not { } last)
         {
@@ -130,10 +134,10 @@ internal sealed class ResourceUsageMonitor(
                 || Increased(pressure.ThrottledMicroseconds, baseline.ThrottledMicroseconds));
             cpuStalled |= pressure is not null && baseline is not null
                 && (pressure.CpuPressureSource ?? pressure.Source) == (baseline.CpuPressureSource ?? baseline.Source)
-                && Increased(pressure.CpuStallMicroseconds, baseline.CpuStallMicroseconds);
+                && SignificantStall(pressure.CpuStallMicroseconds, baseline.CpuStallMicroseconds, elapsed);
             var memoryStalled = pressure is not null && baseline is not null
                 && (pressure.MemoryPressureSource ?? pressure.Source) == (baseline.MemoryPressureSource ?? baseline.Source)
-                && Increased(pressure.MemoryStallMicroseconds, baseline.MemoryStallMicroseconds);
+                && SignificantStall(pressure.MemoryStallMicroseconds, baseline.MemoryStallMicroseconds, elapsed);
             Track(_cpu, cpu, _options.CpuThreshold, now, cpuStalled);
             Track(_memory, memory, _options.MemoryThreshold, now, memoryStalled);
         }
@@ -143,6 +147,11 @@ internal sealed class ResourceUsageMonitor(
 
     private static bool Increased(long? current, long? previous) =>
         current is { } value && previous is { } baseline && value > baseline;
+
+    // PSI includes routine brief contention; require at least 10% of the actual sample interval.
+    private static bool SignificantStall(long? current, long? previous, TimeSpan elapsed) =>
+        elapsed > TimeSpan.Zero && current is { } value && previous is { } baseline
+        && value > baseline && (double) value - baseline >= elapsed.TotalMicroseconds * 0.1;
 
     private int OpenPeriodCount => (_cpu.IsOpen ? 1 : 0) + (_memory.IsOpen ? 1 : 0);
 

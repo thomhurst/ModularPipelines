@@ -204,7 +204,7 @@ public class ResourceUsageMonitorTests
         {
             harness.Reader.Pressure = new ResourcePressureCounters("container",
                 signal == 0 ? index : 0, signal == 1 ? index : 0,
-                signal == 2 ? index : 0, signal == 3 ? index : 0);
+                signal == 2 ? index * 100_000 : 0, signal == 3 ? index * 100_000 : 0);
             harness.Sample(cpu: 0.1);
             if (index < 3)
             {
@@ -223,6 +223,29 @@ public class ResourceUsageMonitorTests
         await Assert.That(result.Periods.Single().Kind).IsEqualTo(signal == 3 ? ResourceKind.Memory : ResourceKind.Cpu);
         await Assert.That(result.Periods.Single().Start).IsEqualTo(Start.AddSeconds(2));
         await Assert.That(result.Periods.Single().End).IsEqualTo(Start.AddSeconds(5));
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Sample_PressureRequiresTenPercentOfActualElapsedInterval(bool memory)
+    {
+        var harness = new Harness(options => options with { SustainedSamples = 1 });
+        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0, 0, 0);
+        harness.Sample(cpu: 0.1);
+
+        // 100ms is only 5% of this two-second interval, even though configured samples are one second.
+        harness.Time.Advance(TimeSpan.FromSeconds(1));
+        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0,
+            memory ? 0 : 100_000, memory ? 100_000 : 0);
+        harness.Sample(cpu: 0.1);
+        await Assert.That(harness.Log.ToString()).IsEmpty();
+
+        // 100ms in the next one-second interval reaches the threshold.
+        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0,
+            memory ? 0 : 200_000, memory ? 200_000 : 0);
+        harness.Sample(cpu: 0.1);
+        await Assert.That(harness.Log.ToString()).Contains("Linux task stalls");
     }
 
     [Test]
@@ -259,7 +282,7 @@ public class ResourceUsageMonitorTests
         for (var index = 1; index <= 3; index++)
         {
             harness.Reader.Pressure = new ResourcePressureCounters("container",
-                signal == 0 ? index : 0, 0, signal == 1 ? index : 0, signal == 2 ? index : 0,
+                signal == 0 ? index : 0, 0, signal == 1 ? index * 100_000 : 0, signal == 2 ? index * 100_000 : 0,
                 signal == 2 ? $"cpu{index}" : "cpu", signal == 2 ? "memory" : $"memory{index}");
             harness.Sample(cpu: 0.1);
         }

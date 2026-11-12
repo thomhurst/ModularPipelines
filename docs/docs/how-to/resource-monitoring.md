@@ -98,8 +98,7 @@ or unreadable cgroup data falls back to host memory from `/proc/meminfo`.
 
 The monitor detects increases in `cpu.stat`'s `nr_throttled` or `throttled_usec` and in the `some`
 stall-time total from `cpu.pressure` and `memory.pressure`. If cgroup pressure files are unavailable,
-it reads `/proc/pressure/cpu` and `/proc/pressure/memory` instead; these cover the host. Any positive
-increase counts as a stall sample, subject to `SustainedSamples`. Each counter source has its own baseline, so losing one pressure file does not discard unrelated
+it reads `/proc/pressure/cpu` and `/proc/pressure/memory` instead; these cover the host. A PSI stall increase must cover at least 10% of the actual elapsed sample interval to count as a stall sample; brief routine contention is ignored. Any positive CPU throttling increase counts. Both signals remain subject to `SustainedSamples`. Each counter source has its own baseline, so losing one pressure file does not discard unrelated
 counters. Historical totals alone do not trigger warnings. Missing counters are ignored without disabling ordinary monitoring.
 
 See the kernel documentation for [cgroup v2](https://docs.kernel.org/admin-guide/cgroup-v2.html)
