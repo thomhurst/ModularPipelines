@@ -5840,7 +5840,7 @@ internal static class ModuleAuthoringAnalysis
     {
         return ancestor switch
         {
-            ISwitchCaseOperation switchCase => CancellationWriteCannotReachOtherSwitchCase(switchCase, read),
+            ISwitchCaseOperation switchCase => CancellationWriteCannotReachOtherSwitchCase(switchCase, write, read),
             IBlockOperation block => !HasAncestor(read, block) && AlwaysExitsCallable(block),
             ISwitchExpressionArmOperation arm => CancellationWriteCannotReachOtherSwitchArm(arm, write, read),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
@@ -5850,18 +5850,51 @@ internal static class ModuleAuthoringAnalysis
         };
     }
 
-    private static bool CancellationWriteCannotReachOtherSwitchCase(ISwitchCaseOperation switchCase, IOperation read)
+    private static bool CancellationWriteCannotReachOtherSwitchCase(ISwitchCaseOperation switchCase, IOperation write, IOperation read)
         => switchCase.Parent is ISwitchOperation switchOperation
             && HasAncestor(read, switchOperation)
             && !HasAncestor(read, switchCase)
-            && !switchCase.DescendantsAndSelf().OfType<IBranchOperation>()
-                .Any(branch => branch.BranchKind == BranchKind.GoTo && IsInReachableBranch(branch)
-                    && switchOperation.Cases.Where(other => !ReferenceEquals(other, switchCase))
-                        .SelectMany(static other => other.Clauses)
-                        .Any(clause => SymbolEqualityComparer.Default.Equals(clause.Label, branch.Target)))
-            && (SwitchCaseCannotReachFollowingOperation(switchCase)
-                || (switchCase.Body.LastOrDefault() is IBranchOperation { BranchKind: BranchKind.Break } branch
-                    && SymbolEqualityComparer.Default.Equals(branch.Target, switchOperation.ExitLabel)));
+            // C# switch sections cannot fall through; only an explicit jump reaches another case.
+            && !CancellationWriteCanReachSwitchCase(switchOperation, switchCase, write, read);
+
+    private static bool CancellationWriteCanReachSwitchCase(
+        ISwitchOperation switchOperation, ISwitchCaseOperation sourceCase, IOperation write, IOperation read)
+    {
+        var pending = new Queue<(ISwitchCaseOperation Case, bool AfterWrite)>();
+        var visited = new HashSet<ISwitchCaseOperation>();
+        pending.Enqueue((sourceCase, true));
+        while (pending.Count > 0)
+        {
+            var (current, afterWrite) = pending.Dequeue();
+            if (!afterWrite && !visited.Add(current))
+            {
+                continue;
+            }
+
+            if (!afterWrite && HasAncestor(read, current))
+            {
+                return true;
+            }
+
+            foreach (var branch in current.DescendantsAndSelf().OfType<IBranchOperation>())
+            {
+                if (branch.BranchKind != BranchKind.GoTo || !IsInReachableBranch(branch)
+                    || (afterWrite && (branch.Syntax.SpanStart < write.Syntax.SpanStart
+                        || !CanCancellationWriteReachSnapshot(write, branch))))
+                {
+                    continue;
+                }
+
+                foreach (var target in switchOperation.Cases.Where(candidate => candidate.Clauses.Any(clause =>
+                    SymbolEqualityComparer.Default.Equals(clause.Label, branch.Target))))
+                {
+                    pending.Enqueue((target, false));
+                }
+            }
+        }
+
+        return false;
+    }
 
     private static bool CancellationWriteCannotReachOtherSwitchArm(ISwitchExpressionArmOperation arm, IOperation write, IOperation read)
         => HasAncestor(write, arm.Value)
