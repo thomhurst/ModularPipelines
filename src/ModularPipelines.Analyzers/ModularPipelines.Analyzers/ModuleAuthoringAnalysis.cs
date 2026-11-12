@@ -6019,9 +6019,12 @@ internal static class ModuleAuthoringAnalysis
         {
             IReturnOperation or IThrowOperation => true,
             IBranchOperation { BranchKind: BranchKind.GoTo } branch =>
-                outerBody.Operations.OfType<ILabeledOperation>().Any(label =>
+                outerBody.DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
                     SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
-                    && label.Syntax.SpanStart > read.Syntax.SpanStart),
+                    && label.Syntax.SpanStart > read.Syntax.SpanStart
+                    // Loop reentry can reach the earlier read after visiting the label.
+                    && !outerBody.DescendantsAndSelf().OfType<ILoopOperation>().Any(loop =>
+                        HasAncestor(label, loop) && HasAncestor(read, loop))),
             IBranchOperation { BranchKind: BranchKind.Break } branch => CancellationBreakSkipsRead(branch, read),
             _ => false,
         };
