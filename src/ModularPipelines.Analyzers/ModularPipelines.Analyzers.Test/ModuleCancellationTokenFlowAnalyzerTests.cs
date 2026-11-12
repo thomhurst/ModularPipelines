@@ -95,6 +95,23 @@ public class ModuleCancellationTokenFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("WaitByReference(in cancellationToken)")]
+    [DataRow("WaitBoth(cancellationToken, cancellationToken = default)")]
+    public async Task Does_Not_Report_Token_Passed_By_Reference_Or_Before_A_Later_Write(string call)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(Source(string.Empty, call));
+    }
+
+    [TestMethod]
+    public async Task Reports_Lost_Token_Passed_To_In_Parameter()
+    {
+        await VerifyCS.VerifyAnalyzerAsync(
+            Source(string.Empty, "{|#0:WaitByReference(CancellationToken.None)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("WaitByReference"));
+    }
+
+    [TestMethod]
     [Timeout(60_000)]
     public async Task Analyzes_Repeated_Helper_Chains_In_Linear_Time()
     {
@@ -124,6 +141,8 @@ public class ModuleCancellationTokenFlowAnalyzerTests
             private CancellationToken _field;
             private static CancellationToken Pass(CancellationToken token) => token;
             private static void Set(ref CancellationToken token) { }
+            private static Task WaitByReference(in CancellationToken token) => Task.CompletedTask;
+            private static Task WaitBoth(CancellationToken first, CancellationToken second) => Task.CompletedTask;
             private static void Wire(CancellationTokenSource source, CancellationToken token) => token.Register(source.Cancel);
             {{TestSourceConstants.SimpleAsyncExecuteBody}}
             protected override Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

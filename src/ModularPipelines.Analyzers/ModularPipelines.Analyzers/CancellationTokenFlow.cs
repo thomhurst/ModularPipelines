@@ -52,8 +52,7 @@ internal static class CancellationTokenFlow
     private static IEnumerable<IArgumentOperation> GetTokenArguments(IInvocationOperation invocation) =>
         invocation.Arguments.Where(static argument =>
             argument.ArgumentKind == ArgumentKind.Explicit
-            && argument.Parameter is { RefKind: RefKind.None } parameter
-            && IsType(parameter.Type, CancellationTokenName));
+            && IsType(argument.Parameter?.Type, CancellationTokenName));
 
     private static bool IsType(ITypeSymbol? type, string name) =>
         type is INamedTypeSymbol && type.ToDisplayString() == name;
@@ -76,6 +75,7 @@ internal static class CancellationTokenFlow
         private readonly Dictionary<ISymbol, IOperation> _initializers = [with(SymbolEqualityComparer.Default)];
         private readonly HashSet<ISymbol> _visiting = [with(SymbolEqualityComparer.Default)];
         private readonly HashSet<TextSpan> _lost = [];
+        private readonly HashSet<IArgumentOperation> _lostArguments = [];
 
         public HashSet<TextSpan> Run(CancellationToken cancellationToken)
         {
@@ -396,10 +396,13 @@ internal static class CancellationTokenFlow
                 case IFlowCaptureOperation capture:
                     Set(state, capture.Id, IsLost(capture.Value, state, owner));
                     break;
+                case IArgumentOperation argument when record && IsLost(argument.Value, state, owner):
+                    // Classified here, before later arguments of the same call can write the variable.
+                    _lostArguments.Add(argument);
+                    break;
                 case IInvocationOperation invocation when record:
                     var arguments = GetTokenArguments(invocation).ToArray();
-                    if (arguments.Length > 0
-                        && arguments.All(argument => IsLost(argument.Value, state, owner)))
+                    if (arguments.Length > 0 && arguments.All(_lostArguments.Contains))
                     {
                         _lost.Add(invocation.Syntax.Span);
                     }

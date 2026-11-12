@@ -590,11 +590,11 @@ internal static class ModuleAuthoringAnalysis
 
         foreach (var invocation in awaitedInvocations)
         {
-            if (CancellationTokenFlow.ReceivesToken(invocation, context.CancellationToken)
-                || !InvocationAcceptsCancellationToken(
+            if (!InvocationAcceptsCancellationToken(
                     invocation.TargetMethod,
                     context.Compilation,
-                    executeMethod.ContainingType))
+                    executeMethod.ContainingType)
+                || CancellationTokenFlow.ReceivesToken(invocation, context.CancellationToken))
             {
                 continue;
             }
