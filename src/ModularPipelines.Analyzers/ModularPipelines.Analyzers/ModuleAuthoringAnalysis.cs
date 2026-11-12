@@ -5903,7 +5903,8 @@ internal static class ModuleAuthoringAnalysis
         // A loop can revisit a jump that precedes the write in source order.
         for (var ancestor = write.Parent; ancestor is not null && !ReferenceEquals(ancestor, switchCase); ancestor = ancestor.Parent)
         {
-            if (ancestor is ILoopOperation && HasAncestor(jump, ancestor))
+            if (ancestor is ILoopOperation loop && HasAncestor(jump, ancestor)
+                && CancellationWriteCanReachLoopBackedge(loop, write))
             {
                 return true;
             }
@@ -5918,6 +5919,29 @@ internal static class ModuleAuthoringAnalysis
             && switchCase.DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
                 SymbolEqualityComparer.Default.Equals(label.Label, backedge.Target)
                 && label.Syntax.SpanStart <= jump.Syntax.SpanStart));
+    }
+
+    private static bool CancellationWriteCanReachLoopBackedge(ILoopOperation loop, IOperation write)
+    {
+        if (loop.Body.Syntax is not BlockSyntax block || write.SemanticModel is not { } semanticModel)
+        {
+            return true;
+        }
+
+        var statement = block.Statements.FirstOrDefault(candidate => candidate.Span.Contains(write.Syntax.Span));
+        if (statement is null)
+        {
+            return true;
+        }
+
+        // Source order alone cannot prove a backedge: a mandatory break or return
+        // after the write ends this iteration without revisiting the earlier jump.
+        var flow = semanticModel.AnalyzeControlFlow(statement, block.Statements.Last());
+        return flow is not { Succeeded: true }
+            || flow.EndPointIsReachable
+            || flow.ExitPoints.Any(exit => semanticModel.GetOperation(exit) is IBranchOperation branch
+                && (branch.BranchKind == BranchKind.GoTo
+                    || SymbolEqualityComparer.Default.Equals(branch.Target, loop.ContinueLabel)));
     }
 
     private static bool CancellationWriteCannotReachOtherSwitchArm(ISwitchExpressionArmOperation arm, IOperation write, IOperation read)
@@ -5984,12 +6008,9 @@ internal static class ModuleAuthoringAnalysis
                     CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods)));
         }
 
-        return GetCancellationStorage(read, [], preserveParameters: true) is IParameterSymbol origin
-            && HasCancellationPreservingHelperInput(invocation, visitedMethods, argument =>
-                FlowsFromCancellationToken(argument, origin,
-                    CloneVisitedLocals(visitedLocals), CloneVisitedMethods(visitedMethods))
-                && IsCancellationPreservingSnapshot(argument, read, body, caller,
-                    CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods)));
+        return HasCancellationPreservingHelperInput(invocation, visitedMethods, argument =>
+            IsCancellationPreservingSnapshot(argument, read, body, caller,
+                CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool IsCancellationPreservingBranchSnapshot(

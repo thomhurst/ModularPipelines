@@ -7,6 +7,12 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "var saved = first; switch (Flag.GetHashCode()) { case 0: while (Flag) { if (Flag) goto default; second = default; break; } return saved; default: return first; }", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; switch (Flag.GetHashCode()) { case 0: while (Flag) { if (Flag) goto default; second = default; if (Flag) break; } return saved; default: return first; }", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; switch (Flag.GetHashCode()) { case 0: while (Flag) { if (Flag) goto default; second = default; continue; } return saved; default: return first; }", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; var copy = saved; ref CancellationToken alias = ref copy; alias = IdentityValue(default, saved); return copy;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; var copy = saved; ref CancellationToken alias = ref copy; saved = default; alias = IdentityValue(default, saved); return copy;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; var copy = saved; ref CancellationToken alias = ref copy; alias = IdentityValue(saved, default); return copy;", true)]
     [DataRow("ref token, ref token", "", "var saved = first; switch (Flag.GetHashCode()) { case 0: for (int i = 0; i < 2; i++) { if (i == 1) goto default; second = default; } return saved; default: return first; }", true)]
     [DataRow("ref token, ref token", "", "switch (Flag) { case true: int visits = 0; again: if (visits++ != 0) goto default; second = default; goto again; default: return first; }", true)]
     [DataRow("ref token, ref token", "", "var saved = first; var copy = saved; ref CancellationToken alias = ref copy; alias = saved; return copy;", false)]
