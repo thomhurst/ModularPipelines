@@ -37,7 +37,7 @@ internal static class CancellationTokenParameterProvenance
         var references = Results.GetValue(root, static _ => new(SymbolEqualityComparer.Default))
             .GetOrAdd(source, token => new Lazy<Dictionary<TextSpan, bool?>>(() => Analyze(root, token))).Value;
         // Unsupported shapes keep the existing proof. Helper summaries are limited
-        // to scalar by-value tokens; collection, tuple, reference-storage, awaitable,
+        // to scalar by-value tokens; collection, tuple, reference-storage,
         // loop and exception-cleanup proofs remain separate.
         return !references.TryGetValue(reference.Syntax.Span, out var value) || value != false;
     }
@@ -329,9 +329,26 @@ internal static class CancellationTokenParameterProvenance
                     return GetSymbolValue(state, local.Local);
                 case IFlowCaptureReferenceOperation capture:
                     return Get(state.Captures, capture.Id);
+                case IAwaitOperation awaited:
+                    var awaitedValue = Evaluate(awaited.Operation, state);
+                    return ModuleAuthoringAnalysis.GetCancellationPayloadInput(awaited) is not null ? awaitedValue : false;
+                case IInvocationOperation invocation when ModuleAuthoringAnalysis.GetCancellationPayloadInput(invocation) is { } payload:
+                    return EvaluateFrameworkInvocation(invocation, payload, state);
+                case IObjectCreationOperation creation when ModuleAuthoringAnalysis.GetCancellationPayloadInput(creation) is { } payload:
+                    return Evaluate(payload, state);
+                case IPropertyReferenceOperation property when ModuleAuthoringAnalysis.GetCancellationPayloadInput(property) is { } payload:
+                    return Evaluate(payload, state);
+                case IPropertyReferenceOperation { Property.Name: "Result" } property
+                    when property.Type?.ToDisplayString() == "System.Threading.CancellationToken":
+                    foreach (var child in property.ChildOperations)
+                    {
+                        Evaluate(child, state);
+                    }
+
+                    return false;
                 case IConversionOperation conversion:
                     var converted = Evaluate(conversion.Operand, state);
-                    return conversion.Conversion.IsIdentity || conversion.Operand is IDefaultValueOperation ? converted : null;
+                    return conversion.OperatorMethod is not null ? false : conversion.Conversion.IsIdentity || conversion.Operand is IDefaultValueOperation ? converted : null;
                 case IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
                     when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource":
                     return Evaluate(instance, state);
@@ -440,6 +457,31 @@ internal static class CancellationTokenParameterProvenance
             // A captured input is absent from this callable's initial state.
             // Its provenance is unknown, not a definite replacement.
             return SymbolEqualityComparer.Default.Equals(symbol.ContainingSymbol, source.ContainingSymbol) ? false : null;
+        }
+
+        private bool? EvaluateFrameworkInvocation(IInvocationOperation invocation, IOperation payload, State state)
+        {
+            bool? result = null;
+            if (invocation.Instance is { } instance)
+            {
+                var value = Evaluate(instance, state);
+                if (ReferenceEquals(instance, payload))
+                {
+                    result = value;
+                }
+            }
+
+            foreach (var argument in invocation.Arguments)
+            {
+                var value = Evaluate(argument.Value, state);
+                if (ReferenceEquals(argument.Value, payload))
+                {
+                    result = value;
+                }
+            }
+
+            return result;
+
         }
 
         private bool? EvaluateParameter(IParameterReferenceOperation parameter, State state)

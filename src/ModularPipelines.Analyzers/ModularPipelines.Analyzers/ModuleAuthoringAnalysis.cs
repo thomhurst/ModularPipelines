@@ -10,7 +10,7 @@ using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
-internal static class ModuleAuthoringAnalysis
+internal static partial class ModuleAuthoringAnalysis
 {
     private const string AssemblyMetadataName = "System.Reflection.Assembly";
     private const string CancellationTokenMetadataName = "System.Threading.CancellationToken";
@@ -5439,9 +5439,14 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        if (GetCancellationPayloadInput(value) is { } payload)
+        {
+            return FlowsFromCancellationToken(payload, cancellationToken, visitedLocals, visitedMethods);
+        }
+
         return value switch
         {
-            IConversionOperation conversion => FlowsFromCancellationToken(
+            IConversionOperation { OperatorMethod: null } conversion => FlowsFromCancellationToken(
                 conversion.Operand,
                 cancellationToken,
                 visitedLocals,
@@ -6665,6 +6670,13 @@ internal static class ModuleAuthoringAnalysis
         Compilation compilation,
         INamedTypeSymbol within)
     {
+        // FromResult stores data rather than accepting cancellation control.
+        if (method.Name == "FromResult" && method.IsStatic
+            && method.ContainingType.ToDisplayString() is "System.Threading.Tasks.Task" or "System.Threading.Tasks.ValueTask")
+        {
+            return false;
+        }
+
         if (method.Parameters.Any(IsCancellationToken))
         {
             return true;
