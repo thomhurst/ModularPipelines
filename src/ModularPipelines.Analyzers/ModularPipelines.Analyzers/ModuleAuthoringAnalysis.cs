@@ -6418,8 +6418,12 @@ internal static class ModuleAuthoringAnalysis
 
         var firstStorage = GetCancellationStorage(first, [], invocation, method);
         var secondStorage = GetCancellationStorage(second, [], invocation, method);
-        // Helper-owned value storage cannot alias an unknown reference from its caller.
-        if (IsPrivateCancellationStorage(firstStorage, method) || IsPrivateCancellationStorage(secondStorage, method))
+        // Helper-owned value storage cannot alias a reference from its caller, but an
+        // unknown alias created inside the helper can still point to that storage.
+        if ((IsPrivateCancellationStorage(firstStorage, method)
+                && (secondStorage is not null || IsCallerCancellationStorage(second, method)))
+            || (IsPrivateCancellationStorage(secondStorage, method)
+                && (firstStorage is not null || IsCallerCancellationStorage(first, method))))
         {
             return SymbolEqualityComparer.Default.Equals(firstStorage, secondStorage);
         }
@@ -6427,6 +6431,10 @@ internal static class ModuleAuthoringAnalysis
         return firstStorage is null || secondStorage is null
             || SymbolEqualityComparer.Default.Equals(firstStorage, secondStorage);
     }
+
+    private static bool IsCallerCancellationStorage(IOperation value, IMethodSymbol method)
+        => GetCancellationStorage(value, [], preserveParameters: true) is IParameterSymbol { RefKind: not RefKind.None } parameter
+            && SymbolEqualityComparer.Default.Equals(parameter.ContainingSymbol, method);
 
     private static bool IsPrivateCancellationStorage(ISymbol? storage, IMethodSymbol method)
         => storage is IParameterSymbol { RefKind: RefKind.None } or ILocalSymbol { RefKind: RefKind.None }
