@@ -7,6 +7,12 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenContainerHelperAnalyzerTests
 {
     [TestMethod]
+    [DataRow("var scratch = value; _ = flag || (scratch = new CancellationToken[1]).Length > 0; scratch[0] = default;", true)]
+    [DataRow("var scratch = value; _ = flag && (scratch = new CancellationToken[1]).Length > 0; scratch[0] = default;", true)]
+    [DataRow("var scratch = value; _ = (flag ? value : null) ?? (scratch = new CancellationToken[1]); scratch[0] = default;", true)]
+    [DataRow("var scratch = value; _ = false || (scratch = new CancellationToken[1]).Length > 0; scratch[0] = default;", false)]
+    [DataRow("var scratch = value; _ = true && (scratch = new CancellationToken[1]).Length > 0; scratch[0] = default;", false)]
+    [DataRow("var scratch = value; _ = (CancellationToken[]?)null ?? (scratch = new CancellationToken[1]); scratch[0] = default;", false)]
     [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref value; if (flag) goto Write; alias = ref scratch; Write: alias[0] = default;", true)]
     [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref value; if (false) goto Write; alias = ref scratch; Write: alias[0] = default;", false)]
     [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref value; if (flag) goto Reset; Reset: alias = ref scratch; alias[0] = default;", false)]
