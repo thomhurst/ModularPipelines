@@ -6361,8 +6361,16 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
+        var elements = GetCancellationInputElements(value);
+        if (!elements.IsDefault)
+        {
+            return elements.Any(element => IsCancellationPreservingParameterWriteValue(element, parameter, CloneVisitedMethods(visitedMethods)));
+        }
+
         return value switch
         {
+            ISpreadOperation spread => IsCancellationPreservingParameterWriteValue(spread.Operand, parameter, visitedMethods),
+            ILocalReferenceOperation { Type: IArrayTypeSymbol } local => IsCancellationPreservingParameterWriteArray(local, parameter, visitedMethods),
             IConversionOperation conversion => IsCancellationPreservingParameterWriteValue(conversion.Operand, parameter, visitedMethods),
             IParenthesizedOperation parenthesized => IsCancellationPreservingParameterWriteValue(parenthesized.Operand, parameter, visitedMethods),
             IPropertyReferenceOperation { Instance: { } instance } property when IsCancellationTokenSourceToken(property) =>
@@ -6371,6 +6379,16 @@ internal static class ModuleAuthoringAnalysis
             IConditionalOperation or ISwitchExpressionOperation => IsCancellationPreservingParameterWriteBranches(value, parameter, visitedMethods),
             _ => false,
         };
+    }
+
+    private static bool IsCancellationPreservingParameterWriteArray(
+        ILocalReferenceOperation local, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods)
+    {
+        var sources = FindReachingLocalValues(local, local.Local).ToArray();
+        var body = GetRoot(local);
+        bool Preserves(IOperation element) => IsCancellationPreservingParameterWriteValue(element, parameter, CloneVisitedMethods(visitedMethods));
+        return sources.Length > 0 && sources.All(source =>
+            GetCurrentCancellationArrayElements(source, local, body, Preserves).Any(Preserves));
     }
 
     private static bool IsCancellationPreservingParameterWriteInvocation(
