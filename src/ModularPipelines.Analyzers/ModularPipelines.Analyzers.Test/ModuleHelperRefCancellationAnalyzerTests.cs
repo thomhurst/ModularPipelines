@@ -7,6 +7,10 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "PreserveLinkedSelfArrayWrite(ref first); return first;", false)]
+    [DataRow("ref token, ref token", "", "DiscardLinkedSelfArrayWrite(ref first); return first;", true)]
+    [DataRow("ref token, ref token", "", "DiscardLinkedEscapedArray(ref first); return first;", true)]
+    [DataRow("ref token, ref token", "", "DiscardLinkedEscapedAlias(ref first); return first;", true)]
     [DataRow("ref token, ref token", "", "PreserveLinkedArray(ref first); return first;", false)]
     [DataRow("ref token, ref token", "", "PreserveLinkedCollection(ref first); return first;", false)]
     [DataRow("ref token, ref token", "", "PreserveLinkedSpread(ref first); return first;", false)]
@@ -283,6 +287,35 @@ public class ModuleHelperRefCancellationAnalyzerTests
                     => value = CancellationTokenSource.CreateLinkedTokenSource([value, CancellationToken.None]).Token;
                 private static void PreserveLinkedSpread(scoped ref CancellationToken value)
                     => value = CancellationTokenSource.CreateLinkedTokenSource([.. new[] { value }, CancellationToken.None]).Token;
+                private static void PreserveLinkedSelfArrayWrite(scoped ref CancellationToken value)
+                {
+                    CancellationToken[] inputs = [value];
+                    inputs[0] = CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;
+                    value = CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;
+                }
+                private static void DiscardLinkedSelfArrayWrite(scoped ref CancellationToken value)
+                {
+                    CancellationToken[] inputs = [value];
+                    inputs[0] = default;
+                    inputs[0] = CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;
+                    value = CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;
+                }
+
+                private static void ClearArray(CancellationToken[] items) => items[0] = default;
+                private static void DiscardLinkedEscapedArray(scoped ref CancellationToken value)
+                {
+                    CancellationToken[] inputs = [value];
+                    ClearArray(inputs);
+                    value = CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;
+                }
+                private static void DiscardLinkedEscapedAlias(scoped ref CancellationToken value)
+                {
+                    CancellationToken[] inputs = [value];
+                    var alias = inputs;
+                    ClearArray(alias);
+                    value = CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;
+                }
+
                 private static void PreserveLinkedLocalArray(scoped ref CancellationToken value)
                 {
                     CancellationToken[] inputs = [value, CancellationToken.None];

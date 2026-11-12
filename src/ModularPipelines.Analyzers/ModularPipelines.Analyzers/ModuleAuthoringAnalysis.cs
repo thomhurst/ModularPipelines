@@ -5821,6 +5821,11 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
+        if (HasEscapedCancellationArray(source, read, body, initializer))
+        {
+            return null;
+        }
+
         var writes = GetReachingCancellationArrayWrites(source, read, body, initializer).ToArray();
         // A spread contributes its runtime element count, rather than one syntax element.
         var elements = ExpandCancellationArrayElements(inputs, body, visitedArrays, preservesCancellation);
@@ -5833,6 +5838,37 @@ internal static class ModuleAuthoringAnalysis
         return ApplyCancellationArrayWrites(elements, writes, read, initializer, preservesCancellation);
     }
 
+    private static bool HasEscapedCancellationArray(
+        IOperation source, ILocalReferenceOperation read, IOperation body, IOperation initializer)
+    {
+        return body.DescendantsAndSelf().OfType<IInvocationOperation>()
+            .Where(invocation => ReferenceEquals(GetEnclosingCallable(invocation), GetEnclosingCallable(read))
+                && invocation.Syntax.SpanStart > source.Syntax.SpanStart
+                && invocation.Syntax.SpanStart < read.Syntax.SpanStart
+                && !HasAncestor(read, invocation)
+                && CanCancellationWriteReachSnapshot(invocation, read)
+                && IsInReachableBranch(invocation)
+                && !IsKnownCancellationCarrierFactory(invocation)
+                && !HasNoCancellationArrayEffects(invocation))
+            .Any(invocation => invocation.Arguments.Any(argument => argument.Value.Type is IArrayTypeSymbol
+                && ReferencesCancellationArray(argument.Value, initializer, [with(SymbolEqualityComparer.Default)]) != false));
+    }
+
+    private static bool HasNoCancellationArrayEffects(IInvocationOperation invocation)
+    {
+        var method = NormalizeMethod(invocation.TargetMethod);
+        if (invocation.SemanticModel?.Compilation is not { } compilation
+            || GetMethodOperation(method, compilation, default) is not { } body)
+        {
+            return false;
+        }
+
+        // A body without writes or calls cannot mutate an array passed by value.
+        return !body.DescendantsAndSelf().Any(operation => operation is IInvocationOperation or IDynamicInvocationOperation or IPropertyReferenceOperation
+            or IObjectCreationOperation or IIncrementOrDecrementOperation or ICompoundAssignmentOperation
+            || GetCancellationStorageWrites(operation).Any());
+    }
+
     private static IEnumerable<(IOperation Target, IOperation? Value)> GetReachingCancellationArrayWrites(
         IOperation source, ILocalReferenceOperation read, IOperation body, IOperation initializer)
     {
@@ -5840,6 +5876,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(write => ReferenceEquals(GetEnclosingCallable(write.Target), GetEnclosingCallable(read)))
             .Where(write => write.Target.Syntax.SpanStart > source.Syntax.SpanStart
                 && write.Target.Syntax.SpanStart < read.Syntax.SpanStart
+                && !HasAncestor(read, write.Target.Parent!)
                 && CanCancellationWriteReachSnapshot(write.Target, read)
                 && IsInReachableBranch(write.Target))
             .Where(write => write.Target is IArrayElementReferenceOperation element
@@ -6350,11 +6387,11 @@ internal static class ModuleAuthoringAnalysis
 
         // Available ref helpers may replace the token with a linked token or a
         // proven helper result while retaining cancellation from the input.
-        return value is null || !IsCancellationPreservingParameterWriteValue(value, parameter, visitedMethods);
+        return value is null || !IsCancellationPreservingParameterWriteValue(value, parameter, visitedMethods, []);
     }
 
     private static bool IsCancellationPreservingParameterWriteValue(
-        IOperation value, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods)
+        IOperation value, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods, HashSet<IOperation> visitedArrays)
     {
         if (SymbolEqualityComparer.Default.Equals(GetCancellationStorage(value, [], preserveParameters: true), parameter))
         {
@@ -6364,52 +6401,57 @@ internal static class ModuleAuthoringAnalysis
         var elements = GetCancellationInputElements(value);
         if (!elements.IsDefault)
         {
-            return elements.Any(element => IsCancellationPreservingParameterWriteValue(element, parameter, CloneVisitedMethods(visitedMethods)));
+            return elements.Any(element => IsCancellationPreservingParameterWriteValue(element, parameter, CloneVisitedMethods(visitedMethods), [.. visitedArrays]));
         }
 
         return value switch
         {
-            ISpreadOperation spread => IsCancellationPreservingParameterWriteValue(spread.Operand, parameter, visitedMethods),
-            ILocalReferenceOperation { Type: IArrayTypeSymbol } local => IsCancellationPreservingParameterWriteArray(local, parameter, visitedMethods),
-            IConversionOperation conversion => IsCancellationPreservingParameterWriteValue(conversion.Operand, parameter, visitedMethods),
-            IParenthesizedOperation parenthesized => IsCancellationPreservingParameterWriteValue(parenthesized.Operand, parameter, visitedMethods),
+            ISpreadOperation spread => IsCancellationPreservingParameterWriteValue(spread.Operand, parameter, visitedMethods, visitedArrays),
+            ILocalReferenceOperation { Type: IArrayTypeSymbol } local => IsCancellationPreservingParameterWriteArray(local, parameter, visitedMethods, visitedArrays),
+            IConversionOperation conversion => IsCancellationPreservingParameterWriteValue(conversion.Operand, parameter, visitedMethods, visitedArrays),
+            IParenthesizedOperation parenthesized => IsCancellationPreservingParameterWriteValue(parenthesized.Operand, parameter, visitedMethods, visitedArrays),
             IPropertyReferenceOperation { Instance: { } instance } property when IsCancellationTokenSourceToken(property) =>
-                IsCancellationPreservingParameterWriteValue(instance, parameter, visitedMethods),
-            IInvocationOperation invocation => IsCancellationPreservingParameterWriteInvocation(invocation, parameter, visitedMethods),
-            IConditionalOperation or ISwitchExpressionOperation => IsCancellationPreservingParameterWriteBranches(value, parameter, visitedMethods),
+                IsCancellationPreservingParameterWriteValue(instance, parameter, visitedMethods, visitedArrays),
+            IInvocationOperation invocation => IsCancellationPreservingParameterWriteInvocation(invocation, parameter, visitedMethods, visitedArrays),
+            IConditionalOperation or ISwitchExpressionOperation => IsCancellationPreservingParameterWriteBranches(value, parameter, visitedMethods, visitedArrays),
             _ => false,
         };
     }
 
     private static bool IsCancellationPreservingParameterWriteArray(
-        ILocalReferenceOperation local, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods)
+        ILocalReferenceOperation local, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods, HashSet<IOperation> visitedArrays)
     {
+        if (!visitedArrays.Add(local))
+        {
+            return false;
+        }
+
         var sources = FindReachingLocalValues(local, local.Local).ToArray();
         var body = GetRoot(local);
-        bool Preserves(IOperation element) => IsCancellationPreservingParameterWriteValue(element, parameter, CloneVisitedMethods(visitedMethods));
+        bool Preserves(IOperation element) => IsCancellationPreservingParameterWriteValue(element, parameter, CloneVisitedMethods(visitedMethods), [.. visitedArrays]);
         return sources.Length > 0 && sources.All(source =>
             GetCurrentCancellationArrayElements(source, local, body, Preserves).Any(Preserves));
     }
 
     private static bool IsCancellationPreservingParameterWriteInvocation(
-        IInvocationOperation invocation, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods)
+        IInvocationOperation invocation, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods, HashSet<IOperation> visitedArrays)
     {
         if (IsKnownCancellationCarrierFactory(invocation))
         {
             return invocation.Arguments.Any(argument => argument.Parameter is { } input
                 && IsCancellationInput(input)
-                && IsCancellationPreservingParameterWriteValue(argument.Value, parameter, CloneVisitedMethods(visitedMethods)));
+                && IsCancellationPreservingParameterWriteValue(argument.Value, parameter, CloneVisitedMethods(visitedMethods), [.. visitedArrays]));
         }
 
         return HasCancellationPreservingHelperInput(invocation, visitedMethods,
-            argument => IsCancellationPreservingParameterWriteValue(argument, parameter, CloneVisitedMethods(visitedMethods)));
+            argument => IsCancellationPreservingParameterWriteValue(argument, parameter, CloneVisitedMethods(visitedMethods), [.. visitedArrays]));
     }
 
     private static bool IsCancellationPreservingParameterWriteBranches(
-        IOperation value, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods)
+        IOperation value, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods, HashSet<IOperation> visitedArrays)
     {
         var leaves = GetReachableValueLeaves(value).Where(static leaf => !AlwaysThrows(leaf)).ToArray();
-        return leaves.Length > 0 && leaves.All(leaf => IsCancellationPreservingParameterWriteValue(leaf, parameter, CloneVisitedMethods(visitedMethods)));
+        return leaves.Length > 0 && leaves.All(leaf => IsCancellationPreservingParameterWriteValue(leaf, parameter, CloneVisitedMethods(visitedMethods), [.. visitedArrays]));
     }
 
     private static bool HasDisjointCancellationWriteStorage(IOperation target, IParameterSymbol parameter)
