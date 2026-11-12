@@ -953,7 +953,10 @@ internal static class CancellationTokenCollectionProvenance
                 Value? referenced = null;
                 foreach (var target in targets)
                 {
-                    var current = state.IsEscaped(target) ? Value.None : GetStorageValue(target, state);
+                    // Unsupported storage is not evidence of a replacement token.
+                    var current = target.Symbol is null
+                        ? Value.Unknown
+                        : state.IsEscaped(target) ? Value.None : GetStorageValue(target, state);
                     if (target.Symbol is not null && state.EscapedFields.TryGetValue(target.Symbol, out var escapedPaths))
                     {
                         current = MaskEscapedFields(current, escapedPaths, target.Path);

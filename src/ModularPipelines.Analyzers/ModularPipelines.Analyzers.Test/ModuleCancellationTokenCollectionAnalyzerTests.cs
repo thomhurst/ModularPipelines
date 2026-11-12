@@ -7,6 +7,15 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenCollectionAnalyzerTests
 {
     [TestMethod]
+    [DataRow("var tokens = new[] { cancellationToken }; ref readonly CancellationToken alias = ref tokens[0]; cancellationToken = alias;", false)]
+    [DataRow("var tokens = new[] { cancellationToken }; ReadOnlySpan<CancellationToken> view = tokens; ref readonly CancellationToken alias = ref view[0]; cancellationToken = alias;", false)]
+    [DataRow("var tokens = new[] { cancellationToken }; ref readonly CancellationToken alias = ref tokens[0]; cancellationToken = alias; cancellationToken = default;", true)]
+    public async Task Unsupported_Readonly_Reference_Target_Remains_Unknown(string statements, bool warns)
+    {
+        await Verify(statements, warns);
+    }
+
+    [TestMethod]
     [DataRow("var tokens = new[] { cancellationToken }; ref readonly CancellationToken[] alias = ref tokens; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;", false)]
     [DataRow("var tokens = new[] { cancellationToken }; ref readonly CancellationToken[] alias = ref tokens; tokens = new CancellationToken[1]; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;", true)]
     [DataRow("var pair = (1, 2); if (cancellationToken is var saved) cancellationToken = saved;", false)]
