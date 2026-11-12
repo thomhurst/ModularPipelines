@@ -38,6 +38,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
     private const int MaximumFailureMessageLines = 3;
     private const string HangDumpFileName = "hangdump-{pname}-{pid}-{time}.dmp";
     private const string TrxFileName = "test-results.trx";
+    private static readonly TimeSpan ReportingTimeout = TimeSpan.FromSeconds(10);
 
     protected abstract string TestProjectFileName { get; }
 
@@ -147,7 +148,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
         finally
         {
-            await PrintTestResults(context, trxFile, cancellationToken).ConfigureAwait(false);
+            await PrintTestResults(context, trxFile).ConfigureAwait(false);
         }
     }
 
@@ -158,11 +159,15 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             .GetFile(TrxFileName);
     }
 
-    private static async Task PrintTestResults(IModuleContext context, FilePath trxFile, CancellationToken cancellationToken)
+    private static async Task PrintTestResults(IModuleContext context, FilePath trxFile)
     {
         try
         {
-            await PrintTestResultsCore(context, trxFile, cancellationToken).ConfigureAwait(false);
+            // Reporting must survive execution cancellation, but must not hold up shutdown indefinitely.
+            using var reportingCancellation = new CancellationTokenSource(ReportingTimeout);
+#pragma warning disable MP0016 // Final reporting intentionally uses its own lifetime after execution is canceled.
+            await PrintTestResultsCore(context, trxFile, reportingCancellation.Token).ConfigureAwait(false);
+#pragma warning restore MP0016
         }
         catch (Exception exception)
         {
@@ -180,7 +185,12 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             return;
         }
 
-        var testResults = await context.Tools.Trx.ParseTrxFileAsync(trxFile, cancellationToken).ConfigureAwait(false);
+        // Parsing includes synchronous work that may ignore cancellation. Keep it off the
+        // reporting caller so the deadline also bounds the wait for that work.
+        var testResults = await Task.Run(
+            () => context.Tools.Trx.ParseTrxFileAsync(trxFile, cancellationToken),
+            cancellationToken).WaitAsync(cancellationToken).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
         var consoleWriter = context.Console;
         PrintFailedTests(consoleWriter, testResults.UnitTestResults, trxFile.Path);
         PrintSkippedTests(consoleWriter, testResults.UnitTestResults);

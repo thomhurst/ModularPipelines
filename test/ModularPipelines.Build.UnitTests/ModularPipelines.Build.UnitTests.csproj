@@ -9,5 +9,6 @@
     <PackageReference Include="Moq" />
     <ProjectReference Include="../../src/ModularPipelines.Build/ModularPipelines.Build.csproj" />
     <ProjectReference Include="../../src/ModularPipelines.Testing/ModularPipelines.Testing.csproj" />
+    <None Include="../ModularPipelines.DotNet.UnitTests/Data/test-results.trx" Link="Data/test-results.trx" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
