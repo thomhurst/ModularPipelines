@@ -6200,7 +6200,7 @@ internal static class ModuleAuthoringAnalysis
                 return IsCancellationPreservingSnapshot(conversion.Operand, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
             case IParenthesizedOperation parenthesized:
                 return IsCancellationPreservingSnapshot(parenthesized.Operand, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
-            case IConditionalOperation or ISwitchExpressionOperation:
+            case IConditionalOperation or ISwitchExpressionOperation or ICoalesceOperation:
                 return IsCancellationPreservingBranchSnapshot(value, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
             case IPropertyReferenceOperation { Instance: { } instance } property when IsCancellationTokenSourceToken(property):
                 return IsCancellationPreservingSnapshot(instance, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
@@ -6242,13 +6242,32 @@ internal static class ModuleAuthoringAnalysis
         HashSet<IOperation> visitedWrites,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        var reachableValues = GetReachableValueLeaves(value)
+        // A null value on the left selects the fallback rather than contributing
+        // a token. Keep the fallback unless the left side is provably non-null.
+        var leaves = value is ICoalesceOperation coalesce
+            ? GetReachableCoalesceSnapshotLeaves(coalesce)
+            : GetReachableValueLeaves(value);
+        var reachableValues = leaves
             .Where(static candidate => !AlwaysThrows(candidate))
             .ToArray();
         return reachableValues.Length > 0
             && reachableValues.All(candidate => IsCancellationPreservingSnapshot(
                 candidate, read, body, caller, CloneVisitedLocals(visitedLocals),
                 visitedWrites, CloneVisitedMethods(visitedMethods)));
+    }
+
+    private static IEnumerable<IOperation> GetReachableCoalesceSnapshotLeaves(ICoalesceOperation coalesce)
+    {
+        if (coalesce.Value.ConstantValue is { HasValue: true, Value: null })
+        {
+            return GetReachableValueLeaves(coalesce.WhenNull);
+        }
+
+        var presentValues = GetReachableValueLeaves(coalesce.Value)
+            .Where(static leaf => leaf.ConstantValue is not { HasValue: true, Value: null });
+        return IsStaticallyNonNullCoalesceValue(coalesce.Value)
+            ? presentValues
+            : presentValues.Concat(GetReachableValueLeaves(coalesce.WhenNull));
     }
 
     private static bool IsCancellationPreservingLocalSnapshot(

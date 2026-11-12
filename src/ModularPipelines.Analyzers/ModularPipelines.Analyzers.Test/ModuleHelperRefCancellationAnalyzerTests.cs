@@ -7,6 +7,11 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = (Flag ? (CancellationToken?)first : null) ?? first; return saved;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = (Flag ? (CancellationToken?)default(CancellationToken) : null) ?? first; return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = (Flag ? (CancellationToken?)first : null) ?? default; return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = (CancellationToken?)null ?? first; return saved;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = (CancellationToken?)first ?? default; return saved;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { if (Flag) { second = default; if (Flag) goto done; return saved; } return first; done: return saved; } return first;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { if (Flag) { second = default; if (Flag) goto done; return saved; } return first; done: return first; } return first;", true)]
     [DataRow("ref token, ref token", "", "var saved = first; while (Flag) { if (Flag) { second = default; goto done; } return first; done: if (Flag) continue; return saved; } return saved;", true)]
