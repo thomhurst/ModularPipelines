@@ -645,6 +645,9 @@ internal sealed class CancellationTokenReachingValues
 
         private void Exceptional(BasicBlock block, State state, string? exceptionType)
         {
+            // An exception abandons every in-progress collection evaluation.
+            // A retry must model constructor/Add/spread calls again.
+            state.EnteredCollectionElements.Clear();
             if (region.Kind == ControlFlowRegionKind.Filter)
             {
                 // A throwing filter is treated as false, retaining its writes.

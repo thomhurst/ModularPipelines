@@ -710,6 +710,44 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             """);
     }
 
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Reenters_Collection_Constructor_After_Exception(bool branchingElement)
+    {
+        var element = branchingElement
+            ? "context is null ? (token = cancellationToken).CanBeCanceled : (token = cancellationToken).CanBeCanceled"
+            : "(token = cancellationToken).CanBeCanceled";
+        await Verify($$"""
+            var token = cancellationToken;
+            var retry = true;
+            while (true)
+            {
+                try
+                {
+                    ThrowingCollection items = [{{element}}];
+                    return null!;
+                }
+                catch
+                {
+                    if (retry)
+                    {
+                        retry = false;
+                        token = default;
+                        continue;
+                    }
+                    await CALL(1, token);
+                    return null!;
+                }
+            }
+            """, true, """
+            public class ThrowingCollection : System.Collections.Generic.List<bool>
+            {
+                public ThrowingCollection() => throw new System.Exception();
+            }
+            """);
+    }
+
     public static IEnumerable<object[]> TypedExceptionCases()
     {
         yield return ["incompatible-catch", "try { _ = 1 / divisor; } catch (System.FormatException) { token = default; }", false];
