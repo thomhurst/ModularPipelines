@@ -5868,22 +5868,33 @@ internal static class ModuleAuthoringAnalysis
         // cancellation. Prove each affecting write against its call-site input;
         // parameter identity alone cannot establish that the values are the same.
         bool PreservesValue(IOperation value) => invocation.Arguments.Any(input =>
-            input.Parameter is { } inputParameter
-            && IsCancellationInput(inputParameter)
-            && GetTargetParameter(method, inputParameter) is { } parameter
-            && FlowsFromCancellationToken(value, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(methods))
-            && !HasAliasedCancellationWrite(invocation, method, body, value, parameter, methods)
-            && preservesInput(input.Value));
+            IsCancellationPreservingHelperInput(input, value, invocation, method, body, methods, preservesInput));
 
         return body.DescendantsAndSelf()
             .Where(static operation => GetEnclosingCallable(operation) is null && IsInReachableBranch(operation))
             .SelectMany(operation => GetCancellationStorageWrites(operation, methods))
             .Where(write => MayShareCancellationStorage(write.Target, argument.Value, invocation, method))
-            .All(write => write.Value is { } value
-                ? PreservesValue(value)
-                : write.Target.Parent is IArgumentOperation nestedArgument
-                    && IsCancellationPreservingRefWrite(nestedArgument, methods, PreservesValue));
+            .All(write => IsCancellationPreservingStorageWrite(write, methods, PreservesValue));
     }
+
+    private static bool IsCancellationPreservingStorageWrite(
+        (IOperation Target, IOperation? Value) write, HashSet<IMethodSymbol> methods,
+        Func<IOperation, bool> preservesValue)
+        => write.Value is { } value
+            ? preservesValue(value)
+            : write.Target.Parent is IArgumentOperation nestedArgument
+                && IsCancellationPreservingRefWrite(nestedArgument, methods, preservesValue);
+
+    private static bool IsCancellationPreservingHelperInput(
+        IArgumentOperation input, IOperation value, IInvocationOperation invocation,
+        IMethodSymbol method, IOperation body, HashSet<IMethodSymbol> methods,
+        Func<IOperation, bool> preservesInput)
+        => input.Parameter is { } inputParameter
+            && IsCancellationInput(inputParameter)
+            && GetTargetParameter(method, inputParameter) is { } parameter
+            && FlowsFromCancellationToken(value, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(methods))
+            && !HasAliasedCancellationWrite(invocation, method, body, value, parameter, methods)
+            && preservesInput(input.Value);
 
     private static bool CanCancellationWriteReachSnapshot(IOperation write, IOperation read)
     {
@@ -5933,15 +5944,22 @@ internal static class ModuleAuthoringAnalysis
     private static bool CancellationBlockJumpsPastRead(IBlockOperation block, IOperation read)
     {
         if (block.Syntax is not BlockSyntax syntax || block.SemanticModel is not { } semanticModel
-            || !block.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch => branch.BranchKind == BranchKind.GoTo))
+            || !block.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch => branch.BranchKind is BranchKind.GoTo or BranchKind.Break)
+            || GetCancellationJumpBody(block, read) is not { } outerBody)
         {
             return false;
         }
 
-        // A forward goto may leave this block without leaving the helper. Only prove
-        // this for labels in the callable's outer body, where no enclosing loop can
-        // revisit the skipped read. Exception regions, unknown destinations and
-        // backedges stay conservative.
+        // Forward gotos and loop breaks can skip a read without leaving the helper.
+        // Exception regions, unknown destinations and backedges stay conservative.
+        var flow = semanticModel.AnalyzeControlFlow(syntax);
+        return flow is { Succeeded: true, EndPointIsReachable: false }
+            && flow.ExitPoints.All(exit => CancellationExitSkipsRead(semanticModel.GetOperation(exit), outerBody, read))
+            && !HasCancellationJumpBackToRead(outerBody, read);
+    }
+
+    private static IBlockOperation? GetCancellationJumpBody(IBlockOperation block, IOperation read)
+    {
         var body = block.Parent;
         while (body is not null && body is not IMethodBodyOperation)
         {
@@ -5953,40 +5971,57 @@ internal static class ModuleAuthoringAnalysis
             || outerBody.DescendantsAndSelf().OfType<ITryOperation>().Any(region =>
                 HasAncestor(block, region) || HasAncestor(read, region)))
         {
-            return false;
+            return null;
         }
 
-        var flow = semanticModel.AnalyzeControlFlow(syntax);
-        if (flow is not { Succeeded: true, EndPointIsReachable: false })
-        {
-            return false;
-        }
+        return outerBody;
+    }
 
-        foreach (var exit in flow.ExitPoints)
+    private static bool CancellationExitSkipsRead(IOperation? exit, IBlockOperation outerBody, IOperation read)
+        => exit switch
         {
-            if (semanticModel.GetOperation(exit) is IReturnOperation or IThrowOperation)
+            IReturnOperation or IThrowOperation => true,
+            IBranchOperation { BranchKind: BranchKind.GoTo } branch =>
+                outerBody.Operations.OfType<ILabeledOperation>().Any(label =>
+                    SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+                    && label.Syntax.SpanStart > read.Syntax.SpanStart),
+            IBranchOperation { BranchKind: BranchKind.Break } branch => CancellationBreakSkipsRead(branch, read),
+            _ => false,
+        };
+
+    private static bool CancellationBreakSkipsRead(IBranchOperation branch, IOperation read)
+    {
+        ILoopOperation? exitedLoop = null;
+        for (var ancestor = branch.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is not ILoopOperation loop)
             {
                 continue;
             }
 
-            if (semanticModel.GetOperation(exit) is not IBranchOperation { BranchKind: BranchKind.GoTo } branch
-                || !outerBody.Operations.OfType<ILabeledOperation>().Any(label =>
-                    SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
-                    && label.Syntax.SpanStart > read.Syntax.SpanStart))
+            // An enclosing loop could enter the exited loop again with a cleared token.
+            if (exitedLoop is not null)
             {
                 return false;
             }
+
+            if (SymbolEqualityComparer.Default.Equals(loop.ExitLabel, branch.Target))
+            {
+                exitedLoop = loop;
+            }
         }
 
-        // A later label can jump back into the skipped region, directly or through
-        // other labels. Reject every such backward destination, including chains.
-        return !outerBody.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+        return exitedLoop is not null && HasAncestor(read, exitedLoop);
+    }
+
+    // A later label can jump back into the skipped region, including through chains.
+    private static bool HasCancellationJumpBackToRead(IBlockOperation outerBody, IOperation read)
+        => outerBody.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
             branch.BranchKind == BranchKind.GoTo
             && branch.Syntax.SpanStart > read.Syntax.SpanStart
             && outerBody.DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
                 SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
                 && label.Syntax.SpanStart <= read.Syntax.SpanStart));
-    }
 
     private static bool CancellationWriteCannotReachOtherSwitchCase(ISwitchCaseOperation switchCase, IOperation write, IOperation read)
         => switchCase.Parent is ISwitchOperation switchOperation
@@ -6016,10 +6051,7 @@ internal static class ModuleAuthoringAnalysis
 
             foreach (var branch in current.DescendantsAndSelf().OfType<IBranchOperation>())
             {
-                if (branch.BranchKind != BranchKind.GoTo || !IsInReachableBranch(branch)
-                    || (afterWrite && ((branch.Syntax.SpanStart < write.Syntax.SpanStart
-                            && !CancellationWriteCanReachEarlierJump(current, write, branch))
-                        || !CanCancellationWriteReachSnapshot(write, branch))))
+                if (!IsReachableCancellationCaseJump(current, write, branch, afterWrite))
                 {
                     continue;
                 }
@@ -6034,6 +6066,13 @@ internal static class ModuleAuthoringAnalysis
 
         return false;
     }
+
+    private static bool IsReachableCancellationCaseJump(
+        ISwitchCaseOperation current, IOperation write, IBranchOperation branch, bool afterWrite)
+        => branch.BranchKind == BranchKind.GoTo && IsInReachableBranch(branch)
+            && (!afterWrite || ((branch.Syntax.SpanStart >= write.Syntax.SpanStart
+                    || CancellationWriteCanReachEarlierJump(current, write, branch))
+                && CanCancellationWriteReachSnapshot(write, branch)));
 
     private static bool CancellationWriteCanReachEarlierJump(
         ISwitchCaseOperation switchCase, IOperation write, IBranchOperation jump)
@@ -6418,12 +6457,12 @@ internal static class ModuleAuthoringAnalysis
 
         var firstStorage = GetCancellationStorage(first, [], invocation, method);
         var secondStorage = GetCancellationStorage(second, [], invocation, method);
-        // Helper-owned value storage cannot alias a reference from its caller, but an
-        // unknown alias created inside the helper can still point to that storage.
+        // Helper-owned value storage cannot alias caller refs or ordinary fields.
+        // Unknown aliases created inside the helper can still point to that storage.
         if ((IsPrivateCancellationStorage(firstStorage, method)
-                && (secondStorage is not null || IsCallerCancellationStorage(second, method)))
+                && (secondStorage is not null || IsExternalCancellationStorage(second, method)))
             || (IsPrivateCancellationStorage(secondStorage, method)
-                && (firstStorage is not null || IsCallerCancellationStorage(first, method))))
+                && (firstStorage is not null || IsExternalCancellationStorage(first, method))))
         {
             return SymbolEqualityComparer.Default.Equals(firstStorage, secondStorage);
         }
@@ -6432,9 +6471,15 @@ internal static class ModuleAuthoringAnalysis
             || SymbolEqualityComparer.Default.Equals(firstStorage, secondStorage);
     }
 
-    private static bool IsCallerCancellationStorage(IOperation value, IMethodSymbol method)
-        => GetCancellationStorage(value, [], preserveParameters: true) is IParameterSymbol { RefKind: not RefKind.None } parameter
-            && SymbolEqualityComparer.Default.Equals(parameter.ContainingSymbol, method);
+    private static bool IsExternalCancellationStorage(IOperation value, IMethodSymbol method)
+        => value switch
+        {
+            IConversionOperation conversion => IsExternalCancellationStorage(conversion.Operand, method),
+            IParenthesizedOperation parenthesized => IsExternalCancellationStorage(parenthesized.Operand, method),
+            IFieldReferenceOperation { Field.RefKind: RefKind.None } => true,
+            _ => GetCancellationStorage(value, [], preserveParameters: true) is IParameterSymbol { RefKind: not RefKind.None } parameter
+                && SymbolEqualityComparer.Default.Equals(parameter.ContainingSymbol, method),
+        };
 
     private static bool IsPrivateCancellationStorage(ISymbol? storage, IMethodSymbol method)
         => storage is IParameterSymbol { RefKind: RefKind.None } or ILocalSymbol { RefKind: RefKind.None }

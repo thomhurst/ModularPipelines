@@ -7,6 +7,15 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "var saved = first; again: while (Flag) { if (Flag) { second = default; break; } return first; } if (Flag) goto again; return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; while (Flag) { if (Flag) { second = default; break; } return first; } return saved;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; for (; Flag;) { if (Flag) { second = default; break; } return first; } return saved;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; do { if (Flag) { second = default; break; } return first; } while (Flag); return saved;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; while (Flag) { if (Flag) { second = default; if (Flag) break; } return first; } return saved;", true)]
+    [DataRow("ref token, ref token", "", "while (Flag) { if (Flag) { second = default; break; } } return first;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; while (Flag) { while (Flag) { if (Flag) { second = default; break; } return first; } } return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; while (Flag) { if (Flag) { second = default; switch (Flag) { default: break; } } return first; } return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; while (Flag) { try { if (Flag) { second = default; break; } } finally { saved = first; } return first; } return saved;", true)]
     [DataRow("ref token, ref token", "", "CopyNested(ref first, first); return first;", false)]
     [DataRow("ref token, ref token", "", "CopyNested(destination: ref first, source: first); return first;", false)]
     [DataRow("ref token, ref token", "", "CopyNested(ref first, default); return first;", true)]
@@ -156,6 +165,11 @@ public class ModuleHelperRefCancellationAnalyzerTests
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
 
     [TestMethod]
+    [DataRow("token, ref Field", "", "var saved = first; var holder = new Holder(); holder.Token = default; return saved;", false)]
+    [DataRow("token, ref Field", "", "var saved = first; var holder = new Holder(); Clear(ref holder.Token); return saved;", false)]
+    [DataRow("token, ref Field", "", "var saved = first; var holder = new Holder(); holder.Token = default; saved = default; return saved;", true)]
+    [DataRow("token, ref Field", "", "var saved = first; var holder = new TokenReference(ref saved); holder.Token = default; return saved;", true)]
+    [DataRow("token, ref Field", "", "var saved = first; var other = first; ref CancellationToken alias = ref (Flag ? ref saved : ref other); var holder = new Holder(); holder.Token = default; alias = default; return saved;", true)]
     [DataRow("token, ref Field", "", "return ((long)1) switch { 1L => default(CancellationToken), _ => first };", true)]
     [DataRow("token, ref Field", "", "return ((long)1) switch { 1L => first, _ => default(CancellationToken) };", false)]
     [DataRow("token, ref Field", "", "return ((long)(Flag ? 1 : 1)) switch { 1L => default(CancellationToken), _ => first };", true)]
@@ -190,7 +204,7 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("token, ref Field", "", "first = Flag ? first : throw new System.InvalidOperationException(); return first;", false)]
     [DataRow("token, ref Field", "", "first = Flag switch { true => first, false => CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token }; return first;", false)]
     [DataRow("token, ref Field", "", "first = Flag switch { true => first, false => default }; return first;", true)]
-    // Constant-switch parameter provenance regression fixed in #7510.
+    // A constant switch selector preserves the token from its only reachable arm.
     [DataRow("token, ref Field", "", "first = true switch { true => first, false => default }; return first;", false)]
     [DataRow("token, ref Field", "", "first = Flag switch { true => first, false => throw new System.InvalidOperationException() }; return first;", false)]
     [DataRow("token, ref Field", "", "first = Flag ? first : (Flag switch { true => first, false => CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token }); return first;", false)]
@@ -239,6 +253,11 @@ public class ModuleHelperRefCancellationAnalyzerTests
             public class BuildModule : Module<List<string>>
             {
                 private sealed class Holder { public CancellationToken Token; }
+                private ref struct TokenReference
+                {
+                    public ref CancellationToken Token;
+                    public TokenReference(ref CancellationToken token) { Token = ref token; }
+                }
                 private static int Count;
                 private static bool Flag;
                 private static CancellationToken Field;
