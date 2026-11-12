@@ -6490,6 +6490,14 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        return CancellationStorageSwitchArmContinuationsCanThrow(
+            sourceArm, switchExpression, symbol, isRef, classifier, exceptionBoundary);
+    }
+
+    private static bool CancellationStorageSwitchArmContinuationsCanThrow(
+        ISwitchExpressionArmOperation sourceArm, ISwitchExpressionOperation switchExpression, ISymbol? symbol, bool? isRef,
+        OperationExceptionClassifier classifier, IOperation exceptionBoundary)
+    {
         // The guard can select its value or fail and continue to another arm.
         // An overwrite on one alternative does not overwrite every alternative.
         foreach (var arm in switchExpression.Arms.SkipWhile(arm => !ReferenceEquals(arm, sourceArm)))
