@@ -5442,9 +5442,10 @@ internal static class ModuleAuthoringAnalysis
                 visitedMethods),
             IParameterReferenceOperation parameterReference =>
                 IsStableCapturedCancellationToken(parameterReference)
-                && (SymbolEqualityComparer.Default.Equals(
+                && ((SymbolEqualityComparer.Default.Equals(
                     parameterReference.Parameter,
                     cancellationToken)
+                    && CancellationTokenParameterProvenance.FlowsFromOriginal(parameterReference, cancellationToken))
                     || FlowsFromParallelCallbackToken(
                         parameterReference,
                         cancellationToken,
