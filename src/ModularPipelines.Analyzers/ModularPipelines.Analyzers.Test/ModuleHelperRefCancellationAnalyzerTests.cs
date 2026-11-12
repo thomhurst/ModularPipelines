@@ -125,6 +125,15 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, default]; if (Flag) inputs[1] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
     [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, default]; if (Flag) inputs[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
     [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, first]; if (Flag) inputs[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; if (Flag) inputs[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; CancellationToken[] inputs = [first]; if (Flag) inputs[0] = saved; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [default]; if (Flag) inputs[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; Other[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [default]; Other[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; Other = inputs; Other[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; CancellationToken[] other = [default]; if (Flag) other = inputs; other[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [default]; CancellationToken[] other = [default]; if (Flag) other = inputs; other[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [default]; if (Flag) Other = inputs; Other[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
@@ -173,6 +182,7 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 private static int Count;
                 private static bool Flag;
                 private static CancellationToken Field;
+                private static CancellationToken[] Other = new CancellationToken[1];
 
                 private static CancellationToken Forward({{(firstByRef ? "scoped ref " : "")}}CancellationToken first, scoped ref CancellationToken second)
                 {

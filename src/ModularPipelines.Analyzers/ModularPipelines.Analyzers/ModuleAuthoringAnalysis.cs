@@ -5714,7 +5714,10 @@ internal static class ModuleAuthoringAnalysis
         if (local.Type is IArrayTypeSymbol)
         {
             return FindReachingLocalValues(local, local.Local).Any(source =>
-                !GetCurrentCancellationArrayElements(source, local, body).Any(element =>
+                !GetCurrentCancellationArrayElements(source, local, body, element =>
+                    FlowsFromCancellationToken(element, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
+                    && !HasAliasedCancellationWrite(invocation, method, body, element, parameter,
+                        CloneVisitedMethods(visitedMethods), CloneVisitedLocals(visitedSnapshots))).Any(element =>
                     FlowsFromCancellationToken(element, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
                     && !HasAliasedCancellationWrite(invocation, method, body, element, parameter,
                         CloneVisitedMethods(visitedMethods), CloneVisitedLocals(visitedSnapshots))));
@@ -5777,14 +5780,14 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static IEnumerable<IOperation> GetCurrentCancellationArrayElements(
-        IOperation source, ILocalReferenceOperation read, IOperation body)
+        IOperation source, ILocalReferenceOperation read, IOperation body, Func<IOperation, bool> preservesCancellation)
     {
-        return GetCurrentCancellationArrayElements(source, read, body, [with(SymbolEqualityComparer.Default)]) ?? [];
+        return GetCurrentCancellationArrayElements(source, read, body, [with(SymbolEqualityComparer.Default)], preservesCancellation) ?? [];
     }
 
     private static IOperation[]? GetCurrentCancellationArrayElements(
         IOperation source, ILocalReferenceOperation read, IOperation body, HashSet<ILocalSymbol> visitedArrays,
-        bool requireExpanded = false)
+        Func<IOperation, bool> preservesCancellation, bool requireExpanded = false)
     {
         if (!visitedArrays.Add(read.Local))
         {
@@ -5811,11 +5814,11 @@ internal static class ModuleAuthoringAnalysis
                 && CanCancellationWriteReachSnapshot(write.Target, read)
                 && IsInReachableBranch(write.Target))
             .Where(write => write.Target is IArrayElementReferenceOperation element
-                && ReferencesCancellationArray(element.ArrayReference, initializer, [with(SymbolEqualityComparer.Default)]))
+                && ReferencesCancellationArray(element.ArrayReference, initializer, [with(SymbolEqualityComparer.Default)]) != false)
             .OrderBy(static write => write.Target.Syntax.SpanStart)
             .ToArray();
         // A spread contributes its runtime element count, rather than one syntax element.
-        var elements = ExpandCancellationArrayElements(inputs, body, visitedArrays);
+        var elements = ExpandCancellationArrayElements(inputs, body, visitedArrays, preservesCancellation);
         if (elements is null)
         {
             // Unknown spread lengths prevent indexing, but do not invalidate untouched inputs.
@@ -5831,17 +5834,25 @@ internal static class ModuleAuthoringAnalysis
                 return null;
             }
 
-            // A conditional write can invalidate this slot without affecting other elements.
-            elements[index] = write.Value is not null && IsLinearPredecessor(write.Target, read)
-                ? write.Value
-                : element;
+            var definiteAlias = ReferencesCancellationArray(element.ArrayReference, initializer, [with(SymbolEqualityComparer.Default)]) == true;
+            if (write.Value is not null && definiteAlias && IsLinearPredecessor(write.Target, read))
+            {
+                elements[index] = write.Value;
+            }
+            else if (write.Value is null || !preservesCancellation(elements[index]) || !preservesCancellation(write.Value))
+            {
+                // An optional write preserves a slot only when both alternatives preserve cancellation.
+                // A possible alias must never restore a slot as though the write definitely ran.
+                elements[index] = element;
+            }
         }
 
         return elements;
     }
 
     private static IOperation[]? ExpandCancellationArrayElements(
-        ImmutableArray<IOperation> inputs, IOperation body, HashSet<ILocalSymbol> visitedArrays)
+        ImmutableArray<IOperation> inputs, IOperation body, HashSet<ILocalSymbol> visitedArrays,
+        Func<IOperation, bool> preservesCancellation)
     {
         var elements = new List<IOperation>();
         foreach (var input in inputs)
@@ -5863,13 +5874,13 @@ internal static class ModuleAuthoringAnalysis
             {
                 var sources = FindReachingLocalValues(local, local.Local).ToArray();
                 expanded = sources.Length == 1
-                    ? GetCurrentCancellationArrayElements(sources[0], local, body, CloneVisitedLocals(visitedArrays), requireExpanded: true)
+                    ? GetCurrentCancellationArrayElements(sources[0], local, body, CloneVisitedLocals(visitedArrays), preservesCancellation, requireExpanded: true)
                     : null;
             }
             else
             {
                 var nested = GetCancellationInputElements(value);
-                expanded = nested.IsDefault ? null : ExpandCancellationArrayElements(nested, body, visitedArrays);
+                expanded = nested.IsDefault ? null : ExpandCancellationArrayElements(nested, body, visitedArrays, preservesCancellation);
             }
 
             if (expanded is null)
@@ -5914,29 +5925,41 @@ internal static class ModuleAuthoringAnalysis
         return (source, array);
     }
 
-    private static bool ReferencesCancellationArray(
-        IOperation value, IOperation initializer, HashSet<ILocalSymbol> visitedLocals)
+    private static bool? ReferencesCancellationArray(
+        IOperation value, IOperation initializer, HashSet<ISymbol> visitedSymbols)
     {
         if (value is IConversionOperation conversion)
         {
-            return ReferencesCancellationArray(conversion.Operand, initializer, visitedLocals);
+            return ReferencesCancellationArray(conversion.Operand, initializer, visitedSymbols);
         }
 
-        if (value is ILocalReferenceOperation local)
+        var symbol = value is ILocalReferenceOperation local ? local.Local : GetReferencedMember(value);
+        if (symbol is not null)
         {
-            if (!visitedLocals.Add(local.Local))
+            if (!visitedSymbols.Add(symbol))
             {
-                return true;
+                return null;
             }
 
-            var sources = FindReachingLocalValues(local, local.Local).ToArray();
-            return sources.Length == 0 || sources.Any(source =>
-                ReferencesCancellationArray(source, initializer, CloneVisitedLocals(visitedLocals)));
+            var sources = value is ILocalReferenceOperation localReference
+                ? FindReachingLocalValues(localReference, localReference.Local).ToArray()
+                : FindReachingMemberValues(value, symbol).ToArray();
+            var matches = sources.Select(source => ReferencesCancellationArray(source, initializer,
+                new HashSet<ISymbol>(visitedSymbols, SymbolEqualityComparer.Default))).ToArray();
+            if (matches.Length == 0 || matches.All(static match => match == false))
+            {
+                return false;
+            }
+
+            var definitelyAssigned = value is ILocalReferenceOperation
+                || sources.Any(source => source.Parent is ISimpleAssignmentOperation assignment
+                    && IsLinearPredecessor(assignment, value));
+            return definitelyAssigned && matches.All(static match => match == true) ? true : null;
         }
 
-        // Local names can be reused for replacement arrays; compare reaching allocations.
-        return value is not (IArrayCreationOperation or ICollectionExpressionOperation)
-            || (value.Syntax.SyntaxTree == initializer.Syntax.SyntaxTree && value.Syntax.Span == initializer.Syntax.Span);
+        // Only a matching reaching allocation proves an alias. Unrelated fields and helper results
+        // do not become definite replacements of a freshly allocated local array.
+        return value.Syntax.SyntaxTree == initializer.Syntax.SyntaxTree && value.Syntax.Span == initializer.Syntax.Span;
     }
 
     private static bool HasCancellationLocalSnapshotMutation(
@@ -6118,7 +6141,9 @@ internal static class ModuleAuthoringAnalysis
         if (local.Type is IArrayTypeSymbol)
         {
             return values.Length > 0 && values.All(source =>
-                GetCurrentCancellationArrayElements(source, local, body).Any(element =>
+                GetCurrentCancellationArrayElements(source, local, body, element =>
+                    IsCancellationPreservingSnapshot(element, read, body, caller,
+                        CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods))).Any(element =>
                     IsCancellationPreservingSnapshot(element, read, body, caller,
                         CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods))));
         }
