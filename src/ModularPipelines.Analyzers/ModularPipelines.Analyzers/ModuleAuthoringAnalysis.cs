@@ -5854,6 +5854,11 @@ internal static class ModuleAuthoringAnalysis
         => switchCase.Parent is ISwitchOperation switchOperation
             && HasAncestor(read, switchOperation)
             && !HasAncestor(read, switchCase)
+            && !switchCase.DescendantsAndSelf().OfType<IBranchOperation>()
+                .Any(branch => branch.BranchKind == BranchKind.GoTo && IsInReachableBranch(branch)
+                    && switchOperation.Cases.Where(other => !ReferenceEquals(other, switchCase))
+                        .SelectMany(static other => other.Clauses)
+                        .Any(clause => SymbolEqualityComparer.Default.Equals(clause.Label, branch.Target)))
             && (SwitchCaseCannotReachFollowingOperation(switchCase)
                 || (switchCase.Body.LastOrDefault() is IBranchOperation { BranchKind: BranchKind.Break } branch
                     && SymbolEqualityComparer.Default.Equals(branch.Target, switchOperation.ExitLabel)));
@@ -5911,9 +5916,9 @@ internal static class ModuleAuthoringAnalysis
                     CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods)));
         }
 
-        return read is IParameterReferenceOperation origin
+        return GetCancellationStorage(read, [], preserveParameters: true) is IParameterSymbol origin
             && HasCancellationPreservingHelperInput(invocation, visitedMethods, argument =>
-                FlowsFromCancellationToken(argument, origin.Parameter,
+                FlowsFromCancellationToken(argument, origin,
                     CloneVisitedLocals(visitedLocals), CloneVisitedMethods(visitedMethods))
                 && IsCancellationPreservingSnapshot(argument, read, body, caller,
                     CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods)));
