@@ -5798,18 +5798,16 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var bindings = FindCancellationStorageAssignments(read, symbol, isRef: true);
-        return GetRoot(read).DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
-            .Where(assignment => !assignment.IsRef
-                && SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(assignment.Target), symbol))
-            .Where(IsInReachableBranch)
-            .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), GetEnclosingCallable(read)))
-            .Where(assignment => IsDefiniteCancellationStorageBinding(assignment, read))
-            // A write through an ambiguous alias establishes its value, but only
-            // while the alias still denotes the storage selected at that write.
-            .Where(assignment => !bindings.Any(binding => binding.Syntax.SpanStart > assignment.Syntax.SpanStart
-                || SharesCancellationStorageLoop(binding, read)))
-            .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
-            .FirstOrDefault();
+        var write = FindDefiniteCancellationStorageWrite(read, symbol, isRef: false);
+        // Collective writes establish the selected referent's value only while
+        // the alias retains its binding throughout the proof and up to the read.
+        if (write is null || bindings.Any(binding =>
+            binding.Syntax.SpanStart > write.Syntax.SpanStart || SharesCancellationStorageLoop(binding, read)))
+        {
+            return null;
+        }
+
+        return write;
     }
 
     private static bool ReachesAfterCancellationStorageReset(IOperation write, IOperation? reset, IOperation read) =>
@@ -5822,6 +5820,12 @@ internal static class ModuleAuthoringAnalysis
         if (isRef)
         {
             return SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(assignment.Target), symbol);
+        }
+
+        if (symbol is ILocalSymbol { RefKind: not RefKind.None } or IParameterSymbol { RefKind: not RefKind.None }
+            && SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(assignment.Target), symbol))
+        {
+            return true;
         }
 
         var targets = GetCancellationTokenStorages(assignment.Target, assignment, []).ToArray();
@@ -6257,7 +6261,9 @@ internal static class ModuleAuthoringAnalysis
                 && ((ReferenceEquals(conditional.WhenTrue, current)
                         && conditional.WhenFalse is { } whenFalse && HasAncestor(read, whenFalse))
                     || (ReferenceEquals(conditional.WhenFalse, current)
-                        && HasAncestor(read, conditional.WhenTrue))))
+                        && HasAncestor(read, conditional.WhenTrue)))
+                && !SharesCancellationStorageLoop(binding, read)
+                && !CanRevisitCancellationStorageOperation(conditional))
             {
                 return false;
             }
@@ -6271,7 +6277,24 @@ internal static class ModuleAuthoringAnalysis
         && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } targetCase
         && !ReferenceEquals(sourceCase, targetCase)
         && !SharesCancellationStorageLoop(binding, read)
+        && !CanRevisitCancellationStorageOperation(switchOperation)
         && !CanTransferCancellationStorageBetweenCases(sourceCase, targetCase, switchOperation);
+
+    private static bool CanRevisitCancellationStorageOperation(IOperation operation)
+    {
+        var callable = GetEnclosingCallable(operation);
+        var labels = GetRoot(operation).DescendantsAndSelf().OfType<ILabeledOperation>()
+            .Where(label => label.Syntax.SpanStart <= operation.Syntax.SpanStart)
+            .Where(label => ReferenceEquals(GetEnclosingCallable(label), callable))
+            .Select(static label => label.Label).ToArray();
+        // A backward jump after a construct can carry a write into a different
+        // branch on its next visit, just like a structured loop backedge.
+        return GetRoot(operation).DescendantsAndSelf().OfType<IBranchOperation>()
+            .Any(branch => branch.BranchKind == BranchKind.GoTo
+                && branch.Syntax.SpanStart >= operation.Syntax.Span.End
+                && ReferenceEquals(GetEnclosingCallable(branch), callable)
+                && labels.Contains(branch.Target, SymbolEqualityComparer.Default));
+    }
 
     private static bool CanTransferCancellationStorageBetweenCases(
         ISwitchCaseOperation source,

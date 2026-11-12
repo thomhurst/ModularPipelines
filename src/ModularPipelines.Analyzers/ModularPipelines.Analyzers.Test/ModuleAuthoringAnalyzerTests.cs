@@ -3021,6 +3021,10 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = ref second; goto case 1; case 1: goto default; default: return first; }")]
     [DataRow("var snapshot = third; for (var i = 0; i < 2; i++) { switch (DateTime.UtcNow.Ticks) { case 0: first = default; break; default: snapshot = first; break; } } return snapshot;")]
     [DataRow("var i = 0; Before: switch (i++) { case 0: first = default; goto Before; default: return first; }")]
+    [DataRow("ref var alias = ref first; var snapshot = first; for (var i = 0; i < 2; i++) { if (i == 0) alias = default; else snapshot = alias; } return snapshot;")]
+    [DataRow("var i = 0; Before: switch (i++) { case 0: first = default; break; default: return first; } goto Before;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); if (DateTime.UtcNow.Ticks > 1) alias = third; return alias;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); if (DateTime.UtcNow.Ticks > 1) alias = third; else alias = third; alias = ref second; return alias;")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3121,6 +3125,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = ref second; break; default: return first; } return third;", "default")]
     [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: return first; default: first = default; break; } return third;", "default")]
     [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = default; break; case 1: goto default; default: return first; } return third;", "default")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); if (DateTime.UtcNow.Ticks > 1) alias = third; else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); switch (DateTime.UtcNow.Ticks) { case 0: alias = third; break; default: alias = first; break; } return alias;", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);
