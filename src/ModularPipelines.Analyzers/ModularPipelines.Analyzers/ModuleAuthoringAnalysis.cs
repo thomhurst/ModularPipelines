@@ -98,68 +98,40 @@ internal static class ModuleAuthoringAnalysis
         var scannedAssemblies = new ConcurrentBag<IAssemblySymbol>();
         var unresolvedModuleRegistrations = new ConcurrentBag<byte>();
         var unresolvedFactoryRegistrations = new ConcurrentBag<byte>();
-        var registrationInvocations =
-            new ConcurrentBag<(IInvocationOperation Invocation, IMethodSymbol? ContainingMethod)>();
-        var indexerAssignments =
-            new ConcurrentBag<(ISimpleAssignmentOperation Assignment, IMethodSymbol? ContainingMethod)>();
-        var methodCalls =
-            new ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)>();
 
+        // A registration counts wherever it appears in the compilation. Whether that
+        // code runs is deliberately not analysed; see the MP0013 scope in the docs.
+        var isApplication = IsApplication(context.Compilation.Options.OutputKind);
         context.RegisterSymbolAction(
             symbolContext => CollectModuleType(symbolContext, modules),
             SymbolKind.NamedType);
         context.RegisterOperationAction(
-            operationContext => CollectRegistrationInvocation(
-                operationContext,
-                registrationInvocations,
-                methodCalls),
+            operationContext => TrackRegistrationInvocation(
+                (IInvocationOperation) operationContext.Operation,
+                operationContext.Compilation,
+                operationContext.Compilation.Assembly,
+                isApplication,
+                registeredModules,
+                instanceRegisteredModules,
+                scannedAssemblies,
+                unresolvedModuleRegistrations,
+                unresolvedFactoryRegistrations),
             OperationKind.Invocation);
         context.RegisterOperationAction(
-            operationContext => CollectConstructorCall(
-                operationContext,
-                methodCalls),
-            OperationKind.ObjectCreation);
-        context.RegisterOperationAction(
-            operationContext => CollectPropertyAccessorCall(
-                operationContext,
-                methodCalls),
-            OperationKind.PropertyReference);
-        context.RegisterOperationAction(
-            operationContext => CollectEventAccessorCall(
-                operationContext,
-                methodCalls),
-            OperationKind.EventAssignment);
-        context.RegisterOperationAction(
-            operationContext => CollectStaticFieldInitializationCall(
-                operationContext,
-                methodCalls),
-            OperationKind.FieldReference);
-        context.RegisterOperationAction(
-            operationContext => CollectServiceCollectionIndexerAssignment(
-                operationContext,
-                indexerAssignments),
+            operationContext => TrackServiceCollectionIndexerAssignment(
+                (ISimpleAssignmentOperation) operationContext.Operation,
+                operationContext.Compilation,
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations),
             OperationKind.SimpleAssignment);
-        context.RegisterCompilationEndAction(endContext =>
-        {
-            TrackReachableRegistrations(
-                endContext,
-                registrationInvocations,
-                indexerAssignments,
-                methodCalls,
-                registeredModules,
-                instanceRegisteredModules,
-                scannedAssemblies,
-                unresolvedModuleRegistrations,
-                unresolvedFactoryRegistrations);
-            ReportModuleDiagnostics(
-                endContext,
-                modules,
-                registeredModules,
-                instanceRegisteredModules,
-                scannedAssemblies,
-                unresolvedModuleRegistrations,
-                unresolvedFactoryRegistrations);
-        });
+        context.RegisterCompilationEndAction(endContext => ReportModuleDiagnostics(
+            endContext,
+            modules,
+            registeredModules,
+            instanceRegisteredModules,
+            scannedAssemblies,
+            unresolvedModuleRegistrations,
+            unresolvedFactoryRegistrations));
     }
 
     private static void CollectModuleType(
@@ -272,178 +244,6 @@ internal static class ModuleAuthoringAnalysis
                 method.MethodKind == MethodKind.AnonymousFunction
                     ? "anonymous function"
                     : method.Name));
-        }
-    }
-
-    private static void CollectRegistrationInvocation(
-        OperationAnalysisContext context,
-        ConcurrentBag<(IInvocationOperation Invocation, IMethodSymbol? ContainingMethod)> registrations,
-        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
-    {
-        var invocation = (IInvocationOperation) context.Operation;
-        if (!IsInReachableBranch(invocation))
-        {
-            return;
-        }
-
-        var containingMethods = GetContainingExecutionMethods(invocation, context.ContainingSymbol);
-        foreach (var containingMethod in containingMethods.OfType<IMethodSymbol>())
-        {
-            methodCalls.Add((
-                NormalizeMethod(containingMethod),
-                NormalizeMethod(invocation.TargetMethod)));
-            CollectInvokedCallbackCalls(
-                invocation,
-                containingMethod,
-                context.Compilation,
-                methodCalls);
-        }
-
-        if (IsPotentialRegistrationInvocation(invocation))
-        {
-            foreach (var containingMethod in containingMethods)
-            {
-                registrations.Add((invocation, containingMethod));
-            }
-        }
-    }
-
-    private static void CollectConstructorCall(
-        OperationAnalysisContext context,
-        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
-    {
-        var objectCreation = (IObjectCreationOperation) context.Operation;
-        if (objectCreation.Constructor is null
-            || !IsInReachableBranch(objectCreation))
-        {
-            return;
-        }
-
-        foreach (var containingMethod in
-                 GetContainingExecutionMethods(objectCreation, context.ContainingSymbol)
-                     .OfType<IMethodSymbol>())
-        {
-            methodCalls.Add((
-                NormalizeMethod(containingMethod),
-                NormalizeMethod(objectCreation.Constructor)));
-        }
-    }
-
-    private static void CollectPropertyAccessorCall(
-        OperationAnalysisContext context,
-        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
-    {
-        var propertyReference = (IPropertyReferenceOperation) context.Operation;
-        if (!IsInReachableBranch(propertyReference))
-        {
-            return;
-        }
-
-        foreach (var containingMethod in
-                 GetContainingExecutionMethods(propertyReference, context.ContainingSymbol)
-                     .OfType<IMethodSymbol>())
-        {
-            var caller = NormalizeMethod(containingMethod);
-            var isAssignmentTarget = IsPropertyAssignmentTarget(propertyReference);
-            if ((!isAssignmentTarget
-                 || propertyReference.Parent is not ISimpleAssignmentOperation)
-                && propertyReference.Property.GetMethod is { } getter)
-            {
-                methodCalls.Add((caller, NormalizeMethod(getter)));
-            }
-
-            if (isAssignmentTarget
-                && propertyReference.Property.SetMethod is { } setter)
-            {
-                methodCalls.Add((caller, NormalizeMethod(setter)));
-            }
-        }
-    }
-
-    private static void CollectEventAccessorCall(
-        OperationAnalysisContext context,
-        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
-    {
-        var eventAssignment = (IEventAssignmentOperation) context.Operation;
-        if (!IsInReachableBranch(eventAssignment))
-        {
-            return;
-        }
-
-        if (GetEventAccessor(eventAssignment) is not { } accessor)
-        {
-            return;
-        }
-
-        foreach (var containingMethod in
-                 GetContainingExecutionMethods(eventAssignment, context.ContainingSymbol)
-                     .OfType<IMethodSymbol>())
-        {
-            methodCalls.Add((
-                NormalizeMethod(containingMethod),
-                NormalizeMethod(accessor)));
-        }
-    }
-
-    private static void CollectInvokedCallbackCalls(
-        IInvocationOperation invocation,
-        IMethodSymbol containingMethod,
-        Compilation compilation,
-        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
-    {
-        if (invocation.TargetMethod.MethodKind == MethodKind.DelegateInvoke
-            && GetInvocationReceiver(invocation) is { } receiver)
-        {
-            CollectCallbackCalls(receiver, containingMethod, compilation, methodCalls);
-        }
-
-        if (DirectCommandLineAction.GetTarget(invocation) is { } action)
-        {
-            methodCalls.Add((NormalizeMethod(containingMethod), NormalizeMethod(action)));
-        }
-
-        var targetMethod = NormalizeMethod(invocation.TargetMethod);
-        foreach (var argument in invocation.Arguments)
-        {
-            var targetParameter = GetTargetParameter(targetMethod, argument.Parameter);
-            if (targetParameter is null
-                || (!IsKnownDelegateInvoker(invocation)
-                    && !SourceMethodInvokesDelegateParameter(
-                        targetMethod,
-                        targetParameter,
-                        compilation)))
-            {
-                continue;
-            }
-
-            CollectCallbackCalls(argument.Value, containingMethod, compilation, methodCalls);
-        }
-    }
-
-    private static void CollectCallbackCalls(
-        IOperation value,
-        IMethodSymbol containingMethod,
-        Compilation compilation,
-        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
-    {
-        foreach (var callback in GetValueAndReachingCallbackValues(
-                         value,
-                         compilation,
-                         [with(SymbolEqualityComparer.Default)],
-                         [with(SymbolEqualityComparer.Default)],
-                         [with(SymbolEqualityComparer.Default)])
-                     .SelectMany(static candidate => candidate.DescendantsAndSelf())
-                     .Select(static operation => operation switch
-                     {
-                         IMethodReferenceOperation methodReference => methodReference.Method,
-                         IAnonymousFunctionOperation anonymousFunction => anonymousFunction.Symbol,
-                         _ => null,
-                     })
-                     .OfType<IMethodSymbol>())
-        {
-            methodCalls.Add((
-                NormalizeMethod(containingMethod),
-                NormalizeMethod(callback)));
         }
     }
 
@@ -1978,33 +1778,22 @@ internal static class ModuleAuthoringAnalysis
                        CloneVisitedMethods(visitedMethods)));
     }
 
-    private static bool IsPotentialRegistrationInvocation(
-        IInvocationOperation invocation)
+    private static void TrackServiceCollectionIndexerAssignment(
+        ISimpleAssignmentOperation assignment,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
-        var method = invocation.TargetMethod;
-        var definition = (method.ReducedFrom ?? method).OriginalDefinition;
-        return IsModuleRegistrationMethod(method)
-               || IsServiceDescriptorRegistrationMethod(invocation)
-               || (IsDirectServiceRegistrationMethod(definition)
-                   && RegistersModuleService(invocation, method));
-    }
-
-    private static void CollectServiceCollectionIndexerAssignment(
-        OperationAnalysisContext context,
-        ConcurrentBag<(ISimpleAssignmentOperation Assignment, IMethodSymbol? ContainingMethod)>
-            assignments)
-    {
-        var assignment = (ISimpleAssignmentOperation) context.Operation;
-        if (!IsInReachableBranch(assignment)
-            || !IsServiceCollectionIndexerAssignment(assignment))
+        if (IsServiceCollectionIndexerAssignment(assignment)
+            && !TryTrackServiceDescriptor(
+                assignment.Value,
+                compilation,
+                instanceRegisteredModules,
+                [with(SymbolEqualityComparer.Default)],
+                [with(SymbolEqualityComparer.Default)])
+            && IsUnresolvedModuleServiceDescriptor(assignment.Value))
         {
-            return;
-        }
-
-        foreach (var containingMethod in
-                 GetContainingExecutionMethods(assignment, context.ContainingSymbol))
-        {
-            assignments.Add((assignment, containingMethod));
+            unresolvedModuleRegistrations.Add(0);
         }
     }
 
@@ -2472,33 +2261,6 @@ internal static class ModuleAuthoringAnalysis
                        CloneVisitedLocals(visitedLocals),
                        CloneVisitedMethods(visitedMethods)),
                });
-    }
-
-    private static void CollectStaticFieldInitializationCall(
-        OperationAnalysisContext context,
-        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
-    {
-        var fieldReference = (IFieldReferenceOperation) context.Operation;
-        if (!fieldReference.Field.IsStatic
-            || fieldReference.Field.IsConst
-            || !IsInReachableBranch(fieldReference)
-            || !IsInsideReachableNestedCallable(fieldReference))
-        {
-            return;
-        }
-
-        foreach (var containingMethod in
-                 GetContainingExecutionMethods(context.ContainingSymbol)
-                     .OfType<IMethodSymbol>())
-        {
-            foreach (var staticConstructor in
-                     fieldReference.Field.ContainingType.StaticConstructors)
-            {
-                methodCalls.Add((
-                    NormalizeMethod(containingMethod),
-                    NormalizeMethod(staticConstructor)));
-            }
-        }
     }
 
     private static bool TryTrackAnonymousFunctionModuleTypes(
@@ -3201,195 +2963,9 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static void TrackReachableRegistrations(
-        CompilationAnalysisContext context,
-        ConcurrentBag<(IInvocationOperation Invocation, IMethodSymbol? ContainingMethod)>
-            registrationInvocations,
-        ConcurrentBag<(ISimpleAssignmentOperation Assignment, IMethodSymbol? ContainingMethod)>
-            indexerAssignments,
-        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls,
-        ConcurrentBag<INamedTypeSymbol> registeredModules,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
-        ConcurrentBag<byte> unresolvedModuleRegistrations,
-        ConcurrentBag<byte> unresolvedFactoryRegistrations)
-    {
-        var reachableMethods = GetReachableStartupMethods(
-            context.Compilation,
-            registrationInvocations.Select(static item => item.ContainingMethod)
-                .Concat(indexerAssignments.Select(static item => item.ContainingMethod)),
-            methodCalls);
-
-        foreach (var (invocation, containingMethod) in registrationInvocations)
-        {
-            if (!IsReachableStartupMethod(containingMethod, reachableMethods))
-            {
-                continue;
-            }
-
-            TrackRegistrationInvocation(
-                invocation,
-                context.Compilation,
-                context.Compilation.Assembly,
-                IsApplication(context.Compilation.Options.OutputKind),
-                registeredModules,
-                instanceRegisteredModules,
-                scannedAssemblies,
-                unresolvedModuleRegistrations,
-                unresolvedFactoryRegistrations);
-        }
-
-        foreach (var (assignment, containingMethod) in indexerAssignments)
-        {
-            if (!IsReachableStartupMethod(containingMethod, reachableMethods))
-            {
-                continue;
-            }
-
-            if (!TryTrackServiceDescriptor(
-                    assignment.Value,
-                    context.Compilation,
-                    instanceRegisteredModules,
-                    [with(SymbolEqualityComparer.Default)],
-                    [with(SymbolEqualityComparer.Default)])
-                && IsUnresolvedModuleServiceDescriptor(assignment.Value))
-            {
-                unresolvedModuleRegistrations.Add(0);
-            }
-        }
-    }
-
-    private static ImmutableHashSet<IMethodSymbol> GetReachableStartupMethods(
-        Compilation compilation,
-        IEnumerable<IMethodSymbol?> registrationMethods,
-        IEnumerable<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
-    {
-        var comparer = SymbolEqualityComparer.Default;
-        var directCalls = methodCalls.ToImmutableArray();
-        var directCandidateMethods = registrationMethods
-            .OfType<IMethodSymbol>()
-            .Select(NormalizeMethod)
-            .Concat(directCalls.SelectMany(static call => new[] { call.Caller, call.Callee }))
-            .Distinct<IMethodSymbol>(comparer)
-            .ToImmutableArray();
-        var calls = directCalls
-            .Concat(directCandidateMethods.SelectMany(static method =>
-                method.MethodKind == MethodKind.StaticConstructor
-                    ? []
-                    : method.ContainingType.StaticConstructors.Select(staticConstructor =>
-                        (Caller: method, Callee: NormalizeMethod(staticConstructor)))))
-            .ToImmutableArray();
-        var candidateMethods = directCandidateMethods
-            .Concat(calls.SelectMany(static call => new[] { call.Caller, call.Callee }))
-            .Distinct<IMethodSymbol>(comparer)
-            .ToImmutableArray();
-        var entryPoint = compilation.GetEntryPoint(default);
-        var reachable = new HashSet<IMethodSymbol>(comparer);
-        var pending = new Queue<IMethodSymbol>();
-
-        foreach (var method in candidateMethods.Where(method =>
-                     IsStartupRoot(method, entryPoint)))
-        {
-            if (reachable.Add(method))
-            {
-                pending.Enqueue(method);
-            }
-        }
-
-        var callsByCaller = calls.ToLookup(
-            static call => call.Caller,
-            static call => call.Callee,
-            comparer);
-        while (pending.Count > 0)
-        {
-            foreach (var callee in callsByCaller[pending.Dequeue()])
-            {
-                if (reachable.Add(callee))
-                {
-                    pending.Enqueue(callee);
-                }
-            }
-        }
-
-        return ImmutableHashSet.CreateRange<IMethodSymbol>(comparer, reachable);
-    }
-
-    private static bool IsStartupRoot(
-        IMethodSymbol method,
-        IMethodSymbol? entryPoint)
-    {
-        return (entryPoint is not null
-                && SymbolEqualityComparer.Default.Equals(
-                    method,
-                    NormalizeMethod(entryPoint)))
-               || (method.MethodKind != MethodKind.Constructor
-                   && method.DeclaredAccessibility is not
-                       (Accessibility.Private or Accessibility.NotApplicable));
-    }
-
-    private static bool IsReachableStartupMethod(
-        IMethodSymbol? method,
-        ImmutableHashSet<IMethodSymbol> reachableMethods)
-    {
-        return method is null || reachableMethods.Contains(NormalizeMethod(method));
-    }
-
     private static IMethodSymbol NormalizeMethod(IMethodSymbol method)
     {
         return (method.ReducedFrom ?? method).OriginalDefinition;
-    }
-
-    private static IMethodSymbol? GetContainingMethod(ISymbol symbol)
-    {
-        for (var current = symbol; current is not null; current = current.ContainingSymbol)
-        {
-            if (current is IMethodSymbol method)
-            {
-                return method;
-            }
-        }
-
-        return null;
-    }
-
-    private static ImmutableArray<IMethodSymbol?> GetContainingExecutionMethods(
-        ISymbol symbol)
-    {
-        if (GetContainingMethod(symbol) is { } method)
-        {
-            return [method];
-        }
-
-        for (var current = symbol; current is not null; current = current.ContainingSymbol)
-        {
-            var initializer = current switch
-            {
-                IFieldSymbol field => (field.IsStatic, field.ContainingType),
-                IPropertySymbol property => (property.IsStatic, property.ContainingType),
-                IEventSymbol @event => (@event.IsStatic, @event.ContainingType),
-                _ => ((bool IsStatic, INamedTypeSymbol Type)?) null,
-            };
-            if (initializer is not { } initializerOwner)
-            {
-                continue;
-            }
-
-            var constructors = initializerOwner.IsStatic
-                ? initializerOwner.Type.StaticConstructors
-                : initializerOwner.Type.InstanceConstructors;
-            return [.. constructors.Cast<IMethodSymbol?>()];
-        }
-
-        return [null];
-    }
-
-    private static ImmutableArray<IMethodSymbol?> GetContainingExecutionMethods(
-        IOperation operation,
-        ISymbol containingSymbol)
-    {
-        return GetCallableSymbol(GetEnclosingCallable(operation)) is { } callable
-            ? [callable]
-            : GetContainingExecutionMethods(containingSymbol);
     }
 
     private static bool IsInReachableBranch(IOperation operation)
@@ -4161,12 +3737,6 @@ internal static class ModuleAuthoringAnalysis
         return nestedCallables.All(reachableCallables.Contains);
     }
 
-    private static bool IsInsideReachableNestedCallable(IOperation operation)
-    {
-        return GetCallableSymbol(GetEnclosingCallable(operation)) is not { } callable
-               || NestedCallablesAreInvoked(operation, [callable]);
-    }
-
     private static HashSet<IMethodSymbol> GetReachableCallables(
         ImmutableArray<IInvocationOperation> invocations,
         ImmutableArray<IMethodSymbol> callables,
@@ -4221,11 +3791,6 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         ImmutableArray<IMethodSymbol> callables)
     {
-        if (DirectCommandLineAction.GetTarget(invocation) is { } action)
-        {
-            yield return action;
-        }
-
         var targetMethod = invocation.TargetMethod.OriginalDefinition;
         foreach (var callable in callables)
         {

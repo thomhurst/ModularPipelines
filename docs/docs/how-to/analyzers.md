@@ -79,6 +79,35 @@ shapes are never followed and never produce a diagnostic for a passed token:
 
 This scope is fixed. A missed diagnostic in one of these shapes is by design.
 
+## Module registration
+
+[`MP0013`](../analyzers/MP0013.md) warns when an executable project declares a concrete
+module that nothing registers. Library projects are not checked.
+
+### What MP0013 reports {#mp0013-scope}
+
+A module counts as registered when any of these appears anywhere in the project:
+
+- `AddModule`, `AddModules`, `AddModulesFromAssembly`, or
+  `AddModulesFromAssemblyContainingType` naming the module or its assembly
+- an `IModule` service registration for it on an `IServiceCollection`
+- `ModuleTester.For<TModule>()...ExecuteAsync()`
+- a required `DependsOn` from a module that is registered
+
+```csharp
+var command = new RootCommand();
+command.SetAction(_ => Pipeline.CreateBuilder().AddModule<BuildModule>()); // BuildModule is registered
+return command.Parse(args).Invoke();
+```
+
+The analyzer does not check whether the registration runs. A registration in a
+callback, command action, helper, or branch counts even if that code is never
+reached, so a module registered only in dead code is not reported. When a
+registration's modules cannot be determined at compile time, such as a `Type[]`
+computed at run time, MP0013 stays silent for the whole project.
+
+This scope is fixed. A missed diagnostic for a registration that never executes is by design.
+
 ## Use pipeline services inside modules
 
 These warnings apply to code declared in module types, including constructors,

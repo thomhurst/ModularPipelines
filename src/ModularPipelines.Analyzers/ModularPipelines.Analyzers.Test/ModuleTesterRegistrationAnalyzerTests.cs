@@ -61,17 +61,12 @@ public class ModuleTesterRegistrationAnalyzerTests
     }
 
     [TestMethod]
-    [DataRow("BuildModule", "", false)]
-    [DataRow("BuildModule, object", "", false)]
-    [DataRow("BuildModule", ".ConfigurePipeline(_ => { })", false)]
-    [DataRow("BuildModule, object", ".ConfigurePipeline(_ => { })", false)]
-    [DataRow("BuildModule", "", true)]
-    [DataRow("BuildModule, object", "", true)]
-    public async Task Reports_Module_When_Builder_Is_Not_Executed(string typeArguments, string configuration, bool unreachableExecution)
+    [DataRow("BuildModule", "")]
+    [DataRow("BuildModule, object", "")]
+    [DataRow("BuildModule", ".ConfigurePipeline(_ => { })")]
+    [DataRow("BuildModule, object", ".ConfigurePipeline(_ => { })")]
+    public async Task Reports_Module_When_Builder_Is_Not_Executed(string typeArguments, string configuration)
     {
-        var unusedMethod = unreachableExecution
-            ? $"static async Task Unused() {{ await ModuleTester.For<{typeArguments}>().ExecuteAsync(); }}"
-            : "";
         var test = new VerifyCS.Test
         {
             ReferenceAssemblies = Net.Net110,
@@ -83,7 +78,6 @@ public class ModuleTesterRegistrationAnalyzerTests
                 using ModularPipelines.Testing;
 
                 var configured = ModuleTester.For<{{typeArguments}}>(){{configuration}};
-                {{unusedMethod}}
 
                 public class {|#0:BuildModule|} : Module<object>
                 {
