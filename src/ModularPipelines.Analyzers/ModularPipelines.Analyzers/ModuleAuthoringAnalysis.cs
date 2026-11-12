@@ -6111,6 +6111,7 @@ internal static class ModuleAuthoringAnalysis
         return GetRoot(read).DescendantsAndSelf()
             .Where(IsInReachableBranch)
             .Where(operation => !HasAncestor(read, operation)
+                && !visitedWrites.Any(visited => HasAncestor(operation, visited))
                 && !IsCancellationStorageSelfStore(operation)
                 && MayMutateCancellationStorage(operation, read))
             .Any(operation => GetCancellationExecutionSites(operation, executionRead, [with(SymbolEqualityComparer.Default)])
@@ -6180,7 +6181,10 @@ internal static class ModuleAuthoringAnalysis
                 .All(pair => CancellationTuplePreservesSnapshot(pair.Target, pair.Value, storageRead, source, site, visitedWrites));
         }
 
-        return !MayShareCancellationStorage(target, storageRead, preserveParameters: true)
+        var mayAlias = storageRead is IParameterReferenceOperation parameter
+            ? CancellationSnapshotWriteMayAlias(target, parameter)
+            : MayShareCancellationStorage(target, storageRead, preserveParameters: true);
+        return !mayAlias
             || HaveSameCancellationSnapshot(value, source, site, [with(SymbolEqualityComparer.Default)], visitedWrites);
     }
 

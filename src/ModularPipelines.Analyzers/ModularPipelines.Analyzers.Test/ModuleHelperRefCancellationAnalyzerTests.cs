@@ -157,6 +157,71 @@ public class ModuleHelperRefCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow(true, "(third, count) = (default(CancellationToken), 1);", true)]
+    [DataRow(true, "(count, (third, count)) = (1, (default(CancellationToken), 2));", true)]
+    [DataRow(true, "ref CancellationToken alias = ref third; (alias, count) = (default(CancellationToken), 1);", true)]
+    [DataRow(true, "(third, count) = (first, 1);", false)]
+    [DataRow(true, "(third, count) = (local, 1);", false)]
+    [DataRow(true, "local = default; (third, count) = (local, 1);", true)]
+    [DataRow(true, "(third, local) = (local, default(CancellationToken));", true)]
+    [DataRow(true, "(third, local) = (default(CancellationToken), local);", true)]
+    [DataRow(true, "local = default; (third, local) = (local, third);", true)]
+    [DataRow(true, "CancellationToken unrelated = default; scoped ref CancellationToken alias = ref third; alias = ref unrelated; (alias, count) = (default(CancellationToken), 1);", false)]
+    [DataRow(true, "(third, count) = (local, 1); third = default;", true)]
+    [DataRow(true, "intact = default; Copy(); (third, count) = (local, 1);", true)]
+    [DataRow(true, "CancellationToken unrelated = default; (unrelated, count) = (default(CancellationToken), 1);", false)]
+    [DataRow(false, "(third, count) = (default(CancellationToken), 1);", false)]
+    public async Task Checks_Tuple_Ref_Parameter_Snapshot(bool thirdByRef, string store, bool reports)
+    {
+        var call = "Task.Delay(1, snapshot)";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                private static CancellationToken Forward(
+                    ref CancellationToken first, scoped ref CancellationToken second,
+                    {{(thirdByRef ? "ref " : "")}}CancellationToken third)
+                {
+                    var local = first;
+                    second = ref local;
+                    int count = 0;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        var intact = first;
+                        void Copy() { local = intact; }
+                        Copy();
+                        {{store}}
+                    }
+                    return second;
+                }
+
+                protected override async Task<List<string>> ExecuteAsync(
+                    IModuleContext context, CancellationToken cancellationToken)
+                {
+                    var token = cancellationToken;
+                    CancellationToken other = default;
+                    var snapshot = Forward(ref token, ref other, {{(thirdByRef ? "ref " : "")}}token);
+                    for (var i = 0; i < 2; i++)
+                        await {{(reports ? "{|#0:" + call + "|}" : call)}};
+                    return null!;
+                }
+            }
+            """;
+
+        if (reports)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(source,
+                VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                    .WithLocation(0).WithArguments("Delay"));
+        }
+        else
+        {
+            await VerifyCS.VerifyAnalyzerAsync(source);
+        }
+    }
+
+    [TestMethod]
     [DataRow("second = ref third; second = default; return first;", false)]
     [DataRow("second = ref third; second = default; var saved = first; return saved;", false)]
     [DataRow("third = ref first; third = default; return first;", true)]
