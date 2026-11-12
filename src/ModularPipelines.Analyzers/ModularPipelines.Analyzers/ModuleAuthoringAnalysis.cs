@@ -5680,6 +5680,28 @@ internal static class ModuleAuthoringAnalysis
                 visitedSources);
     }
 
+    private static bool HasUntrackedCollectionUse(IOperation operation)
+    {
+        return operation.DescendantsAndSelf().Any(static candidate => candidate switch
+        {
+            // Even a read can expose a writable ref that a later local write mutates.
+            IArrayElementReferenceOperation => true,
+            IConversionOperation conversion => IsCancellationCollection(conversion.Operand.Type)
+                && !IsCancellationCollection(conversion.Type),
+            IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance }
+                => IsCancellationCollection(instance.Type),
+            IInvocationOperation invocation => IsCancellationCollection(invocation.Instance?.Type)
+                || invocation.Arguments.Any(static argument => argument.Value.DescendantsAndSelf().Any(static value => IsCancellationCollection(value.Type))),
+            IObjectCreationOperation creation => creation.Arguments.Any(static argument => argument.Value.DescendantsAndSelf().Any(static value => IsCancellationCollection(value.Type))),
+            ISimpleAssignmentOperation { Target: IFieldReferenceOperation or IPropertyReferenceOperation, Value: { } value }
+                => IsCancellationCollection(value.Type),
+            _ => false,
+        });
+    }
+
+    private static bool IsCancellationCollection(ITypeSymbol? type) =>
+        IsCancellationInputType(type) && !IsCancellationCarrier(type);
+
     private static HashSet<IParameterSymbol> GetFlowedHelperParameters(
         IInvocationOperation invocation, IMethodSymbol method, bool[] argumentValues, bool receiverValue)
     {
@@ -5712,6 +5734,13 @@ internal static class ModuleAuthoringAnalysis
             .Select(static returnOperation => returnOperation.ReturnedValue)
             .OfType<IOperation>()
             .ToArray();
+        // Neither scalar storage analysis proves collection mutations or escapes.
+        if (returnValues.Any(static value => IsCancellationCollection(value.Type))
+            && HasUntrackedCollectionUse(operation))
+        {
+            return false;
+        }
+
         return returnValues.Length > 0
                && returnValues
                    .SelectMany(GetReachableValueLeaves)

@@ -642,7 +642,15 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
     [DataRow("System.ReadOnlySpan<CancellationToken>", "return new[] { token };", false)]
     [DataRow("System.ReadOnlySpan<CancellationToken>", "return new[] { default(CancellationToken) };", true)]
     [DataRow("System.Span<CancellationToken>", "return new[] { token };", false)]
+    [DataRow("CancellationToken[]", "var tokens = new[] { token }; tokens[0] = default; return tokens;", true)]
+    [DataRow("CancellationToken[]", "var tokens = new[] { token }; var alias = tokens; alias[0] = default; return tokens;", true)]
+    [DataRow("CancellationToken[]", "var tokens = new[] { token }; System.Array.Clear(tokens); return tokens;", true)]
+    [DataRow("CancellationToken[]", "var tokens = new[] { token }; System.Span<CancellationToken> alias = tokens; alias[0] = default; return tokens;", true)]
+    [DataRow("System.Span<CancellationToken>", "System.Span<CancellationToken> tokens = new[] { token }; tokens[0] = default; return tokens;", true)]
+    [DataRow("System.Span<CancellationToken>", "System.Span<CancellationToken> tokens = new[] { token }; tokens.Clear(); return tokens;", true)]
     [DataRow("System.Span<CancellationToken>", "return new[] { default(CancellationToken) };", true)]
+    [DataRow("CancellationToken[]", "var tokens = new[] { token }; System.Array alias = tokens; System.Array.Clear(alias); return tokens;", true)]
+    [DataRow("CancellationToken[]", "var tokens = new[] { token }; ref var alias = ref tokens[0]; alias = default; return tokens;", true)]
     public async Task Tracks_Token_Collection_Helper_Returns(string type, string body, bool warning)
     {
         await Verify("""
