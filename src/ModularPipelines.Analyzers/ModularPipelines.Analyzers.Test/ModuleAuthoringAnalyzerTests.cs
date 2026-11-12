@@ -3078,6 +3078,15 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref first; for (var i = 0; i < 2; i++) { if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; } return alias;")]
     [DataRow("ref var alias = ref first; try { alias = default; switch (MayThrow()) { case 0: alias = third; break; default: alias = third; break; } } catch (Exception) {} return alias; static int MayThrow() => throw new Exception();")]
     [DataRow("ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { alias = default; switch (choice) { case 0: MayThrow(); alias = third; break; default: alias = third; break; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("try { first = default; try { MayThrow(); } catch (InvalidOperationException) {} first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
+    [DataRow("var skip = DateTime.UtcNow.Ticks > 0; try { first = default; try { MayThrow(); } catch (Exception) when (skip) {} first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
+    [DataRow("try { first = default; try { MayThrow(); } catch { throw; } first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
+    [DataRow("try { first = default; try { MayThrow(); } catch { MayThrow(); } first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
+    [DataRow("try { first = default; try { MayThrow(); } catch {} finally { MayThrow(); } first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
+    [DataRow("try { first = default; try { MayThrow(); } catch {} MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
+    [DataRow("try { try { first = default; MayThrow(); } catch { return first; } first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
+    [DataRow("try { try { first = default; MayThrow(); } catch {} finally { MayThrow(); } first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
+    [DataRow("try { try { first = default; MayThrow(); } catch {} MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3213,6 +3222,11 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { first = default; alias = ref third; } else alias = ref first; return alias;", "cancellationToken")]
     [DataRow("ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { alias = default; switch (choice) { case 0: alias = third; MayThrow(); break; default: alias = third; MayThrow(); break; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();", "default")]
     [DataRow("ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { alias = ref second; switch (choice) { case 0: alias = ref third; MayThrow(); break; default: alias = ref third; MayThrow(); break; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("try { first = default; try { MayThrow(); } catch {} first = third; } catch {} return first; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("ref var alias = ref first; try { alias = ref second; try { MayThrow(); } catch (Exception) {} alias = ref third; } catch {} return alias; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("try { first = default; try { MayThrow(); } catch (Exception) when (true) {} first = third; } catch {} return first; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("try { try { first = default; MayThrow(); } catch {} first = third; } catch {} return first; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("try { first = default; try { try { MayThrow(); } catch { throw; } } catch {} first = third; } catch {} return first; static void MayThrow() => throw new Exception();", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);
