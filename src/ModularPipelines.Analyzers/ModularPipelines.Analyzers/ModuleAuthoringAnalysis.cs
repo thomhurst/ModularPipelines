@@ -5932,7 +5932,10 @@ internal static class ModuleAuthoringAnalysis
         {
             ISwitchCaseOperation switchCase => CancellationWriteCannotReachOtherSwitchCase(switchCase, write, read),
             IBlockOperation block => !HasAncestor(read, block)
-                && (AlwaysExitsCallable(block) || CancellationBlockJumpsPastRead(block, read)),
+                && ((AlwaysExitsCallable(block)
+                        && !block.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+                            branch.BranchKind is BranchKind.Break or BranchKind.Continue))
+                    || CancellationBlockJumpsPastRead(block, read)),
             ISwitchExpressionArmOperation arm => CancellationWriteCannotReachOtherSwitchArm(arm, write, read),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
                 (HasAncestor(write, conditional.WhenTrue) && HasAncestor(read, whenFalse))
