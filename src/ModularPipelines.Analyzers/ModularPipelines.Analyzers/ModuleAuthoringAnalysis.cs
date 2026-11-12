@@ -5981,8 +5981,10 @@ internal static class ModuleAuthoringAnalysis
                 return true;
             }
 
+            // A case break reaches the end of its switch, so it cannot bypass
+            // an overwrite after that switch. Other jumps still stop traversal.
             if (HasAncestor(read, parent)
-                || ContainsCancellationStorageBranchOrReturn(parent))
+                || ContainsCancellationStorageBranchOrReturn(parent, parent is ISwitchCaseOperation ? parent.Parent : parent))
             {
                 break;
             }
@@ -5991,8 +5993,9 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static bool ContainsCancellationStorageBranchOrReturn(IOperation operation) =>
-        operation.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation);
+    private static bool ContainsCancellationStorageBranchOrReturn(IOperation operation, IOperation? branchBoundary = null) =>
+        operation.DescendantsAndSelf().Any(child => child is IReturnOperation
+            || (child is IBranchOperation branch && !IsNestedCancellationStorageSwitchBreak(branch, branchBoundary ?? operation)));
 
     private static bool CancellationStorageTryOverwrites(
         ITryOperation attempt, IOperation current, IOperation read, ISymbol? symbol, bool isRef) =>
