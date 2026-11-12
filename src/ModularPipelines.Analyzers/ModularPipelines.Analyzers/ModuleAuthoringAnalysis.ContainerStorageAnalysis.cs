@@ -530,6 +530,18 @@ internal static partial class ModuleAuthoringAnalysis
                     .Select(static assignment => assignment.Value);
             }
 
+            var branch = FindLatestDefinitelyAssigningBranch(
+                GetRoot(reference), reference, reference.Local, GetEnclosingCallable(reference));
+            if (branch is IConditionalOperation conditional
+                && IsDirectContainerAssignment(conditional.WhenTrue, reference.Local)
+                && conditional.WhenFalse is { } whenFalse
+                && IsDirectContainerAssignment(whenFalse, reference.Local)
+                && IsDefiniteContainerPredecessor(branch, reference))
+            {
+                return assignments.Where(assignment => assignment.Syntax.SpanStart >= branch.Syntax.SpanStart)
+                    .Select(static assignment => assignment.Value);
+            }
+
             // Without a definite write, the general value lookup can discard the
             // original storage at a skipped assignment (for example a short-circuit
             // operand or a bypassed goto). Keep every possible write and initializer.
@@ -544,6 +556,16 @@ internal static partial class ModuleAuthoringAnalysis
             return FindReachingLocalValues(reference, reference.Local);
         }
 
+        // Keep this branch-reset proof bounded: each arm must execute one direct
+        // assignment, with no intervening control flow that could skip the write.
+        private static bool IsDirectContainerAssignment(IOperation operation, ILocalSymbol local) => operation switch
+        {
+            ISimpleAssignmentOperation assignment => AssignsLocal(assignment, local),
+            IExpressionStatementOperation statement => IsDirectContainerAssignment(statement.Operation, local),
+            IBlockOperation { Operations.Length: 1 } block => IsDirectContainerAssignment(block.Operations[0], local),
+            _ => false,
+        };
+
         private static bool IsDefiniteContainerPredecessor(IOperation candidate, IOperation reference)
         {
             for (var ancestor = candidate.Parent; ancestor is not null; ancestor = ancestor.Parent)
@@ -553,7 +575,7 @@ internal static partial class ModuleAuthoringAnalysis
                     return !HasBypassingContainerGoto(candidate, reference);
                 }
 
-                if (ancestor is ILoopOperation or ISwitchOperation or ITryOperation
+                if (ancestor is ILoopOperation or ISwitchOperation or ISwitchExpressionArmOperation or ITryOperation
                     || ancestor is IConditionalOperation { Condition.ConstantValue: not { HasValue: true, Value: bool } }
                     || CanSkipContainerOperand(ancestor, candidate))
                 {
