@@ -44,6 +44,47 @@ public class RunReportTests
     private static readonly TimeSpan HangGuard = TimeSpan.FromSeconds(10);
 
     [Test]
+    public async Task CommandResourceMeasurementsAreAttributedAndRoundTripInReports()
+    {
+        var module = new SuccessfulModule();
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary([module], [CreateResult(module, start, TimeSpan.Zero)],
+            TimeSpan.Zero, start, start);
+        var counter = new CommandExecutionCounter();
+        counter.RecordResourceUsage(typeof(SuccessfulModule), TimeSpan.FromMilliseconds(123), 4096);
+        counter.RecordResourceUsage(null, null, null);
+        counter.RecordResourceUsage(typeof(FailingModule), TimeSpan.Zero, 8192);
+
+        var report = new PipelineRunReportFactory(counter, new PassthroughSecretObfuscator())
+            .Create(summary, null, "command-resources");
+        var restored = RunReportJsonSerializer.Deserialize(RunReportJsonSerializer.Serialize(report))!;
+
+        await Assert.That(restored.CommandResourceUsage.Count).IsEqualTo(3);
+        await Assert.That(restored.CommandResourceUsage[1].ModuleId).IsNull();
+        await Assert.That(restored.CommandResourceUsage[1].TotalProcessorTime).IsNull();
+        await Assert.That(restored.CommandResourceUsage[1].PeakWorkingSetBytes).IsNull();
+        var usage = restored.Modules.Single().CommandResourceUsage.Single();
+        await Assert.That(usage.ModuleId).IsEqualTo(ModuleId.FromType(typeof(SuccessfulModule)));
+        await Assert.That(usage.TotalProcessorTime).IsEqualTo(TimeSpan.FromMilliseconds(123));
+        await Assert.That(usage.PeakWorkingSetBytes).IsEqualTo(4096L);
+        await Assert.That(counter.TotalCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task CommandResourceMeasurementsAreSafeForParallelCompletionAndSnapshots()
+    {
+        var counter = new CommandExecutionCounter();
+        var snapshot = counter.GetResourceUsage();
+        await Task.WhenAll(Enumerable.Range(0, 100).Select(index => Task.Run(() =>
+            counter.RecordResourceUsage(typeof(SuccessfulModule), TimeSpan.FromTicks(index), index))));
+
+        await Assert.That(snapshot).IsEmpty();
+        await Assert.That(counter.GetResourceUsage().Count).IsEqualTo(100);
+        await Assert.That(counter.GetResourceUsage(typeof(SuccessfulModule)).Count).IsEqualTo(100);
+        await Assert.That(counter.GetResourceUsage(typeof(FailingModule))).IsEmpty();
+    }
+
+    [Test]
     public async Task RunReportRecordsMasterCacheDispatchAvoidance()
     {
         var module = new SuccessfulModule();

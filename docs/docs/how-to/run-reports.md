@@ -266,3 +266,19 @@ store retains the already-masked excerpts.
 In v4, custom stores implement `GetRunsAsync(RunHistoryQuery, CancellationToken)`. The former
 `GetLatestAsync` interface member is now an extension method, so stores need only implement the
 query operation and `SaveAsync`.
+
+## Command resource usage
+
+`CommandResult.TotalProcessorTime` records the direct command process's total CPU time,
+and `PeakWorkingSetBytes` records its peak resident memory in bytes. These measurements
+exclude child processes started by the command. They are nullable: simulated and dry-run
+results have no measurements, and operating systems that cannot query a metric after
+process exit report `null`, rather than zero. Resource collection never fails a command.
+
+The JSON run report's `commandResourceUsage` array contains one entry per locally completed
+external command, including commands with nonzero exit codes. Each entry contains
+`moduleId` (null outside a module), `totalProcessorTime`, and `peakWorkingSetBytes`.
+Each module also has its own `commandResourceUsage` array. Command text and environment
+variables are excluded. Worker measurements remain in the worker's report; the distributed
+master does not aggregate these arrays. Canceled executions that do not produce a command
+result do not contribute an entry.

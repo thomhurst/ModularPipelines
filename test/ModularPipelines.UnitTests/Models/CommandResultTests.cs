@@ -30,6 +30,8 @@ public class CommandResultTests
         var options = distributedOptions ? ModuleResultSerializer.CreateOptions() : new JsonSerializerOptions();
         var result = JsonSerializer.Deserialize<CommandResult>(json, options)!;
         await Assert.That(result.StandardOutput).IsEqualTo("1.0.0");
+        await Assert.That(result.TotalProcessorTime).IsNull();
+        await Assert.That(result.PeakWorkingSetBytes).IsNull();
         await Assert.That(result.OutputMayBeIncomplete).IsFalse();
         await Assert.That(result.StandardOutputTruncatedCharacters).IsEqualTo(0);
         await Assert.That(result.StandardErrorTruncatedCharacters).IsEqualTo(0);
@@ -45,6 +47,8 @@ public class CommandResultTests
             StandardOutputTruncatedCharacters = 12,
             StandardErrorTruncatedCharacters = 34,
             OutputMayBeIncomplete = true,
+            TotalProcessorTime = TimeSpan.FromMilliseconds(123),
+            PeakWorkingSetBytes = 123456,
         };
 
         var options = distributedOptions ? ModuleResultSerializer.CreateOptions() : new JsonSerializerOptions();
@@ -52,6 +56,8 @@ public class CommandResultTests
         await Assert.That(result.StandardOutputTruncatedCharacters).IsEqualTo(12);
         await Assert.That(result.StandardErrorTruncatedCharacters).IsEqualTo(34);
         await Assert.That(result.OutputMayBeIncomplete).IsTrue();
+        await Assert.That(result.TotalProcessorTime).IsEqualTo(TimeSpan.FromMilliseconds(123));
+        await Assert.That(result.PeakWorkingSetBytes).IsEqualTo(123456);
     }
 
     [Test]

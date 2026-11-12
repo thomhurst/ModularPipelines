@@ -849,6 +849,9 @@ internal sealed partial class Command(
                     callerCancellationToken);
             }
 
+            _commandExecutionCounter.RecordResourceUsage(AmbientModuleContext.CurrentModuleType,
+                result.TotalProcessorTime, result.PeakWorkingSetBytes);
+
             if (result.OutputMayBeIncomplete)
             {
                 loggingFailures.Capture(() => _commandLogger.LogOutputDrainTimeout(options, execOpts));
@@ -907,6 +910,8 @@ internal sealed partial class Command(
                 StandardOutputTruncatedCharacters = standardOutputBuffer.TruncatedCharacters,
                 StandardErrorTruncatedCharacters = standardErrorBuffer.TruncatedCharacters,
                 OutputMayBeIncomplete = result.OutputMayBeIncomplete,
+                TotalProcessorTime = result.TotalProcessorTime,
+                PeakWorkingSetBytes = result.PeakWorkingSetBytes,
             };
         }
     }
@@ -1125,7 +1130,11 @@ internal sealed partial class Command(
                 result.ExitTime,
                 standardOutputTruncatedCharacters,
                 standardErrorTruncatedCharacters) with
-            { OutputMayBeIncomplete = result.OutputMayBeIncomplete })
+            {
+                OutputMayBeIncomplete = result.OutputMayBeIncomplete,
+                TotalProcessorTime = result.TotalProcessorTime,
+                PeakWorkingSetBytes = result.PeakWorkingSetBytes,
+            })
             : null;
     }
 

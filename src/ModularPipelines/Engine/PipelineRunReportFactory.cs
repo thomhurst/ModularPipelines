@@ -113,6 +113,7 @@ internal sealed class PipelineRunReportFactory(
                 summary.EndTime,
                 distributedOptions?.Value.TotalInstances ?? 1),
             CommandCount = commandExecutionCounter.TotalCount,
+            CommandResourceUsage = commandExecutionCounter.GetResourceUsage() ?? [],
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };
     }
@@ -197,6 +198,7 @@ internal sealed class PipelineRunReportFactory(
             Exception = CreateExceptionDetails(result?.ExceptionOrDefault),
             Output = CreateOutputExcerpt(moduleType),
             CommandCount = commandExecutionCounter.GetCount(moduleType),
+            CommandResourceUsage = commandExecutionCounter.GetResourceUsage(moduleType) ?? [],
             CacheHitAtMaster = distributedCacheHitTracker?.Contains(result) == true,
             PreviousDuration = previousDuration,
             DurationDelta = previousDuration.HasValue

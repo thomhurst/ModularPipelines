@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ModularPipelines.Helpers.Internal;
 
-internal readonly record struct ProcessRunResult(int ExitCode, DateTimeOffset StartTime, DateTimeOffset ExitTime, bool OutputMayBeIncomplete)
+internal readonly record struct ProcessRunResult(int ExitCode, DateTimeOffset StartTime, DateTimeOffset ExitTime, bool OutputMayBeIncomplete, TimeSpan? TotalProcessorTime, long? PeakWorkingSetBytes)
 {
     public TimeSpan RunTime => ExitTime - StartTime;
 }
@@ -74,12 +74,16 @@ internal static class ProcessRunner
         var inputTask = WriteInputAsync(process, standardInput, inputCancellation.Token);
 
         bool outputMayBeIncomplete;
+        TimeSpan? totalProcessorTime;
+        long? peakWorkingSetBytes;
         var interruptRegistration = interruptCancellationToken.Register(
             static state => Interrupt((Process) state!),
             process);
         await using (interruptRegistration.ConfigureAwait(false))
         {
             await process.WaitForExitAsync(CancellationToken.None).ConfigureAwait(false);
+            totalProcessorTime = ReadResourceUsage(() => process.TotalProcessorTime);
+            peakWorkingSetBytes = ReadResourceUsage(() => process.PeakWorkingSet64);
             // Stop a blocked write even if a descendant still holds the stdin pipe open.
             inputCancellation.Cancel();
             // A descendant can inherit either pipe and outlive the direct child. Cancel and join the
@@ -99,7 +103,22 @@ internal static class ProcessRunner
                 interruptCancellationToken);
         }
 
-        return new ProcessRunResult(process.ExitCode, startTime, exitTime, outputMayBeIncomplete);
+        return new ProcessRunResult(process.ExitCode, startTime, exitTime, outputMayBeIncomplete,
+            totalProcessorTime, peakWorkingSetBytes);
+    }
+
+    // Some platforms cannot query a process after it has exited. Monitoring must never turn
+    // a successful command into a failure or manufacture a zero measurement.
+    private static T? ReadResourceUsage<T>(Func<T> read) where T : struct
+    {
+        try
+        {
+            return read();
+        }
+        catch (Exception exception) when (exception is InvalidOperationException or Win32Exception or NotSupportedException)
+        {
+            return null;
+        }
     }
 
     private static async Task WriteInputAsync(Process process, string? input, CancellationToken cancellationToken)

@@ -6,8 +6,31 @@ internal sealed class CommandExecutionCounter : ICommandExecutionCounter
 {
     private readonly ConcurrentDictionary<Type, int> _counts = new();
     private readonly ConcurrentDictionary<(Distributed.WorkerId WorkerId, Type ModuleType), int> _remoteCounts = new();
+    private readonly ConcurrentQueue<Reporting.CommandResourceUsage> _resourceUsage = new();
+    private readonly ConcurrentDictionary<Type, ConcurrentQueue<Reporting.CommandResourceUsage>> _moduleResourceUsage = new();
     private int _totalCount;
     private int _unattributedCount;
+
+    public void RecordResourceUsage(Type? moduleType, TimeSpan? totalProcessorTime, long? peakWorkingSetBytes)
+    {
+        var usage = new Reporting.CommandResourceUsage
+        {
+            ModuleId = moduleType is null ? null : ModuleId.FromType(moduleType),
+            TotalProcessorTime = totalProcessorTime,
+            PeakWorkingSetBytes = peakWorkingSetBytes,
+        };
+        _resourceUsage.Enqueue(usage);
+        if (moduleType is not null)
+        {
+            _moduleResourceUsage.GetOrAdd(moduleType, static _ => new()).Enqueue(usage);
+        }
+    }
+
+    public IReadOnlyList<Reporting.CommandResourceUsage> GetResourceUsage() =>
+        _resourceUsage.ToArray();
+
+    public IReadOnlyList<Reporting.CommandResourceUsage> GetResourceUsage(Type moduleType) =>
+        _moduleResourceUsage.TryGetValue(moduleType, out var usage) ? usage.ToArray() : [];
 
     public int TotalCount => Volatile.Read(ref _totalCount);
 

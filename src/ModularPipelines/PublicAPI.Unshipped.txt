@@ -4052,3 +4052,25 @@ ModularPipelines.Distributed.WorkerStatus.ResourceUsage.get -> ModularPipelines.
 ModularPipelines.Distributed.WorkerStatus.ResourceUsage.init -> void
 ModularPipelines.Reporting.DistributedWorkerRunReport.ResourceUsage.get -> ModularPipelines.Reporting.ResourceUsage?
 ModularPipelines.Reporting.DistributedWorkerRunReport.ResourceUsage.init -> void
+ModularPipelines.CommandResult.TotalProcessorTime.get -> System.TimeSpan?
+ModularPipelines.CommandResult.TotalProcessorTime.init -> void
+ModularPipelines.CommandResult.PeakWorkingSetBytes.get -> long?
+ModularPipelines.CommandResult.PeakWorkingSetBytes.init -> void
+ModularPipelines.Reporting.CommandResourceUsage
+ModularPipelines.Reporting.CommandResourceUsage.CommandResourceUsage() -> void
+ModularPipelines.Reporting.CommandResourceUsage.Equals(ModularPipelines.Reporting.CommandResourceUsage? other) -> bool
+ModularPipelines.Reporting.CommandResourceUsage.ModuleId.get -> ModularPipelines.ModuleId?
+ModularPipelines.Reporting.CommandResourceUsage.ModuleId.init -> void
+ModularPipelines.Reporting.CommandResourceUsage.TotalProcessorTime.get -> System.TimeSpan?
+ModularPipelines.Reporting.CommandResourceUsage.TotalProcessorTime.init -> void
+ModularPipelines.Reporting.CommandResourceUsage.PeakWorkingSetBytes.get -> long?
+ModularPipelines.Reporting.CommandResourceUsage.PeakWorkingSetBytes.init -> void
+ModularPipelines.Reporting.ModuleRunReport.CommandResourceUsage.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Reporting.CommandResourceUsage!>!
+ModularPipelines.Reporting.ModuleRunReport.CommandResourceUsage.init -> void
+ModularPipelines.Reporting.PipelineRunReport.CommandResourceUsage.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Reporting.CommandResourceUsage!>!
+ModularPipelines.Reporting.PipelineRunReport.CommandResourceUsage.init -> void
+override ModularPipelines.Reporting.CommandResourceUsage.Equals(object? obj) -> bool
+override ModularPipelines.Reporting.CommandResourceUsage.GetHashCode() -> int
+override ModularPipelines.Reporting.CommandResourceUsage.ToString() -> string!
+static ModularPipelines.Reporting.CommandResourceUsage.operator !=(ModularPipelines.Reporting.CommandResourceUsage? left, ModularPipelines.Reporting.CommandResourceUsage? right) -> bool
+static ModularPipelines.Reporting.CommandResourceUsage.operator ==(ModularPipelines.Reporting.CommandResourceUsage? left, ModularPipelines.Reporting.CommandResourceUsage? right) -> bool
