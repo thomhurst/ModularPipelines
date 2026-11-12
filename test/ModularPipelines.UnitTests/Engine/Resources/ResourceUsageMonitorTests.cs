@@ -15,7 +15,8 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Engine.Resources;
 
-[NotInParallel]
+// These tests observe process-wide gauges and must exclude other pipeline tests.
+[TUnit.Core.NotInParallel]
 public class ResourceUsageMonitorTests
 {
     private static readonly DateTimeOffset Start = new(2026, 1, 1, 12, 0, 0, TimeSpan.Zero);
