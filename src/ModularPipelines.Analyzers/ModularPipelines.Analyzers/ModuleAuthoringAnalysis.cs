@@ -6248,11 +6248,7 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            if (current is ISwitchCaseOperation sourceCase && parent is ISwitchOperation switchOperation
-                && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } targetCase
-                && !ReferenceEquals(sourceCase, targetCase)
-                && !SharesCancellationStorageLoop(binding, read)
-                && !CanTransferCancellationStorageBetweenCases(sourceCase, targetCase, switchOperation))
+            if (IsUnreachableCancellationStorageCase(current, binding, read))
             {
                 return false;
             }
@@ -6269,6 +6265,13 @@ internal static class ModuleAuthoringAnalysis
 
         return true;
     }
+
+    private static bool IsUnreachableCancellationStorageCase(IOperation current, IOperation binding, IOperation read) =>
+        current is ISwitchCaseOperation sourceCase && current.Parent is ISwitchOperation switchOperation
+        && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } targetCase
+        && !ReferenceEquals(sourceCase, targetCase)
+        && !SharesCancellationStorageLoop(binding, read)
+        && !CanTransferCancellationStorageBetweenCases(sourceCase, targetCase, switchOperation);
 
     private static bool CanTransferCancellationStorageBetweenCases(
         ISwitchCaseOperation source,
