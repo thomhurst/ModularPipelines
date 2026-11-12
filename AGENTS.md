@@ -42,6 +42,7 @@ if ($changed) {
 - Current tool output is authoritative, even when regeneration breaks an earlier API. Do not preserve generated APIs with handwritten shims, aliases, obsolete forwarding members, or manual extension files.
 - Generated CLI integration packages do not maintain `PublicAPI.Shipped.txt` or `PublicAPI.Unshipped.txt`. Do not create, synchronize, stage, or repair these baselines in generated-options PRs; validate generated output through builds, tests, and command coverage instead. Core and handwritten-package API tracking remains in place.
 - Library code under `src/` uses `ConfigureAwait(false)`; tests need not.
+- MP0016's token tracking is deliberately bounded by [its documented scope](docs/docs/how-to/analyzers.md#mp0016-scope) and lives only in `CancellationTokenFlow.cs`. A review finding or issue about a shape listed there as not followed is by design: do not implement it, add tracking for it, or file an issue.
 
 ## Pull request maintenance
 

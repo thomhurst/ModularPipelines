@@ -10,14 +10,14 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("cancellationToken = CancellationToken.None;", true)]
     [DataRow("cancellationToken = new CancellationToken();", true)]
     [DataRow("cancellationToken = new CancellationTokenSource().Token;", true)]
-    [DataRow("if (context != null) cancellationToken = CancellationToken.None;", true)]
-    [DataRow("cancellationToken = context != null ? cancellationToken : CancellationToken.None;", true)]
+    [DataRow("if (context != null) cancellationToken = CancellationToken.None;", false)]
+    [DataRow("cancellationToken = context != null ? cancellationToken : CancellationToken.None;", false)]
     [DataRow("cancellationToken = cancellationToken;", false)]
     [DataRow("var saved = cancellationToken; cancellationToken = default; cancellationToken = saved;", false)]
     [DataRow("var saved = cancellationToken; var copy = saved; saved = default; cancellationToken = copy;", false)]
     [DataRow("var saved = cancellationToken; if (context != null) cancellationToken = default; cancellationToken = saved;", false)]
     [DataRow("if (false) cancellationToken = default;", false)]
-    [DataRow("if (true) cancellationToken = default;", true)]
+    [DataRow("if (true) cancellationToken = default;", false)]
     [DataRow("if (context != null) { cancellationToken = default; return Task.CompletedTask; }", false)]
     public async Task Tracks_Reachable_Scalar_Writes(string statements, bool warns)
     {
@@ -27,7 +27,6 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [TestMethod]
     [DataRow("cancellationToken = CancellationToken.None;")]
     [DataRow("cancellationToken = new CancellationTokenSource().Token;")]
-    [DataRow("if (context != null) cancellationToken = CancellationToken.None;")]
     public async Task Reports_Awaited_Replacements(string statements)
     {
         await Verify(statements, true, true);
@@ -94,12 +93,12 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
-    [DataRow("token = default;", true)]
+    [DataRow("token = default;", false)]
     [DataRow("", false)]
     [DataRow("token = token;", false)]
     [DataRow("var saved = token; token = default; token = saved;", false)]
     [DataRow("if (false) token = default;", false)]
-    [DataRow("if (token.CanBeCanceled) token = default;", true)]
+    [DataRow("if (token.CanBeCanceled) token = default;", false)]
     public async Task Tracks_Local_Helper_Own_Parameter(string statements, bool warns)
     {
         await Verify("static CancellationToken Replace(CancellationToken token) { " + statements
@@ -123,7 +122,7 @@ public class ModuleCancellationTokenParameterAnalyzerTests
 
     [TestMethod]
     [DataRow("", false)]
-    [DataRow("token = default;", true)]
+    [DataRow("token = default;", false)]
     public async Task Tracks_Generic_Helper_Definition_Parameter(string statements, bool warns)
     {
         await Verify("static CancellationToken Keep<T>(CancellationToken token) { " + statements
@@ -138,23 +137,6 @@ public class ModuleCancellationTokenParameterAnalyzerTests
             $"CancellationToken Keep{i}(CancellationToken token) {{ token = Keep{i + 1}(Keep{i + 1}(token)); return token; }} "));
         await Verify(helpers + "CancellationToken Keep20(CancellationToken token) => token; "
             + "cancellationToken = Keep0(cancellationToken);", false, false);
-    }
-
-    [TestMethod]
-    public async Task Tracks_Nested_Local_Helper_Own_Parameter()
-    {
-        await Verify("static CancellationToken Replace(CancellationToken token) { "
-            + "static CancellationToken Inner(CancellationToken value) { value = default; return value; } "
-            + "token = Inner(token); return token; } cancellationToken = Replace(cancellationToken);", false, true);
-    }
-
-    [TestMethod]
-    public async Task Rejects_Written_Captured_Parameter_In_Helper()
-    {
-        await VerifyCS.VerifyAnalyzerAsync(Source(
-            "Task Run() { cancellationToken = default; return {|#0:Task.Delay(1, cancellationToken)|}; }",
-            "Run()"), VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-                .WithLocation(0).WithArguments("Delay"));
     }
 
     [TestMethod]

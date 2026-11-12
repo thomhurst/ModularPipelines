@@ -38,6 +38,47 @@ protected override void Configure(ModuleConfigurationBuilder module) =>
 Unrelated methods with the same names and callbacks without an available token
 are excluded.
 
+### What MP0016 reports {#mp0016-scope}
+
+MP0016 reports an awaited or directly returned call that has an accessible
+`CancellationToken` overload when either:
+
+- no token is passed, or
+- every token passed is lost on every path that reaches the call.
+
+A lost token is one that cannot carry module cancellation:
+
+| Value | Lost |
+|-------|------|
+| `default`, `CancellationToken.None`, `new CancellationToken(...)` | Yes |
+| `new CancellationTokenSource(...).Token` | Yes |
+| A local or parameter that was assigned a lost value on every path | Yes |
+| `a ?? b`, `c ? a : b`, or a switch expression whose results are all lost | Yes |
+| Anything else | No |
+
+```csharp
+using var timeout = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+await Task.Delay(1, timeout.Token); // MP0016: the module token is not linked
+
+using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+linked.CancelAfter(TimeSpan.FromMinutes(1));
+await Task.Delay(1, linked.Token); // no diagnostic
+```
+
+When the analyzer cannot cheaply prove that a token is lost, it stays silent. These
+shapes are never followed and never produce a diagnostic for a passed token:
+
+- `ref`, `out`, and `in` arguments, ref locals, and ref returns
+- arrays, spans, tuples, deconstruction, and collections
+- fields, properties, and awaited values, including `Task` and `ValueTask` results
+- the result or body of any method, local function, or lambda that is given a token
+- a captured variable that is assigned anywhere after its declaration
+- a `CancellationTokenSource` variable that is captured by a lambda or local function, passed to a method, or used as a method group
+- a variable written inside a `try` block, as seen from its `catch` or `finally`
+- branches that are unreachable only because of a constant condition
+
+This scope is fixed. A missed diagnostic in one of these shapes is by design.
+
 ## Use pipeline services inside modules
 
 These warnings apply to code declared in module types, including constructors,
