@@ -1,3 +1,4 @@
+using MailKit;
 using MailKit.Net.Smtp;
 using MimeKit;
 
@@ -38,9 +39,9 @@ internal class Email : IEmail
             await smtp.AuthenticateAsync(options.Credentials, cancellationToken).ConfigureAwait(false);
         }
 
-        var response = await smtp.SendAsync(email, cancellationToken).ConfigureAwait(false);
+        var response = await smtp.SendAsync(new SendRequest(email), cancellationToken).ConfigureAwait(false);
         await smtp.DisconnectAsync(true, cancellationToken).ConfigureAwait(false);
 
-        return response;
+        return response.ResponseText;
     }
 }
