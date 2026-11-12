@@ -565,6 +565,21 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("return CancellationTokenSource.CreateLinkedTokenSource(token);", false)]
+    [DataRow("return new CancellationTokenSource();", true)]
+    [DataRow("var linked = CancellationTokenSource.CreateLinkedTokenSource(token); linked = new CancellationTokenSource(); return linked;", true)]
+    [DataRow("var linked = CancellationTokenSource.CreateLinkedTokenSource(token); return linked;", false)]
+    public async Task Tracks_Linked_Source_Helper_Returns(string body, bool warning)
+    {
+        await Verify("""
+            using var linked = Link(cancellationToken);
+            for (var i = 0; i < 2; i++) await CALL(1, linked.Token);
+            """, warning, $$"""
+            private static CancellationTokenSource Link(CancellationToken token) { {{body}} }
+            """);
+    }
+
+    [TestMethod]
     [DataRow("DateTime.UtcNow.Ticks > 0 ? first : third", 0, 2, false)]
     [DataRow("DateTime.UtcNow.Ticks switch { > 0 => first, _ => third }", 0, 2, false)]
     [DataRow("DateTime.UtcNow.Ticks > 0 ? first : third", 2, 2, true)]
@@ -801,6 +816,7 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         // Mark the invocation, rather than only its method name.
         body = body.Replace("{|#0:Task.Delay|}(1, token)", "{|#0:Task.Delay(1, token)|}")
             .Replace("{|#0:Task.Delay|}(1, cancellationToken)", "{|#0:Task.Delay(1, cancellationToken)|}")
+            .Replace("{|#0:Task.Delay|}(1, linked.Token)", "{|#0:Task.Delay(1, linked.Token)|}")
             .Replace("{|#0:Task.Delay|}(1, snapshot)", "{|#0:Task.Delay(1, snapshot)|}")
             .Replace("{|#0:Task.Delay|}(1, copy39)", "{|#0:Task.Delay(1, copy39)|}");
         var source = $$"""

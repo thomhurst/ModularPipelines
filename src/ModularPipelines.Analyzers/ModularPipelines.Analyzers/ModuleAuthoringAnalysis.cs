@@ -5648,7 +5648,7 @@ internal static class ModuleAuthoringAnalysis
             returnType = nullableType.TypeArguments[0];
         }
 
-        if (returnType?.ToDisplayString() != CancellationTokenMetadataName)
+        if (!IsCancellationCarrier(returnType))
         {
             return false;
         }
