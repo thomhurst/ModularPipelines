@@ -6349,7 +6349,8 @@ internal static class ModuleAuthoringAnalysis
         }
 
         if (binding.Syntax.SpanStart >= read.Syntax.SpanStart || sequence is null
-            || !HasAncestor(read, sequence) || HasBranchingAncestor(predecessor, sequence))
+            || !HasAncestor(read, sequence) || HasBranchingAncestor(predecessor, sequence)
+            || (!ReferenceEquals(binding, predecessor) && HasBranchingAncestor(binding, predecessor)))
         {
             return false;
         }

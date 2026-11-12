@@ -3056,6 +3056,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var i = 0; Before: switch (i++) { case 1: if (DateTime.UtcNow.Ticks > 0) first = third; return first; default: first = default; break; } goto Before;")]
     [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = third; After: return first; default: first = default; goto After; }")]
     [DataRow("var i = 0; Before: first = third; Skip: switch (i++) { case 0: first = default; goto Skip; default: return first; }")]
+    [DataRow("{ if (DateTime.UtcNow.Ticks % 2 == 0) second = third; } return second;")]
+    [DataRow("{ if (DateTime.UtcNow.Ticks % 2 == 0) second = ref first; } return second;")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3180,6 +3182,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var i = 0; Before: switch (i++) { case 0: first = default; break; default: first = third; return first; } goto Before;", "default")]
     [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = third; return first; default: first = default; goto case 0; }", "default")]
     [DataRow("var i = 0; Before: first = third; switch (i++) { case 0: first = default; goto Before; default: return first; }", "default")]
+    [DataRow("{ if (DateTime.UtcNow.Ticks % 2 == 0) second = third; else second = first; } return second;", "default")]
+    [DataRow("{ if (DateTime.UtcNow.Ticks % 2 == 0) second = ref first; else second = ref third; } return second;", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);
