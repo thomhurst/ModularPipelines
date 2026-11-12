@@ -127,6 +127,12 @@ public sealed record PipelineSummary
     public PipelineRunReport? RunReport { get; internal init; }
 
     /// <summary>
+    /// Gets machine-wide CPU and memory usage sampled during the run, when monitoring was enabled and supported.
+    /// </summary>
+    [JsonInclude]
+    public ResourceUsage? ResourceUsage { get; internal init; }
+
+    /// <summary>
     /// Gets the module results that failed the pipeline.
     /// </summary>
     /// <remarks>

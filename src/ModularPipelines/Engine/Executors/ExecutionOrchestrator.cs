@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Worker;
+using ModularPipelines.Engine.Resources;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -47,7 +48,8 @@ internal class ExecutionOrchestrator(
     DistributedRunCleanupExecutor? runCleanupExecutor = null,
     IExecutionBackend? executionBackend = null,
     RerunFailedPlan? rerunFailedPlan = null,
-    TimeSpan? endHandlerTimeout = null) : IExecutionOrchestrator
+    TimeSpan? endHandlerTimeout = null,
+    IResourceUsageMonitor? resourceUsageMonitor = null) : IExecutionOrchestrator
 {
     // Leave time for reports and disposal within the 30-second process-exit budget.
     private readonly TimeSpan _endHandlerTimeout = endHandlerTimeout ?? TimeSpan.FromSeconds(5);
@@ -102,6 +104,7 @@ internal class ExecutionOrchestrator(
 
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
+        var resourceMonitoring = resourceUsageMonitor?.Start();
         IReadOnlyList<IModule> allModules = [];
         PipelineSummary? summary = null;
         Exception? caughtException = null;
@@ -111,6 +114,7 @@ internal class ExecutionOrchestrator(
             if (!await RegisterWorkerAsync(_engineCancellationToken.Token).ConfigureAwait(false))
             {
                 // A rejected session owns no shared data. Skip handlers and final metrics publication.
+                await StopResourceMonitoringAsync(resourceMonitoring).ConfigureAwait(false);
                 var completedSummary = new PipelineSummary([], [], stopWatch.Elapsed, start, DateTimeOffset.UtcNow);
                 _outputCoordinator.PrintResults(completedSummary);
                 return completedSummary;
@@ -168,6 +172,9 @@ internal class ExecutionOrchestrator(
                 summary, caughtException, allModules, stopWatch.Elapsed, start)
             .ConfigureAwait(false);
 
+        // Stop sampling so the summary and run report include the final resource usage.
+        await StopResourceMonitoringAsync(resourceMonitoring).ConfigureAwait(false);
+
         // Step 2: Always print summary (exactly once)
         // Only an acknowledged registration owns a worker status that can be finalized.
         // Shutdown signals must still persist reports. Explicit pipeline cancellation can skip them.
@@ -195,6 +202,9 @@ internal class ExecutionOrchestrator(
 
         return summary;
     }
+
+    private static ValueTask StopResourceMonitoringAsync(IAsyncDisposable? resourceMonitoring) =>
+        resourceMonitoring?.DisposeAsync() ?? ValueTask.CompletedTask;
 
     private void EnsureSingleExecution()
     {
@@ -327,6 +337,7 @@ internal class ExecutionOrchestrator(
             {
                 StatusOverride = existingSummary.StatusOverride,
             };
+        summary = summary with { ResourceUsage = resourceUsageMonitor?.GetResult() };
 
         await FlushConsoleBestEffortAsync().ConfigureAwait(false);
 

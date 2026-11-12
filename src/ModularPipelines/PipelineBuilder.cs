@@ -230,6 +230,25 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
+    /// Replaces the machine resource monitoring options in the current pipeline options snapshot.
+    /// </summary>
+    /// <param name="configure">A function that returns the configured resource monitoring options.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    /// <example>
+    /// <code>
+    /// builder.ConfigureResourceMonitoring(monitoring => monitoring with { Enabled = false });
+    /// </code>
+    /// </example>
+    public PipelineBuilder ConfigureResourceMonitoring(Func<ResourceMonitoringOptions, ResourceMonitoringOptions> configure)
+    {
+        ArgumentNullException.ThrowIfNull(configure);
+        return ConfigureOptions(options => options with
+        {
+            ResourceMonitoring = ConfigureGroup(options.ResourceMonitoring, configure, nameof(PipelineOptions.ResourceMonitoring)),
+        });
+    }
+
+    /// <summary>
     /// Replaces the command execution options in the current pipeline options snapshot.
     /// </summary>
     /// <param name="configure">A function that returns the configured command options.</param>
@@ -1121,6 +1140,7 @@ public sealed class PipelineBuilder
         },
         Secrets = options.Secrets with { },
         Concurrency = options.Concurrency with { },
+        ResourceMonitoring = options.ResourceMonitoring with { },
     };
 
     private sealed class FixedOptions<

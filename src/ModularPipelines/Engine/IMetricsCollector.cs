@@ -40,6 +40,11 @@ internal interface IMetricsCollector
     void RecordModuleStarted(Type moduleType, DateTimeOffset time);
 
     /// <summary>
+    /// Gets the modules that have started and not yet completed.
+    /// </summary>
+    IReadOnlyList<Type> GetRunningModules();
+
+    /// <summary>
     /// Records when a module completes execution.
     /// </summary>
     void RecordModuleCompleted(Type moduleType, DateTimeOffset time, bool success, bool skipped, ModuleStatus status);

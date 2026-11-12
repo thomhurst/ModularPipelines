@@ -173,6 +173,7 @@ internal sealed class RunReportService(
                 End = summary.EndTime,
                 TotalDuration = summary.Duration,
                 Metrics = summary.Metrics,
+                ResourceUsage = summary.ResourceUsage,
                 Exception = CreateFallbackExceptionDetails(pipelineException),
             };
         }

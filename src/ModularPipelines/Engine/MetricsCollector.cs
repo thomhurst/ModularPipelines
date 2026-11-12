@@ -47,6 +47,9 @@ internal class MetricsCollector : IMetricsCollector
         data.Status = ModuleStatus.Running;
     }
 
+    public IReadOnlyList<Type> GetRunningModules() =>
+        [.. _moduleMetrics.Values.Where(static data => data.Status == ModuleStatus.Running).Select(static data => data.ModuleType)];
+
     public void RecordModuleCompleted(Type moduleType, DateTimeOffset time, bool success, bool skipped, ModuleStatus status)
     {
         var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });

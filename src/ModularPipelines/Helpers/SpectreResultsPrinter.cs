@@ -59,6 +59,8 @@ internal class SpectreResultsPrinter(
 
         PrintDistributedSummary(pipelineSummary.RunReport?.Distributed);
 
+        PrintResourceUsage(pipelineSummary.ResourceUsage);
+
         System.Console.WriteLine();
     }
 
@@ -118,6 +120,15 @@ internal class SpectreResultsPrinter(
         return $"Workers idle {idlePercentage:F1}% of run; longest queue wait: "
                + $"{longestQueueWait.QueueWaitDuration.ToDisplayString()} on "
                + SpectreMarkupEscaper.Escape(longestQueueWait.ModuleId.Value);
+    }
+
+    internal static string CreateResourceUsageLine(ResourceUsage usage)
+    {
+        var line = $"CPU peak {usage.PeakCpu * 100:F0}%, avg {usage.AverageCpu * 100:F0}%; "
+                   + $"memory peak {usage.PeakMemory * 100:F0}%";
+        return usage.SaturatedDuration > TimeSpan.Zero
+            ? $"{line}; saturated for {usage.SaturatedDuration.ToDisplayString()}"
+            : line;
     }
 
     private static void PrintHeader(PipelineSummary pipelineSummary)
@@ -469,6 +480,17 @@ internal class SpectreResultsPrinter(
 
         System.Console.WriteLine();
         AnsiConsole.MarkupLine($"[dim]Distributed:[/] {CreateDistributedSummaryLine(report)}");
+    }
+
+    private static void PrintResourceUsage(ResourceUsage? usage)
+    {
+        if (usage is null)
+        {
+            return;
+        }
+
+        System.Console.WriteLine();
+        AnsiConsole.MarkupLine($"[dim]Machine:[/] {CreateResourceUsageLine(usage)}");
     }
 
     private static Panel CreateMetricsPanelCore(PipelineMetrics metrics)

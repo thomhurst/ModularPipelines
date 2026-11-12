@@ -297,6 +297,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<ICommandArgumentBuilder, CommandArgumentBuilder>()
             .AddSingleton<ICommandPartsProvider, CommandPartsProvider>()
             .AddSingleton<IMetricsCollector, MetricsCollector>()
+            .AddSingleton<Engine.Resources.IResourceUsageMonitor, Engine.Resources.ResourceUsageMonitor>()
 
             // Module execution components (SRP extraction from ModuleExecutor)
             .AddSingleton<Engine.Execution.IModuleResultRegistrar, Engine.Execution.ModuleResultRegistrar>()
@@ -309,6 +310,20 @@ internal static class DependencyInjectionSetup
 
             // Module scheduling components (SRP extraction from ModuleScheduler)
             .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>();
+
+        // Other platforms register no reader, which leaves resource monitoring off.
+        if (OperatingSystem.IsLinux())
+        {
+            services.TryAddSingleton<Engine.Resources.IMachineResourceReader, Engine.Resources.LinuxMachineResourceReader>();
+        }
+        else if (OperatingSystem.IsWindows())
+        {
+            services.TryAddSingleton<Engine.Resources.IMachineResourceReader, Engine.Resources.WindowsMachineResourceReader>();
+        }
+        else if (OperatingSystem.IsMacOS())
+        {
+            services.TryAddSingleton<Engine.Resources.IMachineResourceReader, Engine.Resources.MacMachineResourceReader>();
+        }
 
         services.TryAddSingleton(static serviceProvider =>
             new RunReportPathResolver(

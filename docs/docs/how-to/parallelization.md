@@ -6,6 +6,8 @@ title: Parallelization
 
 During normal scheduling, modules run in parallel by default once their dependencies have completed, subject to the pipeline's concurrency limits.
 
+To find out whether parallel modules are overloading the machine, see [Machine resource monitoring](./resource-monitoring.md).
+
 Use `NotInParallel` when modules access a resource that cannot safely be shared. For example, application installers may need exclusive access to the machine.
 
 Without constraint keys, `[NotInParallel]` prevents a module from running alongside any other module. Its dependencies must still complete before it can run during normal scheduling.
