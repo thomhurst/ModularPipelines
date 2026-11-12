@@ -5637,25 +5637,19 @@ internal static class ModuleAuthoringAnalysis
                            CloneVisitedMethods(visitedMethods))));
     }
 
-    private static bool IsReachableContainerOperation(IOperation operation)
+    private static IEnumerable<IOperation> GetReachableContainerOperations(IOperation root)
     {
-        if (IsInsideReachableNestedCallable(operation))
-        {
-            return true;
-        }
-
-        if (GetCallableSymbol(GetEnclosingCallable(operation)) is not { } callable)
-        {
-            return false;
-        }
-
-        // An escaped delegate may execute through a constructor, getter, or
-        // external API whose implementation is unavailable to this proof.
-        return GetRoot(operation).DescendantsAndSelf().Any(candidate =>
-            IsInReachableBranch(candidate)
-            && candidate is IArgumentOperation argument
-            && ValueContainsCallable(argument.Value, callable, [with(SymbolEqualityComparer.Default)])
-            && IsInsideReachableNestedCallable(argument));
+        var children = root.DescendantsAndSelf().ToArray();
+        var invocations = children.OfType<IInvocationOperation>().ToImmutableArray();
+        var callables = children.Select(GetCallableSymbol)
+            .Where(static callable => callable is not null)
+            .Cast<IMethodSymbol>()
+            .ToImmutableArray();
+        var caller = GetCallableSymbol(root) is null ? null : root;
+        var reachable = GetReachableCallables(invocations, callables, GetCallableSymbol(caller));
+        AddEscapedContainerCallables(children, caller, static _ => true, invocations, callables, reachable);
+        return children.Where(IsInReachableBranch)
+            .Where(child => IsInsideReachableCallable(child, reachable));
     }
 
     private static bool HasContainerElementMutation(
@@ -5668,17 +5662,22 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var relevant = GetForwardedContainerSymbols(operation, flowedParameters);
-        return operation.DescendantsAndSelf().Any(child =>
-            IsInReachableBranch(child)
-            && IsReachableContainerOperation(child)
-            && (((ExposesCancellationContainer(child)
-                        || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
-                    && ReferencesContainer(child, relevant))
-                || (child is IAssignmentOperation assignment
-                    && GetContainerStorageReferences(assignment.Target).Any(target =>
-                        (target is IParameterReferenceOperation parameter && relevant.Contains(parameter.Parameter))
-                        || (target is ILocalReferenceOperation { Local.RefKind: not RefKind.None } local && relevant.Contains(local.Local))))));
+        return GetReachableContainerOperations(operation).Any(child =>
+            MutatesOrExposesContainerStorage(child, relevant)
+            || ReplacesForwardedContainerStorage(child, relevant));
     }
+
+    private static bool MutatesOrExposesContainerStorage(IOperation operation, HashSet<ISymbol> relevant) =>
+        (ExposesCancellationContainer(operation)
+            || (IsCancellationContainerElement(operation) && MayWriteContainerElement(operation)))
+        && ReferencesContainer(operation, relevant);
+
+    private static bool ReplacesForwardedContainerStorage(IOperation operation, HashSet<ISymbol> relevant) =>
+        operation is IAssignmentOperation assignment
+        && !IsRefRebinding(assignment)
+        && (GetContainerStorageReferences(assignment.Target).Any(target =>
+                target is IParameterReferenceOperation parameter && relevant.Contains(parameter.Parameter))
+            || WritesThroughContainerRefLocal(assignment.Target, relevant));
 
     private static HashSet<ISymbol> GetForwardedContainerSymbols(
         IOperation operation, HashSet<IParameterSymbol> flowedParameters,
@@ -5692,7 +5691,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var children = (callerReference is null
-                ? operation.DescendantsAndSelf().Where(IsInReachableBranch).Where(IsReachableContainerOperation)
+                ? GetReachableContainerOperations(operation)
                 : GetCallerContainerOperations(operation, callerReference, storageStart))
             .ToArray();
         AddCallerAllocationAliases(children, callerReference, storageStart, relevant);
@@ -5767,32 +5766,54 @@ internal static class ModuleAuthoringAnalysis
     {
         var children = root.DescendantsAndSelf().ToArray();
         var caller = GetEnclosingCallable(reference);
-        bool PrecedesReference(IOperation child) =>
+        var consumptionEnd = GetContainerConsumptionEnd(reference);
+        bool IsWithinStorageLifetime(IOperation child) =>
             child.Syntax.Span.End > storageStart
-            && child.Syntax.SpanStart < reference.Syntax.SpanStart;
+            && child.Syntax.SpanStart < consumptionEnd;
 
         // Nested bodies execute at their call sites, irrespective of where the
         // declaration appears. Bound outer calls to the current storage lifetime
         // and follow nested calls transitively, including delegate invocations.
         var invocations = children.OfType<IInvocationOperation>()
             .Where(invocation => !ReferenceEquals(GetEnclosingCallable(invocation), caller)
-                || PrecedesReference(invocation))
+                || IsWithinStorageLifetime(invocation))
             .ToImmutableArray();
         var callables = children.Select(GetCallableSymbol)
             .Where(static callable => callable is not null)
             .Cast<IMethodSymbol>()
             .ToImmutableArray();
         var reachable = GetReachableCallables(invocations, callables, GetCallableSymbol(caller));
-        AddEscapedCallerCallables(children, caller, PrecedesReference, invocations, callables, reachable);
+        AddEscapedContainerCallables(children, caller, IsWithinStorageLifetime, invocations, callables, reachable);
         return children.Where(IsInReachableBranch).Where(child =>
             ReferenceEquals(GetEnclosingCallable(child), caller)
-                ? PrecedesReference(child)
+                ? IsWithinStorageLifetime(child)
                 : GetCallableSymbol(GetEnclosingCallable(child)) is { } callable
                   && reachable.Contains(callable));
     }
 
-    private static void AddEscapedCallerCallables(
-        IOperation[] children, IOperation? caller, Func<IOperation, bool> precedesReference,
+    private static int GetContainerConsumptionEnd(ILocalReferenceOperation reference)
+    {
+        var end = reference.Syntax.SpanStart;
+        for (var parent = reference.Parent; parent is not null; parent = parent.Parent)
+        {
+            if (parent is IVariableInitializerOperation or IExpressionStatementOperation
+                or IReturnOperation or IAnonymousFunctionOperation or ILocalFunctionOperation)
+            {
+                break;
+            }
+
+            if (parent is IInvocationOperation or IObjectCreationOperation)
+            {
+                // Every argument is evaluated before the callee consumes storage.
+                end = parent.Syntax.Span.End;
+            }
+        }
+
+        return end;
+    }
+
+    private static void AddEscapedContainerCallables(
+        IOperation[] children, IOperation? caller, Func<IOperation, bool> isWithinStorageLifetime,
         ImmutableArray<IInvocationOperation> invocations, ImmutableArray<IMethodSymbol> callables,
         HashSet<IMethodSymbol> reachable)
     {
@@ -5805,7 +5826,7 @@ internal static class ModuleAuthoringAnalysis
             {
                 var enclosing = GetEnclosingCallable(argument);
                 if (ReferenceEquals(enclosing, caller)
-                    ? !precedesReference(argument)
+                    ? !isWithinStorageLifetime(argument)
                     : GetCallableSymbol(enclosing) is not { } owner || !reachable.Contains(owner))
                 {
                     continue;
@@ -5835,7 +5856,7 @@ internal static class ModuleAuthoringAnalysis
             relevant.Add(declaration.Symbol);
             AddContainerReferences(initializer, relevant);
         }
-        else if (child is ISimpleAssignmentOperation assignment
+        else if (child is ISimpleAssignmentOperation { IsRef: false } assignment
             && IsCancellationContainer(assignment.Value.Type)
             && (ReferencesContainer(assignment.Target, relevant) || ReferencesContainer(assignment.Value, relevant)))
         {
@@ -5924,12 +5945,58 @@ internal static class ModuleAuthoringAnalysis
 
     private static IEnumerable<IOperation> GetContainerStorageReferences(IOperation operation) => operation switch
     {
+        ILocalReferenceOperation { Local.RefKind: not RefKind.None } local
+            when IsCancellationContainer(local.Type) => GetRefLocalContainerStorageReferences(local, []),
         ILocalReferenceOperation or IParameterReferenceOperation or IFieldReferenceOperation or IPropertyReferenceOperation
             when IsCancellationContainer(operation.Type) => [operation],
         IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance } => GetContainerStorageReferences(instance),
         IConversionOperation conversion => GetContainerStorageReferences(conversion.Operand),
         ISimpleAssignmentOperation assignment => GetContainerStorageReferences(assignment.Value),
         _ => GetCompositeContainerStorageReferences(operation),
+    };
+
+    private static IEnumerable<IOperation> GetRefLocalContainerStorageReferences(
+        ILocalReferenceOperation reference, HashSet<IOperation> visited)
+    {
+        if (!visited.Add(reference))
+        {
+            return [];
+        }
+
+        // The RHS of a rebinding reads the old location. Reference occurrences,
+        // rather than local symbols, distinguish self-rebinding from recursion.
+        var root = GetRoot(reference);
+        var callable = GetEnclosingCallable(reference);
+        var bindings = FindLocalAssignments(root, reference, reference.Local, callable)
+            .Where(static assignment => assignment.IsRef)
+            .Where(assignment => !assignment.Syntax.Span.Contains(reference.Syntax.Span))
+            .Where(IsInReachableBranch)
+            .ToArray();
+        var latest = bindings.FirstOrDefault(binding => IsLinearPredecessor(binding, reference));
+        var values = bindings
+            .Where(binding => latest is null || binding.Syntax.SpanStart >= latest.Syntax.SpanStart)
+            .Select(static binding => binding.Value);
+        if (latest is null
+            && FindLocalDeclarator(root, reference, reference.Local, callable)?.Initializer?.Value is { } initializer)
+        {
+            values = values.Append(initializer);
+        }
+
+        return values.SelectMany(value => value is ILocalReferenceOperation { Local.RefKind: not RefKind.None } local
+            ? GetRefLocalContainerStorageReferences(local, [.. visited])
+            : GetContainerStorageReferences(value));
+    }
+
+    private static bool IsRefRebinding(IAssignmentOperation assignment) =>
+        assignment is ISimpleAssignmentOperation { IsRef: true };
+
+    private static bool WritesThroughContainerRefLocal(IOperation target, HashSet<ISymbol> relevant) => target switch
+    {
+        ILocalReferenceOperation { Local.RefKind: not RefKind.None } local => ReferencesContainer(local, relevant),
+        ITupleOperation tuple => tuple.Elements.Any(element => WritesThroughContainerRefLocal(element, relevant)),
+        IConversionOperation conversion => WritesThroughContainerRefLocal(conversion.Operand, relevant),
+        IDeclarationExpressionOperation declaration => WritesThroughContainerRefLocal(declaration.Expression, relevant),
+        _ => false,
     };
 
     private static IEnumerable<IOperation> GetCompositeContainerStorageReferences(IOperation operation) => operation switch
@@ -6325,15 +6392,13 @@ internal static class ModuleAuthoringAnalysis
         var relevant = GetForwardedContainerSymbols(root, [], localReference, storageStart);
         return GetCallerContainerOperations(root, localReference, storageStart).Any(child =>
                     !child.Syntax.Span.Contains(localReference.Syntax.Span)
-                    && (((ExposesCancellationContainer(child)
-                            || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
-                            && ReferencesContainer(child, relevant))
+                    && (MutatesOrExposesContainerStorage(child, relevant)
                         || (child is IAssignmentOperation assignment
-                            && GetContainerStorageReferences(assignment.Target)
-                                .OfType<ILocalReferenceOperation>()
-                                .Any(target => (target.Local.RefKind != RefKind.None && relevant.Contains(target.Local))
-                                    || (!ReferenceEquals(GetEnclosingCallable(child), GetEnclosingCallable(localReference))
-                                        && SymbolEqualityComparer.Default.Equals(target.Local, localReference.Local))))));
+                            && !IsRefRebinding(assignment)
+                            && (WritesThroughContainerRefLocal(assignment.Target, relevant)
+                                || (!ReferenceEquals(GetEnclosingCallable(child), GetEnclosingCallable(localReference))
+                                    && GetContainerStorageReferences(assignment.Target).OfType<ILocalReferenceOperation>()
+                                        .Any(target => SymbolEqualityComparer.Default.Equals(target.Local, localReference.Local)))))));
     }
 
     private static bool IsCancellationTokenSourceToken(

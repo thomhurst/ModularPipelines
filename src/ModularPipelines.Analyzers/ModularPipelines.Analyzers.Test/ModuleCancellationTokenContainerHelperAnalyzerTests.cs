@@ -50,6 +50,17 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("var pair = (new CancellationToken[1], value); var (scratch, original) = pair; scratch[0] = default;", false)]
     [DataRow("var pair = (new CancellationToken[1], value); var (scratch, original) = pair; original[0] = default;", true)]
     [DataRow("ClearOut(out value[0]);", true)]
+    [DataRow("_ = new Lazy<bool>(() => { ClearLocal(); return true; }).Value; void ClearLocal() { value[0] = default; }", true)]
+    [DataRow("_ = new Lazy<bool>(() => { ClearIndirect(); return true; }).Value; void ClearIndirect() { ClearLocal(); } void ClearLocal() { value[0] = default; }", true)]
+    [DataRow("Func<bool> clear = () => { ClearLocal(); return true; }; _ = new Lazy<bool>(clear).Value; void ClearLocal() { value[0] = default; }", true)]
+    [DataRow("Func<bool> clear = () => { ClearLocal(); return true; }; void ClearLocal() { value[0] = default; }", false)]
+    [DataRow("if (false) _ = new Lazy<bool>(() => { ClearLocal(); return true; }).Value; void ClearLocal() { value[0] = default; }", false)]
+    [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref value; alias = ref scratch;", false)]
+    [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref value; alias = ref scratch; alias = new CancellationToken[1];", false)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; alias = ref value; alias = new CancellationToken[1];", true)]
+    [DataRow("var scratch = new CancellationToken[2]; ref var alias = ref value; scratch[alias[0].CanBeCanceled ? 0 : 1] = default;", false)]
+    [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref value; if (flag) alias = ref scratch; alias = new CancellationToken[1];", true)]
+    [DataRow("ref var alias = ref value; alias = ref alias; alias[0] = default;", true)]
     public async Task Tracks_Container_Helper_Storage(string body, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";
@@ -122,6 +133,12 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("ref var alias = ref tokens; alias = new CancellationToken[1];", true)]
     [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref scratch; alias = new CancellationToken[1];", false)]
     [DataRow("ref var alias = ref tokens; alias = new CancellationToken[1]; tokens = new[] { cancellationToken };", false)]
+    [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref tokens; alias = ref scratch;", false)]
+    [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref tokens; alias = ref scratch; alias = new CancellationToken[1];", false)]
+    [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref scratch; alias = ref tokens; alias = new CancellationToken[1];", true)]
+    [DataRow("var scratch = new CancellationToken[2]; ref var alias = ref tokens; scratch[alias[0].CanBeCanceled ? 0 : 1] = default;", false)]
+    [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref tokens; if (context != null) alias = ref scratch; alias = new CancellationToken[1];", true)]
+    [DataRow("ref var alias = ref tokens; alias = ref alias; alias[0] = default;", true)]
     public async Task Tracks_Caller_Container_Storage(string body, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";
@@ -144,6 +161,41 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
 
                 private static void Clear(CancellationToken[] value) => value[0] = default;
                 private static CancellationToken[] Forward(CancellationToken[] value) => value;
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source, warns
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("Forward(tokens, tokens[0] = default)", true)]
+    [DataRow("Forward(tokens, Clear())", true)]
+    [DataRow("Forward(tokens, ClearIndirect())", true)]
+    [DataRow("Forward(tokens, new Lazy<CancellationToken>(() => Clear()).Value)", true)]
+    [DataRow("Forward(tokens, default)", false)]
+    [DataRow("Forward(tokens, scratch[0] = default)", false)]
+    [DataRow("Forward(tokens, context != null ? tokens[0] = default : default)", true)]
+    [DataRow("Forward(tokens, false ? tokens[0] = default : default)", false)]
+    public async Task Tracks_Container_Argument_Evaluation(string argument, bool warns)
+    {
+        var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeaderWithExtensions}}
+            public class BuildModule : Module<List<string>>
+            {
+                protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    var tokens = new[] { cancellationToken };
+                    var scratch = new CancellationToken[1];
+                    using var linked = CancellationTokenSource.CreateLinkedTokenSource({{argument}});
+                    await {{call}};
+                    return new List<string>();
+                    CancellationToken Clear() { tokens[0] = default; return default; }
+                    CancellationToken ClearIndirect() => Clear();
+                }
+
+                private static CancellationToken[] Forward(CancellationToken[] value, CancellationToken ignored) => value;
             }
             """;
         await VerifyCS.VerifyAnalyzerAsync(source, warns
