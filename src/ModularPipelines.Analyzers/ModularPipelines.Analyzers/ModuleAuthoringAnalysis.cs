@@ -5612,6 +5612,11 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        if (HasContainerElementMutation(operation, invocation.Type, flowedParameters))
+        {
+            return false;
+        }
+
         var returnValues = operation.DescendantsAndSelf()
             .OfType<IReturnOperation>()
             .Where(static returnOperation =>
@@ -5632,6 +5637,212 @@ internal static class ModuleAuthoringAnalysis
                            CloneVisitedMethods(visitedMethods))));
     }
 
+    private static bool HasContainerElementMutation(
+        IOperation operation, ITypeSymbol? returnType, HashSet<IParameterSymbol> flowedParameters)
+    {
+        if (!IsCancellationContainer(returnType)
+            && !flowedParameters.Any(static parameter => IsCancellationContainer(parameter.Type)))
+        {
+            return false;
+        }
+
+        var relevant = GetForwardedContainerSymbols(operation, flowedParameters);
+        return operation.DescendantsAndSelf().Any(child =>
+            (ExposesCancellationContainer(child)
+                || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
+            && ReferencesContainer(child, relevant));
+    }
+
+    private static HashSet<ISymbol> GetForwardedContainerSymbols(
+        IOperation operation, HashSet<IParameterSymbol> flowedParameters)
+    {
+        var relevant = new HashSet<ISymbol>(flowedParameters.Where(static parameter => IsCancellationContainer(parameter.Type)), SymbolEqualityComparer.Default);
+        var children = operation.DescendantsAndSelf().ToArray();
+        // Caller-owned containers can alias even when only one has proven provenance.
+        foreach (var parameter in children.OfType<IParameterReferenceOperation>())
+        {
+            if (IsCancellationContainer(parameter.Type))
+            {
+                relevant.Add(parameter.Parameter);
+            }
+        }
+
+        foreach (var returned in children.OfType<IReturnOperation>())
+        {
+            if (returned.ReturnedValue is { } value && IsCancellationContainer(value.Type))
+            {
+                AddContainerReferences(value, relevant);
+            }
+        }
+
+        // Follow possible aliases in either direction. Fresh unrelated containers
+        // remain independent; scalar reads such as Length do not create aliases.
+        bool changed;
+        do
+        {
+            var count = relevant.Count;
+            foreach (var child in children)
+            {
+                AddContainerAliases(child, relevant);
+            }
+
+            changed = relevant.Count != count;
+        }
+        while (changed);
+
+        return relevant;
+    }
+
+    private static void AddContainerAliases(IOperation child, HashSet<ISymbol> relevant)
+    {
+        if (child is IVariableDeclaratorOperation { Initializer.Value: { } initializer } declaration
+            && IsCancellationContainer(initializer.Type)
+            && (relevant.Contains(declaration.Symbol) || ReferencesContainer(initializer, relevant)))
+        {
+            relevant.Add(declaration.Symbol);
+            AddContainerReferences(initializer, relevant);
+        }
+        else if (child is ISimpleAssignmentOperation assignment
+            && IsCancellationContainer(assignment.Value.Type)
+            && (ReferencesContainer(assignment.Target, relevant) || ReferencesContainer(assignment.Value, relevant)))
+        {
+            AddContainerReferences(assignment.Target, relevant);
+            AddContainerReferences(assignment.Value, relevant);
+        }
+        else if (child is IDeconstructionAssignmentOperation deconstruction)
+        {
+            AddDeconstructionContainerAliases(deconstruction.Target, deconstruction.Value, relevant);
+        }
+    }
+
+    private static void AddDeconstructionContainerAliases(
+        IOperation target, IOperation value, HashSet<ISymbol> relevant,
+        HashSet<ILocalSymbol>? visitedLocals = null)
+    {
+        visitedLocals ??= [with(SymbolEqualityComparer.Default)];
+        if (value is ILocalReferenceOperation local && visitedLocals.Add(local.Local))
+        {
+            foreach (var reachingValue in FindReachingLocalValues(local, local.Local))
+            {
+                AddDeconstructionContainerAliases(target, reachingValue, relevant, CloneVisitedLocals(visitedLocals));
+            }
+
+            return;
+        }
+
+        if (target is IDeclarationExpressionOperation declaration)
+        {
+            target = declaration.Expression;
+        }
+
+        if (value is IConversionOperation conversion)
+        {
+            value = conversion.Operand;
+        }
+
+        if (target is ITupleOperation targets && value is ITupleOperation values
+            && targets.Elements.Length == values.Elements.Length)
+        {
+            for (var index = 0; index < targets.Elements.Length; index++)
+            {
+                AddDeconstructionContainerAliases(targets.Elements[index], values.Elements[index], relevant, CloneVisitedLocals(visitedLocals));
+            }
+        }
+        else if (IsCancellationContainer(value.Type)
+                 && (ReferencesContainer(target, relevant) || ReferencesContainer(value, relevant)))
+        {
+            AddContainerReferences(target, relevant);
+            AddContainerReferences(value, relevant);
+        }
+    }
+
+    private static void AddContainerReferences(IOperation operation, HashSet<ISymbol> symbols)
+    {
+        foreach (var child in GetContainerStorageReferences(operation))
+        {
+            if (IsCancellationContainer(child.Type) && GetContainerSymbol(child) is { } symbol)
+            {
+                symbols.Add(symbol);
+            }
+        }
+    }
+
+    private static bool ReferencesContainer(IOperation operation, HashSet<ISymbol> symbols) =>
+        GetContainerStorageReferences(operation).Any(child =>
+            (GetContainerSymbol(child) is { } symbol && symbols.Contains(symbol))
+            || (child is IFieldReferenceOperation or IPropertyReferenceOperation && IsCancellationContainer(child.Type)));
+
+    private static IEnumerable<IOperation> GetContainerStorageReferences(IOperation operation) => operation switch
+    {
+        ILocalReferenceOperation or IParameterReferenceOperation or IFieldReferenceOperation or IPropertyReferenceOperation
+            when IsCancellationContainer(operation.Type) => [operation],
+        IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance } => GetContainerStorageReferences(instance),
+        IConversionOperation conversion => GetContainerStorageReferences(conversion.Operand),
+        ISimpleAssignmentOperation assignment => GetContainerStorageReferences(assignment.Value),
+        ISwitchExpressionOperation expression => expression.Arms.SelectMany(arm => GetContainerStorageReferences(arm.Value)),
+        IArgumentOperation argument => GetContainerStorageReferences(argument.Value),
+        IConditionalOperation conditional => GetContainerStorageReferences(conditional.WhenTrue)
+            .Concat(conditional.WhenFalse is { } alternative ? GetContainerStorageReferences(alternative) : []),
+        ICoalesceOperation coalesce => GetContainerStorageReferences(coalesce.Value).Concat(GetContainerStorageReferences(coalesce.WhenNull)),
+        ITupleOperation tuple => tuple.Elements.SelectMany(GetContainerStorageReferences),
+        IDeclarationExpressionOperation declaration => GetContainerStorageReferences(declaration.Expression),
+        IDeconstructionAssignmentOperation assignment => GetContainerStorageReferences(assignment.Target).Concat(GetContainerStorageReferences(assignment.Value)),
+        IArrayElementReferenceOperation array => GetContainerStorageReferences(array.ArrayReference),
+        IInvocationOperation invocation => invocation.Arguments.SelectMany(GetContainerStorageReferences)
+            .Concat(invocation.Instance is { } receiver ? GetContainerStorageReferences(receiver) : []),
+        IDynamicMemberReferenceOperation { Instance: { } instance } => GetContainerStorageReferences(instance),
+        IDynamicInvocationOperation or IDynamicObjectCreationOperation => operation.ChildOperations.SelectMany(GetContainerStorageReferences),
+        _ => [],
+    };
+
+    private static ISymbol? GetContainerSymbol(IOperation operation) => operation switch
+    {
+        ILocalReferenceOperation local => local.Local,
+        IParameterReferenceOperation parameter => parameter.Parameter,
+        _ => null,
+    };
+
+    private static bool IsCancellationContainerElement(IOperation operation)
+    {
+        return operation switch
+        {
+            IArrayElementReferenceOperation array => IsCancellationContainer(array.ArrayReference.Type),
+            IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance } => IsCancellationContainer(instance.Type),
+            _ => false,
+        };
+    }
+
+    private static bool ExposesCancellationContainer(IOperation operation)
+    {
+        return operation switch
+        {
+            IArgumentOperation argument => !(argument.Parent is IInvocationOperation invocation && IsKnownCancellationCarrierFactory(invocation))
+                && IsCancellationContainer(argument.Value.Type),
+            IInvocationOperation invocation => IsCancellationContainer(invocation.Instance?.Type),
+            IConversionOperation conversion => IsCancellationContainer(conversion.Operand.Type) && !IsCancellationContainer(conversion.Type),
+            ISimpleAssignmentOperation assignment => assignment.Target is IFieldReferenceOperation or IPropertyReferenceOperation
+                && IsCancellationContainer(assignment.Value.Type),
+            IDynamicInvocationOperation or IDynamicObjectCreationOperation => true,
+            _ => false,
+        };
+    }
+
+    private static bool IsCancellationContainer(ITypeSymbol? type)
+    {
+        return !IsCancellationCarrier(type) && IsCancellationInput(type);
+    }
+
+    private static bool MayWriteContainerElement(IOperation element)
+    {
+        return element.Syntax.Ancestors().Any(syntax => syntax switch
+        {
+            AssignmentExpressionSyntax assignment => assignment.Left.Span.Contains(element.Syntax.Span),
+            RefExpressionSyntax => true,
+            ArgumentSyntax argument => argument.RefKindKeyword.ValueText is "ref" or "out",
+            _ => false,
+        });
+    }
+
     private static HashSet<IParameterSymbol> GetFlowedCancellationParameters(
         IInvocationOperation invocation,
         IMethodSymbol method,
@@ -5643,7 +5854,7 @@ internal static class ModuleAuthoringAnalysis
             invocation.Arguments
                 .Where(static argument =>
                     argument.Parameter is not null
-                    && IsCancellationToken(argument.Parameter))
+                    && IsCancellationInput(argument.Parameter))
                 .Where(argument => FlowsFromCancellationToken(
                     argument.Value,
                     cancellationToken,
@@ -5675,7 +5886,7 @@ internal static class ModuleAuthoringAnalysis
         if (invocation.TargetMethod.ReducedFrom is not null
             && invocation.Instance is { } instance
             && method.Parameters.FirstOrDefault() is { } receiverParameter
-            && IsCancellationToken(receiverParameter)
+            && IsCancellationInput(receiverParameter)
             && FlowsFromCancellationToken(
                 instance,
                 cancellationToken,
@@ -5699,11 +5910,16 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsCancellationInput(IParameterSymbol parameter)
     {
-        return IsCancellationToken(parameter)
-               || (parameter.Type is IArrayTypeSymbol arrayType
+        return IsCancellationInput(parameter.Type);
+    }
+
+    private static bool IsCancellationInput(ITypeSymbol? type)
+    {
+        return type?.ToDisplayString() == CancellationTokenMetadataName
+               || (type is IArrayTypeSymbol arrayType
                    && arrayType.ElementType.ToDisplayString()
                    == CancellationTokenMetadataName)
-               || (parameter.Type is INamedTypeSymbol { IsGenericType: true } namedType
+               || (type is INamedTypeSymbol { IsGenericType: true } namedType
                    && namedType.TypeArguments.Length == 1
                    && namedType.OriginalDefinition.ToDisplayString() is
                        "System.Span<T>"
