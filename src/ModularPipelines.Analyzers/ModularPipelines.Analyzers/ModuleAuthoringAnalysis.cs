@@ -5717,6 +5717,11 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        if (firstParameter.RefKind == RefKind.None || secondParameter.RefKind == RefKind.None)
+        {
+            return false;
+        }
+
         if (cancellationTokens is not CancellationHelperParameters parameters)
         {
             return true;
@@ -5735,6 +5740,13 @@ internal static class ModuleAuthoringAnalysis
     {
         public ISymbol?[] GetCallerStorages(IParameterSymbol parameter)
         {
+            // A by-value parameter owns a copy, even when its caller supplied the
+            // same variable to another parameter. Preserve that storage identity.
+            if (parameter.RefKind == RefKind.None)
+            {
+                return [parameter];
+            }
+
             return [
                 .. invocation.Arguments
                     .Where(argument => argument.Parameter is not null

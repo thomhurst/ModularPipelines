@@ -3339,6 +3339,49 @@ public class ModuleAuthoringAnalyzerTests
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Does_Not_Report_Copied_CancellationToken_Parameter_Storage(bool nested)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; return alias;",
+            "default", report: false)
+            .Replace("scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third",
+                "CancellationToken first, CancellationToken second, CancellationToken third")
+            .Replace("Forward(ref token, ref other, ref third)", nested
+                ? "Nested(token, other, token)"
+                : "Forward(token, other, token)");
+        if (nested)
+        {
+            source = source
+                .Replace("CancellationToken first, CancellationToken second, CancellationToken third)",
+                    "scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third)")
+                .Replace("private static void Clear", "private static CancellationToken Nested(CancellationToken first, CancellationToken second, CancellationToken third) => Forward(ref first, ref second, ref third); private static void Clear");
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Mutation_In_Ref_Return_Helper_Condition()
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "ref var alias = ref Identity(ref first); return alias;", "default", report: true,
+            helpers: """
+                private static bool Reset(ref CancellationToken token)
+                {
+                    token = default;
+                    return true;
+                }
+                private static ref CancellationToken Identity(ref CancellationToken token)
+                    => ref (Reset(ref token) ? ref token : ref token);
+                """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source,
+            VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"));
+    }
+
     private static string ReboundCancellationTokenHelperSource(string body, string second, bool report, string? helpers = null)
     {
         var delay = report ? "{|#0:Task.Delay(1, snapshot)|}" : "Task.Delay(1, snapshot)";
