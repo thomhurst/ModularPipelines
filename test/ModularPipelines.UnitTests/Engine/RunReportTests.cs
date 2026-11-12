@@ -342,6 +342,7 @@ public class RunReportTests
             CancellationToken cancellationToken)
         {
             commandExecutionCounter.Record(moduleType: null);
+            commandExecutionCounter.RecordResourceUsage(null, TimeSpan.FromMilliseconds(12), 4096);
             return ValueTask.CompletedTask;
         }
     }
@@ -2201,6 +2202,10 @@ public class RunReportTests
                 await Assert.That(report.UnattributedCommandCount).IsEqualTo(3);
                 await Assert.That(persisted!.CommandCount).IsEqualTo(3);
                 await Assert.That(persisted.UnattributedCommandCount).IsEqualTo(3);
+                await Assert.That(report.CommandResourceUsage.Count).IsEqualTo(1);
+                await Assert.That(persisted.CommandResourceUsage.Count).IsEqualTo(1);
+                await Assert.That(persisted.CommandResourceUsage[0].PeakWorkingSetBytes).IsEqualTo(4096);
+                await Assert.That(persisted.CommandResourceUsage[0].TotalProcessorTime).IsEqualTo(TimeSpan.FromMilliseconds(12));
             }
         }
         finally

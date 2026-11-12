@@ -72,6 +72,7 @@ internal sealed class RunReportService(
         report = enrichment.Report;
         report = report with
         {
+            CommandResourceUsage = commandExecutionCounter.GetResourceUsage(),
             CommandCount = commandExecutionCounter.TotalCount,
             UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
         };
