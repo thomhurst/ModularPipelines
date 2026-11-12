@@ -56,6 +56,15 @@ public class ModuleHelperRefReachabilityAnalyzerTests
     [DataRow("var saved = first; for (var j = 0; j < 2; j++) { for (var i = 0; i < 2; i++) { if (Flag) { second = default; goto Done; } else { return first; } } Done: ; } return saved;", true)]
     [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; if (Flag) goto Next; goto Done; } else { return first; } Next: continue; } Done: return saved;", true)]
     [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; goto Done; } else { return first; } } Done: return first;", true)]
+    [DataRow("var saved = first; if (Flag) { second = default; goto Done; } return first; Done: return first;", true)]
+    [DataRow("var saved = first; if (Flag) { second = default; goto Done; } Read: return first; Done: goto Read;", true)]
+    [DataRow("var saved = first; if (Flag) { second = default; goto Done; } return first; Done: goto Finish; Finish: return saved;", false)]
+    [DataRow("var saved = first; try { if (Flag) { second = default; goto Done; } return saved; } finally { saved = first; } Done: return saved;", true)]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; goto Next; } return first; Next: ; } return saved;", true)]
+    [DataRow("var saved = first; try { try { if (Flag) { second = default; goto Done; } } finally { if (Flag) throw new System.Exception(); } } catch { return first; } return saved; Done: return saved;", true)]
+    [DataRow("var saved = first; try { try { if (Flag) { second = default; goto Done; } } finally { if (Flag) throw new System.Exception(); } } catch { return saved; } return first; Done: return saved;", false)]
+    [DataRow("var saved = first; try { if (Flag) { second = default; goto Done; } } catch { } return first; Done: return saved;", false)]
+    [DataRow("var saved = first; try { try { if (Flag) { second = default; goto Done; } return first; Done: return saved; } finally { } } catch { } return saved;", false)]
     public async Task Checks_Helper_Mutation_Reachability(string body, bool reports)
     {
         await new ModuleHelperRefCancellationAnalyzerTests().Checks_Helper_Ref_Argument_Storage(

@@ -5811,7 +5811,8 @@ internal static class ModuleAuthoringAnalysis
                 !CanCancellationExitReachFinally(branch, read)
                 && GetRoot(branch).DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
                     SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
-                    && label.Syntax.SpanStart > read.Syntax.SpanStart),
+                    && label.Syntax.SpanStart > read.Syntax.SpanStart
+                    && !CanCancellationJumpReachCatch(branch, label, read)),
             IBlockOperation { Operations.Length: > 0 } block =>
                 AlwaysJumpsPastCancellationRead(block.Operations[block.Operations.Length - 1], read),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
@@ -5819,6 +5820,32 @@ internal static class ModuleAuthoringAnalysis
                 && AlwaysJumpsPastCancellationRead(whenFalse, read),
             _ => false,
         };
+    }
+
+    private static bool CanCancellationJumpReachCatch(IBranchOperation branch, ILabeledOperation target, IOperation read)
+    {
+        // A finally crossed by the jump can throw into an enclosing handler.
+        var crossesFinally = false;
+        for (var ancestor = branch.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (crossesFinally && ancestor is ITryOperation tryOperation && HasAncestor(branch, tryOperation.Body)
+                && CanCancellationCatchReachRead(tryOperation, read))
+            {
+                return true;
+            }
+
+            if (ancestor is ITryOperation { Finally: { } finallyBlock } enclosingTry
+                && !HasAncestor(branch, finallyBlock) && !HasAncestor(target, enclosingTry.Body))
+            {
+                crossesFinally = true;
+            }
+            if (ancestor is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            {
+                break;
+            }
+        }
+
+        return false;
     }
 
     private static bool CanCarryCancellationWriteAcrossLoop(IOperation write, IOperation read)
