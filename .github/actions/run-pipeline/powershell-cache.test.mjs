@@ -3,7 +3,7 @@ import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writ
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { preparePowerShellCache, protectPowerShellEnvironment, verifyPowerShell } from './powershell-cache.mjs';
+import { preparePowerShellCache, protectPowerShellEnvironment, protectPowerShellStartup, verifyPowerShell } from './powershell-cache.mjs';
 
 test('each job gets empty, read-only startup profiles without reusing a poisoned cache', t => {
   const root = mkdtempSync(path.join(os.tmpdir(), 'powershell-cache-test-'));
@@ -34,10 +34,12 @@ test('each job gets empty, read-only startup profiles without reusing a poisoned
 });
 
 test('startup probes overlap and inherit the protected cache', { timeout: 5000 }, async () => {
-  const inherited = { PATH: '/tools', DOTNET_MultiCoreJitMinNumCpus: '2' };
+  const inherited = { PATH: '/tools', DOTNET_MultiCoreJitMinNumCpus: '2', DOTNET_ReadyToRun: '1' };
   const environment = protectPowerShellEnvironment(inherited, '/protected/cache');
   assert.equal(environment.XDG_CACHE_HOME, '/protected/cache');
   assert.equal(environment.DOTNET_MultiCoreJitMinNumCpus, 'FFFFFFFF');
+  assert.equal(environment.DOTNET_ReadyToRun, '0');
+  assert.equal(inherited.DOTNET_ReadyToRun, '1');
   assert.equal(environment.PATH, '/tools');
   assert.equal(inherited.DOTNET_MultiCoreJitMinNumCpus, '2');
   let started = 0;
@@ -63,4 +65,29 @@ test('a PowerShell startup abort fails validation', async () => {
 
 test('a missing completion marker fails validation even on exit zero', async () => {
   await assert.rejects(verifyPowerShell({}, async () => ({ stdout: 'incomplete startup\n' })), /did not complete/);
+});
+
+test('later job steps receive the exact runtime protection used by every probe', async t => {
+  const root = mkdtempSync(path.join(os.tmpdir(), 'powershell-export-test-'));
+  t.after(() => {
+    // Clear the read-only profiles before cleanup on Windows.
+    for (const mode of ['Interactive', 'NonInteractive']) {
+      chmodSync(path.join(cacheHome, 'powershell', `StartupProfileData-${mode}`), 0o600);
+    }
+    rmSync(root, { recursive: true, force: true });
+  });
+  const githubEnv = path.join(root, 'github-env');
+  writeFileSync(githubEnv, 'EXISTING=value\n');
+  let cacheHome;
+  let probes = 0;
+  await protectPowerShellStartup({ RUNNER_TEMP: root, GITHUB_ENV: githubEnv, PATH: '/tools' }, async (_tool, _args, options) => {
+    cacheHome = options.env.XDG_CACHE_HOME;
+    assert.equal(options.env.DOTNET_MultiCoreJitMinNumCpus, 'FFFFFFFF');
+    assert.equal(options.env.DOTNET_ReadyToRun, '0');
+    probes++;
+    return { stdout: 'POWERSHELL_STARTUP_OK\n' };
+  });
+  assert.equal(probes, 4);
+  assert.equal(readFileSync(githubEnv, 'utf8'),
+    `EXISTING=value\nXDG_CACHE_HOME=${cacheHome}\nDOTNET_MultiCoreJitMinNumCpus=FFFFFFFF\nDOTNET_ReadyToRun=0\n`);
 });
