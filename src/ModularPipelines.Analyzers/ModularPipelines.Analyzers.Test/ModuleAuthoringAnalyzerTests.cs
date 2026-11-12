@@ -7485,6 +7485,45 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("context is null ? (CancellationToken?)null : cancellationToken", "cancellationToken", false)]
+    [DataRow("context is null ? (CancellationToken?)cancellationToken : null", "cancellationToken", false)]
+    [DataRow("context is null ? (CancellationToken?)null : CancellationToken.None", "cancellationToken", true)]
+    [DataRow("context is null ? (CancellationToken?)null : other", "cancellationToken", true)]
+    [DataRow("context is null ? (CancellationToken?)null : cancellationToken", "CancellationToken.None", true)]
+    [DataRow("context is null ? (CancellationToken?)null : cancellationToken", "other", true)]
+    [DataRow("context switch { null => (CancellationToken?)null, _ => cancellationToken }", "cancellationToken", false)]
+    [DataRow("context is null ? (CancellationToken?)null : ((CancellationToken?)null ?? cancellationToken)", "cancellationToken", false)]
+    public async Task Tracks_Conditional_Nullable_Coalesced_CancellationToken(
+        string nullableValue,
+        string fallback,
+        bool reports)
+    {
+        var delay = "Task.Delay(1, token)";
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var other = new CancellationToken();
+                var token = ({{nullableValue}}) ?? {{fallback}};
+                for (var i = 0; i < 2; i++)
+                    await {{(reports ? "{|#0:" + delay + "|}" : delay)}};
+                return null!;
+            }
+            """);
+
+        var expected = reports
+            ? new[]
+            {
+                VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                    .WithLocation(0)
+                    .WithArguments("Delay"),
+            }
+            : [];
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Async_Void_Event_Shaped_Method_When_Not_Subscribed()
     {
         var source = ModuleSource($$"""

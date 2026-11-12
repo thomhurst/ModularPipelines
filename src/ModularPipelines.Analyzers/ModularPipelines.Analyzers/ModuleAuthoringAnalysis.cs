@@ -5853,11 +5853,14 @@ internal static class ModuleAuthoringAnalysis
                 visitedMethods);
         }
 
-        return FlowsFromCancellationToken(
-                   coalesce.Value,
-                   cancellationToken,
-                   CloneVisitedLocals(visitedLocals),
-                   CloneVisitedMethods(visitedMethods))
+        // Null leaves select the fallback; only present values need token provenance.
+        return GetReachableValueLeaves(coalesce.Value)
+                   .Where(static leaf => leaf.ConstantValue is not { HasValue: true, Value: null })
+                   .All(leaf => BranchFlowsFromCancellationToken(
+                       leaf,
+                       cancellationToken,
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods)))
                && FlowsFromCancellationToken(
                    coalesce.WhenNull,
                    cancellationToken,
