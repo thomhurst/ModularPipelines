@@ -3719,6 +3719,30 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("try { while ((first = default) is var cleared && skip) { throw error; } first = third; } catch {} return first;", true)]
+    [DataRow("ref var alias = ref first; try { while ((alias = default) is var cleared && skip) { throw error; } alias = third; } catch {} return alias;", true)]
+    [DataRow("try { for (; (first = default) is var cleared && skip;) { throw error; } first = third; } catch {} return first;", true)]
+    [DataRow("try { do { if (skip) throw error; } while ((first = default) is var cleared && skip); first = third; } catch {} return first;", true)]
+    [DataRow("try { while ((first = default) is var cleared && skip) { first = third; throw error; } first = third; } catch {} return first;", false)]
+    [DataRow("try { while ((first = default) is var cleared && skip) { first = third; break; } MayThrow(); first = third; } catch {} return first;", true)]
+    [DataRow("try { for (; (first = default) is var cleared && skip; MayThrow()) { } first = third; } catch {} return first;", true)]
+    [DataRow("try { for (; (first = default) is var cleared && skip; MayThrow()) { first = third; } first = third; } catch {} return first;", false)]
+    public async Task Tracks_CancellationToken_Loop_Condition_Continuations(string body, bool report)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "var skip = DateTime.UtcNow.Ticks > 0; var error = new Exception(); " + body
+            + " static void MayThrow() => throw new Exception();", "default", report);
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
+        if (report)
+        {
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
+    }
+
+    [TestMethod]
     [DataRow(true)]
     [DataRow(false)]
     public async Task Tracks_CancellationToken_Left_Nested_Coalesce(bool report)

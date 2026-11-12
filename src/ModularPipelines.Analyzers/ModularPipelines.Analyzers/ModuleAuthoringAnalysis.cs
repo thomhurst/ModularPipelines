@@ -6455,8 +6455,30 @@ internal static class ModuleAuthoringAnalysis
 
         return CancellationStorageShortCircuitContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary)
             || CancellationStorageCoalesceContinuationCanThrow(current, parent, symbol, isRef, classifier, exceptionBoundary)
+            || CancellationStorageLoopConditionContinuationCanThrow(current, parent, symbol, isRef, classifier, exceptionBoundary)
             || CancellationStorageGuardContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary)
             || CancellationStorageUnknownContinuationCanThrow(current, parent, symbol, isRef, classifier, exceptionBoundary);
+    }
+
+    private static bool CancellationStorageLoopConditionContinuationCanThrow(
+        IOperation current, IOperation parent, ISymbol? symbol, bool? isRef,
+        OperationExceptionClassifier classifier, IOperation exceptionBoundary)
+    {
+        var continuations = parent switch
+        {
+            IWhileLoopOperation loop when ReferenceEquals(current, loop.Condition)
+                && (loop.Condition.ConstantValue is not { HasValue: true, Value: bool condition }
+                    || condition != loop.ConditionIsUntil) => (IEnumerable<IOperation>) [loop.Body],
+            IForLoopOperation loop when ReferenceEquals(current, loop.Condition)
+                && loop.Condition?.ConstantValue is not { HasValue: true, Value: false } =>
+                CanRepeatCancellationStorageLoop(loop) ? new[] { loop.Body }.Concat(loop.AtLoopBottom) : [loop.Body],
+            _ => [],
+        };
+
+        // A condition may skip the body. Preserve its possible exceptions without
+        // treating a body-only restoration as guaranteed on the loop-exit path.
+        return CancellationStorageSequenceCanThrowBeforeOverwrite(
+            continuations, symbol, isRef, classifier, exceptionBoundary, out _);
     }
 
     private static bool CancellationStorageCoalesceContinuationCanThrow(
