@@ -6170,7 +6170,8 @@ internal static class ModuleAuthoringAnalysis
             }
 
             if (ancestor is ILoopOperation or ISwitchOperation or ITryOperation
-                || ancestor is IConditionalOperation { Condition.ConstantValue: not { HasValue: true, Value: bool } })
+                || ancestor is IConditionalOperation { Condition.ConstantValue: not { HasValue: true, Value: bool } }
+                || CanSkipContainerOperand(ancestor, candidate))
             {
                 return false;
             }
@@ -6178,6 +6179,20 @@ internal static class ModuleAuthoringAnalysis
 
         return false;
     }
+
+    private static bool CanSkipContainerOperand(IOperation ancestor, IOperation candidate) => ancestor switch
+    {
+        IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd } binary
+            when HasAncestor(candidate, binary.RightOperand) =>
+            binary.LeftOperand.ConstantValue is not { HasValue: true, Value: true },
+        IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalOr } binary
+            when HasAncestor(candidate, binary.RightOperand) =>
+            binary.LeftOperand.ConstantValue is not { HasValue: true, Value: false },
+        ICoalesceOperation coalesce when HasAncestor(candidate, coalesce.WhenNull) =>
+            coalesce.Value.ConstantValue is not { HasValue: true, Value: null },
+        IConditionalAccessOperation access when HasAncestor(candidate, access.WhenNotNull) => true,
+        _ => false,
+    };
 
     private static bool HasBypassingContainerGoto(IOperation candidate, IOperation reference)
     {
@@ -6214,7 +6229,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool IsContainerResetBeforeReference(IOperation? predecessor, IOperation reference, ILoopOperation loop) =>
-        predecessor is not null && HasAncestor(predecessor, loop.Body) && IsLinearPredecessor(predecessor, reference);
+        predecessor is not null && HasAncestor(predecessor, loop.Body) && IsDefiniteContainerPredecessor(predecessor, reference);
 
     private static bool HasLaterContainerAssignment(ILoopOperation loop, ILocalReferenceOperation reference, IOperation? callable) =>
         loop.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>().Any(assignment =>
@@ -6260,7 +6275,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(assignment => !assignment.Syntax.Span.Contains(reference.Syntax.Span))
             .Where(IsInReachableBranch)
             .ToArray();
-        var latest = bindings.FirstOrDefault(binding => IsLinearPredecessor(binding, reference));
+        var latest = bindings.FirstOrDefault(binding => IsDefiniteContainerPredecessor(binding, reference));
         var values = bindings
             .Where(binding => latest is null || binding.Syntax.SpanStart >= latest.Syntax.SpanStart)
             .Concat(GetLoopCarriedRefBindings(reference, (IOperation?) latest ?? FindLocalDeclarator(root, reference, reference.Local, callable)))
@@ -6323,7 +6338,7 @@ internal static class ModuleAuthoringAnalysis
             }
 
             // A guaranteed rebinding in the body replaces the previous iteration's target.
-            if (predecessor is not null && HasAncestor(predecessor, loop.Body) && IsLinearPredecessor(predecessor, reference))
+            if (predecessor is not null && HasAncestor(predecessor, loop.Body) && IsDefiniteContainerPredecessor(predecessor, reference))
             {
                 continue;
             }
@@ -6348,7 +6363,7 @@ internal static class ModuleAuthoringAnalysis
     private static bool HasSupersedingContainerBinding(
         ISimpleAssignmentOperation[] bindings, ILoopOperation loop, ISimpleAssignmentOperation binding) =>
         bindings.Any(later => later.Syntax.SpanStart > binding.Syntax.SpanStart
-            && IsLinearPredecessor(later, binding)
+            && IsDefiniteContainerPredecessor(later, binding)
             && !HasInterveningContainerBranch(loop, binding, later));
 
     private static bool HasInterveningContainerBranch(
