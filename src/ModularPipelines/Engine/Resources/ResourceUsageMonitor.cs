@@ -242,6 +242,14 @@ internal sealed class ResourceUsageMonitor(
             // Monitoring is diagnostic only and must never fail the run.
             logger.LogDebug(exception, "Resource monitoring stopped after an error");
         }
+        finally
+        {
+            lock (_lock)
+            {
+                _monitoring = false;
+                ModuleActivityTracing.RemoveMachineUsage(this);
+            }
+        }
     }
 
     private sealed class SaturationTracker(ResourceKind kind, string displayName)
