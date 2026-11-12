@@ -405,6 +405,15 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("choose && (saved = token).CanBeCanceled")]
+    [DataRow("choose || (saved = token).CanBeCanceled")]
+    [DataRow("optional ?? (saved = token)")]
+    public async Task Short_Circuit_Loop_Reset_Does_Not_Hide_Replaced_Payload(string reset)
+    {
+        await Verify($"static Task<CancellationToken> Pass(CancellationToken token, bool choose) {{ var saved = token; CancellationToken? optional = default(CancellationToken); for (int i = 0; ; i++) {{ _ = {reset}; if (i == 1) return Task.FromResult(saved); saved = default; }} }}", true, token: "await Pass(cancellationToken, false)");
+    }
+
+    [TestMethod]
     [DataRow("Task")]
     [DataRow("ValueTask")]
     public async Task Ordinary_Writes_Across_Loop_Backedge_Reject_Helper_Proof(string taskType)

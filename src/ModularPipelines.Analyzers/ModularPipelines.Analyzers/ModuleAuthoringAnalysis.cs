@@ -6628,7 +6628,11 @@ internal static partial class ModuleAuthoringAnalysis
         {
             if (ancestor is IConditionalOperation
                 or ILoopOperation
-                or ISwitchOperation)
+                or ISwitchOperation
+                || (ancestor is IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary
+                    && HasAncestor(operation, binary.RightOperand))
+                || (ancestor is ICoalesceOperation coalesce
+                    && HasAncestor(operation, coalesce.WhenNull)))
             {
                 return true;
             }
