@@ -407,7 +407,9 @@ internal static class CancellationTokenCollectionProvenance
         }
 
         public static Value GetElement(Dictionary<int, Value> elements, int index) =>
-            elements.TryGetValue(index, out var value) ? value : Value.None;
+            elements.TryGetValue(index, out var value)
+                ? value
+                : elements.TryGetValue(-1, out var fallback) ? fallback : Value.None;
     }
 
     private sealed class Analysis(ControlFlowGraph graph, IParameterSymbol source)
@@ -554,7 +556,7 @@ internal static class CancellationTokenCollectionProvenance
         private Value EvaluateConversion(IConversionOperation conversion, State state)
         {
             var converted = Evaluate(conversion.Operand, state);
-            if (conversion.Operand.Type is IArrayTypeSymbol && IsTokenCollection(conversion.Operand.Type)
+            if (IsTokenCollection(conversion.Operand.Type)
                 && conversion.Type is INamedTypeSymbol && IsTokenCollection(conversion.Type)
                 && conversion.OperatorMethod?.ContainingType.OriginalDefinition.ToDisplayString() is "System.Span<T>" or "System.ReadOnlySpan<T>")
             {
@@ -732,6 +734,7 @@ internal static class CancellationTokenCollectionProvenance
                 return Value.None;
             }
 
+            InvalidateUnknownCollections(state);
             foreach (var value in values.Values)
             {
                 InvalidateInvocationArrays(value, invocation.TargetMethod.ReturnsByRef && ReferenceSurvives(invocation, writableOnly: true), state);
@@ -739,6 +742,17 @@ internal static class CancellationTokenCollectionProvenance
 
             // Source-helper and awaitable payload proofs remain with the existing
             // analysis. Unknown results must not become replacement proofs.
+            if (IsTokenCollection(invocation.Type))
+            {
+                // The call site bounds identities for unsupported collection results.
+                // A negative index records unknown untouched contents, while literal
+                // element writes can still prove a subsequent selected token replaced.
+                var identity = invocation.Syntax.Span;
+                state.Arrays[identity] = new Dictionary<int, Value> { [-1] = Value.Unknown };
+                state.SafeArrays.Remove(identity);
+                return new Value(arrays: [identity], unsupported: true);
+            }
+
             return IsUnsupportedResult(invocation) ? Value.Unknown : Value.None;
         }
 
@@ -891,7 +905,7 @@ internal static class CancellationTokenCollectionProvenance
                     return value =>
                     {
                         InvalidateArrays(instance, state);
-                        InvalidateArrays(value, state);
+                        EscapeArrays(value, state);
                     };
                 }
 
@@ -1010,13 +1024,28 @@ internal static class CancellationTokenCollectionProvenance
             }
         }
 
+        private static void InvalidateUnknownCollections(State state, HashSet<TextSpan>? retained = null)
+        {
+            // Unsupported helper results may share heap aliases across call sites.
+            foreach (var identity in state.Arrays.Where(static entry => entry.Value.ContainsKey(-1)).Select(static entry => entry.Key).ToArray())
+            {
+                if (retained?.Contains(identity) != true)
+                {
+                    state.Arrays[identity] = new Dictionary<int, Value> { [-1] = Value.Unknown };
+                    state.SafeArrays.Remove(identity);
+                }
+            }
+        }
+
         private static void InvalidateAllArrays(State state)
         {
             // Unknown storage can alias any tracked allocation, including storage
             // assigned after a ref was created. No heap-wide alias proof is made.
             foreach (var identity in state.Arrays.Keys.ToArray())
             {
-                state.Arrays[identity] = [];
+                state.Arrays[identity] = state.Arrays[identity].ContainsKey(-1)
+                    ? new Dictionary<int, Value> { [-1] = Value.Unknown }
+                    : [];
             }
 
             state.SafeArrays.Clear();
@@ -1250,9 +1279,11 @@ internal static class CancellationTokenCollectionProvenance
             {
                 foreach (var span in arrays)
                 {
-                    if (state.Arrays.ContainsKey(span))
+                    if (state.Arrays.TryGetValue(span, out var contents))
                     {
-                        state.Arrays[span] = [];
+                        state.Arrays[span] = contents.ContainsKey(-1)
+                            ? new Dictionary<int, Value> { [-1] = Value.Unknown }
+                            : [];
                         state.SafeArrays.Remove(span);
                     }
                 }
@@ -1283,6 +1314,11 @@ internal static class CancellationTokenCollectionProvenance
 
         private void WriteCollectionElement(IOperation receiver, IReadOnlyList<IOperation> indices, Value array, Value value, State state)
         {
+            if (array.Unsupported)
+            {
+                InvalidateUnknownCollections(state, array.Arrays);
+            }
+
             if (array.UnknownArray)
             {
                 InvalidateUnknownReferenceArrays(receiver, state);
@@ -1291,6 +1327,7 @@ internal static class CancellationTokenCollectionProvenance
             if (array.Arrays is not { } identities)
             {
                 InvalidateUnknownReferenceArrays(receiver, state);
+                EscapeArrays(value, state);
                 return;
             }
 
@@ -1417,10 +1454,11 @@ internal static class CancellationTokenCollectionProvenance
                     break;
                 case IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance }:
                     InvalidateArrays(Evaluate(instance, state), state);
+                    EscapeArrays(value, state);
                     break;
                 default:
-                    // A stored array can be mutated through a field or another escape.
-                    InvalidateArrays(value, state);
+                    // A stored array retains a heap alias that can mutate after later writes.
+                    EscapeArrays(value, state);
                     break;
             }
         }

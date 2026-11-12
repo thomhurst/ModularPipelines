@@ -448,6 +448,58 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
             "private static ref CancellationToken First(CancellationToken[] items) => ref items[0]; private static ref readonly CancellationToken ReadFirst(ref CancellationToken[] items) => ref items[0]; private static ref CancellationToken Forward(ref CancellationToken token) => ref token; private ref struct Holder { public ref CancellationToken Slot; public Holder(ref CancellationToken token) { Slot = ref token; } }");
     }
 
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task CSharp13_Span_To_ReadonlySpan_Preserves_Storage(bool mutate)
+    {
+        var statements = "var tokens = new[] { cancellationToken }; Span<CancellationToken> span = tokens; ReadOnlySpan<CancellationToken> view = span; "
+            + (mutate ? "span[0] = default; " : "")
+            + "cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(view).Token;";
+        var test = new VerifyCS.Test
+        {
+            TestCode = Source(statements, mutate ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)"),
+            ReferenceAssemblies = Net.Net110,
+            TestState = { AdditionalReferences = { typeof(IModuleContext).Assembly.Location } },
+        };
+        test.SolutionTransforms.Add((solution, projectId) => solution.WithProjectParseOptions(projectId,
+            ((Microsoft.CodeAnalysis.CSharp.CSharpParseOptions) solution.GetProject(projectId)!.ParseOptions!)
+                .WithLanguageVersion(Microsoft.CodeAnalysis.CSharp.LanguageVersion.CSharp13)));
+        if (mutate)
+        {
+            test.ExpectedDiagnostics.Add(VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"));
+        }
+
+        await test.RunAsync(TestContext.CancellationToken);
+    }
+
+    [TestMethod]
+    [DataRow("_stored = tokens;", "tokens", true)]
+    [DataRow("Stored = tokens;", "tokens", true)]
+    [DataRow("_stored = tokens;", "independent", false)]
+    [DataRow("var holder = new CancellationToken[1][]; holder[0] = tokens; _stored = holder[0];", "tokens", true)]
+    public async Task Heap_Stored_Collections_Persist_Escapes(string store, string argument, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; var independent = new[] {{ cancellationToken }}; {store} tokens[0] = cancellationToken; ResetStored(); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({argument}).Token;", warns,
+            "private CancellationToken[] _stored; private CancellationToken[] Stored { set => _stored = value; } private void ResetStored() => _stored[0] = default;");
+    }
+
+    [TestMethod]
+    [DataRow("var tokens = Pack(cancellationToken); tokens[0] = default; cancellationToken = tokens[0];", true)]
+    [DataRow("var tokens = Pack(cancellationToken); tokens[0] = default; cancellationToken = tokens[1];", false)]
+    [DataRow("var tokens = Pack(cancellationToken); var alias = tokens; alias[0] = default; cancellationToken = tokens[0];", true)]
+    [DataRow("var tokens = Pack(cancellationToken); if (context != null) tokens[0] = default; cancellationToken = tokens[0];", false)]
+    [DataRow("var tokens = PackSpan(cancellationToken); tokens[0] = default; cancellationToken = tokens[0];", true)]
+    [DataRow("var tokens = Pack(cancellationToken); tokens[0] = default; Observe(tokens); cancellationToken = tokens[0];", false)]
+    [DataRow("var tokens = Pack(cancellationToken); tokens[0] = default; tokens[1] = default; cancellationToken = tokens[0];", true)]
+    [DataRow("var tokens = Pack(cancellationToken); tokens[0] = default; ResetPacked(); cancellationToken = tokens[0];", false)]
+    [DataRow("var tokens = Pack(cancellationToken); var alias = Pack(cancellationToken); tokens[0] = default; alias[0] = cancellationToken; cancellationToken = tokens[0];", false)]
+    public async Task Unknown_Collections_Retain_Known_Element_Writes(string statements, bool warns)
+    {
+        await Verify(statements, warns,
+            "private static CancellationToken[] Pack(CancellationToken token) => new[] { token }; private static Span<CancellationToken> PackSpan(CancellationToken token) => new CancellationToken[] { token }; private static void Observe(CancellationToken[] tokens) { } private static void ResetPacked() { }");
+    }
+
     public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")
