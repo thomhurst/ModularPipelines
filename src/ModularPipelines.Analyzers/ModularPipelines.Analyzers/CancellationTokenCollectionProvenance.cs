@@ -634,11 +634,15 @@ internal static class CancellationTokenCollectionProvenance
             {
                 var value = Evaluate(argument.Value, state);
                 linked |= IsSafe(value, state);
-                unsupported |= value.Unsupported;
+                unsupported |= HasUnsupportedProvenance(value, state);
             }
 
             return linked ? Value.Original : unsupported ? Value.Unknown : Value.None;
         }
+
+        private static bool HasUnsupportedProvenance(Value value, State state) => value.Unsupported
+            || (value.Arrays is { } arrays && arrays.Any(identity => state.Arrays.TryGetValue(identity, out var elements)
+                && elements.Values.Any(static element => element.Unsupported)));
 
         private Value EvaluateInvocation(IInvocationOperation invocation, State state)
         {
@@ -1180,23 +1184,33 @@ internal static class CancellationTokenCollectionProvenance
             var assigned = conditional ? GetStorageValue(storage, state).Merge(value) : value;
             var indices = storage.Path.Split(['/'], StringSplitOptions.RemoveEmptyEntries)
                 .Select(static index => int.Parse(index, System.Globalization.CultureInfo.InvariantCulture)).ToArray();
-            state.SetValue(symbol, ReplaceStorage(Get(state.Values, symbol), indices, 0, assigned));
+            var type = symbol switch
+            {
+                ILocalSymbol local => local.Type,
+                IParameterSymbol parameter => parameter.Type,
+                _ => null,
+            };
+            state.SetValue(symbol, ReplaceStorage(Get(state.Values, symbol), type, indices, 0, assigned));
         }
 
-        private static Value ReplaceStorage(Value current, int[] indices, int depth, Value value)
+        private static Value ReplaceStorage(Value current, ITypeSymbol? type, int[] indices, int depth, Value value)
         {
             if (depth == indices.Length)
             {
                 return value;
             }
 
-            if (current.Elements is not { } elements || indices[depth] >= elements.Length)
+            if (type is not INamedTypeSymbol { IsTupleType: true } tuple || indices[depth] >= tuple.TupleElements.Length)
             {
                 return Value.Unknown;
             }
 
-            var updated = (Value[]) elements.Clone();
-            updated[indices[depth]] = ReplaceStorage(updated[indices[depth]], indices, depth + 1, value);
+            // Default tuples have implicit known-default elements; unsupported
+            // tuples instead keep unknown facts for every untouched sibling.
+            var updated = current.Elements is { } elements
+                ? (Value[]) elements.Clone()
+                : [.. Enumerable.Repeat(current.Unsupported ? Value.Unknown : Value.None, tuple.TupleElements.Length)];
+            updated[indices[depth]] = ReplaceStorage(updated[indices[depth]], tuple.TupleElements[indices[depth]].Type, indices, depth + 1, value);
             return new Value(elements: updated);
         }
 

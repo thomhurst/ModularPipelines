@@ -336,6 +336,29 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
         await Verify($"var pair = (1, 2); var saved = cancellationToken; CancellationToken other = default; cancellationToken = saved; {assignment}", warns);
     }
 
+    [TestMethod]
+    [DataRow("(CancellationToken First, CancellationToken Second) storage = default; (context != null ? ref storage.First : ref other) = default; cancellationToken = storage.Second;", true)]
+    [DataRow("((CancellationToken First, CancellationToken Second) Nested, int Count) storage = default; (context != null ? ref storage.Nested.First : ref other) = saved; cancellationToken = storage.Nested.Second;", true)]
+    [DataRow("(CancellationToken First, CancellationToken Second) storage = default; (context != null ? ref storage.First : ref other) = saved; cancellationToken = storage.First;", true)]
+    [DataRow("(CancellationToken First, CancellationToken Second) storage = (saved, saved); (context != null ? ref storage.First : ref other) = default; cancellationToken = storage.Second;", false)]
+    public async Task Conditional_Tuple_Field_Writes_Preserve_Default_Siblings(string statements, bool warns)
+    {
+        await Verify($"var saved = cancellationToken; CancellationToken other = default; {statements}", warns);
+    }
+
+    [TestMethod]
+    [DataRow("var tokens = new[] { Pass(cancellationToken) };", "tokens", false)]
+    [DataRow("var tokens = new[] { Pass(cancellationToken) }; ReadOnlySpan<CancellationToken> view = tokens;", "view", false)]
+    [DataRow("var tokens = new CancellationToken[1]; tokens[0] = Pass(cancellationToken);", "tokens", false)]
+    [DataRow("var tokens = new[] { Pass(cancellationToken) }; tokens[0] = default;", "tokens", true)]
+    [DataRow("var tokens = new[] { Pass(cancellationToken), cancellationToken };", "tokens", false)]
+    [DataRow("var tokens = new[] { Pass(cancellationToken) }; var independent = new CancellationToken[1];", "independent", true)]
+    public async Task Linked_Collections_Preserve_Unknown_Elements(string statements, string argument, bool warns)
+    {
+        await Verify($"{statements} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({argument}).Token;", warns,
+            "private static CancellationToken Pass(CancellationToken token) => token;");
+    }
+
     public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")
