@@ -6583,7 +6583,7 @@ internal static class ModuleAuthoringAnalysis
             && ((HasCancellationBackJump(assignment, value)
                     && !precedingRebindings.Any(reset => IsDefiniteCancellationPredecessor(reset, value)
                         && ResetsAfterCancellationBackJump(reset, assignment, value)))
-                || (SharesContainingLoop(assignment, value)
+                || (CanCarryCancellationWriteAcrossLoop(assignment, value)
                     && !precedingRebindings.Any(reset => IsDefiniteCancellationPredecessor(reset, value)
                         && ResetsWithinSharedLoop(reset, assignment, value)))));
     }

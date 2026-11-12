@@ -114,6 +114,12 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; CancellationToken unrelated = default; (unrelated, first) = (default(CancellationToken), default(CancellationToken)); return second;", false)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "int count = 0; (first, count) = (first, 1); return first;", false)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "(first, second) = (second, first); return first;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; for (int i = 0; i < 2; i++) { if (Flag) return first; first = ref second; break; } return saved;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; for (int i = 0; i < 2; i++) { if (Flag) return first; first = ref second; goto Done; } Done: return saved;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; for (int i = 0; i < 2; i++) { if (Flag) return first; first = ref second; return saved; } return saved;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; for (int i = 0; i < 2; i++) { if (Flag) return first; first = ref second; continue; } return saved;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; for (int i = 0; i < 2; i++) { if (Flag) return first; first = ref second; if (Flag) break; } return saved;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; for (int i = 0; i < 2; i++) { if (Flag) return first; first = ref second; if (Flag) continue; break; } return saved;", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
     {
