@@ -166,3 +166,32 @@ test('stdout completion cancels the post-exit cleanup deadline', t => {
   source.emit('end');
   t.mock.timers.tick(6000);
 });
+
+for (const pauses of [false, true]) {
+  test(`post-exit forwarding has a total budget excluding backpressure (pause: ${pauses})`, t => {
+    t.mock.timers.enable({ apis: ['setTimeout', 'Date'] });
+    const source = Object.assign(new EventEmitter(), {
+      destroyed: false, pause() {}, resume() {}, destroy() { this.destroyed = true; },
+    });
+    const child = new EventEmitter();
+    const sink = Object.assign(new EventEmitter(), { write: () => true });
+    forwardOutput(source, sink, child);
+    child.emit('exit');
+    for (let elapsed = 0; elapsed < 28_000; elapsed += 4000) {
+      t.mock.timers.tick(4000);
+      source.emit('data', Buffer.from('descendant output\n'));
+    }
+    if (pauses) {
+      sink.write = () => false;
+      source.emit('data', Buffer.from('buffered output\n'));
+      t.mock.timers.tick(60_000);
+      assert.equal(source.destroyed, false, 'The total budget must suspend during backpressure');
+      sink.write = () => true;
+      sink.emit('drain');
+    }
+    t.mock.timers.tick(1999);
+    assert.equal(source.destroyed, false);
+    t.mock.timers.tick(1);
+    assert.equal(source.destroyed, true, 'Continuously writing descendants must not extend the total budget');
+  });
+}

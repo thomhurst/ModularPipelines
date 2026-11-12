@@ -36,11 +36,21 @@ export function forwardOutput(source, sink, child) {
   let ended = source.readableEnded || source.destroyed;
   let backpressured = false;
   let cleanupTimer;
+  let remainingForwardingTime = 30_000;
+  let forwardingSince;
   function resetCleanup() {
     clearTimeout(cleanupTimer);
+    const now = Date.now();
+    if (forwardingSince !== undefined) {
+      remainingForwardingTime -= Math.max(0, now - forwardingSince);
+      forwardingSince = undefined;
+    }
     // A descendant may hold stdout open, but output waiting on the sink is not idle.
     if (exited && !ended && !backpressured) {
-      cleanupTimer = setTimeout(() => source.destroy(), 5000);
+      // Keep a total forwarding budget as well as the idle deadline: a descendant
+      // writing continuously must not keep the action alive. Backpressure spends neither.
+      forwardingSince = now;
+      cleanupTimer = setTimeout(() => source.destroy(), Math.max(0, Math.min(5000, remainingForwardingTime)));
       cleanupTimer.unref();
     }
   }
