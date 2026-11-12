@@ -602,6 +602,9 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
     [DataRow("(saved = CancellationToken.None).CanBeCanceled |", true)]
     [DataRow("(saved = default).CanBeCanceled ||", true)]
     [DataRow("(saved = cancellationToken).CanBeCanceled |", false)]
+    [DataRow("(saved = default).CanBeCanceled | (saved = cancellationToken).CanBeCanceled |", false)]
+    [DataRow("(saved = cancellationToken).CanBeCanceled | (saved = default).CanBeCanceled |", true)]
+    [DataRow("(saved = default).CanBeCanceled | (context != null && (saved = cancellationToken).CanBeCanceled) |", true)]
     public async Task Do_Loop_Condition_Retains_Writes_Before_Token_Use(string conditionPrefix, bool warns)
     {
         var call = warns ? "{|#0:Task.Run(() => false, saved)|}" : "Task.Run(() => false, saved)";

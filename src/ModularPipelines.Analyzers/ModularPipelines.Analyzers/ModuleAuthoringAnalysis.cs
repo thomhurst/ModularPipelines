@@ -6307,12 +6307,26 @@ internal static partial class ModuleAuthoringAnalysis
                 && HasAncestor(operation, condition)
                     ? whileLoop.Body.Syntax.Span.End
                     : branchingOperation.Syntax.Span.End;
+            var conditionReset = branchingOperation is IWhileLoopOperation
+            { ConditionIsTop: false, Condition: { } completedCondition }
+                && HasAncestor(operation, completedCondition)
+                    ? assignments.FirstOrDefault(candidate =>
+                        candidate.Syntax.SpanStart > completedBranchEnd
+                        && candidate.Syntax.Span.End <= operation.Syntax.SpanStart
+                        && !HasBranchingAncestor(candidate, completedCondition))
+                    : null;
             var subsequentValues = assignments
                 .Where(candidate =>
-                    candidate.Syntax.SpanStart > completedBranchEnd)
+                    candidate.Syntax.SpanStart > completedBranchEnd
+                    && (conditionReset is null
+                        || candidate.Syntax.SpanStart >= conditionReset.Syntax.SpanStart))
                 .Where(IsInReachableBranch)
                 .Select(static assignment => assignment.Value);
-            return subsequentValues.Concat(branchValues);
+            // A guaranteed condition reset supersedes the completed body and
+            // earlier condition writes, while optional writes retain both paths.
+            return conditionReset is null
+                ? subsequentValues.Concat(branchValues)
+                : subsequentValues;
         }
 
         var assignedValues = assignments
@@ -6649,7 +6663,7 @@ internal static partial class ModuleAuthoringAnalysis
 
     private static bool HasBranchingAncestor(
         IOperation operation,
-        IBlockOperation containingBlock)
+        IOperation containingBlock)
     {
         for (var ancestor = operation.Parent;
              ancestor is not null && !ReferenceEquals(ancestor, containingBlock);
