@@ -693,6 +693,33 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
         await Verify(helper, warns, token: "await Pass(cancellationToken)");
     }
 
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Unfinished_Loop_Assignment_Requires_Completed_Reset(bool reset)
+    {
+        var statement = reset ? "saved = cancellationToken;" : "";
+        var call = reset ? "Task.Run(() => CancellationToken.None, saved)" : "{|#0:Task.Run(() => CancellationToken.None, saved)|}";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+                protected override async Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    var saved = cancellationToken;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        {{statement}}
+                        saved = await {{call}};
+                    }
+                }
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source, reset ? []
+            : [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Run")]);
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";

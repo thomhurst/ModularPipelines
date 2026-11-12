@@ -199,7 +199,7 @@ internal static partial class ModuleAuthoringAnalysis
     {
         if (write.Parent is ISimpleAssignmentOperation { IsRef: false } assignment
             && ReferenceEquals(assignment.Target, write)
-            && (write.Syntax.SpanStart < use.Syntax.SpanStart || HasLoopLocalReset(write, use)))
+            && (assignment.Syntax.Span.End <= use.Syntax.SpanStart || HasLoopLocalReset(write, use)))
         {
             return false;
         }
@@ -212,12 +212,18 @@ internal static partial class ModuleAuthoringAnalysis
         var root = GetRoot(use);
         var callable = GetEnclosingCallable(use);
         var resets = FindLocalAssignments(root, use, use.Local, callable)
-            .Where(static assignment => !assignment.IsRef)
+            .Where(assignment => !assignment.IsRef
+                && assignment.Syntax.Span.End <= use.Syntax.SpanStart)
             .Cast<IOperation>();
         if (FindLocalDeclarator(root, use, use.Local, callable) is { Initializer: not null } declarator
             && use.Local.RefKind == RefKind.None)
         {
             resets = resets.Append(declarator);
+        }
+
+        if (FindLatestDefinitelyAssigningBranch(root, use, use.Local, callable) is { } branch)
+        {
+            resets = resets.Append(branch);
         }
 
         return resets.Any(reset =>
