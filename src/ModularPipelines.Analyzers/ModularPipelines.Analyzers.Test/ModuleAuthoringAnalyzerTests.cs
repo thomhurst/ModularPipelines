@@ -3354,6 +3354,9 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var skip = DateTime.UtcNow.Ticks > 0; ref var alias = ref first; try { alias = default; if (skip) return third; alias = third; } catch { return third; } return alias;")]
     [DataRow("try { try { first = default; } finally { first = third; MayThrow(); } first = third; } catch {} return first;")]
     [DataRow("try { try { first = default; } finally {} first = third; } catch {} return first;")]
+    [DataRow("var skip = DateTime.UtcNow.Ticks > 0; try { try { first = default; if (skip) return third; first = third; } finally {} } catch {} return first;")]
+    [DataRow("var skip = DateTime.UtcNow.Ticks > 0; try { try { first = default; if (skip) return third; first = third; } finally { first = third; MayThrow(); } } catch {} return first;")]
+    [DataRow("var skip = DateTime.UtcNow.Ticks > 0; try { try { first = default; if (skip) return third; first = third; } finally { try { MayThrow(); } catch {} } } catch {} return first;")]
     public async Task Does_Not_Report_CancellationToken_Preserved_Only_By_Exiting_Catch(string body)
     {
         var source = ReboundCancellationTokenHelperSource(
@@ -3373,6 +3376,9 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { first = default; if (skip) return first; first = third; } catch { return third; } return first;")]
     [DataRow("try { first = default; if (skip) return third; MayThrow(); first = third; } catch {} return first;")]
     [DataRow("try { try { alias = ref second; } finally { MayThrow(); } alias = ref third; } catch {} return alias;")]
+    [DataRow("try { try { first = default; if (skip) return third; first = third; } finally { MayThrow(); } } catch {} return first;")]
+    [DataRow("try { try { alias = default; if (skip) return third; alias = third; } finally { MayThrow(); } } catch {} return alias;")]
+    [DataRow("try { try { alias = ref second; if (skip) return third; alias = ref third; } finally { MayThrow(); } } catch {} return alias;")]
     public async Task Reports_CancellationToken_Preserved_By_Catch_Or_Early_Case_Exit(string body)
     {
         var isSwitch = body.StartsWith("switch", StringComparison.Ordinal);

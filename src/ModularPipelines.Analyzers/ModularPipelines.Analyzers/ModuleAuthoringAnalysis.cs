@@ -5557,11 +5557,12 @@ internal static class ModuleAuthoringAnalysis
         HashSet<IMethodSymbol> visitedMethods,
         HashSet<IOperation> visitedWrites)
     {
-        // Module entry tokens retain their existing identity-based contract. Storage
-        // value tracking is needed for ref parameters and aliases in source helpers.
+        // Scalar parameters retain the original-value provenance proof. Storage
+        // tracking handles ref parameters and aliases in source helpers.
         if (reference is IParameterReferenceOperation { Parameter.RefKind: RefKind.None } parameter)
         {
-            return cancellationTokens.Contains(parameter.Parameter, SymbolEqualityComparer.Default);
+            return cancellationTokens.Contains(parameter.Parameter, SymbolEqualityComparer.Default)
+                && CancellationTokenParameterProvenance.FlowsFromOriginal(parameter, parameter.Parameter);
         }
 
         return FlowsFromCancellationTokenStorageValue(
@@ -6202,11 +6203,35 @@ internal static class ModuleAuthoringAnalysis
         operation.DescendantsAndSelf().Any(child => child is IReturnOperation
             || (child is IBranchOperation branch && !IsNestedCancellationStorageSwitchBreak(branch, branchBoundary ?? operation)));
 
-    // Returns leave the callable rather than carrying storage past a restoration.
-    // Breaks and gotos can still bypass that restoration and reach the read.
-    private static bool ContainsCancellationStorageBranch(IOperation operation) =>
-        operation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
-            !IsNestedCancellationStorageSwitchBreak(branch, operation));
+    // A return can be interrupted by a finalizer before it leaves the callable.
+    // Preserve that path until the enclosing scan examines the finalizer.
+    private static bool ContainsCancellationStorageBranch(IOperation operation, ISymbol? symbol, bool? isRef) =>
+        operation.DescendantsAndSelf().Any(child =>
+            (child is IBranchOperation branch && !IsNestedCancellationStorageSwitchBreak(branch, operation))
+            || (child is IReturnOperation returned && CancellationStorageReturnCanBypassOverwrite(returned, symbol, isRef)));
+
+    private static bool CancellationStorageReturnCanBypassOverwrite(
+        IReturnOperation returned, ISymbol? symbol, bool? isRef)
+    {
+        var classifier = new OperationExceptionClassifier(returned.SemanticModel);
+        for (var current = (IOperation) returned; current.Parent is { } parent; current = parent)
+        {
+            if (parent is ITryOperation attempt && !ReferenceEquals(current, attempt.Finally)
+                && attempt.Finally is { } finalizer
+                && CancellationStorageOperationCanThrowBeforeOverwrite(
+                    finalizer, symbol, isRef, classifier, finalizer, out _))
+            {
+                return true;
+            }
+
+            if (parent is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            {
+                break;
+            }
+        }
+
+        return false;
+    }
 
     private static bool CancellationStorageTryOverwrites(
         ITryOperation attempt, IOperation current, IOperation read, ISymbol? symbol, bool? isRef) =>
@@ -6222,7 +6247,7 @@ internal static class ModuleAuthoringAnalysis
         foreach (var next in sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
         {
             if (HasAncestor(read, next) || next.Syntax.SpanStart >= read.Syntax.SpanStart
-                || ContainsCancellationStorageBranch(next))
+                || ContainsCancellationStorageBranch(next, symbol, isRef))
             {
                 break;
             }
@@ -6440,7 +6465,7 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            canBypassOverwrite |= ContainsCancellationStorageBranch(child);
+            canBypassOverwrite |= ContainsCancellationStorageBranch(child, symbol, isRef);
         }
 
         return false;
