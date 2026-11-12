@@ -570,6 +570,34 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
             [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Run")]);
     }
 
+    [TestMethod]
+    [DataRow("if (context != null) saved = cancellationToken; else saved = cancellationToken;", false)]
+    [DataRow("if (context != null) saved = cancellationToken; else saved = default;", true)]
+    [DataRow("if (context != null) saved = cancellationToken;", true)]
+    public async Task Do_Loop_Condition_Uses_Completed_Body_Assignments(string body, bool warns)
+    {
+        var call = warns ? "{|#0:Task.Run(() => false, saved)|}" : "Task.Run(() => false, saved)";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+                protected override async Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    CancellationToken saved = default;
+                    do
+                    {
+                        {{body}}
+                    }
+                    while (await {{call}});
+                }
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source, warns
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Run")]
+            : []);
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";

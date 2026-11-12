@@ -6339,9 +6339,12 @@ internal static partial class ModuleAuthoringAnalysis
             .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .Where(candidate => IsLinearPredecessor(candidate, operation))
-            // Branch results are available only after the branch completes, never
-            // while evaluating its condition, governing expression, or arms.
-            .Where(candidate => candidate.Syntax.Span.End <= operation.Syntax.SpanStart)
+            // A do-loop body completes before its condition, while other branch
+            // results are unavailable inside their governing expression or arms.
+            .Where(candidate => candidate.Syntax.Span.End <= operation.Syntax.SpanStart
+                || (candidate is IWhileLoopOperation { ConditionIsTop: false, Condition: { } condition } whileLoop
+                    && HasAncestor(operation, condition)
+                    && whileLoop.Body.Syntax.Span.End <= operation.Syntax.SpanStart))
             .Where(candidate => DefinitelyAssignsLocal(candidate, local))
             .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
             .FirstOrDefault();
