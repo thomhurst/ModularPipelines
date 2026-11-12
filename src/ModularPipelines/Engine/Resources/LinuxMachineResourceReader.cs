@@ -27,9 +27,9 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
         var (directory, mount) = FindCgroup();
         (memoryTotal, memoryAvailable) = ReadCgroupMemory(directory, mount, memoryTotal, memoryAvailable);
 
-        var cpuStat = directory is null ? null : Read(Path.Combine(directory, "cpu.stat"));
-        var cpuPressure = directory is null ? null : Read(Path.Combine(directory, "cpu.pressure"));
-        var memoryPressure = directory is null ? null : Read(Path.Combine(directory, "memory.pressure"));
+        var cpuStat = directory is null ? null : Read(CombineLinuxPath(directory, "cpu.stat"));
+        var cpuPressure = directory is null ? null : Read(CombineLinuxPath(directory, "cpu.pressure"));
+        var memoryPressure = directory is null ? null : Read(CombineLinuxPath(directory, "memory.pressure"));
         var cpuPressureSource = cpuPressure is null ? "/proc/pressure/cpu" : directory;
         var memoryPressureSource = memoryPressure is null ? "/proc/pressure/memory" : directory;
         cpuPressure ??= Read("/proc/pressure/cpu");
@@ -53,13 +53,13 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
         // cpu.stat bandwidth counters cover only the quota configured at that cgroup.
         for (var ancestor = directory; ancestor is not null && mount is not null && ancestor != mount;)
         {
-            ancestor = Path.GetDirectoryName(ancestor);
+            ancestor = GetLinuxParent(ancestor);
             if (ancestor is null)
             {
                 break;
             }
 
-            var stat = Read(Path.Combine(ancestor, "cpu.stat"));
+            var stat = Read(CombineLinuxPath(ancestor, "cpu.stat"));
             counters.Add(new CgroupCpuThrottlingCounters(ancestor,
                 FindCounter(stat, "nr_throttled"), FindCounter(stat, "throttled_usec")));
         }
@@ -72,13 +72,13 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
         long total = hostTotal, available = hostAvailable;
         var found = false;
         // Compare each visible cgroup against its own limit: siblings can exhaust a larger parent.
-        for (var ancestor = directory; ancestor is not null && mount is not null; ancestor = Path.GetDirectoryName(ancestor))
+        for (var ancestor = directory; ancestor is not null && mount is not null; ancestor = GetLinuxParent(ancestor))
         {
-            if (TryNonNegative(Read(Path.Combine(ancestor, "memory.max"))?.Trim(), out var limit)
+            if (TryNonNegative(Read(CombineLinuxPath(ancestor, "memory.max"))?.Trim(), out var limit)
                 && limit > 0 && limit <= hostTotal
-                && TryNonNegative(Read(Path.Combine(ancestor, "memory.current"))?.Trim(), out var used))
+                && TryNonNegative(Read(CombineLinuxPath(ancestor, "memory.current"))?.Trim(), out var used))
             {
-                var inactiveFile = FindCounter(Read(Path.Combine(ancestor, "memory.stat")), "inactive_file") ?? 0;
+                var inactiveFile = FindCounter(Read(CombineLinuxPath(ancestor, "memory.stat")), "inactive_file") ?? 0;
                 used -= Math.Min(used, inactiveFile);
                 var headroom = Math.Clamp(limit - used, 0, limit);
                 if (!found || (double) headroom / limit < (double) available / total)
@@ -96,6 +96,16 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
         }
 
         return (total, available);
+    }
+
+    // These are Linux virtual-filesystem paths, including when fixtures run on Windows.
+    private static string CombineLinuxPath(string directory, string relative) =>
+        relative.Length == 0 ? directory : $"{directory.TrimEnd('/')}/{relative}";
+
+    private static string? GetLinuxParent(string directory)
+    {
+        var separator = directory.LastIndexOf('/');
+        return directory == "/" || separator < 0 ? null : separator == 0 ? "/" : directory[..separator];
     }
 
     private string? Read(string path)
@@ -149,7 +159,7 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
             {
                 relative = membership[root.Length..];
             }
-            else if (membership == "/" && Lines(Read(Path.Combine(mount, "cgroup.procs")))
+            else if (membership == "/" && Lines(Read(CombineLinuxPath(mount, "cgroup.procs")))
                 .Any(pid => TryNonNegative(pid, out var value) && value == Environment.ProcessId))
             {
                 // Namespace-relative / alone cannot identify a bind-mounted subtree.
@@ -163,7 +173,7 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
 
             if (mount.StartsWith('/'))
             {
-                return (Path.Combine(mount, relative.TrimStart('/')), mount);
+                return (CombineLinuxPath(mount, relative.TrimStart('/')), mount);
             }
         }
 
