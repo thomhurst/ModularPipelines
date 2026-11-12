@@ -11,7 +11,7 @@ a reference for automated migrations at the end.
 
 The comparison baseline is released **V3.2.8**. V4 is still under development; this guide
 describes the current V4 source. If you used an intermediate development build, also check
-the [V4 release notes](https://github.com/thomhurst/ModularPipelines/blob/main/RELEASE_NOTES_V4.md).
+the [GitHub releases](https://github.com/thomhurst/ModularPipelines/releases).
 
 > **TL;DR - The 6 biggest changes:**
 > 1. Register modules on `builder`, then use `await builder.RunAsync()` or `await builder.BuildAsync()`.
@@ -1670,7 +1670,7 @@ These are additions in V4; adopting them is not required to migrate:
 - [Trimming and Native AOT support](./how-to/native-aot.md) for supported statically described C# pipelines.
 - [Distributed execution](./distributed/architecture.md), artifact contracts, worker capabilities, and execution backends.
   Distributed packages are not in V3.2.8; if you used them from an intermediate development build, see the
-  distributed sections of the [V4 release notes](https://github.com/thomhurst/ModularPipelines/blob/main/RELEASE_NOTES_V4.md).
+  [distributed configuration guide](./distributed/configuration.md).
 - Additional CLI integrations and substantially expanded command coverage in existing integrations.
 - Command interceptors: `ModularPipelines.ICommandInterceptor` wraps command execution as middleware through
   `InvokeAsync(invocation, next, cancellationToken)`. Register one with

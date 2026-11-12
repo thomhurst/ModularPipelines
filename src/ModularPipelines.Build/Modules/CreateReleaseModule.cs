@@ -47,15 +47,6 @@ public class CreateReleaseModule(IOptions<GitHubSettings> githubSettings,
             Prerelease = version.Split('+')[0].Contains('-'),
         };
 
-        if (version == "4.0.0")
-        {
-            using var notesStream = typeof(CreateReleaseModule).Assembly.GetManifestResourceStream("ModularPipelines.Build.RELEASE_NOTES_V4.md")
-                ?? throw new InvalidOperationException("The curated v4 release notes are missing from the build assembly.");
-            using var reader = new StreamReader(notesStream);
-            release.Body = await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
-            release.GenerateReleaseNotes = false;
-        }
-
         return await context.Tools.GitHub.Client.Repository.Release.Create(repositoryId, release).ConfigureAwait(false);
     }
 }

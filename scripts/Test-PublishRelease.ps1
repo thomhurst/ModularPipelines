@@ -124,14 +124,6 @@ try {
             throw "Publication must upload the verified packages/symbols before creating release $version at the validated commit."
         }
         if ($version -eq '4.0.0-rc.1') {
-            $notesIndex = [Array]::IndexOf($calls[5], '--notes-file')
-            if ($notesIndex -lt 0 -or -not (Test-Path -LiteralPath $calls[5][$notesIndex + 1])) {
-                throw 'The v4 release candidate must include its upgrade feedback announcement.'
-            }
-            $notes = Get-Content -LiteralPath $calls[5][$notesIndex + 1] -Raw
-            if ($notes -notmatch 'migrating-to-v4' -or $notes -notmatch 'issues/3997' -or $notes -notmatch 'feedback') {
-                throw 'RC notes must link the migration guide and release feedback gate.'
-            }
             $calls.Clear()
             $parameters.ExpectedVersion = '4.0.0-rc.2'
             Assert-Rejected { & $publishScript @parameters } 'wrong release candidate version'

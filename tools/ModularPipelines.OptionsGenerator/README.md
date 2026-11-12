@@ -129,7 +129,7 @@ runtime changes in #5972 and #6003. The complete Linux generation recorded in
 [run 38426118680](https://github.com/thomhurst/ModularPipelines/actions/runs/38426118680)
 retained 182 commands without a generated-output diff. See the
 [Git package guide](../../docs/docs/mp-packages/git.md#shared-execution-options)
-and [migration notes](../../RELEASE_NOTES_V4.md) for caller changes and the limits
+and [migration guide](../../docs/docs/migrating-to-v4.md) for caller changes and the limits
 of configuration secret masking.
 
 ## Add a scraper
