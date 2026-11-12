@@ -5934,7 +5934,7 @@ internal static class ModuleAuthoringAnalysis
             IBlockOperation block => !HasAncestor(read, block)
                 && ((AlwaysExitsCallable(block)
                         && !block.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
-                            branch.BranchKind is BranchKind.Break or BranchKind.Continue))
+                            CancellationBranchEscapesBlock(branch, block)))
                     || CancellationBlockJumpsPastRead(block, read)),
             ISwitchExpressionArmOperation arm => CancellationWriteCannotReachOtherSwitchArm(arm, write, read),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
@@ -5942,6 +5942,33 @@ internal static class ModuleAuthoringAnalysis
                 || (HasAncestor(write, whenFalse) && HasAncestor(read, conditional.WhenTrue)),
             _ => false,
         };
+    }
+
+    private static bool CancellationBranchEscapesBlock(IBranchOperation branch, IBlockOperation block)
+    {
+        if (branch.BranchKind is not (BranchKind.Break or BranchKind.Continue))
+        {
+            return false;
+        }
+
+        // A nested loop or switch consumes its own branches before the block's return.
+        for (var ancestor = branch.Parent; ancestor is not null && ancestor != block; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ILoopOperation loop
+                && (SymbolEqualityComparer.Default.Equals(loop.ExitLabel, branch.Target)
+                    || SymbolEqualityComparer.Default.Equals(loop.ContinueLabel, branch.Target)))
+            {
+                return false;
+            }
+
+            if (ancestor is ISwitchOperation switchOperation
+                && SymbolEqualityComparer.Default.Equals(switchOperation.ExitLabel, branch.Target))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static bool CancellationBlockJumpsPastRead(IBlockOperation block, IOperation read)
