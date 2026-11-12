@@ -5635,6 +5635,15 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol>? visitedSnapshots = null)
     {
         visitedSnapshots ??= [with(SymbolEqualityComparer.Default)];
+        if (returnValue is IConditionalOperation or ISwitchExpressionOperation)
+        {
+            // Local initializers need the same leaf-specific proof as direct returns.
+            return GetReachableValueLeaves(returnValue)
+                .Where(static candidate => !AlwaysThrows(candidate))
+                .Any(candidate => HasAliasedCancellationWrite(invocation, method, body, candidate,
+                    parameter, CloneVisitedMethods(visitedMethods), CloneVisitedLocals(visitedSnapshots)));
+        }
+
         if (returnValue is ILocalReferenceOperation { Local.RefKind: RefKind.None } local)
         {
             if (!visitedSnapshots.Add(local.Local))

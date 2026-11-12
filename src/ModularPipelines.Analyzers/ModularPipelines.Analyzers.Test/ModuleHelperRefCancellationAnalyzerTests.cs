@@ -69,6 +69,14 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "var saved = first; second = default; second = IdentityValue(first, saved); return first;", true)]
     [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = IdentityValue(first, saved); return result;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = IdentityValue(saved, first); return result;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = Flag ? saved : CancellationTokenSource.CreateLinkedTokenSource(first, saved).Token; return result;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = Flag switch { true => saved, false => CancellationTokenSource.CreateLinkedTokenSource(first, saved).Token }; return result;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = Flag ? saved : IdentityValue(first, saved); return result;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = Flag ? saved : first; return result;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = Flag switch { true => saved, false => first }; return result;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = true ? saved : first; return result;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = Flag ? saved : throw new System.InvalidOperationException(); return result;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = Flag ? saved : (Flag switch { true => saved, false => IdentityValue(first, saved) }); return result;", false)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
