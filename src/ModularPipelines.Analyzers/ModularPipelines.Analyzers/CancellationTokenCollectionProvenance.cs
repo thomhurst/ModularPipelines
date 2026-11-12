@@ -619,7 +619,7 @@ internal static class CancellationTokenCollectionProvenance
             {
                 // Slice construction does not mutate the backing array. Its offsets
                 // are not tracked, so only full-array views share element facts.
-                return arguments.Length == 1 ? arguments[0].Value : new Value(arrays: arguments[0].Value.Arrays, unknownArray: true, sliced: true, unsupported: arguments[0].Value.Unsupported);
+                return arguments.Length == 1 ? arguments[0].Value : new Value(arrays: arguments[0].Value.Arrays, unknownArray: true, sliced: true, unsupported: true);
             }
 
             // Constructors cannot mutate arguments until all values are evaluated.
@@ -715,8 +715,10 @@ internal static class CancellationTokenCollectionProvenance
                 IConversionOperation { OperatorMethod: null } conversion => ResultIsDiscarded(conversion, path, visited),
                 IParenthesizedOperation parentheses => ResultIsDiscarded(parentheses, path, visited),
                 ITupleOperation tuple => ResultIsDiscarded(tuple, [tuple.Elements.IndexOf(operation), .. path], visited),
-                ISimpleAssignmentOperation assignment => IsDiscardTarget(assignment.Target, path),
-                IDeconstructionAssignmentOperation assignment => IsDiscardTarget(assignment.Target, path),
+                ISimpleAssignmentOperation assignment => IsDiscardTarget(assignment.Target, path)
+                    && (assignment.Parent is IExpressionStatementOperation || ResultIsDiscarded(assignment, path, visited)),
+                IDeconstructionAssignmentOperation assignment => IsDiscardTarget(assignment.Target, path)
+                    && (assignment.Parent is IExpressionStatementOperation || ResultIsDiscarded(assignment, path, visited)),
                 IFlowCaptureOperation capture => visited.Add(capture.Id)
                     && _captureReferences.TryGetValue(capture.Id, out var references)
                     && references.Count > 0 && references.All(reference => ResultIsDiscarded(reference, path, visited)),
@@ -798,7 +800,7 @@ internal static class CancellationTokenCollectionProvenance
                 // aliases for invalidation, but cannot prove offsets or contents.
                 return invocation.Arguments.Length == 1
                     ? backing
-                    : new Value(arrays: backing.Arrays, unknownArray: true, sliced: true, unsupported: backing.Unsupported);
+                    : new Value(arrays: backing.Arrays, unknownArray: true, sliced: true, unsupported: true);
             }
 
             if (invocation.TargetMethod is { Name: "KeepAlive", IsStatic: true, Parameters.Length: 1 } keepAlive
@@ -1351,7 +1353,7 @@ internal static class CancellationTokenCollectionProvenance
         {
             if (value.Arrays is { } arrays)
             {
-                state.EscapedArrays.UnionWith(arrays);
+                state.EscapedArrays.UnionWith(BackingArrayAliases(arrays, state));
             }
 
             if (value.Elements is { } elements)
@@ -1365,11 +1367,41 @@ internal static class CancellationTokenCollectionProvenance
             InvalidateArrays(value, state);
         }
 
+        private static HashSet<TextSpan> BackingArrayAliases(HashSet<TextSpan> arrays, State state)
+        {
+            if (!arrays.Any(state.PossibleArrayAliases.ContainsKey))
+            {
+                return arrays;
+            }
+
+            // Helper identities may refer to other helper results. Walk the finite
+            // call-site graph once, including cycles introduced by CFG joins.
+            var aliases = new HashSet<TextSpan>(arrays);
+            var pending = new Stack<TextSpan>(arrays);
+            while (pending.Count > 0)
+            {
+                if (!state.PossibleArrayAliases.TryGetValue(pending.Pop(), out var possible))
+                {
+                    continue;
+                }
+
+                foreach (var identity in possible)
+                {
+                    if (aliases.Add(identity))
+                    {
+                        pending.Push(identity);
+                    }
+                }
+            }
+
+            return aliases;
+        }
+
         private static void InvalidateArrays(Value value, State state)
         {
             if (value.Arrays is { } arrays)
             {
-                foreach (var span in arrays)
+                foreach (var span in BackingArrayAliases(arrays, state))
                 {
                     if (state.Arrays.TryGetValue(span, out var contents))
                     {

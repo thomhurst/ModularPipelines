@@ -597,6 +597,48 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
             "private static void Observe(object[] value) { } private class Container { public static implicit operator Container(object[] value) => new(); }");
     }
 
+    [TestMethod]
+    [DataRow("_objects = (_ = new object[] { tokens });", true)]
+    [DataRow("_objects = (_ = (object[])[tokens]);", true)]
+    [DataRow("_ = (_ = new object[] { tokens });", false)]
+    public async Task Retained_Discard_Assignment_Containers_Escape(string statement, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; {statement} tokens[0] = cancellationToken; ResetObjects(); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", warns,
+            "private object[] _objects; private void ResetObjects() { if (_objects != null) ((CancellationToken[])_objects[0])[0] = default; }");
+    }
+
+    [TestMethod]
+    [DataRow("var holder = (_ = new Holder(ref alias[0]));", true)]
+    [DataRow("ref CancellationToken slot = ref alias[0];", true)]
+    [DataRow("_ = new Holder(ref alias[0]);", false)]
+    public async Task Retained_Helper_Reference_Escapes_Backing_Aliases(string statement, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; var alias = Identity(tokens); {statement} tokens[0] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", warns,
+            "private static CancellationToken[] Identity(CancellationToken[] tokens) => tokens; private ref struct Holder { private ref CancellationToken _token; public Holder(ref CancellationToken token) { _token = ref token; } }");
+    }
+
+    [TestMethod]
+    [DataRow("Reset(alias);", true)]
+    [DataRow("Reset(alias.AsSpan());", true)]
+    [DataRow("Reset(independent);", false)]
+    public async Task Helper_Invocation_Invalidates_Backing_Aliases(string statement, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; var alias = Identity(tokens); var independent = new[] {{ cancellationToken }}; tokens[0] = cancellationToken; {statement} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", warns,
+            "private static CancellationToken[] Identity(CancellationToken[] tokens) => tokens; private static void Reset(Span<CancellationToken> tokens) { tokens[0] = default; }");
+    }
+
+    [TestMethod]
+    [DataRow("new ReadOnlySpan<CancellationToken>(tokens, 0, 1)", false)]
+    [DataRow("new Span<CancellationToken>(tokens, 0, 1)", false)]
+    [DataRow("tokens.AsSpan(0, 1)", false)]
+    [DataRow("new ReadOnlySpan<CancellationToken>(tokens, 0, 1)", true)]
+    [DataRow("tokens.AsSpan(0, 1)", true)]
+    public async Task Slice_Offsets_Remain_Unknown(string slice, bool linked)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; cancellationToken = "
+            + (linked ? $"CancellationTokenSource.CreateLinkedTokenSource({slice}).Token;" : $"{slice}[0];"), false);
+    }
+
     public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")
