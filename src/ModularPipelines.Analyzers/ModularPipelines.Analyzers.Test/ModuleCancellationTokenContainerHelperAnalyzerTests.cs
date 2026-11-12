@@ -87,6 +87,16 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias[0] = default; for (var j = 0; j < 2; j++) { alias = ref value; if (flag) continue; alias = ref scratch; } }", true)]
     [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias[0] = default; switch (i) { case 0: alias = ref value; if (flag) goto case 1; alias = ref scratch; break; case 1: break; } }", true)]
     [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias = ref value; alias[0] = default; if (flag) break; alias = ref scratch; }", true)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; scratch[0] = default;", false)]
+    [DataRow("var scratch = value; var old = scratch; scratch = new CancellationToken[1]; old[0] = default;", true)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; var next = scratch; next[0] = default;", false)]
+    [DataRow("var scratch = value; if (true) scratch = new CancellationToken[1]; scratch[0] = default;", false)]
+    [DataRow("var scratch = value; if (flag) scratch = new CancellationToken[1]; scratch[0] = default;", true)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; var passes = 0; Again: for (var i = 0; i < 2; i++) { alias[0] = default; alias = ref value; if (passes++ == 0) goto Again; alias = ref scratch; }", true)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; for (var i = 0; i < 2; i++) { scratch[0] = default; scratch = value; }", true)]
+    [DataRow("var scratch = value; for (var i = 0; i < 2; i++) { scratch = new CancellationToken[1]; scratch[0] = default; scratch = value; }", false)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; for (var i = 0; i < 2; i++) { scratch[0] = default; }", false)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; ref var alias = ref scratch; alias = value; scratch[0] = default;", true)]
     public async Task Tracks_Container_Helper_Storage(string body, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";
@@ -170,6 +180,16 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("void ClearScratch(CancellationToken[] scratch) { var alias = scratch; alias[0] = default; } ClearScratch(new CancellationToken[1]);", false)]
     [DataRow("_ = MakeScratch(); CancellationToken[] MakeScratch() { var scratch = new CancellationToken[1]; scratch[0] = default; return scratch; }", false)]
     [DataRow("_ = MakeTokens(); CancellationToken[] MakeTokens() { tokens[0] = default; return tokens; }", true)]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; scratch[0] = default;", false)]
+    [DataRow("var scratch = tokens; var old = scratch; scratch = new CancellationToken[1]; old[0] = default;", true)]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; var next = scratch; next[0] = default;", false)]
+    [DataRow("var scratch = tokens; if (true) scratch = new CancellationToken[1]; scratch[0] = default;", false)]
+    [DataRow("var scratch = tokens; if (context != null) scratch = new CancellationToken[1]; scratch[0] = default;", true)]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; for (var i = 0; i < 2; i++) { scratch[0] = default; scratch = tokens; }", true)]
+    [DataRow("var scratch = tokens; for (var i = 0; i < 2; i++) { scratch = new CancellationToken[1]; scratch[0] = default; scratch = tokens; }", false)]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; for (var i = 0; i < 2; i++) { scratch[0] = default; }", false)]
+    [DataRow("var scratch = tokens; scratch = new[] { cancellationToken }; scratch[0] = default; tokens = Forward(scratch);", true)]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; ref var alias = ref scratch; alias = tokens; scratch[0] = default;", true)]
     public async Task Tracks_Caller_Container_Storage(string body, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";
@@ -192,6 +212,43 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
 
                 private static void Clear(CancellationToken[] value) => value[0] = default;
                 private static CancellationToken[] Forward(CancellationToken[] value) => value;
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source, warns
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; scratch[0] = default;", false, false)]
+    [DataRow("tokens[0] = default;", true, false)]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; scratch = tokens; scratch[0] = default;", true, false)]
+    // Returning through another call remains a conservative container escape.
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; scratch[0] = default;", true, true)]
+    [DataRow("tokens[0] = default;", true, true)]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; scratch = tokens; scratch[0] = default;", true, true)]
+    public async Task Tracks_Fresh_Returned_Container_Storage(string body, bool warns, bool forwards)
+    {
+        var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeaderWithExtensions}}
+            public class BuildModule : Module<List<string>>
+            {
+                protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    using var linked = CancellationTokenSource.CreateLinkedTokenSource(Forward(cancellationToken));
+                    await {{call}};
+                    return new List<string>();
+                }
+
+                private static CancellationToken[] Forward(CancellationToken token)
+                {
+                    var tokens = new[] { token };
+                    {{body}}
+                    return {{(forwards ? "Identity(tokens)" : "tokens")}};
+                }
+
+                private static CancellationToken[] Identity(CancellationToken[] value) => value;
             }
             """;
         await VerifyCS.VerifyAnalyzerAsync(source, warns

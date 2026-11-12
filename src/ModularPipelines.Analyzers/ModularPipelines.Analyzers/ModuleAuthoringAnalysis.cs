@@ -5667,27 +5667,28 @@ internal static class ModuleAuthoringAnalysis
             || ReplacesForwardedContainerStorage(child, relevant));
     }
 
-    private static bool MutatesOrExposesContainerStorage(IOperation operation, HashSet<ISymbol> relevant) =>
+    private static bool MutatesOrExposesContainerStorage(IOperation operation, ContainerStorageSymbols relevant) =>
         (ExposesCancellationContainer(operation)
             || (IsCancellationContainerElement(operation) && MayWriteContainerElement(operation)))
         && ReferencesContainer(operation, relevant);
 
-    private static bool ReplacesForwardedContainerStorage(IOperation operation, HashSet<ISymbol> relevant) =>
+    private static bool ReplacesForwardedContainerStorage(IOperation operation, ContainerStorageSymbols relevant) =>
         operation is IAssignmentOperation assignment
         && !IsRefRebinding(assignment)
         && (GetContainerStorageReferences(assignment.Target).Any(target =>
                 target is IParameterReferenceOperation parameter && relevant.Contains(parameter.Parameter))
             || WritesThroughContainerRefLocal(assignment.Target, relevant));
 
-    private static HashSet<ISymbol> GetForwardedContainerSymbols(
+    private static ContainerStorageSymbols GetForwardedContainerSymbols(
         IOperation operation, HashSet<IParameterSymbol> flowedParameters,
         ILocalReferenceOperation? callerReference = null,
         int storageStart = int.MinValue)
     {
-        var relevant = new HashSet<ISymbol>(flowedParameters.Where(static parameter => IsCancellationContainer(parameter.Type)), SymbolEqualityComparer.Default);
+        var relevant = new ContainerStorageSymbols(flowedParameters.Where(static parameter => IsCancellationContainer(parameter.Type)));
         if (callerReference is not null)
         {
             relevant.Add(callerReference.Local);
+            relevant.Allocations.UnionWith(GetContainerAllocationValues(callerReference, [with(SymbolEqualityComparer.Default)]).Where(IsFreshArrayStorage));
         }
 
         var children = (callerReference is null
@@ -5717,7 +5718,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static void AddCallableContainerSymbols(
-        IOperation[] children, IOperation? callable, HashSet<ISymbol> relevant)
+        IOperation[] children, IOperation? callable, ContainerStorageSymbols relevant)
     {
         // Parameters owned by this callable may alias even when only one has proven
         // provenance. Nested callable parameters can receive independent scratch storage.
@@ -5736,13 +5737,14 @@ internal static class ModuleAuthoringAnalysis
                 && ReferenceEquals(GetEnclosingCallable(returned), callable))
             {
                 AddContainerReferences(value, relevant);
+                relevant.Allocations.UnionWith(GetContainerAllocationValues(value, [with(SymbolEqualityComparer.Default)]).Where(IsFreshArrayStorage));
             }
         }
     }
 
     private static void AddCallerAllocationAliases(
         IOperation[] children, ILocalReferenceOperation? callerReference,
-        int storageStart, HashSet<ISymbol> relevant)
+        int storageStart, ContainerStorageSymbols relevant)
     {
         if (callerReference is null)
         {
@@ -5861,7 +5863,7 @@ internal static class ModuleAuthoringAnalysis
         while (changed);
     }
 
-    private static void AddContainerAliases(IOperation child, HashSet<ISymbol> relevant)
+    private static void AddContainerAliases(IOperation child, ContainerStorageSymbols relevant)
     {
         if (child is IVariableDeclaratorOperation { Initializer.Value: { } initializer } declaration
             && IsCancellationContainer(initializer.Type)
@@ -5884,7 +5886,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static void AddDeconstructionContainerAliases(
-        IOperation target, IOperation value, HashSet<ISymbol> relevant,
+        IOperation target, IOperation value, ContainerStorageSymbols relevant,
         HashSet<ILocalSymbol>? visitedLocals = null)
     {
         visitedLocals ??= [with(SymbolEqualityComparer.Default)];
@@ -5922,7 +5924,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static void AddMatchingContainerAliases(
-        IOperation target, IOperation value, HashSet<ISymbol> relevant,
+        IOperation target, IOperation value, ContainerStorageSymbols relevant,
         HashSet<ILocalSymbol> visitedLocals)
     {
         if (target is ITupleOperation targets && value is ITupleOperation values
@@ -5952,10 +5954,171 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
-    private static bool ReferencesContainer(IOperation operation, HashSet<ISymbol> symbols) =>
+    private static bool ReferencesContainer(IOperation operation, ContainerStorageSymbols symbols) =>
         GetContainerStorageReferences(operation).Any(child =>
-            (GetContainerSymbol(child) is { } symbol && symbols.Contains(symbol))
+            (GetContainerSymbol(child) is { } symbol && symbols.Contains(symbol)
+                && !HasIndependentContainerAllocation(child, symbols))
             || (child is IFieldReferenceOperation or IPropertyReferenceOperation && IsCancellationContainer(child.Type)));
+
+    private static bool HasIndependentContainerAllocation(IOperation operation, ContainerStorageSymbols symbols)
+    {
+        if (operation is not ILocalReferenceOperation { Local.RefKind: RefKind.None })
+        {
+            return false;
+        }
+
+        if (!symbols.IndependentReferences.TryGetValue(operation, out var independent))
+        {
+            var values = GetContainerAllocationValues(operation, [with(SymbolEqualityComparer.Default)]).ToArray();
+            independent = values.Length > 0 && values.All(value => IsFreshArrayStorage(value) && !symbols.Allocations.Contains(value));
+            symbols.IndependentReferences.Add(operation, independent);
+        }
+
+        return independent;
+    }
+
+    private static IEnumerable<IOperation> GetContainerAllocationValues(IOperation operation, HashSet<ILocalSymbol> visited)
+    {
+        if (IsFreshArrayStorage(operation))
+        {
+            return [operation];
+        }
+
+        if (operation is ILocalReferenceOperation { Local.RefKind: RefKind.None } local)
+        {
+            return GetLocalContainerAllocationValues(local, visited);
+        }
+
+        if (operation is ISimpleAssignmentOperation assignment)
+        {
+            return GetContainerAllocationValues(assignment.Value, visited);
+        }
+
+        if (operation is IInvocationOperation invocation)
+        {
+            // Unknown returns stay conservative, but their input allocations may
+            // be the storage ultimately returned or consumed by this proof.
+            return GetInvocationContainerAllocationValues(invocation, visited);
+        }
+
+        var leaves = GetReachableValueLeaves(operation).ToArray();
+        return leaves.Length == 1 && ReferenceEquals(leaves[0], operation)
+            ? [operation]
+            : leaves.SelectMany(value => GetContainerAllocationValues(value, CloneVisitedLocals(visited)));
+    }
+
+    private static IEnumerable<IOperation> GetLocalContainerAllocationValues(
+        ILocalReferenceOperation reference, HashSet<ILocalSymbol> visited)
+    {
+        if (!visited.Add(reference.Local))
+        {
+            return [reference];
+        }
+
+        var values = GetReachingContainerLocalValues(reference).ToArray();
+        var allocations = values.SelectMany(value => GetContainerAllocationValues(value, CloneVisitedLocals(visited)));
+        // Preserve known inputs when an escape makes the full origin uncertain.
+        // They can still be aliases of the storage consumed by the proof.
+        return values.Length == 0 || HasLoopCarriedContainerAssignment(reference) || HasWritableContainerStorageAlias(reference)
+            ? allocations.Prepend(reference)
+            : allocations;
+    }
+
+    private static bool HasWritableContainerStorageAlias(ILocalReferenceOperation reference) =>
+        GetRoot(reference).DescendantsAndSelf().Any(operation =>
+            operation.Syntax.SpanStart < reference.Syntax.SpanStart
+            && GetWritableContainerStorage(operation) is { } storage
+            && GetContainerStorageReferences(storage).OfType<ILocalReferenceOperation>()
+                .Any(local => SymbolEqualityComparer.Default.Equals(local.Local, reference.Local)));
+
+    private static IOperation? GetWritableContainerStorage(IOperation operation) => operation switch
+    {
+        IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None, Initializer.Value: { } value } => value,
+        ISimpleAssignmentOperation { IsRef: true } assignment => assignment.Value,
+        IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => argument.Value,
+        _ => null,
+    };
+
+    private static IEnumerable<IOperation> GetInvocationContainerAllocationValues(
+        IInvocationOperation invocation, HashSet<ILocalSymbol> visited)
+    {
+        var inputs = invocation.Arguments.Select(static argument => argument.Value);
+        if (invocation.Instance is { } receiver)
+        {
+            inputs = inputs.Append(receiver);
+        }
+
+        return inputs.SelectMany(value => GetContainerAllocationValues(value, CloneVisitedLocals(visited)))
+            .Prepend(invocation);
+    }
+
+    private static IEnumerable<IOperation> GetReachingContainerLocalValues(ILocalReferenceOperation reference)
+    {
+        var assignments = FindLocalAssignments(GetRoot(reference), reference, reference.Local, GetEnclosingCallable(reference))
+            .Where(IsInReachableBranch).ToArray();
+        var definite = assignments.FirstOrDefault(assignment => IsDefiniteContainerPredecessor(assignment, reference));
+        return definite is null
+            ? FindReachingLocalValues(reference, reference.Local)
+            : assignments.Where(assignment => assignment.Syntax.SpanStart >= definite.Syntax.SpanStart)
+                .Select(static assignment => assignment.Value);
+    }
+
+    private static bool IsDefiniteContainerPredecessor(IOperation candidate, IOperation reference)
+    {
+        for (var ancestor = candidate.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is IBlockOperation && HasAncestor(reference, ancestor))
+            {
+                return true;
+            }
+
+            if (ancestor is ILoopOperation or ISwitchOperation
+                || ancestor is IConditionalOperation { Condition.ConstantValue: not { HasValue: true, Value: bool } })
+            {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool HasLoopCarriedContainerAssignment(ILocalReferenceOperation reference)
+    {
+        var callable = GetEnclosingCallable(reference);
+        var root = GetRoot(reference);
+        var predecessor = (IOperation?) FindLocalAssignments(root, reference, reference.Local, callable)
+            .FirstOrDefault(binding => IsLinearPredecessor(binding, reference))
+            ?? FindLocalDeclarator(root, reference, reference.Local, callable);
+        for (var ancestor = reference.Parent; ancestor is not null && !ReferenceEquals(ancestor, callable); ancestor = ancestor.Parent)
+        {
+            if (ancestor is ILoopOperation loop
+                && !IsContainerResetBeforeReference(predecessor, reference, loop)
+                && HasLaterContainerAssignment(loop, reference, callable))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool IsContainerResetBeforeReference(IOperation? predecessor, IOperation reference, ILoopOperation loop) =>
+        predecessor is not null && HasAncestor(predecessor, loop.Body) && IsLinearPredecessor(predecessor, reference);
+
+    private static bool HasLaterContainerAssignment(ILoopOperation loop, ILocalReferenceOperation reference, IOperation? callable) =>
+        loop.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>().Any(assignment =>
+            assignment.Syntax.SpanStart > reference.Syntax.SpanStart
+            && assignment.Target is ILocalReferenceOperation target
+            && SymbolEqualityComparer.Default.Equals(target.Local, reference.Local)
+            && ReferenceEquals(GetEnclosingCallable(assignment), callable)
+            && IsInReachableBranch(assignment));
+
+    private sealed class ContainerStorageSymbols(IEnumerable<ISymbol> symbols) : HashSet<ISymbol>(symbols, SymbolEqualityComparer.Default)
+    {
+        public HashSet<IOperation> Allocations { get; } = [];
+
+        public Dictionary<IOperation, bool> IndependentReferences { get; } = [];
+    }
 
     private static IEnumerable<IOperation> GetContainerStorageReferences(IOperation operation, HashSet<IOperation>? visited = null) => operation switch
     {
@@ -6089,9 +6252,9 @@ internal static class ModuleAuthoringAnalysis
         var target = GetRoot(loop).DescendantsAndSelf().OfType<ILabeledOperation>()
             .FirstOrDefault(label => SymbolEqualityComparer.Default.Equals(label.Label, branch.Target));
         // Switch-case targets have no labeled operation; keep those conservative.
-        return target is null || (HasAncestor(target, loop.Body)
-            && (target.Syntax.SpanStart <= binding.Syntax.SpanStart
-                || target.Syntax.SpanStart > later.Syntax.SpanStart));
+        return target is null
+            || target.Syntax.SpanStart <= binding.Syntax.SpanStart
+            || (HasAncestor(target, loop.Body) && target.Syntax.SpanStart > later.Syntax.SpanStart);
     }
 
     private static bool IsReachableRefBinding(
@@ -6105,7 +6268,7 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsRefRebinding(IAssignmentOperation assignment) =>
         assignment is ISimpleAssignmentOperation { IsRef: true };
 
-    private static bool WritesThroughContainerRefLocal(IOperation target, HashSet<ISymbol> relevant) => target switch
+    private static bool WritesThroughContainerRefLocal(IOperation target, ContainerStorageSymbols relevant) => target switch
     {
         ILocalReferenceOperation { Local.RefKind: not RefKind.None } local => ReferencesContainer(local, relevant),
         ITupleOperation tuple => tuple.Elements.Any(element => WritesThroughContainerRefLocal(element, relevant)),
