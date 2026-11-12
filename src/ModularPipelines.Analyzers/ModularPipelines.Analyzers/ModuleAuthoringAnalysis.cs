@@ -10,7 +10,7 @@ using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
-internal static class ModuleAuthoringAnalysis
+internal static partial class ModuleAuthoringAnalysis
 {
     private const string AssemblyMetadataName = "System.Reflection.Assembly";
     private const string CancellationTokenMetadataName = "System.Threading.CancellationToken";
@@ -5435,11 +5435,15 @@ internal static class ModuleAuthoringAnalysis
     {
         return value switch
         {
-            IConversionOperation conversion => FlowsFromCancellationToken(
+            IConversionOperation { OperatorMethod: null } conversion => FlowsFromCancellationToken(
                 conversion.Operand,
                 cancellationToken,
                 visitedLocals,
                 visitedMethods),
+            IAwaitOperation awaited => FlowsFromCancellationToken(
+                awaited.Operation, cancellationToken, visitedLocals, visitedMethods),
+            IObjectCreationOperation creation when GetCancellationPayloadInput(creation) is { } payload =>
+                FlowsFromCancellationToken(payload, cancellationToken, visitedLocals, visitedMethods),
             IParameterReferenceOperation parameterReference =>
                 IsStableCapturedCancellationToken(parameterReference)
                 && ((SymbolEqualityComparer.Default.Equals(
@@ -5553,6 +5557,11 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        if (GetCancellationPayloadInput(propertyReference) is { } payload)
+        {
+            return FlowsFromCancellationToken(payload, cancellationToken, visitedLocals, visitedMethods);
+        }
+
         return IsCancellationTokenSourceToken(propertyReference)
                && propertyReference.Instance is not null
                && FlowsFromCancellationToken(
@@ -5568,6 +5577,17 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        if (GetCancellationPayloadInput(invocation) is { } payload)
+        {
+            return FlowsFromCancellationToken(payload, cancellationToken, visitedLocals, visitedMethods);
+        }
+
+        if (IsCancellationPayloadType(invocation.Type))
+        {
+            return FlowsFromAssignedCancellationTokenHelper(invocation, value => FlowsFromCancellationToken(
+                value, cancellationToken, CloneVisitedLocals(visitedLocals), CloneVisitedMethods(visitedMethods)));
+        }
+
         if (IsKnownCancellationCarrierFactory(invocation))
         {
             return invocation.Arguments.Any(argument =>
@@ -5790,7 +5810,7 @@ internal static class ModuleAuthoringAnalysis
     {
         return operation switch
         {
-            IConversionOperation conversion => GetReachableValueLeaves(conversion.Operand),
+            IConversionOperation { OperatorMethod: null } conversion => GetReachableValueLeaves(conversion.Operand),
             IConditionalOperation conditional => GetReachableConditionalLeaves(conditional),
             ICoalesceOperation coalesce => GetReachableCoalesceLeaves(coalesce),
             ISwitchExpressionOperation switchExpression => switchExpression.Arms
@@ -6659,6 +6679,14 @@ internal static class ModuleAuthoringAnalysis
         Compilation compilation,
         INamedTypeSymbol within)
     {
+        // FromResult stores a value; its constructed CancellationToken parameter
+        // is a payload rather than a cancellation control for the operation.
+        if (method.Name == "FromResult" && method.IsStatic
+            && method.ContainingType.ToDisplayString() is "System.Threading.Tasks.Task" or "System.Threading.Tasks.ValueTask")
+        {
+            return false;
+        }
+
         if (method.Parameters.Any(IsCancellationToken))
         {
             return true;

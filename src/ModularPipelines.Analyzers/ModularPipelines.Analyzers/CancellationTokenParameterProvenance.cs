@@ -29,8 +29,9 @@ internal static class CancellationTokenParameterProvenance
 
         var references = Results.GetValue(root, static _ => new(SymbolEqualityComparer.Default))
             .GetOrAdd(source, token => new Lazy<Dictionary<TextSpan, bool?>>(() => Analyze(root, token))).Value;
-        // Unsupported shapes keep the existing proof. This tracker adds no new helper,
-        // collection, tuple, reference-storage, awaitable, loop or exception-cleanup proofs.
+        // Unsupported shapes keep the existing proof. Payload/helper identity is
+        // delegated to the separate proof; collection, tuple, reference storage,
+        // loop and exception-cleanup effects remain outside this scalar tracker.
         return !references.TryGetValue(reference.Syntax.Span, out var value) || value != false;
     }
 
@@ -56,7 +57,7 @@ internal static class CancellationTokenParameterProvenance
         try
         {
             return ControlFlowGraph.Create(root.Syntax, model) is { } graph
-                ? new Analysis(graph, source).Run()
+                ? new Analysis(graph, source, model.Compilation).Run()
                 : [];
         }
         catch (ArgumentException)
@@ -144,7 +145,7 @@ internal static class CancellationTokenParameterProvenance
         }
     }
 
-    private sealed class Analysis(ControlFlowGraph graph, IParameterSymbol source)
+    private sealed class Analysis(ControlFlowGraph graph, IParameterSymbol source, Compilation compilation)
     {
         private readonly Dictionary<int, State> _inputs = [];
         private readonly Queue<BasicBlock> _pending = new();
@@ -229,9 +230,17 @@ internal static class CancellationTokenParameterProvenance
                     return Get(state.Values, local.Local);
                 case IFlowCaptureReferenceOperation capture:
                     return Get(state.Captures, capture.Id);
+                case IAwaitOperation awaited:
+                    return Evaluate(awaited.Operation, state);
+                case IInvocationOperation invocation:
+                    return EvaluateInvocation(invocation, state);
+                case IObjectCreationOperation creation when ModuleAuthoringAnalysis.GetCancellationPayloadInput(creation) is { } payload:
+                    return Evaluate(payload, state);
+                case IPropertyReferenceOperation property when ModuleAuthoringAnalysis.GetCancellationPayloadInput(property) is { } payload:
+                    return Evaluate(payload, state);
                 case IConversionOperation conversion:
                     var converted = Evaluate(conversion.Operand, state);
-                    return conversion.Conversion.IsIdentity || conversion.Operand is IDefaultValueOperation ? converted : null;
+                    return conversion.OperatorMethod is not null ? false : conversion.Conversion.IsIdentity || conversion.Operand is IDefaultValueOperation ? converted : null;
                 case IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
                     when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource":
                     return Evaluate(instance, state);
@@ -251,6 +260,37 @@ internal static class CancellationTokenParameterProvenance
 
                     return IsReplacementValue(operation) ? false : null;
             }
+        }
+
+        private bool? EvaluateInvocation(IInvocationOperation invocation, State state)
+        {
+            var values = new Dictionary<TextSpan, bool?>();
+            if (invocation.Instance is { } instance)
+            {
+                values[instance.Syntax.Span] = Evaluate(instance, state);
+            }
+
+            foreach (var argument in invocation.Arguments)
+            {
+                values[argument.Value.Syntax.Span] = Evaluate(argument.Value, state);
+            }
+
+            if (ModuleAuthoringAnalysis.GetCancellationPayloadInput(invocation) is { } payload)
+            {
+                return values.TryGetValue(payload.Syntax.Span, out var value) ? value : null;
+            }
+
+            if (!ModuleAuthoringAnalysis.IsCancellationPayloadType(invocation.Type))
+            {
+                return null;
+            }
+
+            // CFG operations have no semantic model; recover the source invocation
+            // for helper lookup while retaining the already evaluated caller values.
+            var original = compilation.GetSemanticModel(invocation.Syntax.SyntaxTree)
+                .GetOperation(invocation.Syntax) as IInvocationOperation;
+            return original is not null && ModuleAuthoringAnalysis.FlowsFromAssignedCancellationTokenHelper(
+                original, input => values.TryGetValue(input.Syntax.Span, out var value) && value == true);
         }
 
         private bool? EvaluateParameter(IParameterReferenceOperation parameter, State state)
