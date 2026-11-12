@@ -6043,7 +6043,7 @@ internal static class ModuleAuthoringAnalysis
     {
         for (var current = write; current.Parent is { } parent; current = parent)
         {
-            if (IsReadInSiblingCancellationSwitchArm(current, parent, read))
+            if (IsReadInSiblingCancellationSwitchArm(current, parent, write, read))
             {
                 return parent;
             }
@@ -6674,7 +6674,7 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            if (IsReadInSiblingCancellationSwitchArm(current, parent, read)
+            if (IsReadInSiblingCancellationSwitchArm(current, parent, binding, read)
                 && !SharesCancellationStorageLoop(binding, read)
                 && !CanRevisitCancellationStorageOperation(parent))
             {
@@ -6686,10 +6686,7 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            if (parent is IConditionalOperation conditional
-                && IsReadInSiblingCancellationConditional(current, conditional, read)
-                && !SharesCancellationStorageLoop(binding, read)
-                && !CanRevisitCancellationStorageOperation(conditional))
+            if (IsUnreachableCancellationStorageConditional(current, parent, binding, read))
             {
                 return false;
             }
@@ -6698,9 +6695,21 @@ internal static class ModuleAuthoringAnalysis
         return true;
     }
 
-    private static bool IsReadInSiblingCancellationSwitchArm(IOperation branch, IOperation parent, IOperation read) =>
-        branch is ISwitchExpressionArmOperation && parent is ISwitchExpressionOperation switchExpression
-        && switchExpression.Arms.Any(arm => !ReferenceEquals(arm, branch) && HasAncestor(read, arm));
+    private static bool IsReadInSiblingCancellationSwitchArm(
+        IOperation branch, IOperation parent, IOperation binding, IOperation read) =>
+        branch is ISwitchExpressionArmOperation sourceArm && parent is ISwitchExpressionOperation switchExpression
+        && switchExpression.Arms.Any(arm => !ReferenceEquals(arm, sourceArm) && HasAncestor(read, arm)
+            // A failed guard can carry writes forward to a later arm. Arm
+            // values are exclusive, and later guards cannot affect earlier reads.
+            && (HasAncestor(binding, sourceArm.Value)
+                || arm.Syntax.SpanStart < sourceArm.Syntax.SpanStart));
+
+    private static bool IsUnreachableCancellationStorageConditional(
+        IOperation branch, IOperation parent, IOperation binding, IOperation read) =>
+        parent is IConditionalOperation conditional
+        && IsReadInSiblingCancellationConditional(branch, conditional, read)
+        && !SharesCancellationStorageLoop(binding, read)
+        && !CanRevisitCancellationStorageOperation(conditional);
 
     private static bool IsReadInSiblingCancellationConditional(
         IOperation branch, IConditionalOperation conditional, IOperation read) =>

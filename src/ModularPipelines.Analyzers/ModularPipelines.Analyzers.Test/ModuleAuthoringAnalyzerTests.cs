@@ -3537,6 +3537,31 @@ public class ModuleAuthoringAnalyzerTests
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
     }
 
+    [TestMethod]
+    [DataRow("return choice switch { 0 when (first = default).CanBeCanceled => third, _ => first };", true)]
+    [DataRow("return choice switch { 0 when Check(first = default) => third, _ => first };", true)]
+    [DataRow("ref var alias = ref first; return choice switch { 0 when Check(alias = default) => third, _ => alias };", true)]
+    [DataRow("ref var alias = ref third; return choice switch { 0 when (alias = ref second).CanBeCanceled => third, _ => alias };", true)]
+    [DataRow("return choice switch { 0 when Check(first = third) => third, _ => first };", false)]
+    [DataRow("return choice switch { 0 => first, _ when Check(first = default) => third, _ => third };", false)]
+    [DataRow("return choice switch { 0 => Pick(first = default, third), _ => first };", false)]
+    public async Task Tracks_CancellationToken_Switch_Expression_Guard_Writes(string body, bool report)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "var choice = DateTime.UtcNow.Ticks; " + body
+            + " static bool Check(CancellationToken token) => false;"
+            + " static CancellationToken Pick(CancellationToken first, CancellationToken second) => second;",
+            "default", report);
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
+        if (report)
+        {
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
+    }
+
     private static string ReboundCancellationTokenHelperSource(string body, string second, bool report)
     {
         var delay = report ? "{|#0:Task.Delay(1, snapshot)|}" : "Task.Delay(1, snapshot)";
