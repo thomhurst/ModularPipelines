@@ -373,6 +373,32 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
             "private static CancellationToken Pass(CancellationToken token) => token;");
     }
 
+    [TestMethod]
+    [DataRow("ref CancellationToken slot = ref First(tokens);", "tokens", true)]
+    [DataRow("Span<CancellationToken> view = tokens; ref CancellationToken slot = ref FirstSpan(view);", "tokens", true)]
+    [DataRow("ref CancellationToken slot = ref FirstRef(ref tokens);", "tokens", true)]
+    [DataRow("ref CancellationToken slot = ref First(tokens);", "independent", false)]
+    [DataRow("ref CancellationToken slot = ref FirstTuple((tokens, 1));", "tokens", true)]
+    [DataRow("ref readonly CancellationToken slot = ref ReadFirst(tokens);", "tokens", false)]
+    public async Task Writable_Helper_References_Persist_Collection_Escapes(string binding, string argument, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; var independent = new[] {{ cancellationToken }}; {binding} tokens[0] = cancellationToken; {(binding.Contains("ref readonly") ? "" : "slot = default;")} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({argument}).Token;", warns,
+            "private static ref CancellationToken First(CancellationToken[] items) => ref items[0]; private static ref CancellationToken FirstSpan(Span<CancellationToken> items) => ref items[0]; private static ref CancellationToken FirstRef(ref CancellationToken[] items) => ref items[0]; private static ref CancellationToken FirstTuple((CancellationToken[] Tokens, int Count) items) => ref items.Tokens[0]; private static ref readonly CancellationToken ReadFirst(CancellationToken[] items) => ref items[0];");
+    }
+
+    [TestMethod]
+    [DataRow("cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(Pack(cancellationToken)).Token;", false)]
+    [DataRow("cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(PackSpan(cancellationToken)).Token;", false)]
+    [DataRow("cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(PackReadonly(cancellationToken)).Token;", false)]
+    [DataRow("CancellationToken[] tokens = [..Pack(cancellationToken)]; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", false)]
+    [DataRow("cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(Pack(cancellationToken)).Token; cancellationToken = default;", true)]
+    [DataRow("var tokens = Pack(cancellationToken); tokens = new CancellationToken[1]; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", true)]
+    public async Task Unsupported_Collection_Helpers_Preserve_Unknown_Provenance(string statements, bool warns)
+    {
+        await Verify(statements, warns,
+            "private static CancellationToken[] Pack(CancellationToken token) => new[] { token }; private static Span<CancellationToken> PackSpan(CancellationToken token) => new CancellationToken[] { token }; private static ReadOnlySpan<CancellationToken> PackReadonly(CancellationToken token) => new CancellationToken[] { token };");
+    }
+
     public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")

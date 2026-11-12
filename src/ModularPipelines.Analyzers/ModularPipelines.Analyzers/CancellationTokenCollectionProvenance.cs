@@ -697,11 +697,11 @@ internal static class CancellationTokenCollectionProvenance
 
             foreach (var value in values.Values)
             {
-                InvalidateArrays(value, state);
+                InvalidateInvocationArrays(value, invocation.TargetMethod.ReturnsByRef, state);
             }
 
             // Source-helper and awaitable payload proofs remain with the existing
-            // analysis. Unknown scalar results must not become replacement proofs.
+            // analysis. Unknown results must not become replacement proofs.
             return IsUnsupportedResult(invocation) ? Value.Unknown : Value.None;
         }
 
@@ -730,7 +730,8 @@ internal static class CancellationTokenCollectionProvenance
             // A call cannot write ref/out targets until every argument is evaluated.
             foreach (var (target, value) in references)
             {
-                InvalidateArrays(value, state);
+                InvalidateInvocationArrays(value, invocation.TargetMethod.ReturnsByRef, state);
+
                 if (invocation.TargetMethod.ReturnsByRef || invocation.TargetMethod.ReturnsByRefReadonly
                     || invocation.Type?.IsRefLikeType == true)
                 {
@@ -797,6 +798,7 @@ internal static class CancellationTokenCollectionProvenance
 
         private static bool IsUnsupportedResult(IOperation operation) =>
             (operation.Type is INamedTypeSymbol { IsTupleType: true }
+                || IsTokenCollection(operation.Type)
                 || operation.Type?.ToDisplayString() is "System.Threading.CancellationToken" or "System.Threading.CancellationTokenSource")
             && operation is not IDefaultValueOperation
                 and not IObjectCreationOperation
@@ -1123,11 +1125,32 @@ internal static class CancellationTokenCollectionProvenance
             return result ?? Value.None;
         }
 
+        private static void InvalidateInvocationArrays(Value value, bool returnsWritableReference, State state)
+        {
+            if (returnsWritableReference)
+            {
+                // The returned alias can write after later direct writes restore facts.
+                EscapeArrays(value, state);
+            }
+            else
+            {
+                InvalidateArrays(value, state);
+            }
+        }
+
         private static void EscapeArrays(Value value, State state)
         {
             if (value.Arrays is { } arrays)
             {
                 state.EscapedArrays.UnionWith(arrays);
+            }
+
+            if (value.Elements is { } elements)
+            {
+                foreach (var element in elements)
+                {
+                    EscapeArrays(element, state);
+                }
             }
 
             InvalidateArrays(value, state);
