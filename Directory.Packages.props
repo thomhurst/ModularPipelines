@@ -84,7 +84,7 @@
     <PackageVersion Include="TUnit.Core" Version="1.83.8" />
     <PackageVersion Include="MEL.Spectre" Version="0.7.0" />
     <PackageVersion Include="YamlDotNet" Version="18.1.0" />
-    <PackageVersion Include="AngleSharp" Version="1.10.1" />
+    <PackageVersion Include="AngleSharp" Version="1.10.2" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.64.1" />
     <PackageVersion Include="System.CommandLine" Version="2.0.15" />
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="10.0.15" />
