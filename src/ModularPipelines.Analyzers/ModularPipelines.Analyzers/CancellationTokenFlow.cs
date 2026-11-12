@@ -342,7 +342,7 @@ internal static class CancellationTokenFlow
             blocks
                 .Skip(region.FirstBlockOrdinal)
                 .Take(region.LastBlockOrdinal - region.FirstBlockOrdinal + 1)
-                .SelectMany(static block => block.Operations)
+                .SelectMany(static block => block.BranchValue is { } branch ? block.Operations.Add(branch) : block.Operations)
                 .SelectMany(static operation => operation.DescendantsAndSelf())
                 .OfType<ISimpleAssignmentOperation>()
                 .Select(static assignment => GetVariable(assignment.Target))

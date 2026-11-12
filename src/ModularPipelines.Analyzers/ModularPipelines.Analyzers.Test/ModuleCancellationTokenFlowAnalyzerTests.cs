@@ -55,6 +55,7 @@ public class ModuleCancellationTokenFlowAnalyzerTests
     [DataRow("var token = CancellationToken.None; for (var i = 0; i < 2; i++) { token = cancellationToken; }")]
     [DataRow("var token = CancellationToken.None; try { token = cancellationToken; } catch { }")]
     [DataRow("var token = CancellationToken.None; try { } finally { token = cancellationToken; }")]
+    [DataRow("var token = CancellationToken.None; try { } finally { if ((token = cancellationToken).CanBeCanceled) { _ = context; } }")]
     [DataRow("using var source = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken); var token = source.Token;")]
     [DataRow("using var source = CancellationTokenSource.CreateLinkedTokenSource(CancellationToken.None); var token = source.Token;")]
     [DataRow("var source = new CancellationTokenSource(); cancellationToken.Register(() => source.Cancel()); var token = source.Token;")]
