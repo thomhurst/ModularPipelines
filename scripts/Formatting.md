@@ -41,6 +41,79 @@ The exclusion belongs only to the local apply command. Keep CI's
 Respect the guard's existing timeout and memory limits; exits 124 and 137 are
 validation limits, not successful formatting.
 
+## Multiple .NET installations and workspace SDK selection
+
+On machines with multiple .NET installations, the formatter can run on .NET 11
+while its MSBuild workspace loads SDK 10 configuration. For a net11.0 dependency
+this reports `IsAotCompatible and EnableAotAnalyzer are not supported for the
+target framework`, then skips dependent projects with `Required references did
+not load`. A successful build and a zero formatter exit code do not establish
+semantic verification. This affects analyzer tests and can also affect core tests.
+`Configuration=Release`, PATH, or selecting the dotnet host alone is insufficient.
+
+Use the following invocation when workspace diagnostics show an older SDK. Start
+it in a fresh `pwsh -NoProfile` session from the worktree root, and exit that
+session afterwards so these resolver overrides do not affect other SDKs. Set
+`$dotnetRoot` to the installation containing the **exact** SDK version in
+`global.json`; install that SDK first if necessary, even if roll-forward would
+otherwise allow another version. The example path is for the macOS installer;
+on Windows it is typically `C:/Program Files/dotnet`, and Linux paths vary.
+
+```powershell
+$dotnetRoot = '/usr/local/share/dotnet'
+$sdkVersion = (Get-Content ./global.json -Raw | ConvertFrom-Json).sdk.version
+$sdkRoot = Join-Path $dotnetRoot "sdk/$sdkVersion"
+$dotnet = Join-Path $dotnetRoot $(if ($IsWindows) { 'dotnet.exe' } else { 'dotnet' })
+if (-not (Test-Path "$sdkRoot/MSBuild.dll") -or -not (Test-Path $dotnet)) {
+    throw "Install SDK $sdkVersion in $dotnetRoot before formatting."
+}
+
+$env:DOTNET_ROOT = $dotnetRoot
+$env:DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR = $dotnetRoot
+$env:DOTNET_MSBUILD_SDK_RESOLVER_SDKS_DIR = Join-Path $sdkRoot 'Sdks'
+$env:DOTNET_MSBUILD_SDK_RESOLVER_SDKS_VER = $sdkVersion
+$env:MSBuildSDKsPath = $env:DOTNET_MSBUILD_SDK_RESOLVER_SDKS_DIR
+$env:MSBUILD_EXE_PATH = Join-Path $sdkRoot 'MSBuild.dll'
+$env:Configuration = 'Release'
+
+$solution = 'ModularPipelines.Analyzers.slnx'
+$files = @('src/ModularPipelines.Analyzers/ModularPipelines.Analyzers.Test/ModuleAuthoringAnalyzerTests.cs')
+# Set an absolute path in <repo-parent>/ModularPipelines-evidence/<lock-name>.
+$evidence = '/absolute/path/to/ModularPipelines-evidence/issue-1234'
+
+& scripts/Invoke-AgentDotNet.ps1 -DotNetPath $dotnet -SingleNode `
+    -LogPath "$evidence/build.log" `
+    -DotNetArguments @('build', $solution, '-c', 'Release')
+if ($LASTEXITCODE -ne 0) { throw "Build failed: $LASTEXITCODE" }
+
+& scripts/Invoke-AgentDotNet.ps1 -DotNetPath $dotnet `
+    -LogPath "$evidence/format-verify.log" `
+    -DotNetArguments (@('format', $solution, '--no-restore', '--verify-no-changes',
+        '--severity', 'info', '--verbosity', 'diagnostic', '--include') + $files)
+if ($LASTEXITCODE -ne 0) { throw "Formatting verification failed: $LASTEXITCODE" }
+Get-Content "$evidence/format-verify.log" |
+    Select-String 'Running .*analyzers on|Required references did not load|Msbuild failed'
+```
+
+Replace the solution, files, and evidence directory for your item. Require both
+`Running ... analyzers on ModularPipelines.Analyzers.Test` lines: one under
+`Running Code Style analysis` and one under `Running Analyzer Reference analysis`.
+Reject any SDK/AOT load error, required-reference warning, or zero selected files.
+Zero **changed** files is expected for a clean verification; it does not mean no
+files were analyzed.
+For applying fixes, use the same environment with the scoped apply command above;
+retain the separate verification pass and its diagnostics.
+
+The investigation in [#7431](https://github.com/thomhurst/ModularPipelines/issues/7431)
+retains the original failures and later successes, including contradictory results
+with Release configuration and host-only overrides. On macOS arm64 with SDK
+11.0.100, the full setup above runs both test passes (72 style analyzers and 340
+analyzer references). A CLI-directory-only override also succeeded in this
+worktree, while the SDK-directory/version pair alone failed; earlier worktrees
+reported failures with CLI-directory-only setup. Use the complete combination
+rather than treating one partial override's success as a reliable fix. Analyzer
+counts vary with dependencies; the project and presence of both passes matter.
+
 ## C# projects with F# references
 
 The pinned formatter loads F# projects into its Roslyn workspace, but those
