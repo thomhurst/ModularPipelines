@@ -77,6 +77,14 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = true ? saved : first; return result;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = Flag ? saved : throw new System.InvalidOperationException(); return result;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = Flag ? saved : (Flag switch { true => saved, false => IdentityValue(first, saved) }); return result;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; return CancellationTokenSource.CreateLinkedTokenSource(new[] { first, saved }).Token;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; return CancellationTokenSource.CreateLinkedTokenSource(new CancellationToken[] { first, saved }).Token;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; return CancellationTokenSource.CreateLinkedTokenSource([first, saved]).Token;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; CancellationToken[] inputs = [first, saved]; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; CancellationToken[] inputs = [saved]; return CancellationTokenSource.CreateLinkedTokenSource([first, ..inputs]).Token;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; ref CancellationToken alias = ref saved; alias = default; return CancellationTokenSource.CreateLinkedTokenSource(new[] { first, saved }).Token;", true)]
+    [DataRow("ref token, ref token", "", "second = default; return CancellationTokenSource.CreateLinkedTokenSource(new[] { first, CancellationToken.None }).Token;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; return CancellationTokenSource.CreateLinkedTokenSource([first, Flag ? saved : CancellationToken.None]).Token;", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
@@ -107,6 +115,9 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("token, ref Field", "", "first = true switch { true => first, false => default }; return first;", false)]
     [DataRow("token, ref Field", "", "first = Flag switch { true => first, false => throw new System.InvalidOperationException() }; return first;", false)]
     [DataRow("token, ref Field", "", "first = Flag ? first : (Flag switch { true => first, false => CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token }); return first;", false)]
+    [DataRow("token, ref Field", "", "first = CancellationTokenSource.CreateLinkedTokenSource(new[] { CancellationToken.None, first }).Token; return first;", false)]
+    [DataRow("token, ref Field", "", "first = CancellationTokenSource.CreateLinkedTokenSource([CancellationToken.None, first]).Token; return first;", false)]
+    [DataRow("token, ref Field", "", "first = default; first = CancellationTokenSource.CreateLinkedTokenSource(new[] { CancellationToken.None, first }).Token; return first;", true)]
     public async Task Checks_Helper_Private_Value_Parameter_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: false);
@@ -165,5 +176,4 @@ public class ModuleHelperRefCancellationAnalyzerTests
             await VerifyCS.VerifyAnalyzerAsync(source);
         }
     }
-
 }

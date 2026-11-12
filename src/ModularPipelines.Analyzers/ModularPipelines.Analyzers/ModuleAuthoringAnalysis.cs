@@ -5637,29 +5637,28 @@ internal static class ModuleAuthoringAnalysis
         visitedSnapshots ??= [with(SymbolEqualityComparer.Default)];
         if (returnValue is IConditionalOperation or ISwitchExpressionOperation)
         {
-            // Local initializers need the same leaf-specific proof as direct returns.
-            return GetReachableValueLeaves(returnValue)
-                .Where(static candidate => !AlwaysThrows(candidate))
-                .Any(candidate => HasAliasedCancellationWrite(invocation, method, body, candidate,
-                    parameter, CloneVisitedMethods(visitedMethods), CloneVisitedLocals(visitedSnapshots)));
+            return HasAliasedCancellationBranchWrite(invocation, method, body, returnValue, parameter, visitedMethods, visitedSnapshots);
         }
 
         if (returnValue is ILocalReferenceOperation { Local.RefKind: RefKind.None } local)
         {
-            if (!visitedSnapshots.Add(local.Local))
-            {
-                return true;
-            }
-
-            return FindReachingLocalValues(local, local.Local).Any(source =>
-                HasCancellationSnapshotMutation(source, local, body, (invocation, method), [], visitedMethods)
-                || HasAliasedCancellationWrite(invocation, method, body, source, parameter,
-                    visitedMethods, CloneVisitedLocals(visitedSnapshots)));
+            return HasAliasedCancellationLocalWrite(invocation, method, body, local, parameter, visitedMethods, visitedSnapshots);
         }
 
         if (returnValue is IConversionOperation conversion)
         {
             return HasAliasedCancellationWrite(invocation, method, body, conversion.Operand, parameter, visitedMethods, visitedSnapshots);
+        }
+
+        if (returnValue is ISpreadOperation spread)
+        {
+            return HasAliasedCancellationWrite(invocation, method, body, spread.Operand, parameter, visitedMethods, visitedSnapshots);
+        }
+
+        var elements = GetCancellationInputElements(returnValue);
+        if (!elements.IsDefault)
+        {
+            return HasAliasedCancellationElementWrite(invocation, method, body, elements, parameter, visitedMethods, visitedSnapshots);
         }
 
         if (returnValue is IPropertyReferenceOperation { Instance: { } instance } property
@@ -5668,20 +5667,9 @@ internal static class ModuleAuthoringAnalysis
             return HasAliasedCancellationWrite(invocation, method, body, instance, parameter, visitedMethods, visitedSnapshots);
         }
 
-        if (returnValue is IInvocationOperation factory && IsKnownCancellationCarrierFactory(factory))
-        {
-            // A linked token needs only one intact input, even if another input was overwritten.
-            return !factory.Arguments.Any(argument => argument.Parameter is { } input
-                && IsCancellationInput(input)
-                && FlowsFromCancellationToken(argument.Value, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
-                && !HasAliasedCancellationWrite(invocation, method, body, argument.Value, parameter, visitedMethods, CloneVisitedLocals(visitedSnapshots)));
-        }
-
         if (returnValue is IInvocationOperation helper)
         {
-            return !HasCancellationPreservingHelperInput(helper, visitedMethods, argument =>
-                FlowsFromCancellationToken(argument, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
-                && !HasAliasedCancellationWrite(invocation, method, body, argument, parameter, visitedMethods, CloneVisitedLocals(visitedSnapshots)));
+            return HasAliasedCancellationInvocationWrite(invocation, method, body, helper, parameter, visitedMethods, visitedSnapshots);
         }
 
         var caller = (Invocation: invocation, Method: method);
@@ -5691,6 +5679,92 @@ internal static class ModuleAuthoringAnalysis
         var reads = GetCancellationParameterReads(returnValue, parameter, [with(SymbolEqualityComparer.Default)]).ToArray();
         return reads.Any(read => HasCancellationSnapshotMutation(read, read, body, caller, [], visitedMethods))
             || HasCancellationLocalSnapshotMutation(returnValue, parameter, body, caller, [with(SymbolEqualityComparer.Default)], visitedMethods);
+    }
+
+    private static bool HasAliasedCancellationBranchWrite(
+        IInvocationOperation invocation,
+        IMethodSymbol method,
+        IOperation body,
+        IOperation returnValue,
+        IParameterSymbol parameter,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<ILocalSymbol> visitedSnapshots)
+    {
+        // Local initializers need the same leaf-specific proof as direct returns.
+        return GetReachableValueLeaves(returnValue)
+            .Where(static candidate => !AlwaysThrows(candidate))
+            .Any(candidate => HasAliasedCancellationWrite(invocation, method, body, candidate,
+                parameter, CloneVisitedMethods(visitedMethods), CloneVisitedLocals(visitedSnapshots)));
+    }
+
+    private static bool HasAliasedCancellationLocalWrite(
+        IInvocationOperation invocation,
+        IMethodSymbol method,
+        IOperation body,
+        ILocalReferenceOperation local,
+        IParameterSymbol parameter,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<ILocalSymbol> visitedSnapshots)
+    {
+        if (!visitedSnapshots.Add(local.Local))
+        {
+            return true;
+        }
+
+        return FindReachingLocalValues(local, local.Local).Any(source =>
+            HasCancellationSnapshotMutation(source, local, body, (invocation, method), [], visitedMethods)
+            || HasAliasedCancellationWrite(invocation, method, body, source, parameter,
+                visitedMethods, CloneVisitedLocals(visitedSnapshots)));
+    }
+
+    private static bool HasAliasedCancellationInvocationWrite(
+        IInvocationOperation invocation,
+        IMethodSymbol method,
+        IOperation body,
+        IInvocationOperation helper,
+        IParameterSymbol parameter,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<ILocalSymbol> visitedSnapshots)
+    {
+        if (IsKnownCancellationCarrierFactory(helper))
+        {
+            // A linked token needs only one intact input, even if another input was overwritten.
+            return !helper.Arguments.Any(argument => argument.Parameter is { } input
+                && IsCancellationInput(input)
+                && FlowsFromCancellationToken(argument.Value, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
+                && !HasAliasedCancellationWrite(invocation, method, body, argument.Value, parameter, visitedMethods, CloneVisitedLocals(visitedSnapshots)));
+        }
+
+        return !HasCancellationPreservingHelperInput(helper, visitedMethods, argument =>
+            FlowsFromCancellationToken(argument, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
+            && !HasAliasedCancellationWrite(invocation, method, body, argument, parameter, visitedMethods, CloneVisitedLocals(visitedSnapshots)));
+    }
+
+    private static bool HasAliasedCancellationElementWrite(
+        IInvocationOperation invocation,
+        IMethodSymbol method,
+        IOperation body,
+        ImmutableArray<IOperation> elements,
+        IParameterSymbol parameter,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<ILocalSymbol> visitedSnapshots)
+    {
+        // Array and span overloads need only one intact element, like separate factory arguments.
+        return !elements.Any(element =>
+            FlowsFromCancellationToken(element, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
+            && !HasAliasedCancellationWrite(invocation, method, body, element, parameter,
+                CloneVisitedMethods(visitedMethods), CloneVisitedLocals(visitedSnapshots)));
+    }
+
+    private static ImmutableArray<IOperation> GetCancellationInputElements(IOperation value)
+    {
+        return value switch
+        {
+            IArrayCreationOperation { Initializer: { } initializer } => initializer.ElementValues,
+            IArrayInitializerOperation initializer => initializer.ElementValues,
+            ICollectionExpressionOperation collection => collection.Elements,
+            _ => default,
+        };
     }
 
     private static bool HasCancellationLocalSnapshotMutation(
@@ -5744,29 +5818,34 @@ internal static class ModuleAuthoringAnalysis
 
         for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
-            if (ancestor is ISwitchCaseOperation switchCase
-                && switchCase.Parent is ISwitchOperation switchOperation
-                && HasAncestor(read, switchOperation)
-                && !HasAncestor(read, switchCase)
-                && SwitchCaseCannotReachFollowingOperation(switchCase))
-            {
-                return false;
-            }
-
-            if (ancestor is IBlockOperation block && !HasAncestor(read, block) && AlwaysExitsCallable(block))
-            {
-                return false;
-            }
-
-            if (ancestor is IConditionalOperation { WhenFalse: { } whenFalse } conditional
-                && ((HasAncestor(write, conditional.WhenTrue) && HasAncestor(read, whenFalse))
-                    || (HasAncestor(write, whenFalse) && HasAncestor(read, conditional.WhenTrue))))
+            if (CancellationWriteCannotReachOutsideAncestor(ancestor, write, read))
             {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private static bool CancellationWriteCannotReachOutsideAncestor(IOperation ancestor, IOperation write, IOperation read)
+    {
+        if (ancestor is ISwitchCaseOperation switchCase
+            && switchCase.Parent is ISwitchOperation switchOperation
+            && HasAncestor(read, switchOperation)
+            && !HasAncestor(read, switchCase)
+            && SwitchCaseCannotReachFollowingOperation(switchCase))
+        {
+            return true;
+        }
+
+        if (ancestor is IBlockOperation block && !HasAncestor(read, block) && AlwaysExitsCallable(block))
+        {
+            return true;
+        }
+
+        return ancestor is IConditionalOperation { WhenFalse: { } whenFalse } conditional
+            && ((HasAncestor(write, conditional.WhenTrue) && HasAncestor(read, whenFalse))
+                || (HasAncestor(write, whenFalse) && HasAncestor(read, conditional.WhenTrue)));
     }
 
     private static bool IsCancellationPreservingSnapshot(
@@ -5778,20 +5857,24 @@ internal static class ModuleAuthoringAnalysis
         HashSet<IOperation> visitedWrites,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        var elements = GetCancellationInputElements(value);
+        if (!elements.IsDefault)
+        {
+            return elements.Any(element => IsCancellationPreservingSnapshot(
+                element, read, body, caller, CloneVisitedLocals(visitedLocals),
+                visitedWrites, CloneVisitedMethods(visitedMethods)));
+        }
+
         switch (value)
         {
             case IConversionOperation conversion:
                 return IsCancellationPreservingSnapshot(conversion.Operand, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
             case IParenthesizedOperation parenthesized:
                 return IsCancellationPreservingSnapshot(parenthesized.Operand, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
+            case ISpreadOperation spread:
+                return IsCancellationPreservingSnapshot(spread.Operand, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
             case IConditionalOperation or ISwitchExpressionOperation:
-                var reachableValues = GetReachableValueLeaves(value)
-                    .Where(static candidate => !AlwaysThrows(candidate))
-                    .ToArray();
-                return reachableValues.Length > 0
-                    && reachableValues.All(candidate => IsCancellationPreservingSnapshot(
-                        candidate, read, body, caller, CloneVisitedLocals(visitedLocals),
-                        visitedWrites, CloneVisitedMethods(visitedMethods)));
+                return IsCancellationPreservingBranchSnapshot(value, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
             case IPropertyReferenceOperation { Instance: { } instance } property when IsCancellationTokenSourceToken(property):
                 return IsCancellationPreservingSnapshot(instance, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
             case IInvocationOperation factory when IsKnownCancellationCarrierFactory(factory):
@@ -5806,18 +5889,59 @@ internal static class ModuleAuthoringAnalysis
                     && IsCancellationPreservingSnapshot(argument, read, body, caller,
                         CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods)));
             case ILocalReferenceOperation { Local.RefKind: RefKind.None } local when visitedLocals.Add(local.Local):
-                var values = FindReachingLocalValues(local, local.Local).ToArray();
-                return values.Length > 0 && values.All(source =>
-                    !HasCancellationSnapshotMutation(source, local, body, caller, visitedWrites, visitedMethods)
-                    && IsCancellationPreservingSnapshot(source, read, body, caller, CloneVisitedLocals(visitedLocals), visitedWrites, visitedMethods));
+                return IsCancellationPreservingLocalSnapshot(local, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
             case IParameterReferenceOperation or ILocalReferenceOperation:
-                var storage = GetCancellationStorage(value, [], caller.Invocation, caller.Method);
-                return storage is not null
-                    && SymbolEqualityComparer.Default.Equals(storage, GetCancellationStorage(read, [], caller.Invocation, caller.Method))
-                    && !HasCancellationSnapshotMutation(value, value, body, caller, visitedWrites, visitedMethods);
+                return IsCancellationPreservingStorage(value, read, body, caller, visitedWrites, visitedMethods);
             default:
                 return false;
         }
+    }
+
+    private static bool IsCancellationPreservingBranchSnapshot(
+        IOperation value,
+        IOperation read,
+        IOperation body,
+        (IInvocationOperation Invocation, IMethodSymbol Method) caller,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IOperation> visitedWrites,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var reachableValues = GetReachableValueLeaves(value)
+            .Where(static candidate => !AlwaysThrows(candidate))
+            .ToArray();
+        return reachableValues.Length > 0
+            && reachableValues.All(candidate => IsCancellationPreservingSnapshot(
+                candidate, read, body, caller, CloneVisitedLocals(visitedLocals),
+                visitedWrites, CloneVisitedMethods(visitedMethods)));
+    }
+
+    private static bool IsCancellationPreservingLocalSnapshot(
+        ILocalReferenceOperation local,
+        IOperation read,
+        IOperation body,
+        (IInvocationOperation Invocation, IMethodSymbol Method) caller,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IOperation> visitedWrites,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var values = FindReachingLocalValues(local, local.Local).ToArray();
+        return values.Length > 0 && values.All(source =>
+            !HasCancellationSnapshotMutation(source, local, body, caller, visitedWrites, visitedMethods)
+            && IsCancellationPreservingSnapshot(source, read, body, caller, CloneVisitedLocals(visitedLocals), visitedWrites, visitedMethods));
+    }
+
+    private static bool IsCancellationPreservingStorage(
+        IOperation value,
+        IOperation read,
+        IOperation body,
+        (IInvocationOperation Invocation, IMethodSymbol Method) caller,
+        HashSet<IOperation> visitedWrites,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var storage = GetCancellationStorage(value, [], caller.Invocation, caller.Method);
+        return storage is not null
+            && SymbolEqualityComparer.Default.Equals(storage, GetCancellationStorage(read, [], caller.Invocation, caller.Method))
+            && !HasCancellationSnapshotMutation(value, value, body, caller, visitedWrites, visitedMethods);
     }
 
     private static bool HasCancellationPreservingHelperInput(
@@ -5966,7 +6090,20 @@ internal static class ModuleAuthoringAnalysis
 
         // Resolve aliases at each use. Conditional rebindings remain unknown;
         // returned ref values and loop-carried rebindings are separate proofs.
-        var rebinding = GetRoot(value).DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
+        var rebinding = FindCancellationStorageRebinding(value, symbol);
+        if (rebinding is not null)
+        {
+            return IsLinearPredecessor(rebinding, value)
+                ? GetCancellationStorage(rebinding.Value, visitedStorage, invocation, method, preserveParameters)
+                : null;
+        }
+
+        return GetInitialCancellationStorage(value, symbol, visitedStorage, invocation, method, preserveParameters);
+    }
+
+    private static ISimpleAssignmentOperation? FindCancellationStorageRebinding(IOperation value, ISymbol symbol)
+    {
+        return GetRoot(value).DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
             .Where(assignment => assignment.IsRef && assignment.Syntax.SpanStart < value.Syntax.SpanStart)
             .Where(assignment => assignment.Target switch
             {
@@ -5977,14 +6114,6 @@ internal static class ModuleAuthoringAnalysis
             .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), GetEnclosingCallable(value)) && IsInReachableBranch(assignment))
             .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
             .FirstOrDefault();
-        if (rebinding is not null)
-        {
-            return IsLinearPredecessor(rebinding, value)
-                ? GetCancellationStorage(rebinding.Value, visitedStorage, invocation, method, preserveParameters)
-                : null;
-        }
-
-        return GetInitialCancellationStorage(value, symbol, visitedStorage, invocation, method, preserveParameters);
     }
 
     private static ISymbol? GetInitialCancellationStorage(
