@@ -47,7 +47,7 @@ public class ResourceUsageMonitorTests
         await Assert.That(instruments.Count).IsEqualTo(2);
         await Assert.That(instruments.All(instrument => instrument is ObservableGauge<double> && instrument.Unit == "1")).IsTrue();
 
-        var first = new Harness();
+        var first = new Harness(options => options with { SampleInterval = TimeSpan.FromHours(1) });
         await using var firstScope = first.Monitor.Start();
         first.Sample(0.25, 0.75);
         var readCount = first.Reader.ReadCount;
@@ -56,7 +56,7 @@ public class ResourceUsageMonitorTests
         await Assert.That(measurements[PipelineTelemetry.MachineCpuUtilizationMetric]).IsEqualTo(0.25);
         await Assert.That(measurements[PipelineTelemetry.MachineMemoryUtilizationMetric]).IsEqualTo(0.75);
 
-        var second = new Harness();
+        var second = new Harness(options => options with { SampleInterval = TimeSpan.FromHours(1) });
         await using var secondScope = second.Monitor.Start();
         second.Sample(0.5, 0.6);
         listener.RecordObservableInstruments();
