@@ -81,6 +81,12 @@ public sealed record ModuleRunReport
     public int CommandCount { get; init; }
 
     /// <summary>
+    /// Gets resource measurements for completed external command processes on this reporting machine.
+    /// Commands simulated by interceptors and remote worker measurements are not included.
+    /// </summary>
+    public IReadOnlyList<CommandResourceUsage> CommandResourceUsage { get; init; } = [];
+
+    /// <summary>
     /// Gets a value indicating whether the distributed master restored this module from cache
     /// without dispatching an assignment.
     /// </summary>

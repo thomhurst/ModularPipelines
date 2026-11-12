@@ -72,6 +72,8 @@ public record CommandResult
         StandardOutputTruncatedCharacters = 0;
         StandardErrorTruncatedCharacters = 0;
         OutputMayBeIncomplete = false;
+        TotalProcessorTime = null;
+        PeakWorkingSetBytes = null;
         EnvironmentVariables = environmentVariables;
         StartTime = startTime;
         EndTime = endTime;
@@ -95,6 +97,8 @@ public record CommandResult
         StandardOutputTruncatedCharacters = 0;
         StandardErrorTruncatedCharacters = 0;
         OutputMayBeIncomplete = false;
+        TotalProcessorTime = null;
+        PeakWorkingSetBytes = null;
         ExitCode = 0;
         StartTime = completedAt;
         EndTime = completedAt;
@@ -129,6 +133,16 @@ public record CommandResult
     /// This is independent of the character counts omitted by the capture limit.
     /// </summary>
     public required bool OutputMayBeIncomplete { get; init; }
+
+    /// <summary>
+    /// Gets the direct process's total CPU time, or null when unavailable. Descendants are excluded.
+    /// </summary>
+    public required TimeSpan? TotalProcessorTime { get; init; }
+
+    /// <summary>
+    /// Gets the direct process's peak working set in bytes, or null when unavailable. Descendants are excluded.
+    /// </summary>
+    public required long? PeakWorkingSetBytes { get; init; }
 
     /// <summary>
     /// Gets exit code set by the underlying process.

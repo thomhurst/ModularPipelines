@@ -2,6 +2,12 @@ namespace ModularPipelines.Engine;
 
 internal interface ICommandExecutionCounter
 {
+    void RecordResourceUsage(Type? moduleType, TimeSpan? totalProcessorTime, long? peakWorkingSetBytes);
+
+    IReadOnlyList<Reporting.CommandResourceUsage> GetResourceUsage();
+
+    IReadOnlyList<Reporting.CommandResourceUsage> GetResourceUsage(Type moduleType);
+
     int TotalCount { get; }
 
     int UnattributedCount { get; }

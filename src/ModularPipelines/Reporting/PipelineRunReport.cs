@@ -106,6 +106,12 @@ public sealed record PipelineRunReport
     public int CommandCount { get; init; }
 
     /// <summary>
+    /// Gets resource measurements for completed external command processes on this reporting machine.
+    /// Commands simulated by interceptors and remote worker measurements are not included.
+    /// </summary>
+    public IReadOnlyList<CommandResourceUsage> CommandResourceUsage { get; init; } = [];
+
+    /// <summary>
     /// Gets the number of commands attempted outside a module execution context.
     /// </summary>
     public int UnattributedCommandCount { get; init; }

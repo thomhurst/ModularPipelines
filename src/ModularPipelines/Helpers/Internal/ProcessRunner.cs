@@ -3,10 +3,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using Microsoft.Win32.SafeHandles;
 
 namespace ModularPipelines.Helpers.Internal;
 
-internal readonly record struct ProcessRunResult(int ExitCode, DateTimeOffset StartTime, DateTimeOffset ExitTime, bool OutputMayBeIncomplete)
+internal readonly record struct ProcessRunResult(int ExitCode, DateTimeOffset StartTime, DateTimeOffset ExitTime, bool OutputMayBeIncomplete, TimeSpan? TotalProcessorTime, long? PeakWorkingSetBytes)
 {
     public TimeSpan RunTime => ExitTime - StartTime;
 }
@@ -74,12 +75,18 @@ internal static class ProcessRunner
         var inputTask = WriteInputAsync(process, standardInput, inputCancellation.Token);
 
         bool outputMayBeIncomplete;
+        TimeSpan? totalProcessorTime;
+        long? peakWorkingSetBytes;
         var interruptRegistration = interruptCancellationToken.Register(
             static state => Interrupt((Process) state!),
             process);
         await using (interruptRegistration.ConfigureAwait(false))
         {
             await process.WaitForExitAsync(CancellationToken.None).ConfigureAwait(false);
+            totalProcessorTime = ReadResourceUsage(() => process.TotalProcessorTime);
+            peakWorkingSetBytes = OperatingSystem.IsWindows()
+                ? ReadResourceUsage(() => ReadWindowsPeakWorkingSet(process))
+                : ReadResourceUsage(() => process.PeakWorkingSet64);
             // Stop a blocked write even if a descendant still holds the stdin pipe open.
             inputCancellation.Cancel();
             // A descendant can inherit either pipe and outlive the direct child. Cancel and join the
@@ -99,7 +106,56 @@ internal static class ProcessRunner
                 interruptCancellationToken);
         }
 
-        return new ProcessRunResult(process.ExitCode, startTime, exitTime, outputMayBeIncomplete);
+        return new ProcessRunResult(process.ExitCode, startTime, exitTime, outputMayBeIncomplete,
+            totalProcessorTime, peakWorkingSetBytes);
+    }
+
+    private static long ReadWindowsPeakWorkingSet(Process process)
+    {
+        var size = (uint) Marshal.SizeOf<ProcessMemoryCounters>();
+        if (!GetProcessMemoryInfo(process.SafeHandle, out var counters, size))
+        {
+            throw new Win32Exception(Marshal.GetLastWin32Error());
+        }
+
+        return checked((long) counters.PeakWorkingSetSize);
+    }
+
+    // Query the retained handle directly: Process.PeakWorkingSet64 uses a process-list
+    // snapshot that cannot be created once the process has exited.
+#pragma warning disable SYSLIB1054 // Retain the existing psapi marshaling signature for this resource-reporting change.
+    [DllImport("psapi.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool GetProcessMemoryInfo(SafeProcessHandle process, out ProcessMemoryCounters counters, uint size);
+#pragma warning restore SYSLIB1054
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct ProcessMemoryCounters
+    {
+        public uint Size;
+        public uint PageFaultCount;
+        public nuint PeakWorkingSetSize;
+        public nuint WorkingSetSize;
+        public nuint QuotaPeakPagedPoolUsage;
+        public nuint QuotaPagedPoolUsage;
+        public nuint QuotaPeakNonPagedPoolUsage;
+        public nuint QuotaNonPagedPoolUsage;
+        public nuint PagefileUsage;
+        public nuint PeakPagefileUsage;
+    }
+
+    // Some platforms cannot query a process after it has exited. Monitoring must never turn
+    // a successful command into a failure or manufacture a zero measurement.
+    private static T? ReadResourceUsage<T>(Func<T> read) where T : struct
+    {
+        try
+        {
+            return read();
+        }
+        catch (Exception exception) when (exception is InvalidOperationException or Win32Exception or NotSupportedException)
+        {
+            return null;
+        }
     }
 
     private static async Task WriteInputAsync(Process process, string? input, CancellationToken cancellationToken)

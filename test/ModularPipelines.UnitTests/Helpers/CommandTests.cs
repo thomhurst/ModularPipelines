@@ -205,6 +205,36 @@ public class CommandTests : TestBase
         }
     }
 
+    [Test]
+    [RequiresTool("pwsh")]
+    [Arguments(0)]
+    [Arguments(7)]
+    public async Task Command_Records_Direct_Process_Resource_Usage(int exitCode)
+    {
+        var (command, pipeline) = await GetService<ICommandContext>(_ => { });
+        var counter = pipeline.Services.GetRequiredService<ICommandExecutionCounter>();
+        CommandResult result;
+        try
+        {
+            result = await command.ExecuteCommandLineToolAsync(
+                new PowerShellScriptOptions($"$data = New-Object byte[] 1048576; for ($i = 0; $i -lt 100000; $i++) {{ $data[0] = 1 }}; exit {exitCode}"));
+        }
+        catch (CommandException exception)
+        {
+            result = exception.Result;
+        }
+
+        await Assert.That(result.ExitCode).IsEqualTo(exitCode);
+        var usage = counter.GetResourceUsage().Single();
+        await Assert.That(usage.TotalProcessorTime).IsEqualTo(result.TotalProcessorTime);
+        await Assert.That(usage.PeakWorkingSetBytes).IsEqualTo(result.PeakWorkingSetBytes);
+        if (OperatingSystem.IsWindows())
+        {
+            await Assert.That(result.TotalProcessorTime!.Value).IsGreaterThan(TimeSpan.Zero);
+            await Assert.That(result.PeakWorkingSetBytes!.Value).IsGreaterThan(0);
+        }
+    }
+
     private class CommandEchoModule : Module<CommandResult>
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

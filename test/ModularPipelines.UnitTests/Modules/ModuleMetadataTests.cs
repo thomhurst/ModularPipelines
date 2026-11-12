@@ -140,7 +140,8 @@ public class ModuleMetadataTests
         await Assert.That(module.Name).IsEqualTo("old-name");
         await Assert.That(module.ModuleId).IsEqualTo(new ModuleId("configured-id"));
         await Assert.That(module.EndTime - module.StartTime).IsEqualTo(TimeSpan.FromSeconds(2));
-        await Assert.That(roundTrip).IsEqualTo(module);
+        // Compare persisted values: interface collections can deserialize to a different concrete type.
+        await Assert.That(JsonSerializer.Serialize(roundTrip)).IsEqualTo(JsonSerializer.Serialize(module));
         using var document = JsonDocument.Parse(serialized);
         var payload = document.RootElement.GetProperty("modules")[0];
         await Assert.That(payload.TryGetProperty("moduleName", out _)).IsTrue();
