@@ -76,6 +76,7 @@ internal static class CancellationTokenFlow
         private readonly HashSet<ISymbol> _visiting = [with(SymbolEqualityComparer.Default)];
         private readonly HashSet<TextSpan> _lost = [];
         private readonly HashSet<IArgumentOperation> _lostArguments = [];
+        private readonly Dictionary<ISymbol, bool> _capturedResults = [with(SymbolEqualityComparer.Default)];
 
         public HashSet<TextSpan> Run(CancellationToken cancellationToken)
         {
@@ -469,6 +470,12 @@ internal static class CancellationTokenFlow
             }
 
             // A captured variable is followed only when it is never assigned after its declaration.
+            // Its initializer does not depend on flow state, so each one is evaluated once.
+            if (_capturedResults.TryGetValue(variable, out var isLost))
+            {
+                return isLost;
+            }
+
             if (_reassigned.Contains(variable)
                 || !_initializers.TryGetValue(variable, out var initializer)
                 || !_visiting.Add(variable))
@@ -476,8 +483,9 @@ internal static class CancellationTokenFlow
                 return false;
             }
 
-            var isLost = IsLost(initializer, state: null, owner);
+            isLost = IsLost(initializer, state: null, owner);
             _visiting.Remove(variable);
+            _capturedResults[variable] = isLost;
             return isLost;
         }
     }

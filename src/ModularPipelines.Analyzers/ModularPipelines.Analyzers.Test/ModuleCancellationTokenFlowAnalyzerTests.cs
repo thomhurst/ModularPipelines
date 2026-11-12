@@ -114,6 +114,19 @@ public class ModuleCancellationTokenFlowAnalyzerTests
 
     [TestMethod]
     [Timeout(60_000)]
+    public async Task Analyzes_Captured_Local_Chains_In_Linear_Time()
+    {
+        var locals = string.Concat(Enumerable.Range(1, 40).Select(static index =>
+            $"var t{index} = context != null ? t{index - 1} : t{index - 1}; "));
+        await VerifyCS.VerifyAnalyzerAsync(
+            Source(
+                "var t0 = CancellationToken.None; " + locals,
+                "Task.Run(() => {|#0:Task.Delay(1, t40)|}, cancellationToken)"),
+            Expected());
+    }
+
+    [TestMethod]
+    [Timeout(60_000)]
     public async Task Analyzes_Repeated_Helper_Chains_In_Linear_Time()
     {
         var helpers = string.Concat(Enumerable.Range(0, 20).Select(static index =>
