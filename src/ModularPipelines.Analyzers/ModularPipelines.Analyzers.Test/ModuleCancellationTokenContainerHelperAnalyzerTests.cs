@@ -61,6 +61,13 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("var scratch = new CancellationToken[2]; ref var alias = ref value; scratch[alias[0].CanBeCanceled ? 0 : 1] = default;", false)]
     [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref value; if (flag) alias = ref scratch; alias = new CancellationToken[1];", true)]
     [DataRow("ref var alias = ref value; alias = ref alias; alias[0] = default;", true)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias[0] = default; alias = ref value; }", true)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; var i = 0; while (i++ < 2) { alias[0] = default; alias = ref value; }", true)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; var i = 0; do { alias[0] = default; alias = ref value; } while (i++ < 2);", true)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias = new CancellationToken[1]; alias = ref value; }", true)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias = ref scratch; alias[0] = default; alias = ref value; }", false)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias[0] = default; if (false) alias = ref value; }", false)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; for (var i = 0; i < 2; i++) { ref CancellationToken[] alias = ref scratch; alias[0] = default; alias = ref value; }", false)]
     public async Task Tracks_Container_Helper_Storage(string body, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";
@@ -200,6 +207,40 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
             """;
         await VerifyCS.VerifyAnalyzerAsync(source, warns
             ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("await WaitAsync(CancellationTokenSource.CreateLinkedTokenSource(Forward(tokens)).Token, tokens[0] = default);", false)]
+    [DataRow("await WaitAsync(CancellationTokenSource.CreateLinkedTokenSource(tokens).Token, tokens[0] = default);", false)]
+    [DataRow("await Task.WhenAll(Task.Delay(1, CancellationTokenSource.CreateLinkedTokenSource(tokens).Token), ClearAsync());", false)]
+    [DataRow("await Task.WhenAll(Task.Delay(1, CancellationTokenSource.CreateLinkedTokenSource(Forward(tokens)).Token), ClearAsync());", false)]
+    [DataRow("await WaitAsync(CancellationTokenSource.CreateLinkedTokenSource(Forward(tokens, tokens[0] = default)).Token, default);", true)]
+    public async Task Stops_Mutation_Window_At_Cancellation_Capture(string statement, bool warns)
+    {
+        if (warns)
+        {
+            statement = statement.Replace("await WaitAsync(", "await {|#0:WaitAsync(").Replace(", default);", ", default)|};");
+        }
+
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeaderWithExtensions}}
+            public class BuildModule : Module<List<string>>
+            {
+                protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    var tokens = new[] { cancellationToken };
+                    {{statement}}
+                    return new List<string>();
+                    Task ClearAsync() { tokens[0] = default; return Task.CompletedTask; }
+                }
+
+                private static Task WaitAsync(CancellationToken cancellationToken, CancellationToken ignored) => Task.CompletedTask;
+                private static CancellationToken[] Forward(CancellationToken[] value, CancellationToken ignored = default) => value;
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source, warns
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("WaitAsync")]
             : []);
     }
 }

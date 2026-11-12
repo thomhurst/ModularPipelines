@@ -5806,6 +5806,11 @@ internal static class ModuleAuthoringAnalysis
             {
                 // Every argument is evaluated before the callee consumes storage.
                 end = parent.Syntax.Span.End;
+                if (parent is IInvocationOperation invocation && IsKnownCancellationCarrierFactory(invocation))
+                {
+                    // Registration captures cancellation independently of later storage writes.
+                    break;
+                }
             }
         }
 
@@ -5975,6 +5980,7 @@ internal static class ModuleAuthoringAnalysis
         var latest = bindings.FirstOrDefault(binding => IsLinearPredecessor(binding, reference));
         var values = bindings
             .Where(binding => latest is null || binding.Syntax.SpanStart >= latest.Syntax.SpanStart)
+            .Concat(GetLoopCarriedRefBindings(reference, (IOperation?) latest ?? FindLocalDeclarator(root, reference, reference.Local, callable)))
             .Select(static binding => binding.Value);
         if (latest is null
             && FindLocalDeclarator(root, reference, reference.Local, callable)?.Initializer?.Value is { } initializer)
@@ -5985,6 +5991,38 @@ internal static class ModuleAuthoringAnalysis
         return values.SelectMany(value => value is ILocalReferenceOperation { Local.RefKind: not RefKind.None } local
             ? GetRefLocalContainerStorageReferences(local, [.. visited])
             : GetContainerStorageReferences(value));
+    }
+
+    private static IEnumerable<ISimpleAssignmentOperation> GetLoopCarriedRefBindings(
+        ILocalReferenceOperation reference, IOperation? predecessor)
+    {
+        var callable = GetEnclosingCallable(reference);
+        for (var ancestor = reference.Parent; ancestor is not null && !ReferenceEquals(ancestor, callable); ancestor = ancestor.Parent)
+        {
+            if (ancestor is not ILoopOperation loop)
+            {
+                continue;
+            }
+
+            // A guaranteed rebinding in the body replaces the previous iteration's target.
+            if (predecessor is not null && HasAncestor(predecessor, loop.Body) && IsLinearPredecessor(predecessor, reference))
+            {
+                continue;
+            }
+
+            foreach (var binding in loop.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>())
+            {
+                if (binding.IsRef
+                    && binding.Syntax.SpanStart > reference.Syntax.SpanStart
+                    && binding.Target is ILocalReferenceOperation target
+                    && SymbolEqualityComparer.Default.Equals(target.Local, reference.Local)
+                    && ReferenceEquals(GetEnclosingCallable(binding), callable)
+                    && IsInReachableBranch(binding))
+                {
+                    yield return binding;
+                }
+            }
+        }
     }
 
     private static bool IsRefRebinding(IAssignmentOperation assignment) =>
