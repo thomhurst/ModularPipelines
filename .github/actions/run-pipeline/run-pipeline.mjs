@@ -2,7 +2,6 @@ import { spawn } from 'node:child_process';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { artifactErrorMessage } from './artifact-errors.mjs';
-import { samplesResources, startDiagnostics } from './diagnostics.mjs';
 
 // JavaScript actions receive the runtime token needed by @actions/artifact.
 // Keep it in this process tree rather than exporting it to subsequent steps.
@@ -20,8 +19,7 @@ export function startPipeline(sourceEnvironment, startProcess = spawn) {
   return startProcess('dotnet', [path.join(environment.RUNNER_TEMP, 'pipeline-host', 'ModularPipelines.Build.dll')], {
     cwd: path.join(environment.GITHUB_WORKSPACE, 'src', 'ModularPipelines.Build'),
     env: environment,
-    // Resource samples are merged into the forwarded stdout between its log groups.
-    stdio: samplesResources(environment) ? ['inherit', 'pipe', 'inherit'] : 'inherit',
+    stdio: 'inherit',
   });
 }
 
@@ -36,7 +34,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     }
   } else {
     const child = startPipeline(process.env);
-    startDiagnostics(process.env, child);
     child.on('error', () => {
       console.error('Unable to start the pipeline host.');
       process.exitCode = 1;
