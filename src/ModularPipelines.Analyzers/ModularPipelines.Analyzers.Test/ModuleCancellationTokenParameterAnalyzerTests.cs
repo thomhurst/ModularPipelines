@@ -44,6 +44,10 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("var tokens = new[] { cancellationToken }; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
     [DataRow("var saved = (cancellationToken, 1); cancellationToken = saved.Item1;")]
     [DataRow("try { cancellationToken = cancellationToken; } finally { }")]
+    [DataRow("if (cancellationToken is var saved) cancellationToken = saved;")]
+    [DataRow("if (cancellationToken is { } saved) cancellationToken = saved;")]
+    [DataRow("if ((object)cancellationToken is CancellationToken saved) cancellationToken = saved;")]
+    [DataRow("if (cancellationToken is var saved) { var copy = saved; cancellationToken = copy; }")]
     public async Task Unsupported_Shapes_Keep_Existing_Behavior(string statements)
     {
         await Verify(statements, false, false);

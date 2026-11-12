@@ -188,6 +188,19 @@ internal static class CancellationTokenParameterProvenance
                         ? MergeSignals(previous, value)
                         : value;
                     return value;
+                case IDeclarationPatternOperation { DeclaredSymbol: { } declared }:
+                    // Pattern bindings are outside the scalar assignment proofs. Keep
+                    // their values unknown rather than treating an untracked local as replaced.
+                    Set(state.Values, declared, null);
+                    return null;
+                case IRecursivePatternOperation { DeclaredSymbol: { } recursiveDeclared }:
+                    Set(state.Values, recursiveDeclared, null);
+                    foreach (var child in operation.ChildOperations)
+                    {
+                        Evaluate(child, state);
+                    }
+
+                    return null;
                 case ILocalReferenceOperation local:
                     return Get(state.Values, local.Local);
                 case IFlowCaptureReferenceOperation capture:
