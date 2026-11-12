@@ -478,23 +478,7 @@ internal static class CapturedCancellationTokenAnalysis
         {
             if (operation is ISimpleAssignmentOperation assignment)
             {
-                Visit(assignment.Target, storage);
-                var writes = ReferencesStorage(assignment.Target, storage);
-                Visit(assignment.Value, storage);
-                if (assignment.IsRef && GetLocal(assignment.Target) is { } alias)
-                {
-                    SetAlias(storage.Aliases, alias, ReferencesStorage(assignment.Value, storage));
-                }
-                else
-                {
-                    // Transfers into ref fields and other untracked destinations escape
-                    // the local alias model; subsequent writes can overwrite the token.
-                    var initializesSavedLocal = trackedSymbol is ILocalSymbol
-                        && assignment.Target is ILocalReferenceOperation { IsDeclaration: true } declaration
-                        && SymbolEqualityComparer.Default.Equals(declaration.Local, trackedSymbol);
-                    _written |= (writes && !initializesSavedLocal && !PreservesIncomingToken(assignment.Value))
-                        || (assignment.IsRef && ReferencesStorage(assignment.Value, storage));
-                }
+                VisitAssignmentStorageEffects(assignment, storage);
             }
             else if (operation is IDeconstructionAssignmentOperation deconstruction)
             {
@@ -510,6 +494,27 @@ internal static class CapturedCancellationTokenAnalysis
                 }
 
                 RecordStorageWrite(operation, storage);
+            }
+        }
+
+        private void VisitAssignmentStorageEffects(ISimpleAssignmentOperation assignment, Storage storage)
+        {
+            Visit(assignment.Target, storage);
+            var writes = ReferencesStorage(assignment.Target, storage);
+            Visit(assignment.Value, storage);
+            if (assignment.IsRef && GetLocal(assignment.Target) is { } alias)
+            {
+                SetAlias(storage.Aliases, alias, ReferencesStorage(assignment.Value, storage));
+            }
+            else
+            {
+                // Transfers into ref fields and other untracked destinations escape
+                // the local alias model; subsequent writes can overwrite the token.
+                var initializesSavedLocal = trackedSymbol is ILocalSymbol
+                    && assignment.Target is ILocalReferenceOperation { IsDeclaration: true } declaration
+                    && SymbolEqualityComparer.Default.Equals(declaration.Local, trackedSymbol);
+                _written |= (writes && !initializesSavedLocal && !PreservesIncomingToken(assignment.Value))
+                    || (assignment.IsRef && ReferencesStorage(assignment.Value, storage));
             }
         }
 
