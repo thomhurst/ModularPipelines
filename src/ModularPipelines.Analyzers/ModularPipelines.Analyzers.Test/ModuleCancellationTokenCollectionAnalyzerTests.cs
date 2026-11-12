@@ -435,6 +435,12 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
 
     [TestMethod]
     [DataRow("var slot = Forward(ref First(tokens));", false)]
+    [DataRow("var slot = Forward(ref tokens[0]);", false)]
+    [DataRow("ref CancellationToken slot = ref Forward(ref tokens[0]);", true)]
+    [DataRow("ref readonly CancellationToken slot = ref Forward(ref tokens[0]);", false)]
+    [DataRow("Span<CancellationToken> view = tokens; ref CancellationToken slot = ref Forward(ref view[0]);", true)]
+    [DataRow("Span<CancellationToken> view = tokens; var slot = Forward(ref view[0]);", false)]
+    [DataRow("ref CancellationToken slot = ref Forward(ref (context != null ? ref tokens[0] : ref tokens[0]));", true)]
     [DataRow("ref CancellationToken slot = ref Forward(ref First(tokens));", true)]
     [DataRow("ref readonly CancellationToken slot = ref Forward(ref First(tokens));", false)]
     [DataRow("ref readonly CancellationToken slot = ref tokens[0]; slot = ref (context != null ? ref First(tokens) : ref First(tokens));", false)]

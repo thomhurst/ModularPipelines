@@ -759,7 +759,7 @@ internal static class CancellationTokenCollectionProvenance
         private Dictionary<TextSpan, Value> EvaluateInvocationArguments(IInvocationOperation invocation, State state)
         {
             var values = new Dictionary<TextSpan, Value>();
-            var references = new List<(IOperation Target, Value Value)>();
+            var references = new List<(IOperation Target, Value Value, HashSet<TextSpan> ElementArrays)>();
             if (invocation.Instance is { } receiver)
             {
                 var value = Evaluate(receiver, state);
@@ -771,7 +771,7 @@ internal static class CancellationTokenCollectionProvenance
                 var value = Evaluate(argument.Value, state);
                 if (argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out)
                 {
-                    references.Add((argument.Value, value));
+                    references.Add((argument.Value, value, [.. ReferencedElementArrays(argument.Value, state)]));
                     value = Value.None;
                 }
 
@@ -779,9 +779,14 @@ internal static class CancellationTokenCollectionProvenance
             }
 
             // A call cannot write ref/out targets until every argument is evaluated.
-            foreach (var (target, value) in references)
+            foreach (var (target, value, elementArrays) in references)
             {
-                InvalidateInvocationArrays(value, invocation.TargetMethod.ReturnsByRef && ReferenceSurvives(invocation, writableOnly: true), state);
+                var writableEscape = invocation.TargetMethod.ReturnsByRef && ReferenceSurvives(invocation, writableOnly: true);
+                InvalidateInvocationArrays(value, writableEscape, state);
+                if (writableEscape)
+                {
+                    EscapeArrays(new Value(arrays: elementArrays), state);
+                }
 
                 if (UsesReturnedReference(invocation)
                     || invocation.Type?.IsRefLikeType == true)
