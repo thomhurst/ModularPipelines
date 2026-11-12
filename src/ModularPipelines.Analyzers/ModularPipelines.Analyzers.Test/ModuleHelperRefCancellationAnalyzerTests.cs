@@ -134,6 +134,18 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; CancellationToken[] other = [default]; if (Flag) other = inputs; other[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
     [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [default]; CancellationToken[] other = [default]; if (Flag) other = inputs; other[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
     [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [default]; if (Flag) Other = inputs; Other[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, default]; var alias = inputs; if (Flag) alias[1] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, default]; switch (Flag) { case true: inputs[1] = default; break; } return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, default]; if (Flag) inputs[Count] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; CancellationToken[] inputs = [first, default]; if (Flag) inputs[0] = default; inputs[0] = saved; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, default]; inputs[0] = default; if (Flag) inputs[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] prefix = [default]; CancellationToken[] inputs = [..prefix, first]; if (Flag) inputs[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; if (Flag) inputs[0] = CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [default]; Other = Flag ? inputs : new CancellationToken[1]; Other[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, default]; if (Flag) inputs[0] = default; inputs[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; var unused = IdentityValue(first, default); Other[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; Other = Flag ? inputs : new CancellationToken[1]; Other[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; var unused = Other; Other[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
