@@ -93,6 +93,69 @@ public class ModuleCancellationTokenParameterAnalyzerTests
         await Verify(statements, true, false);
     }
 
+    [TestMethod]
+    [DataRow("token = default;", true)]
+    [DataRow("", false)]
+    [DataRow("token = token;", false)]
+    [DataRow("var saved = token; token = default; token = saved;", false)]
+    [DataRow("if (false) token = default;", false)]
+    [DataRow("if (token.CanBeCanceled) token = default;", true)]
+    public async Task Tracks_Local_Helper_Own_Parameter(string statements, bool warns)
+    {
+        await Verify("static CancellationToken Replace(CancellationToken token) { " + statements
+            + " return token; } cancellationToken = Replace(cancellationToken);", false, warns);
+    }
+
+    [TestMethod]
+    public async Task Preserves_Local_Helper_Saved_Return_Value()
+    {
+        await Verify("static CancellationToken Replace(CancellationToken token) { var saved = token; token = default; return saved; } "
+            + "cancellationToken = Replace(cancellationToken);", false, false);
+    }
+
+    [TestMethod]
+    public async Task Tracks_Nested_Local_Helper_Own_Parameter()
+    {
+        await Verify("static CancellationToken Replace(CancellationToken token) { "
+            + "static CancellationToken Inner(CancellationToken value) { value = default; return value; } "
+            + "token = Inner(token); return token; } cancellationToken = Replace(cancellationToken);", false, true);
+    }
+
+    [TestMethod]
+    public async Task Rejects_Written_Captured_Parameter_In_Helper()
+    {
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            "Task Run() { cancellationToken = default; return {|#0:Task.Delay(1, cancellationToken)|}; }",
+            "Run()"), VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("token = default;", true)]
+    [DataRow("token = token;", false)]
+    [DataRow("var saved = token; token = default; token = saved;", false)]
+    public async Task Tracks_Callback_Own_Parameter(string statements, bool warns)
+    {
+        var call = warns ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+                protected override void Configure(ModuleConfigurationBuilder module) =>
+                    module.WithSkipWhen(async (context, token) =>
+                    {
+                        {{statements}}
+                        await {{call}};
+                        return false;
+                    });
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source, warns
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
     private static Task Verify(string statements, bool awaited, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";

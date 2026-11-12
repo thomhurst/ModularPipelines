@@ -19,9 +19,21 @@ internal static class CancellationTokenParameterProvenance
         while (root.Parent is { } parent)
         {
             // Captured parameters retain the separate mutable-capture guard.
-            if (parent is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            var callable = parent switch
             {
-                return true;
+                IAnonymousFunctionOperation anonymous => anonymous.Symbol,
+                ILocalFunctionOperation local => local.Symbol,
+                _ => null,
+            };
+            if (callable is not null)
+            {
+                if (!SymbolEqualityComparer.Default.Equals(callable, source.ContainingSymbol))
+                {
+                    return true;
+                }
+
+                root = parent;
+                break;
             }
 
             root = parent;
@@ -29,8 +41,9 @@ internal static class CancellationTokenParameterProvenance
 
         var references = Results.GetValue(root, static _ => new(SymbolEqualityComparer.Default))
             .GetOrAdd(source, token => new Lazy<Dictionary<TextSpan, bool?>>(() => Analyze(root, token))).Value;
-        // Unsupported shapes keep the existing proof. This tracker adds no new helper,
-        // collection, tuple, reference-storage, awaitable, loop or exception-cleanup proofs.
+        // Unsupported shapes keep the existing proof. Helper summaries are limited
+        // to scalar by-value tokens; collection, tuple, reference-storage, awaitable,
+        // loop and exception-cleanup proofs remain separate.
         return !references.TryGetValue(reference.Syntax.Span, out var value) || value != false;
     }
 
@@ -55,14 +68,54 @@ internal static class CancellationTokenParameterProvenance
 
         try
         {
-            return ControlFlowGraph.Create(root.Syntax, model) is { } graph
-                ? new Analysis(graph, source).Run()
+            return GetGraph(root, model) is { } graph
+                ? new Analysis(graph, source, model).Run()
                 : [];
         }
         catch (ArgumentException)
         {
             return [];
         }
+    }
+
+    private static ControlFlowGraph? GetGraph(IOperation root, SemanticModel model)
+    {
+        if (root is not (ILocalFunctionOperation or IAnonymousFunctionOperation))
+        {
+            return ControlFlowGraph.Create(root.Syntax, model);
+        }
+
+        var callables = new Stack<IOperation>();
+        var outer = root;
+        for (var current = root; current is not null; current = current.Parent)
+        {
+            outer = current;
+            if (current is ILocalFunctionOperation or IAnonymousFunctionOperation)
+            {
+                callables.Push(current);
+            }
+        }
+
+        var graph = ControlFlowGraph.Create(outer.Syntax, model);
+        while (graph is not null && callables.Count > 0)
+        {
+            var callable = callables.Pop();
+            if (callable is ILocalFunctionOperation local)
+            {
+                graph = graph.GetLocalFunctionControlFlowGraph(local.Symbol);
+            }
+            else
+            {
+                var anonymous = graph.Blocks.SelectMany(block => block.Operations
+                        .Concat(block.BranchValue is { } value ? [value] : []))
+                    .SelectMany(operation => operation.DescendantsAndSelf())
+                    .OfType<IFlowAnonymousFunctionOperation>()
+                    .FirstOrDefault(operation => operation.Syntax.Span == callable.Syntax.Span);
+                graph = anonymous is null ? null : graph.GetAnonymousFunctionControlFlowGraph(anonymous);
+            }
+        }
+
+        return graph;
     }
 
     private static bool HasCapturedWrite(IOperation operation)
@@ -88,8 +141,20 @@ internal static class CancellationTokenParameterProvenance
                 ILocalReferenceOperation local => local.Local,
                 _ => null,
             };
+            var owner = assignment.Parent;
+            while (owner is not null && owner is not (ILocalFunctionOperation or IAnonymousFunctionOperation))
+            {
+                owner = owner.Parent;
+            }
+
+            var declaringFunction = owner switch
+            {
+                ILocalFunctionOperation local => local.Symbol,
+                IAnonymousFunctionOperation anonymous => anonymous.Symbol,
+                _ => function,
+            };
             return target is not null
-                && !SymbolEqualityComparer.Default.Equals(target.ContainingSymbol, function);
+                && !SymbolEqualityComparer.Default.Equals(target.ContainingSymbol, declaringFunction);
         });
     }
 
@@ -166,12 +231,15 @@ internal static class CancellationTokenParameterProvenance
         }
     }
 
-    private sealed class Analysis(ControlFlowGraph graph, IParameterSymbol source)
+    private sealed class Analysis(ControlFlowGraph graph, IParameterSymbol source, SemanticModel model, HashSet<IMethodSymbol>? visitedHelpers = null)
     {
         private readonly Dictionary<int, State> _inputs = [];
         private readonly Queue<BasicBlock> _pending = new();
         private readonly Dictionary<TextSpan, bool?> _results = [];
         private readonly Dictionary<CaptureId, ISymbol> _targets = [];
+
+        private bool _hasReturn;
+        private bool? _returnValue;
 
         public Dictionary<TextSpan, bool?> Run()
         {
@@ -189,7 +257,12 @@ internal static class CancellationTokenParameterProvenance
 
                 if (block.BranchValue is { } branchValue)
                 {
-                    Evaluate(branchValue, state);
+                    var value = Evaluate(branchValue, state);
+                    if (block.FallThroughSuccessor?.Semantics == ControlFlowBranchSemantics.Return)
+                    {
+                        _returnValue = _hasReturn ? MergeSignals(_returnValue, value) : value;
+                        _hasReturn = true;
+                    }
                 }
 
                 if (GetConstant(block.BranchValue, state) is { HasValue: true, Value: bool condition }
@@ -261,6 +334,8 @@ internal static class CancellationTokenParameterProvenance
                     return EvaluateCapture(capture, state);
                 case ISimpleAssignmentOperation assignment:
                     return EvaluateAssignment(assignment, state);
+                case IInvocationOperation invocation:
+                    return EvaluateLocalHelper(invocation, state);
                 case IArgumentOperation argument:
                     return Evaluate(argument.Value, state);
                 case IAnonymousFunctionOperation or IFlowAnonymousFunctionOperation or ILocalFunctionOperation:
@@ -273,6 +348,52 @@ internal static class CancellationTokenParameterProvenance
 
                     return IsReplacementValue(operation) ? false : null;
             }
+        }
+
+        private bool? EvaluateLocalHelper(IInvocationOperation invocation, State state)
+        {
+            // Only summarize by-value local token helpers. Other calls retain the
+            // existing proof, but their argument side effects still execute.
+            if (invocation.Instance is { } instance)
+            {
+                Evaluate(instance, state);
+            }
+
+            var arguments = invocation.Arguments.Select(argument =>
+                (argument.Parameter, Value: Evaluate(argument.Value, state))).ToArray();
+            var method = invocation.TargetMethod;
+            if (method.MethodKind != MethodKind.LocalFunction
+                || method.ReturnType.ToDisplayString() != "System.Threading.CancellationToken"
+                || arguments.Length != 1
+                || arguments[0].Parameter is not { RefKind: RefKind.None } parameter
+                || parameter.Type.ToDisplayString() != "System.Threading.CancellationToken"
+                || method.DeclaringSyntaxReferences.FirstOrDefault() is not { } declaration
+                || model.GetOperation(declaration.GetSyntax()) is not ILocalFunctionOperation helper)
+            {
+                return null;
+            }
+
+            var visited = visitedHelpers is null
+                ? [with(SymbolEqualityComparer.Default)]
+                : new HashSet<IMethodSymbol>(visitedHelpers, SymbolEqualityComparer.Default);
+            if (!visited.Add(method)
+                || helper.Descendants().Any(operation => operation is ITryOperation or ILoopOperation
+                    or IDeconstructionAssignmentOperation
+                    or ISimpleAssignmentOperation { IsRef: true }
+                    or ILocalReferenceOperation { Local.RefKind: not RefKind.None }
+                    or IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None }
+                    or IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out })
+                || helper.DescendantsAndSelf().Any(HasCapturedWrite)
+                || GetGraph(helper, model) is not { } helperGraph)
+            {
+                return null;
+            }
+
+            var analysis = new Analysis(helperGraph, parameter, model, visited);
+            analysis.Run();
+            return analysis._hasReturn
+                ? analysis._returnValue == true ? arguments[0].Value : analysis._returnValue
+                : null;
         }
 
         private bool? EvaluateParameter(IParameterReferenceOperation parameter, State state)
