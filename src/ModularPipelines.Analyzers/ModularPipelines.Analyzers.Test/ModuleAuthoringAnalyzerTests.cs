@@ -3087,6 +3087,12 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { try { first = default; MayThrow(); } catch { return first; } first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
     [DataRow("try { try { first = default; MayThrow(); } catch {} finally { MayThrow(); } first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
     [DataRow("try { try { first = default; MayThrow(); } catch {} MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
+    [DataRow("var error = new Exception(); try { if ((first = default) is var cleared) throw error; first = third; } catch {} return first;")]
+    [DataRow("var error = new Exception(); try { var unused = (first = default) is var cleared ? throw error : 0; first = third; } catch {} return first;")]
+    [DataRow("var choice = DateTime.UtcNow.Ticks; var skip = choice > 0; CancellationToken saved = default; return choice switch { 0 when skip || Check(saved = third) => saved, _ => third }; static bool Check(CancellationToken token) => true;")]
+    [DataRow("var choice = DateTime.UtcNow.Ticks; var skip = choice > 0; CancellationToken saved = default; return choice switch { 0 when (skip && Check(saved = third)) || skip => saved, _ => third }; static bool Check(CancellationToken token) => true;")]
+    [DataRow("var error = new Exception(); ref var alias = ref first; try { if ((alias = default) is var cleared) throw error; alias = third; } catch {} return alias;")]
+    [DataRow("var error = new Exception(); try { if (!((first = default) is var cleared)) first = third; else throw error; first = third; } catch {} return first;")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3227,6 +3233,10 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { first = default; try { MayThrow(); } catch (Exception) when (true) {} first = third; } catch {} return first; static void MayThrow() => throw new Exception();", "default")]
     [DataRow("try { try { first = default; MayThrow(); } catch {} first = third; } catch {} return first; static void MayThrow() => throw new Exception();", "default")]
     [DataRow("try { first = default; try { try { MayThrow(); } catch { throw; } } catch {} first = third; } catch {} return first; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("var error = new Exception(); try { if ((first = default) is var cleared) { first = third; throw error; } first = third; } catch {} return first;", "default")]
+    [DataRow("var choice = DateTime.UtcNow.Ticks; CancellationToken saved = default; return choice switch { 0 when choice > 0 && Check(saved = third) => saved, _ => third }; static bool Check(CancellationToken token) => true;", "default")]
+    [DataRow("var error = new Exception(); try { if ((first = default) is var cleared) first = third; else first = third; throw error; } catch {} return first;", "default")]
+    [DataRow("var choice = DateTime.UtcNow.Ticks; var skip = choice > 0; CancellationToken saved = default; return choice switch { 0 when skip || Check(saved = third) => third, _ => third }; static bool Check(CancellationToken token) => true;", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);
