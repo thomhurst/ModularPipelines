@@ -259,6 +259,22 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("Task", false, false)]
+    [DataRow("ValueTask", false, false)]
+    [DataRow("Task", true, false)]
+    [DataRow("ValueTask", true, false)]
+    [DataRow("Task", false, true)]
+    [DataRow("ValueTask", false, true)]
+    [DataRow("Task", true, true)]
+    [DataRow("ValueTask", true, true)]
+    public async Task Generic_Awaited_Local_Tracks_Mapped_Payload(string taskType, bool configured, bool replaced)
+    {
+        var value = replaced ? "default(T)" : "token";
+        var configure = configured ? ".ConfigureAwait(false)" : "";
+        await Verify($"static async {taskType}<T> Pass<T>(T token) where T : struct {{ var saved = await {taskType}.FromResult({value}){configure}; return saved; }} cancellationToken = await Pass(cancellationToken);", replaced);
+    }
+
+    [TestMethod]
     [DataRow("Task")]
     [DataRow("ValueTask")]
     public async Task Generic_Custom_Awaiter_Does_Not_Prove_Mapped_Payload(string taskType)

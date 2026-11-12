@@ -15,10 +15,8 @@ internal static partial class ModuleAuthoringAnalysis
         && named.OriginalDefinition.ToDisplayString() is
             "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>");
 
-    private static bool IsCancellationPayloadAwaitableType(ITypeSymbol? type, ITypeSymbol? mappedPayload = null) =>
+    private static bool IsFrameworkPayloadAwaitableType(ITypeSymbol? type) =>
         type is INamedTypeSymbol { TypeArguments.Length: 1 } named
-        && (named.TypeArguments[0].ToDisplayString() == CancellationTokenMetadataName
-            || SymbolEqualityComparer.Default.Equals(named.TypeArguments[0], mappedPayload))
         && named.OriginalDefinition.ToDisplayString() is
             "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>"
             or "System.Runtime.CompilerServices.ConfiguredTaskAwaitable<TResult>"
@@ -28,7 +26,9 @@ internal static partial class ModuleAuthoringAnalysis
     // Result property, GetAwaiter implementation or conversion is not a proof.
     internal static IOperation? GetCancellationPayloadInput(IOperation operation) => operation switch
     {
-        IAwaitOperation awaited when IsCancellationPayloadAwaitableType(awaited.Operation.Type) => awaited.Operation,
+        // Framework await preserves any T payload, including a helper's type parameter.
+        // The recursive proof still has to reach a mapped original token input.
+        IAwaitOperation awaited when IsFrameworkPayloadAwaitableType(awaited.Operation.Type) => awaited.Operation,
         IInvocationOperation invocation => GetFrameworkPayloadInvocationInput(invocation),
         IObjectCreationOperation { Arguments.Length: 1 } creation
             when creation.Type is INamedTypeSymbol named
@@ -107,12 +107,6 @@ internal static partial class ModuleAuthoringAnalysis
 
     private static bool ProveReturnedPayload(IOperation value, IParameterSymbol[] parameters, IMethodSymbol method)
     {
-        if (value is IAwaitOperation awaited
-            && parameters.Any(parameter => IsCancellationPayloadAwaitableType(awaited.Operation.Type, parameter.Type)))
-        {
-            return ProveReturnedPayload(awaited.Operation, parameters, method);
-        }
-
         if (GetCancellationPayloadInput(value) is { } payload)
         {
             return ProveReturnedPayload(payload, parameters, method);
