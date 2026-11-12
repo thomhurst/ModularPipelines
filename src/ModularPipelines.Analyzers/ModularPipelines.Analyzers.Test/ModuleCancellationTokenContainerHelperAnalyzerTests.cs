@@ -83,6 +83,10 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("Action clear = () => tokens[0] = default; clear();", true)]
     [DataRow("Action clear = () => tokens[0] = default; tokens = new[] { cancellationToken }; clear();", true)]
     [DataRow("void ClearLocal() { tokens[0] = default; } ClearLocal();", true)]
+    [DataRow("ClearAfter();", true)]
+    [DataRow("ClearIndirect();", true)]
+    [DataRow("if (false) ClearAfter();", false)]
+    [DataRow("ClearAfter(); tokens = new[] { cancellationToken };", false)]
     [DataRow("tokens[0] = default;", true)]
     [DataRow("var alias = tokens; alias[0] = default;", true)]
     [DataRow("Clear(tokens);", true)]
@@ -103,6 +107,8 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
                     using var linked = CancellationTokenSource.CreateLinkedTokenSource(Forward(tokens));
                     await {{call}};
                     return new List<string>();
+                    void ClearAfter() { tokens[0] = default; }
+                    void ClearIndirect() { ClearAfter(); }
                 }
 
                 private static void Clear(CancellationToken[] value) => value[0] = default;

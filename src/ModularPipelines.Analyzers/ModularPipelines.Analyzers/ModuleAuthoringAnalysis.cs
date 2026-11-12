@@ -5668,12 +5668,9 @@ internal static class ModuleAuthoringAnalysis
             relevant.Add(callerReference.Local);
         }
 
-        var children = operation.DescendantsAndSelf()
-            .Where(IsInReachableBranch)
-            .Where(child => callerReference is null || IsInsideReachableNestedCallable(child))
-            .Where(child => child.Syntax.SpanStart >= storageStart
-                || GetEnclosingCallable(child) is not null)
-            .Where(child => callerReference is null || child.Syntax.SpanStart < callerReference.Syntax.SpanStart)
+        var children = (callerReference is null
+                ? operation.DescendantsAndSelf().Where(IsInReachableBranch)
+                : GetCallerContainerOperations(operation, callerReference, storageStart))
             .ToArray();
         // Caller-owned containers can alias even when only one has proven provenance.
         foreach (var parameter in children.OfType<IParameterReferenceOperation>())
@@ -5708,6 +5705,34 @@ internal static class ModuleAuthoringAnalysis
         while (changed);
 
         return relevant;
+    }
+
+    private static IEnumerable<IOperation> GetCallerContainerOperations(
+        IOperation root, ILocalReferenceOperation reference, int storageStart)
+    {
+        var children = root.DescendantsAndSelf().ToArray();
+        var caller = GetEnclosingCallable(reference);
+        bool PrecedesReference(IOperation child) =>
+            child.Syntax.SpanStart >= storageStart
+            && child.Syntax.SpanStart < reference.Syntax.SpanStart;
+
+        // Nested bodies execute at their call sites, irrespective of where the
+        // declaration appears. Bound outer calls to the current storage lifetime
+        // and follow nested calls transitively, including delegate invocations.
+        var invocations = children.OfType<IInvocationOperation>()
+            .Where(invocation => !ReferenceEquals(GetEnclosingCallable(invocation), caller)
+                || PrecedesReference(invocation))
+            .ToImmutableArray();
+        var callables = children.Select(GetCallableSymbol)
+            .Where(static callable => callable is not null)
+            .Cast<IMethodSymbol>()
+            .ToImmutableArray();
+        var reachable = GetReachableCallables(invocations, callables, GetCallableSymbol(caller));
+        return children.Where(IsInReachableBranch).Where(child =>
+            ReferenceEquals(GetEnclosingCallable(child), caller)
+                ? PrecedesReference(child)
+                : GetCallableSymbol(GetEnclosingCallable(child)) is { } callable
+                  && reachable.Contains(callable));
     }
 
     private static void AddContainerAliases(IOperation child, HashSet<ISymbol> relevant)
@@ -6168,13 +6193,8 @@ internal static class ModuleAuthoringAnalysis
                     : int.MinValue;
             var root = GetRoot(localReference);
             var relevant = GetForwardedContainerSymbols(root, [], localReference, storageStart);
-            if (root.DescendantsAndSelf().Any(child =>
-                    (child.Syntax.SpanStart >= storageStart
-                        || GetEnclosingCallable(child) is not null)
-                    && child.Syntax.SpanStart < localReference.Syntax.SpanStart
-                    && IsInsideReachableNestedCallable(child)
-                    && !child.Syntax.Span.Contains(localReference.Syntax.Span)
-                    && IsInReachableBranch(child)
+            if (GetCallerContainerOperations(root, localReference, storageStart).Any(child =>
+                    !child.Syntax.Span.Contains(localReference.Syntax.Span)
                     && (ExposesCancellationContainer(child)
                         || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
                     && ReferencesContainer(child, relevant)))
