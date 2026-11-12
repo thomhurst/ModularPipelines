@@ -12,21 +12,35 @@ internal sealed partial class WindowsMachineResourceReader : IMachineResourceRea
         reading = default;
         var memory = new MemoryStatusEx { Length = (uint) Unsafe.SizeOf<MemoryStatusEx>() };
 
-        // Kernel time includes idle time.
-        if (!GetSystemTimes(out var idle, out var kernel, out var user) || !GlobalMemoryStatusEx(ref memory))
+        if (!WindowsProcessorTimes.TryRead(GetActiveProcessorGroupCount(), ReadProcessorGroup, out var idle, out var total)
+            || !GlobalMemoryStatusEx(ref memory))
         {
             return false;
         }
 
-        reading = new MachineResourceReading(idle, kernel + user, (long) memory.TotalPhysical, (long) memory.AvailablePhysical);
+        reading = new MachineResourceReading(idle, total, (long) memory.TotalPhysical, (long) memory.AvailablePhysical);
         return true;
     }
 
-    // FILETIME is two 32-bit halves, low first, so it reads directly as a 64-bit tick count.
+    private static unsafe bool ReadProcessorGroup(ushort group, Span<WindowsProcessorTimes.ProcessorPerformance> buffer, out uint bytesWritten)
+    {
+        // SystemProcessorPerformanceInformation (8), with an explicit USHORT group selector.
+        // Unlike GetSystemTimes, this does not depend on the calling thread's primary group.
+        fixed (WindowsProcessorTimes.ProcessorPerformance* processors = buffer)
+        {
+            return NtQuerySystemInformationEx(8, ref group, sizeof(ushort), processors,
+                (uint) buffer.Length * (uint) sizeof(WindowsProcessorTimes.ProcessorPerformance), out bytesWritten) == 0;
+        }
+    }
+
     [LibraryImport("kernel32.dll")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvStdcall)])]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool GetSystemTimes(out long idleTime, out long kernelTime, out long userTime);
+    private static partial ushort GetActiveProcessorGroupCount();
+
+    [LibraryImport("ntdll.dll")]
+    [UnmanagedCallConv(CallConvs = [typeof(CallConvStdcall)])]
+    private static unsafe partial int NtQuerySystemInformationEx(int informationClass, ref ushort group,
+        uint inputLength, WindowsProcessorTimes.ProcessorPerformance* buffer, uint bufferLength, out uint returnLength);
 
     [LibraryImport("kernel32.dll")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvStdcall)])]
