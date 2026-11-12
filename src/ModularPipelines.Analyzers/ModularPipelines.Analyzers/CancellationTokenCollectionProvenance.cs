@@ -954,6 +954,11 @@ internal static class CancellationTokenCollectionProvenance
                 foreach (var target in targets)
                 {
                     var current = state.IsEscaped(target) ? Value.None : GetStorageValue(target, state);
+                    if (target.Symbol is not null && state.EscapedFields.TryGetValue(target.Symbol, out var escapedPaths))
+                    {
+                        current = MaskEscapedFields(current, escapedPaths, target.Path);
+                    }
+
                     referenced = referenced is null ? current : referenced.Merge(current);
                 }
 

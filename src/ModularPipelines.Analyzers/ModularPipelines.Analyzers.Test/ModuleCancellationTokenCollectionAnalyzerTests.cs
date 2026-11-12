@@ -278,6 +278,18 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
         await Verify(statements, warns);
     }
 
+    [TestMethod]
+    [DataRow("var saved = (cancellationToken, 1); ref readonly (CancellationToken, int) reader = ref saved; ref CancellationToken writer = ref saved.Item1; writer = default; cancellationToken = reader.Item1;", true)]
+    [DataRow("var saved = ((cancellationToken, 1), 2); ref readonly ((CancellationToken, int), int) reader = ref saved; ref CancellationToken writer = ref saved.Item1.Item1; writer = default; cancellationToken = reader.Item1.Item1;", true)]
+    [DataRow("var saved = ((cancellationToken, 1), 2); ref readonly (CancellationToken, int) reader = ref saved.Item1; ref CancellationToken writer = ref saved.Item1.Item1; writer = default; cancellationToken = reader.Item1;", true)]
+    [DataRow("var saved = (cancellationToken, cancellationToken); ref readonly (CancellationToken, CancellationToken) reader = ref saved; ref CancellationToken writer = ref saved.Item2; writer = default; cancellationToken = reader.Item1;", false)]
+    [DataRow("var saved = ((cancellationToken, cancellationToken), 1); ref readonly (CancellationToken, CancellationToken) reader = ref saved.Item1; ref CancellationToken writer = ref saved.Item1.Item2; writer = default; cancellationToken = reader.Item1;", false)]
+    [DataRow("var saved = (cancellationToken, 1); ref readonly (CancellationToken, int) reader = ref saved; cancellationToken = reader.Item1;", false)]
+    public async Task Readonly_Tuple_References_Mask_Escaped_Descendants(string statements, bool warns)
+    {
+        await Verify(statements, warns);
+    }
+
     private static Task Verify(string statements, bool warns, string helpers = "")
     {
         var source = Source(statements, warns ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)", helpers);
