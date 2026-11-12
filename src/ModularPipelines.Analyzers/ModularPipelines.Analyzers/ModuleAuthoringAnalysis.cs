@@ -5791,7 +5791,7 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
-        var (initializer, array) = ResolveCancellationArrayInitializer(source, read.Local);
+        var (initializer, _) = ResolveCancellationArrayInitializer(source, read.Local);
         if (initializer is null)
         {
             return null;
@@ -5805,12 +5805,13 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var writes = body.DescendantsAndSelf().SelectMany(static operation => GetCancellationStorageWrites(operation))
+            .Where(write => ReferenceEquals(GetEnclosingCallable(write.Target), GetEnclosingCallable(read)))
             .Where(write => write.Target.Syntax.SpanStart > source.Syntax.SpanStart
                 && write.Target.Syntax.SpanStart < read.Syntax.SpanStart
                 && CanCancellationWriteReachSnapshot(write.Target, read)
                 && IsInReachableBranch(write.Target))
             .Where(write => write.Target is IArrayElementReferenceOperation element
-                && ReferencesCancellationArray(element.ArrayReference, array, [with(SymbolEqualityComparer.Default)]))
+                && ReferencesCancellationArray(element.ArrayReference, initializer, [with(SymbolEqualityComparer.Default)]))
             .OrderBy(static write => write.Target.Syntax.SpanStart)
             .ToArray();
         // A spread contributes its runtime element count, rather than one syntax element.
@@ -5912,18 +5913,28 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool ReferencesCancellationArray(
-        IOperation value, ILocalSymbol array, HashSet<ILocalSymbol> visitedLocals)
+        IOperation value, IOperation initializer, HashSet<ILocalSymbol> visitedLocals)
     {
         if (value is IConversionOperation conversion)
         {
-            return ReferencesCancellationArray(conversion.Operand, array, visitedLocals);
+            return ReferencesCancellationArray(conversion.Operand, initializer, visitedLocals);
         }
 
-        return value is ILocalReferenceOperation local
-            && (SymbolEqualityComparer.Default.Equals(local.Local, array)
-                || (visitedLocals.Add(local.Local)
-                    && FindReachingLocalValues(local, local.Local).Any(source =>
-                        ReferencesCancellationArray(source, array, CloneVisitedLocals(visitedLocals)))));
+        if (value is ILocalReferenceOperation local)
+        {
+            if (!visitedLocals.Add(local.Local))
+            {
+                return true;
+            }
+
+            var sources = FindReachingLocalValues(local, local.Local).ToArray();
+            return sources.Length == 0 || sources.Any(source =>
+                ReferencesCancellationArray(source, initializer, CloneVisitedLocals(visitedLocals)));
+        }
+
+        // Local names can be reused for replacement arrays; compare reaching allocations.
+        return value is not (IArrayCreationOperation or ICollectionExpressionOperation)
+            || (value.Syntax.SyntaxTree == initializer.Syntax.SyntaxTree && value.Syntax.Span == initializer.Syntax.Span);
     }
 
     private static bool HasCancellationLocalSnapshotMutation(
