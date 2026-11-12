@@ -462,6 +462,53 @@ public class RerunFailedTests
             .Throws<NotSupportedException>();
     }
 
+    [Test]
+    [Arguments("null", false)]
+    [Arguments("[null]", false)]
+    [Arguments("null", true)]
+    [Arguments("[null]", true)]
+    public async Task Malformed_File_History_Is_Skipped(string modulesJson, bool retainOlder)
+    {
+        var directory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        var state = new RunState { Fail = false };
+        try
+        {
+            await RunAsync(state);
+            var report = state.History.Reports.Single();
+            var store = new FileSystemRunHistoryStore(
+                OptionsFactory.Create(new PipelineOptions
+                {
+                    RunReport = new RunReportOptions { HistoryDirectory = directory, HistoryRetention = 4 },
+                }),
+                NullLogger<FileSystemRunHistoryStore>.Instance,
+                new PipelineRunReportFactory(new CommandExecutionCounter(), new PassthroughSecretObfuscator()));
+            if (retainOlder)
+            {
+                await store.SaveAsync(report);
+            }
+
+            await store.SaveAsync(report with { End = report.End.AddSeconds(1), RunId = Guid.NewGuid().ToString() });
+            var newestFile = Directory.GetFiles(directory, "*.json")
+                .OrderByDescending(Path.GetFileName, StringComparer.Ordinal).First();
+            var json = System.Text.Json.Nodes.JsonNode.Parse(await File.ReadAllTextAsync(newestFile))!;
+            json["modules"] = System.Text.Json.Nodes.JsonNode.Parse(modulesJson);
+            await File.WriteAllTextAsync(newestFile, json.ToJsonString());
+
+            var summary = await RunAsync(state, rerun: true, historyStore: store);
+
+            await Assert.That(state.Count<RootModule>()).IsEqualTo(retainOlder ? 1 : 2);
+            await Assert.That(Result<RootModule>(summary).Status)
+                .IsEqualTo(retainOlder ? ModuleStatus.RestoredFromHistory : ModuleStatus.Succeeded);
+        }
+        finally
+        {
+            if (Directory.Exists(directory))
+            {
+                Directory.Delete(directory, recursive: true);
+            }
+        }
+    }
+
     private static ModuleResult<int> Result<TModule>(PipelineSummary summary) =>
         summary.Results.OfType<ModuleResult<int>>().Single(result => result.Name == typeof(TModule).Name);
 
@@ -473,7 +520,8 @@ public class RerunFailedTests
         TrackingCacheRepository? cache = null,
         bool addNullModule = false,
         CancellationToken cancellationToken = default,
-        TimeProvider? timeProvider = null)
+        TimeProvider? timeProvider = null,
+        IRunHistoryStore? historyStore = null)
     {
         var builder = Pipeline.CreateBuilder();
         if (timeProvider is not null)
@@ -500,7 +548,7 @@ public class RerunFailedTests
         });
         builder.Services.AddSingleton(state);
         builder.Services.AddSingleton<IModuleResultRepository>(state.Results);
-        builder.Services.AddSingleton<IRunHistoryStore>(state.History);
+        builder.Services.AddSingleton<IRunHistoryStore>(historyStore ?? state.History);
         if (cache is not null)
         {
             builder.Services.AddSingleton<IModuleCacheResultRepository>(cache);
@@ -522,6 +570,11 @@ public class RerunFailedTests
         }
 
         return await builder.RunAsync(cancellationToken);
+    }
+
+    private sealed class PassthroughSecretObfuscator : ModularPipelines.Secrets.ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject) => input ?? string.Empty;
     }
 
     private sealed class RunState
