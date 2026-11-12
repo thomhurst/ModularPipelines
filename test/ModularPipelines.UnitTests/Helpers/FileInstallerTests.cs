@@ -301,6 +301,12 @@ public class InstallersContextTests : TestBase
             return;
         }
 
+        if (nativeBinary && OperatingSystem.IsMacOS())
+        {
+            Skip.Test("macOS can kill a copied /bin/echo with SIGKILL; the shebang case still runs.");
+            return;
+        }
+
         var directory = Directory.CreateTempSubdirectory("installer test's ");
         // Multicall implementations of echo dispatch by the executable's name.
         var path = Path.Combine(directory.FullName, nativeBinary ? "echo" : "installer");
