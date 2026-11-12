@@ -576,6 +576,8 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
 
     public static IEnumerable<object[]> HelperCases()
     {
+        yield return ["captured-restore", "var original = token; void Restore() { token = original; } token = default; Restore(); return token;", false];
+        yield return ["tuple-round-trip", "var saved = (token, 1); token = saved.Item1; return token;", false];
         yield return ["loop-reset", "for (var i = 0; i < 2; i++) { } token = default; return token;", true];
         yield return ["straight-line-reset", "token = default; return token;", true];
         yield return ["conditional-reset", "if (token.CanBeCanceled) token = default; return token;", true];
@@ -617,6 +619,31 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             private static CancellationToken WithWrites(CancellationToken token) { {{body}} }
             """);
     }
+
+    [TestMethod]
+    [DataRow("var saved = (cancellationToken, 1); cancellationToken = saved.Item1;", false)]
+    [DataRow("var saved = (Original: cancellationToken, Number: 1); cancellationToken = saved.Original;", false)]
+    [DataRow("var numbers = (1, 2); _ = numbers.Item1; cancellationToken = default;", true)]
+    [DataRow("var saved = (cancellationToken, 1); _ = saved.Item1; cancellationToken = default;", true)]
+    [DataRow("var saved = (cancellationToken, 1); var copy = saved.Item1; cancellationToken = copy;", false)]
+    public Task Preserves_Existing_Tuple_Round_Trip_Behavior(string body, bool warning)
+        => Verify(body + "\nfor (var i = 0; i < 2; i++) await CALL(1, cancellationToken);", warning);
+
+    [TestMethod]
+    [DataRow("return source.Token;", false, true)]
+    [DataRow("source = new CancellationTokenSource(); return source.Token;", true, true)]
+    [DataRow("return source.ForwardToken();", false, true)]
+    [DataRow("return source.Token;", false, false)]
+    [DataRow("source = new CancellationTokenSource(); return source.Token;", true, false)]
+    [DataRow("return source.ForwardToken();", false, false)]
+    public Task Tracks_Source_Helper_Inputs(string body, bool warning, bool loop)
+        => Verify($$"""
+            using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            var token = Forward(linked);
+            {{(loop ? "for (var i = 0; i < 2; i++) " : "")}}await CALL(1, token);
+            """, warning, $$"""
+            private static CancellationToken Forward(CancellationTokenSource source) { {{body}} }
+            """);
 
     [TestMethod]
     [DataRow("return CancellationTokenSource.CreateLinkedTokenSource(token);", false)]
@@ -1037,6 +1064,7 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             }
             public static class TokenExtensions
             {
+                public static CancellationToken ForwardToken(this CancellationTokenSource source) => source.Token;
                 public static CancellationToken PassToken(this CancellationToken token) => token;
                 public static CancellationToken DropToken(this CancellationToken token)
                 {

@@ -5707,11 +5707,11 @@ internal static class ModuleAuthoringAnalysis
     {
         var flowedParameters = new HashSet<IParameterSymbol>(
             invocation.Arguments.Where((argument, index) => argumentValues[index]
-                    && argument.Parameter is not null && IsCancellationToken(argument.Parameter))
+                    && argument.Parameter is not null && IsCancellationCarrier(argument.Parameter.Type))
                 .Select(argument => GetTargetParameter(method, argument.Parameter))
                 .OfType<IParameterSymbol>(), SymbolEqualityComparer.Default);
         if (receiverValue && invocation.TargetMethod.ReducedFrom is not null
-            && method.Parameters.FirstOrDefault() is { } receiverParameter && IsCancellationToken(receiverParameter))
+            && method.Parameters.FirstOrDefault() is { } receiverParameter && IsCancellationCarrier(receiverParameter.Type))
         {
             flowedParameters.Add(receiverParameter);
         }
@@ -5765,7 +5765,7 @@ internal static class ModuleAuthoringAnalysis
             invocation.Arguments
                 .Where(static argument =>
                     argument.Parameter is not null
-                    && IsCancellationToken(argument.Parameter))
+                    && IsCancellationCarrier(argument.Parameter.Type))
                 .Where(argument => FlowsFromCancellationToken(
                     argument.Value,
                     cancellationToken,
@@ -5797,7 +5797,7 @@ internal static class ModuleAuthoringAnalysis
         if (invocation.TargetMethod.ReducedFrom is not null
             && invocation.Instance is { } instance
             && method.Parameters.FirstOrDefault() is { } receiverParameter
-            && IsCancellationToken(receiverParameter)
+            && IsCancellationCarrier(receiverParameter.Type)
             && FlowsFromCancellationToken(
                 instance,
                 cancellationToken,

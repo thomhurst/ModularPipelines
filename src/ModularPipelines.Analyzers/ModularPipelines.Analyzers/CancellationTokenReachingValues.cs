@@ -44,9 +44,9 @@ internal sealed class CancellationTokenReachingValues
             return null;
         }
 
-        // Mutable captures have a dedicated lifetime proof, including callback
-        // diagnostics. Do not replace that proof with a direct-read CFG result.
-        if (HasCapturedSource(root, source))
+        // Mutable captures and unsupported tuple storage retain their existing
+        // proofs. Do not replace them with a direct-read CFG result.
+        if (HasCapturedSource(root, source) || HasUnsupportedTupleRead(root, reference))
         {
             return null;
         }
@@ -78,9 +78,70 @@ internal sealed class CancellationTokenReachingValues
             return null;
         }
 
+        if (sources.Any(source => HasCapturedSource(root, source)) || HasUnsupportedTupleRead(root, reference))
+        {
+            return null;
+        }
+
         var analysis = Create(root, model, sources.First(), visitedMethods, visitedSources, sources);
         return analysis is null ? null : !analysis._values.TryGetValue((reference.Syntax.Span, reference.Kind), out var value) || value;
     }
+
+    private static bool HasUnsupportedTupleRead(IOperation root, IOperation reference)
+    {
+        // Scalar states do not model tuple element storage. Defer only values
+        // that depend on a tuple read, preserving unrelated loop diagnostics.
+        var operations = root.DescendantsAndSelf().ToArray();
+        if (!operations.Any(IsTupleCarrierRead))
+        {
+            return false;
+        }
+
+        var writes = operations.Select(static operation => operation switch
+        {
+            IVariableDeclaratorOperation { Initializer.Value: { } value } declaration
+                => (Symbol: (ISymbol?) declaration.Symbol, Value: value),
+            ISimpleAssignmentOperation assignment
+                => (Symbol: GetScalarSymbol(assignment.Target), assignment.Value),
+            _ => (Symbol: (ISymbol?) null, Value: (IOperation?) null),
+        }).Where(static write => write.Symbol is not null && write.Value is not null)
+            .ToLookup(static write => write.Symbol!, static write => write.Value!, SymbolEqualityComparer.Default);
+        var visited = new HashSet<ISymbol>(SymbolEqualityComparer.Default);
+        var pending = new Stack<IOperation>();
+        pending.Push(reference);
+        while (pending.Count > 0)
+        {
+            foreach (var value in pending.Pop().DescendantsAndSelf())
+            {
+                if (IsTupleCarrierRead(value))
+                {
+                    return true;
+                }
+
+                if (GetScalarSymbol(value) is { } symbol && visited.Add(symbol))
+                {
+                    foreach (var write in writes[symbol])
+                    {
+                        pending.Push(write);
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static ISymbol? GetScalarSymbol(IOperation operation) => operation switch
+    {
+        ILocalReferenceOperation local => local.Local,
+        IParameterReferenceOperation parameter => parameter.Parameter,
+        _ => null,
+    };
+
+    private static bool IsTupleCarrierRead(IOperation operation) => operation is IFieldReferenceOperation field
+        && field.Field.ContainingType.IsTupleType
+        && field.Type?.ToDisplayString() is
+            "System.Threading.CancellationToken" or "System.Threading.CancellationTokenSource";
 
     private static CancellationTokenReachingValues? GetAnalysis(IOperation root, SemanticModel model,
         IParameterSymbol source, HashSet<IMethodSymbol>? visitedMethods, HashSet<IParameterSymbol>? visitedSources)
