@@ -190,6 +190,64 @@ public class ResourceUsageMonitorTests
     }
 
     [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(3)]
+    public async Task Sample_SustainedStallsWarnEvenWithLowUsage_WithoutInflatingUsage(int signal)
+    {
+        var harness = new Harness();
+        harness.RunningModules = [typeof(BusyModule)];
+        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0, 0, 0);
+        harness.Sample(cpu: 0.1);
+        for (var index = 1; index <= 3; index++)
+        {
+            harness.Reader.Pressure = new ResourcePressureCounters("container",
+                signal == 0 ? index : 0, signal == 1 ? index : 0,
+                signal == 2 ? index : 0, signal == 3 ? index : 0);
+            harness.Sample(cpu: 0.1);
+            if (index < 3)
+            {
+                await Assert.That(harness.Log.ToString()).IsEmpty();
+            }
+        }
+
+        // Unchanged counters close the period; historical stalls do not keep warning.
+        harness.Sample(cpu: 0.1);
+        var result = harness.Monitor.GetResult()!;
+        await Assert.That(harness.Log.ToString()).Contains(signal == 3 ? "Linux task stalls detected" : "Linux task stalls or CPU throttling detected")
+            .And.Contains("Running modules: BusyModule");
+        await Assert.That(result.PeakCpu).IsEqualTo(0.1).Within(0.001);
+        await Assert.That(result.AverageCpu).IsEqualTo(0.1).Within(0.001);
+        await Assert.That(result.PeakMemory).IsEqualTo(0.5);
+        await Assert.That(result.Periods.Single().Kind).IsEqualTo(signal == 3 ? ResourceKind.Memory : ResourceKind.Cpu);
+        await Assert.That(result.Periods.Single().Start).IsEqualTo(Start.AddSeconds(2));
+        await Assert.That(result.Periods.Single().End).IsEqualTo(Start.AddSeconds(5));
+    }
+
+    [Test]
+    public async Task Sample_MissingResetOrChangedSourceCountersRequireNewBaseline()
+    {
+        var harness = new Harness(options => options with { SustainedSamples = 1 });
+        foreach (var counters in new ResourcePressureCounters?[]
+        {
+            new("a", 100, 100, 100, 100),
+            new("a", 0, 0, 0, 0),
+            null,
+            new("a", 200, 200, 200, 200),
+            new("b", 300, 300, 300, 300),
+            new("b", 300, 300, 300, 300),
+        })
+        {
+            harness.Reader.Pressure = counters;
+            harness.Sample(cpu: 0.1);
+        }
+
+        await Assert.That(harness.Log.ToString()).IsEmpty();
+        await Assert.That(harness.Monitor.GetResult()!.Periods).IsEmpty();
+    }
+
+    [Test]
     public async Task Sample_NeverRecordsMoreThanMaxPeriods()
     {
         var harness = new Harness(options => options with { SustainedSamples = 1 });
@@ -444,6 +502,8 @@ public class ResourceUsageMonitorTests
 
         public bool Available { get; set; } = true;
 
+        public ResourcePressureCounters? Pressure { get; set; }
+
         public int ReadCount { get; private set; }
 
         public Task WaitForNextReadAsync()
@@ -468,7 +528,7 @@ public class ResourceUsageMonitorTests
             ReadCount++;
             _total += 1000;
             _idle += (long) Math.Round(1000 * (1 - Cpu));
-            reading = new MachineResourceReading(_idle, _total, 1000, (long) Math.Round(1000 * (1 - Memory)));
+            reading = new MachineResourceReading(_idle, _total, 1000, (long) Math.Round(1000 * (1 - Memory)), Pressure);
             _nextRead?.TrySetResult();
             return true;
         }

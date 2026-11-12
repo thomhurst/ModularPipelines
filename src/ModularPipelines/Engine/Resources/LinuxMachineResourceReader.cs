@@ -4,17 +4,163 @@ namespace ModularPipelines.Engine.Resources;
 
 internal sealed class LinuxMachineResourceReader : IMachineResourceReader
 {
+    private readonly Func<string, string?> _readFile;
+
+    public LinuxMachineResourceReader() : this(File.ReadAllText)
+    {
+    }
+
+    internal LinuxMachineResourceReader(Func<string, string?> readFile)
+    {
+        _readFile = readFile;
+    }
+
     public bool TryRead(out MachineResourceReading reading)
     {
         reading = default;
-        if (!TryParseCpu(File.ReadLines("/proc/stat").FirstOrDefault(), out var idle, out var total)
-            || !TryParseMemory(File.ReadAllLines("/proc/meminfo"), out var memoryTotal, out var memoryAvailable))
+        if (!TryParseCpu(Read("/proc/stat")?.Split('\n').FirstOrDefault(), out var idle, out var total)
+            || !TryParseMemory(Lines(Read("/proc/meminfo")), out var memoryTotal, out var memoryAvailable))
         {
             return false;
         }
 
-        reading = new MachineResourceReading(idle, total, memoryTotal, memoryAvailable);
+        var (directory, mount) = FindCgroup();
+        if (directory is not null && mount is not null)
+        {
+            // A parent can impose the effective limit even when the leaf says "max".
+            for (var ancestor = directory; ancestor is not null; ancestor = Path.GetDirectoryName(ancestor))
+            {
+                if (TryNonNegative(Read(Path.Combine(ancestor, "memory.max"))?.Trim(), out var limit)
+                    && limit > 0 && limit <= memoryTotal
+                    && TryNonNegative(Read(Path.Combine(ancestor, "memory.current"))?.Trim(), out var used))
+                {
+                    memoryTotal = limit;
+                    memoryAvailable = Math.Clamp(limit - used, 0, limit);
+                }
+
+                if (ancestor == mount)
+                {
+                    break;
+                }
+            }
+        }
+
+        var cpuStat = directory is null ? null : Read(Path.Combine(directory, "cpu.stat"));
+        var cpuPressure = directory is null ? null : Read(Path.Combine(directory, "cpu.pressure"));
+        var memoryPressure = directory is null ? null : Read(Path.Combine(directory, "memory.pressure"));
+        var source = $"{directory}|{cpuPressure is not null}|{memoryPressure is not null}";
+        cpuPressure ??= Read("/proc/pressure/cpu");
+        memoryPressure ??= Read("/proc/pressure/memory");
+        var pressure = new ResourcePressureCounters(
+            source,
+            FindCounter(cpuStat, "nr_throttled"),
+            FindCounter(cpuStat, "throttled_usec"),
+            FindPressureTotal(cpuPressure),
+            FindPressureTotal(memoryPressure));
+        reading = new MachineResourceReading(idle, total, memoryTotal, memoryAvailable, pressure);
         return true;
+    }
+
+    private string? Read(string path)
+    {
+        try
+        {
+            return _readFile(path);
+        }
+        catch (IOException)
+        {
+            return null;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return null;
+        }
+    }
+
+    private (string? Directory, string? Mount) FindCgroup()
+    {
+        var membership = Lines(Read("/proc/self/cgroup"))
+            .FirstOrDefault(line => line.StartsWith("0::", StringComparison.Ordinal))?[3..];
+        if (membership is null || !membership.StartsWith('/') || membership.Split('/').Contains(".."))
+        {
+            return default;
+        }
+
+        foreach (var line in Lines(Read("/proc/self/mountinfo")))
+        {
+            var parts = line.Split(" - ", 2, StringSplitOptions.None);
+            if (parts.Length != 2 || !parts[1].StartsWith("cgroup2 ", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var fields = parts[0].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (fields.Length < 5)
+            {
+                continue;
+            }
+
+            var root = UnescapeMount(fields[3]).TrimEnd('/');
+            var mount = UnescapeMount(fields[4]).TrimEnd('/');
+            string relative;
+            if (root.Length == 0)
+            {
+                relative = membership;
+            }
+            else if (membership == root || membership.StartsWith(root + "/", StringComparison.Ordinal))
+            {
+                relative = membership[root.Length..];
+            }
+            else if (membership == "/")
+            {
+                // A cgroup namespace reports its root as /, even for a bind-mounted subtree.
+                relative = string.Empty;
+            }
+            else
+            {
+                continue;
+            }
+
+            if (mount.StartsWith('/'))
+            {
+                return (Path.Combine(mount, relative.TrimStart('/')), mount);
+            }
+        }
+
+        return default;
+    }
+
+    private static string UnescapeMount(string value) => value
+        .Replace("\\040", " ", StringComparison.Ordinal)
+        .Replace("\\011", "\t", StringComparison.Ordinal)
+        .Replace("\\012", "\n", StringComparison.Ordinal)
+        .Replace("\\134", "\\", StringComparison.Ordinal);
+
+    private static string[] Lines(string? content) => content?.Split('\n', StringSplitOptions.RemoveEmptyEntries) ?? [];
+
+    private static bool TryNonNegative(string? value, out long result) =>
+        long.TryParse(value, NumberStyles.None, CultureInfo.InvariantCulture, out result) && result >= 0;
+
+    private static long? FindCounter(string? content, string name)
+    {
+        foreach (var line in Lines(content))
+        {
+            var fields = line.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries);
+            if (fields.Length == 2 && fields[0] == name && TryNonNegative(fields[1], out var value))
+            {
+                return value;
+            }
+        }
+
+        return null;
+    }
+
+    private static long? FindPressureTotal(string? content)
+    {
+        var line = Lines(content).FirstOrDefault(candidate => candidate.StartsWith("some ", StringComparison.Ordinal));
+        var field = line?.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .FirstOrDefault(candidate => candidate.StartsWith("total=", StringComparison.Ordinal));
+        return field is not null && TryNonNegative(field[6..], out var value) ? value : null;
     }
 
     /// <summary>

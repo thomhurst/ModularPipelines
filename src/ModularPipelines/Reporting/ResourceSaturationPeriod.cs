@@ -1,7 +1,7 @@
 namespace ModularPipelines.Reporting;
 
 /// <summary>
-/// Describes a period in which a machine resource stayed at or above its configured threshold.
+/// Describes a sustained period of high resource usage, Linux task stalls, or CPU throttling.
 /// </summary>
 public sealed record ResourceSaturationPeriod
 {
@@ -11,12 +11,12 @@ public sealed record ResourceSaturationPeriod
     public ResourceKind Kind { get; init; }
 
     /// <summary>
-    /// Gets when the first sample at or above the threshold was taken.
+    /// Gets when the first saturated sample was taken.
     /// </summary>
     public DateTimeOffset Start { get; init; }
 
     /// <summary>
-    /// Gets when usage dropped below the threshold, or when monitoring stopped.
+    /// Gets when saturation ended, or when monitoring stopped.
     /// </summary>
     public DateTimeOffset End { get; init; }
 
