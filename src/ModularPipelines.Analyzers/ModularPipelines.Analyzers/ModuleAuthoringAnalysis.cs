@@ -6603,7 +6603,7 @@ internal static class ModuleAuthoringAnalysis
             or IConversionOperation or IParenthesizedOperation or IUnaryOperation
             or IBinaryOperation { OperatorKind: not (BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr) }
             or IPropertyReferenceOperation or IFieldReferenceOperation or IArrayElementReferenceOperation
-            or IArrayCreationOperation or ITupleOperation
+            or IArrayCreationOperation or IArrayInitializerOperation or ITupleOperation
             or IIsTypeOperation or IAwaitOperation or IThrowOperation
             or IIncrementOrDecrementOperation;
 
@@ -7466,6 +7466,13 @@ internal static class ModuleAuthoringAnalysis
     {
         while (value is IConversionOperation conversion)
         {
+            // Try-casts and user-defined conversions may return null even when
+            // their operand is non-null, so they cannot prove a continuation runs.
+            if (conversion.IsTryCast || conversion.OperatorMethod is not null)
+            {
+                return false;
+            }
+
             if (conversion.Operand.Type is { IsValueType: true } operandType
                 && !IsNullableValueType(operandType))
             {
@@ -7475,15 +7482,16 @@ internal static class ModuleAuthoringAnalysis
             value = conversion.Operand;
         }
 
+        return IsStaticallyNonNullCoalesceCore(value);
+    }
+
+    private static bool IsStaticallyNonNullCoalesceCore(IOperation value)
+    {
         // Do not enumerate reachable leaves here: coalesce leaf enumeration
         // itself asks this question and would revisit left-nested trees exponentially.
         return value switch
         {
-            IConditionalOperation conditional =>
-                conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition }
-                    ? IsStaticallyNonNullCoalesceValue(condition ? conditional.WhenTrue : conditional.WhenFalse!)
-                    : IsStaticallyNonNullCoalesceValue(conditional.WhenTrue)
-                        && conditional.WhenFalse is { } whenFalse && IsStaticallyNonNullCoalesceValue(whenFalse),
+            IConditionalOperation conditional => IsStaticallyNonNullConditionalValue(conditional),
             ICoalesceOperation coalesce =>
                 IsStaticallyNonNullCoalesceValue(coalesce.Value) || IsStaticallyNonNullCoalesceValue(coalesce.WhenNull),
             ISwitchExpressionOperation switchExpression => switchExpression.Arms
@@ -7492,6 +7500,12 @@ internal static class ModuleAuthoringAnalysis
             _ => value.ConstantValue is { HasValue: true, Value: not null } || AlwaysThrows(value),
         };
     }
+
+    private static bool IsStaticallyNonNullConditionalValue(IConditionalOperation conditional) =>
+        conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition }
+            ? IsStaticallyNonNullCoalesceValue(condition ? conditional.WhenTrue : conditional.WhenFalse!)
+            : IsStaticallyNonNullCoalesceValue(conditional.WhenTrue)
+                && conditional.WhenFalse is { } whenFalse && IsStaticallyNonNullCoalesceValue(whenFalse);
 
     private static bool IsNullableValueType(ITypeSymbol type) =>
         type is INamedTypeSymbol

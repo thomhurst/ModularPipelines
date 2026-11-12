@@ -3093,6 +3093,9 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var choice = DateTime.UtcNow.Ticks; var skip = choice > 0; CancellationToken saved = default; return choice switch { 0 when (skip && Check(saved = third)) || skip => saved, _ => third }; static bool Check(CancellationToken token) => true;")]
     [DataRow("var error = new Exception(); ref var alias = ref first; try { if ((alias = default) is var cleared) throw error; alias = third; } catch {} return alias;")]
     [DataRow("var error = new Exception(); try { if (!((first = default) is var cleared)) first = third; else throw error; first = third; } catch {} return first;")]
+    [DataRow("try { _ = (((object)((first = default) is var cleared ? \"ok\" : \"ok\")) as IDisposable)?.Equals(first = third); MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();")]
+    [DataRow("ref var alias = ref first; try { _ = (((object)((alias = default) is var cleared ? \"ok\" : \"ok\")) as IDisposable)?.Equals(alias = third); MayThrow(); alias = third; } catch {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("try { _ = new[] { first = default, MayThrowToken(), first = third }; first = third; } catch {} return first; static CancellationToken MayThrowToken() => throw new Exception();")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3237,6 +3240,10 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var choice = DateTime.UtcNow.Ticks; CancellationToken saved = default; return choice switch { 0 when choice > 0 && Check(saved = third) => saved, _ => third }; static bool Check(CancellationToken token) => true;", "default")]
     [DataRow("var error = new Exception(); try { if ((first = default) is var cleared) first = third; else first = third; throw error; } catch {} return first;", "default")]
     [DataRow("var choice = DateTime.UtcNow.Ticks; var skip = choice > 0; CancellationToken saved = default; return choice switch { 0 when skip || Check(saved = third) => third, _ => third }; static bool Check(CancellationToken token) => true;", "default")]
+    [DataRow("try { _ = new[] { first = default, first = third }; MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("ref var alias = ref first; try { _ = new[] { alias = default, alias = third }; MayThrow(); alias = third; } catch {} return alias; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("try { _ = (((object)((first = default) is var cleared ? \"ok\" : \"ok\")) as string)?.Equals(first = third); first = third; } catch {} return first;", "default")]
+    [DataRow("try { _ = ((object)((first = default) is var cleared ? \"ok\" : \"ok\"))?.Equals(first = third); MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);
