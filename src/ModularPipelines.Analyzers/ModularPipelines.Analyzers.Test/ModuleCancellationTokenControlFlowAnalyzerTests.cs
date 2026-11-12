@@ -6,6 +6,60 @@ namespace ModularPipelines.Analyzers.Test;
 [TestClass]
 public class ModuleCancellationTokenControlFlowAnalyzerTests
 {
+    public static IEnumerable<object[]> PatternCases()
+    {
+        foreach (var pattern in new[] { "var saved", "CancellationToken saved", "{ } saved", "var saved and { CanBeCanceled: true }" })
+        {
+            foreach (var source in new[] { "cancellationToken", "CancellationToken.None" })
+            {
+                yield return [pattern + source, $$"""
+                    if ({{source}} is {{pattern}}) cancellationToken = saved;
+                    for (var i = 0; i < 2; i++) await CALL(1, cancellationToken);
+                    """, source != "cancellationToken"];
+            }
+        }
+    }
+
+    [TestMethod]
+    [DataRow("cancellationToken", false)]
+    [DataRow("CancellationToken.None", true)]
+    public Task Preserves_Negated_Pattern_Binding_Provenance(string source, bool warning)
+        => Verify($$"""
+            CancellationToken? candidate = {{source}};
+            if (candidate is not CancellationToken saved) return null!;
+            cancellationToken = saved;
+            for (var i = 0; i < 2; i++) await CALL(1, cancellationToken);
+            """, warning);
+
+    [TestMethod]
+    [DataRow("cancellationToken", false)]
+    [DataRow("CancellationToken.None", true)]
+    public Task Preserves_Unconditional_Pattern_Binding_Provenance(string source, bool warning)
+        => Verify($$"""
+            var matched = {{source}} is var saved;
+            cancellationToken = saved;
+            for (var i = 0; i < 2; i++) await CALL(1, cancellationToken);
+            """, warning);
+
+    [TestMethod]
+    public Task Invalidates_Pattern_Binding_On_Loop_Backedge()
+        => Verify("""
+            for (var i = 0; i < 2; i++)
+            {
+                if (cancellationToken is var saved) cancellationToken = saved;
+                await CALL(1, cancellationToken);
+                cancellationToken = default;
+            }
+            """, true);
+
+    [TestMethod]
+    [DynamicData(nameof(PatternCases))]
+    public Task Preserves_Pattern_Binding_Provenance(string name, string body, bool warning)
+    {
+        _ = name;
+        return Verify(body, warning);
+    }
+
     public static IEnumerable<object[]> LoopCases()
     {
         foreach (var token in new[] { "token", "cancellationToken" })

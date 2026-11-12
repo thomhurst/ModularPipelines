@@ -287,13 +287,11 @@ internal sealed class CancellationTokenReachingValues
                     analysis.Evaluate(operation, state, block, Exceptional);
                 }
 
-                if (block.BranchValue is { } branchValue)
-                {
-                    analysis.Evaluate(branchValue, state, block, Exceptional);
-                }
+                var branchValue = block.BranchValue is { } condition
+                    && analysis.Evaluate(condition, state, block, Exceptional);
 
-                Follow(block.FallThroughSuccessor, state);
-                Follow(block.ConditionalSuccessor, state);
+                Follow(block.FallThroughSuccessor, state, branchValue);
+                Follow(block.ConditionalSuccessor, state, branchValue);
             }
 
             return _completion;
@@ -331,7 +329,7 @@ internal sealed class CancellationTokenReachingValues
             }
         }
 
-        private void Follow(ControlFlowBranch? branch, State state)
+        private void Follow(ControlFlowBranch? branch, State state, bool branchValue)
         {
             if (branch is null || !IsBranchTaken(branch, state))
             {
@@ -346,6 +344,11 @@ internal sealed class CancellationTokenReachingValues
 
             state = state.Clone();
             RefineNonNullCapture(branch, state);
+            if (branch.Source.BranchValue is IIsPatternOperation patternTest)
+            {
+                var matched = branch.IsConditionalSuccessor == (branch.Source.ConditionKind == ControlFlowConditionKind.WhenTrue);
+                BindPattern(patternTest.Pattern, branchValue, state, matched);
+            }
 
             var next = RunFinalizers(branch.FinallyRegions, state);
             if (next is null)
@@ -365,6 +368,27 @@ internal sealed class CancellationTokenReachingValues
                 }
 
                 Enqueue(destination, next);
+            }
+        }
+
+        private static void BindPattern(IPatternOperation pattern, bool value, State state, bool matched)
+        {
+            switch (pattern)
+            {
+                case IDeclarationPatternOperation { DeclaredSymbol: { } symbol } when matched:
+                    Set(state.Values, symbol, value);
+                    break;
+                case IRecursivePatternOperation { DeclaredSymbol: { } symbol } when matched:
+                    // Only the whole matched value shares its provenance; property values need their own proof.
+                    Set(state.Values, symbol, value);
+                    break;
+                case INegatedPatternOperation negated:
+                    BindPattern(negated.Pattern, value, state, !matched);
+                    break;
+                case IBinaryPatternOperation { OperatorKind: BinaryOperatorKind.And } binary when matched:
+                    BindPattern(binary.LeftPattern, value, state, true);
+                    BindPattern(binary.RightPattern, value, state, true);
+                    break;
             }
         }
 
@@ -692,6 +716,7 @@ internal sealed class CancellationTokenReachingValues
             ILocalReferenceOperation local => ReadLocal(local.Local, state),
             IFlowCaptureReferenceOperation capture => state.Captures.Contains(capture.Id),
             IFlowCaptureOperation capture => EvaluateCapture(capture, state, block, exceptional),
+            IIsPatternOperation pattern => EvaluatePattern(pattern, state, block, exceptional),
             ISimpleAssignmentOperation assignment => EvaluateAssignment(assignment, state, block, exceptional),
             IDeconstructionAssignmentOperation deconstruction => EvaluateDeconstruction(deconstruction, state, block, exceptional),
             IConversionOperation conversion => EvaluateConversion(conversion, state, block, exceptional),
@@ -708,6 +733,20 @@ internal sealed class CancellationTokenReachingValues
         var key = (operation.Syntax.Span, operation.Kind);
         _values[key] = (!_values.TryGetValue(key, out var existing) || existing) && value;
 
+        return value;
+    }
+
+    private bool EvaluatePattern(IIsPatternOperation pattern, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
+    {
+        var value = Evaluate(pattern.Value, state, block, exceptional);
+        Evaluate(pattern.Pattern, state, block, exceptional);
+        if (pattern.Pattern is IDeclarationPatternOperation { MatchesNull: true, DeclaredSymbol: { } symbol })
+        {
+            // A var pattern always binds, even when its boolean result is stored rather than branched on.
+            Set(state.Values, symbol, value);
+        }
+
+        // Carry the subject snapshot to Follow; binding belongs only to the matching successor.
         return value;
     }
 
