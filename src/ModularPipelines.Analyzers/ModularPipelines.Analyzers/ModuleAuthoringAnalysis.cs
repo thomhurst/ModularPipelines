@@ -5971,7 +5971,8 @@ internal static class ModuleAuthoringAnalysis
         // Deconstruction evaluates the complete RHS before writing any target.
         for (var parent = write.Parent; parent is not null; parent = parent.Parent)
         {
-            if (parent is IDeconstructionAssignmentOperation tuple && HasAncestor(read, tuple.Value))
+            if (parent is IDeconstructionAssignmentOperation tuple
+                && HasAncestor(write, tuple.Target) && HasAncestor(read, tuple.Value))
             {
                 return false;
             }
