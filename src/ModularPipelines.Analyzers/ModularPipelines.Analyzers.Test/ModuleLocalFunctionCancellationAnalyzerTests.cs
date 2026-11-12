@@ -364,6 +364,104 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
         await VerifyCS.VerifyAnalyzerAsync(source);
     }
 
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Recognizes_Unchanged_Saved_Token_Restored_In_Handler(string root)
+    {
+        string[] declarations = ["var original = token;", "var saved = token; var original = saved;"];
+        foreach (var declaration in declarations)
+        {
+            var source = ModuleSource(root, $$"""
+                private static Task HelperAsync(CancellationToken token)
+                {
+                    {{declaration}}
+                    try { Throw(); }
+                    catch { token = original; }
+                    return Task.Run(() => Task.Delay(1, token), token);
+                }
+
+                private static void Throw() => throw new System.InvalidOperationException();
+                """);
+
+            await VerifyCS.VerifyAnalyzerAsync(source);
+        }
+    }
+
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Reports_Changed_Saved_Token_Restored_In_Handler(string root)
+    {
+        string[] mutations =
+        [
+            "original = CancellationToken.None;",
+            "original = new CancellationTokenSource().Token;",
+            "ref var alias = ref original; alias = CancellationToken.None;",
+            "Replace(ref original);",
+            "Reset(out original);",
+            "(original, _) = (CancellationToken.None, 0);",
+            "System.Action change = () => original = CancellationToken.None; change();",
+            "Change(); void Change() => original = CancellationToken.None;",
+            "if (token.CanBeCanceled) token = CancellationToken.None;",
+        ];
+        foreach (var mutation in mutations)
+        {
+            var source = ModuleSource(root, $$"""
+                private static Task HelperAsync(CancellationToken token)
+                {
+                    var original = token;
+                    {{mutation}}
+                    try { Throw(); }
+                    catch { token = original; }
+                    return Task.Run(() => {|#0:Task.Delay(1, token)|}, token);
+                }
+
+                private static void Throw() => throw new System.InvalidOperationException();
+                private static void Replace(ref CancellationToken token) => token = CancellationToken.None;
+                private static void Reset(out CancellationToken token) => token = CancellationToken.None;
+                """);
+
+            await VerifyCS.VerifyAnalyzerAsync(source,
+                VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                    .WithLocation(0).WithArguments("Delay"));
+        }
+    }
+
+    [TestMethod]
+    [DataRow("execute", false)]
+    [DataRow("lifecycle", false)]
+    [DataRow("configuration", false)]
+    [DataRow("execute", true)]
+    [DataRow("lifecycle", true)]
+    [DataRow("configuration", true)]
+    public async Task Checks_Saved_Copy_Outside_Restoring_Callback(string root, bool changed)
+    {
+        var call = changed ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)";
+        var source = ModuleSource(root, $$"""
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var original = token;
+                {{(changed ? "original = CancellationToken.None;" : "")}}
+                return Task.Run(() =>
+                {
+                    try { Throw(); }
+                    catch { token = original; }
+                    return {{call}};
+                }, token);
+            }
+
+            private static void Throw() => throw new System.InvalidOperationException();
+            """);
+
+        var diagnostics = changed
+            ? new[] { VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay") }
+            : [];
+        await VerifyCS.VerifyAnalyzerAsync(source, diagnostics);
+    }
+
     private static string ModuleSource(string root, string helper)
     {
         var entry = root switch

@@ -34,9 +34,9 @@ internal static class CapturedCancellationTokenAnalysis
         return graph is not null && !IsWritten(graph, parameter, [with(SymbolEqualityComparer.Default)]);
     }
 
-    private static bool IsWritten(ControlFlowGraph graph, IParameterSymbol parameter, HashSet<IMethodSymbol> visited)
+    private static bool IsWritten(ControlFlowGraph graph, ISymbol trackedSymbol, HashSet<IMethodSymbol> visited)
     {
-        var analysis = new WriteAnalysis(graph, parameter);
+        var analysis = new WriteAnalysis(graph, trackedSymbol);
         if (analysis.Run())
         {
             return true;
@@ -52,7 +52,7 @@ internal static class CapturedCancellationTokenAnalysis
             for (var owner = graph; owner is not null; owner = owner.Parent)
             {
                 var local = owner.LocalFunctions.FirstOrDefault(symbol => SymbolEqualityComparer.Default.Equals(symbol, callable));
-                if (local is not null && IsWritten(owner.GetLocalFunctionControlFlowGraph(local), parameter, visited))
+                if (local is not null && IsWritten(owner.GetLocalFunctionControlFlowGraph(local), trackedSymbol, visited))
                 {
                     return true;
                 }
@@ -60,7 +60,7 @@ internal static class CapturedCancellationTokenAnalysis
 
             foreach (var anonymous in analysis.AnonymousFunctions.Where(candidate => SymbolEqualityComparer.Default.Equals(candidate.Symbol, callable)))
             {
-                if (IsWritten(graph.GetAnonymousFunctionControlFlowGraph(anonymous), parameter, visited))
+                if (IsWritten(graph.GetAnonymousFunctionControlFlowGraph(anonymous), trackedSymbol, visited))
                 {
                     return true;
                 }
@@ -105,7 +105,7 @@ internal static class CapturedCancellationTokenAnalysis
         internal Continuation? Unwind { get; set; }
     }
 
-    private sealed class WriteAnalysis(ControlFlowGraph graph, IParameterSymbol parameter)
+    private sealed class WriteAnalysis(ControlFlowGraph graph, ISymbol trackedSymbol)
     {
         private readonly Queue<(int Block, Continuation? Resume)> _pending = new();
         private readonly Dictionary<(int Block, Continuation? Resume), Storage> _inputs = [];
@@ -127,7 +127,7 @@ internal static class CapturedCancellationTokenAnalysis
         internal bool Run()
         {
             var initial = new Storage();
-            initial.Aliases.Add(parameter);
+            initial.Aliases.Add(trackedSymbol);
             Enqueue(0, null, initial);
             while (!_written && _pending.Count != 0)
             {
@@ -478,19 +478,7 @@ internal static class CapturedCancellationTokenAnalysis
         {
             if (operation is ISimpleAssignmentOperation assignment)
             {
-                Visit(assignment.Target, storage);
-                var writes = ReferencesStorage(assignment.Target, storage);
-                Visit(assignment.Value, storage);
-                if (assignment.IsRef && GetLocal(assignment.Target) is { } alias)
-                {
-                    SetAlias(storage.Aliases, alias, ReferencesStorage(assignment.Value, storage));
-                }
-                else
-                {
-                    // Transfers into ref fields and other untracked destinations escape
-                    // the local alias model; subsequent writes can overwrite the token.
-                    _written |= writes || (assignment.IsRef && ReferencesStorage(assignment.Value, storage));
-                }
+                VisitAssignmentStorageEffects(assignment, storage);
             }
             else if (operation is IDeconstructionAssignmentOperation deconstruction)
             {
@@ -507,6 +495,78 @@ internal static class CapturedCancellationTokenAnalysis
 
                 RecordStorageWrite(operation, storage);
             }
+        }
+
+        private void VisitAssignmentStorageEffects(ISimpleAssignmentOperation assignment, Storage storage)
+        {
+            Visit(assignment.Target, storage);
+            var writes = ReferencesStorage(assignment.Target, storage);
+            Visit(assignment.Value, storage);
+            if (assignment.IsRef && GetLocal(assignment.Target) is { } alias)
+            {
+                SetAlias(storage.Aliases, alias, ReferencesStorage(assignment.Value, storage));
+            }
+            else
+            {
+                // Transfers into ref fields and other untracked destinations escape
+                // the local alias model; subsequent writes can overwrite the token.
+                var initializesSavedLocal = trackedSymbol is ILocalSymbol
+                    && assignment.Target is ILocalReferenceOperation { IsDeclaration: true } declaration
+                    && SymbolEqualityComparer.Default.Equals(declaration.Local, trackedSymbol);
+                _written |= (writes && !initializesSavedLocal && !PreservesIncomingToken(assignment.Value))
+                    || (assignment.IsRef && ReferencesStorage(assignment.Value, storage));
+            }
+        }
+
+        private readonly Dictionary<ILocalSymbol, bool> _savedCopies = [with(SymbolEqualityComparer.Default)];
+
+        private bool PreservesIncomingToken(IOperation value)
+        {
+            // Saved-copy checks must reject every subsequent write, even another copy
+            // of the same value. They prove immutability, not parameter provenance.
+            if (trackedSymbol is not IParameterSymbol)
+            {
+                return false;
+            }
+
+            return value switch
+            {
+                IConversionOperation { Conversion.IsIdentity: true } conversion => PreservesIncomingToken(conversion.Operand),
+                IParenthesizedOperation parentheses => PreservesIncomingToken(parentheses.Operand),
+                IParameterReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, trackedSymbol),
+                ILocalReferenceOperation reference => IsUnchangedSavedCopy(reference.Local),
+                _ => false,
+            };
+        }
+
+        private bool IsUnchangedSavedCopy(ILocalSymbol local)
+        {
+            if (_savedCopies.TryGetValue(local, out var saved))
+            {
+                return saved;
+            }
+
+            // Seed false to handle incomplete editor code with cyclic initializers.
+            _savedCopies.Add(local, false);
+            if (local.RefKind != RefKind.None
+                || local.DeclaringSyntaxReferences.SingleOrDefault()?.GetSyntax() is not VariableDeclaratorSyntax { Initializer.Value: { } initializer }
+                || _model?.GetOperation(initializer) is not { } value
+                || !PreservesIncomingToken(value))
+            {
+                return false;
+            }
+
+            // A restoration may be inside a callback while the saved copy is
+            // overwritten in its enclosing method. Check the complete owner graph.
+            var owner = graph;
+            while (owner.Parent is { } parent)
+            {
+                owner = parent;
+            }
+
+            var unchanged = !IsWritten(owner, local, [with(SymbolEqualityComparer.Default)]);
+            _savedCopies[local] = unchanged;
+            return unchanged;
         }
 
         private bool VisitDeconstructionTarget(IOperation target, Storage storage)
