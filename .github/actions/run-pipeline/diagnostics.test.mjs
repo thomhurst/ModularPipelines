@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
 import test from 'node:test';
-import { captureDiagnostics, startDiagnostics } from './diagnostics.mjs';
+import { captureDiagnostics, forwardOutput, startDiagnostics } from './diagnostics.mjs';
 
 const master = { RUNNER_OS: 'Linux', MODULARPIPELINES_INSTANCE_INDEX: '0' };
 const settle = () => new Promise(resolve => setImmediate(resolve));
@@ -19,6 +19,8 @@ test('resource snapshot bounds process output and selects memory counters', asyn
     assert.equal(encoding, 'utf8');
     return 'MemTotal: 100 kB\nMemAvailable: 50 kB\nSwapTotal: 20 kB\nSwapFree: 10 kB\nDirty: 1 kB\nWriteback: 0 kB\nOther: 42 kB\n';
   });
+  assert.match(snapshot, /^::group::Pipeline resource sample .+\n/);
+  assert.match(snapshot, /\n::endgroup::$/);
   assert.match(snapshot, /MemAvailable: 50 kB/);
   assert.match(snapshot, /SwapFree: 10 kB/);
   assert.match(snapshot, /19 process/);
@@ -87,4 +89,37 @@ test('diagnostic failures stay generic and do not prevent later snapshots', asyn
   await tick();
   child.emit('exit');
   assert.deepEqual(lines, ['Pipeline resource sample unavailable.', 'recovered']);
+});
+
+test('samples wait for a line start outside the pipeline log groups', () => {
+  const source = new EventEmitter();
+  const written = [];
+  const sink = { write: chunk => { written.push(chunk.toString()); return true; } };
+  const write = forwardOutput(source, sink);
+  const emit = text => source.emit('data', Buffer.from(text));
+
+  write('idle');
+  emit('::group::Module\nline one\n');
+  write('stale');
+  write('inside group');
+  emit('line two\n::endgr');
+  emit('oup::\npartial');
+  write('inside line');
+  emit(' line\n');
+  assert.deepEqual(written, [
+    'idle\n', '::group::Module\nline one\n', 'line two\n::endgr', 'oup::\npartial',
+    ' line\n', 'inside line\n',
+  ]);
+});
+
+test('forwarding pauses the pipeline output until the sink drains', () => {
+  const source = Object.assign(new EventEmitter(), {
+    paused: false, pause() { this.paused = true; }, resume() { this.paused = false; },
+  });
+  const sink = Object.assign(new EventEmitter(), { write: () => false });
+  forwardOutput(source, sink);
+  source.emit('data', Buffer.from('output\n'));
+  assert.equal(source.paused, true);
+  sink.emit('drain');
+  assert.equal(source.paused, false);
 });

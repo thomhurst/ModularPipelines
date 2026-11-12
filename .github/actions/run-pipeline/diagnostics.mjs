@@ -15,17 +15,57 @@ export async function captureDiagnostics(run = execute, read = readFile) {
     /^(MemTotal|MemAvailable|SwapTotal|SwapFree|Dirty|Writeback):/.test(line));
   // Do not collect command arguments or environment variables: they can contain credentials.
   return [
-    `Pipeline resource sample ${new Date().toISOString()}`,
+    `::group::Pipeline resource sample ${new Date().toISOString()}`,
     ...counters,
     ...stdout.trimEnd().split('\n').slice(0, 21),
+    '::endgroup::',
   ].join('\n');
 }
 
+export function samplesResources(environment) {
+  return environment.RUNNER_OS === 'Linux' && environment.MODULARPIPELINES_INSTANCE_INDEX === '0';
+}
+
+// Samples come from this process, outside the pipeline's output lock. GitHub log groups do not
+// nest, so forward the pipeline's stdout and write a sample only at a line start outside a group.
+export function forwardOutput(source, sink) {
+  let grouped = false;
+  let line = '';
+  let pending;
+  source.on('data', chunk => {
+    if (!sink.write(chunk)) {
+      source.pause();
+      sink.once('drain', () => source.resume());
+    }
+    const lines = (line + chunk.toString('latin1')).split('\n');
+    // Only the start of a line identifies a workflow command.
+    line = lines.pop().slice(0, 16);
+    for (const complete of lines) {
+      if (complete.startsWith('::group::')) grouped = true;
+      else if (complete.startsWith('::endgroup::')) grouped = false;
+    }
+    if (pending && !grouped && !line) {
+      sink.write(pending);
+      pending = undefined;
+    }
+  });
+  return text => {
+    if (grouped || line) pending = `${text}\n`;
+    else sink.write(`${text}\n`);
+  };
+}
+
 export function startDiagnostics(environment, child, {
-  capture = captureDiagnostics, write = console.log, schedule = setInterval, cancel = clearInterval,
+  capture = captureDiagnostics, write, schedule = setInterval, cancel = clearInterval,
 } = {}) {
-  if (environment.RUNNER_OS !== 'Linux' || environment.MODULARPIPELINES_INSTANCE_INDEX !== '0') {
+  if (!samplesResources(environment)) {
     return;
+  }
+
+  if (!write) {
+    write = forwardOutput(child.stdout, process.stdout);
+    // A process that outlives the pipeline can hold the pipe open; do not wait for it.
+    child.once('exit', () => setTimeout(() => child.stdout.destroy(), 5000).unref());
   }
 
   let stopped = false;

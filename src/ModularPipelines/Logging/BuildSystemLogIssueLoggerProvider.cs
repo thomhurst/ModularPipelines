@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using MEL.Spectre;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
@@ -18,6 +19,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
     private readonly IBuildSystemFormatter _formatter;
     private readonly IBuildSystemCommandWriter _commandWriter;
     private readonly Lazy<ISecretObfuscator> _secretObfuscator;
+    private readonly Lazy<ISpectreConsoleLoggerControl?> _loggerControl;
     // Identity deduplicates propagated wrappers without merging independent failures that
     // share diagnostics. Weak keys let completed failures leave with their exception graph.
     private readonly ConditionalWeakTable<Exception, object> _reportedErrors = [];
@@ -27,19 +29,22 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
         IBuildSystemCommandWriter commandWriter,
         IServiceProvider serviceProvider)
         : this(formatterProvider.GetFormatter(), commandWriter,
-            new Lazy<ISecretObfuscator>(serviceProvider.GetRequiredService<ISecretObfuscator>))
+            new Lazy<ISecretObfuscator>(serviceProvider.GetRequiredService<ISecretObfuscator>),
+            new Lazy<ISpectreConsoleLoggerControl?>(serviceProvider.GetService<ISpectreConsoleLoggerControl>))
     {
     }
 
     internal BuildSystemLogIssueLoggerProvider(
         IBuildSystemFormatter formatter,
         IBuildSystemCommandWriter commandWriter,
-        Lazy<ISecretObfuscator> secretObfuscator)
+        Lazy<ISecretObfuscator> secretObfuscator,
+        Lazy<ISpectreConsoleLoggerControl?> loggerControl)
     {
         _formatter = formatter;
         _commandWriter = commandWriter;
         // SecretProvider needs ILoggerFactory, which constructs this provider. Resolve only when logging.
         _secretObfuscator = secretObfuscator;
+        _loggerControl = loggerControl;
     }
 
     public ILogger CreateLogger(string categoryName) =>
@@ -47,6 +52,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             _formatter,
             _commandWriter,
             _secretObfuscator,
+            _loggerControl,
             _reportedErrors,
             IsIssueCategory(categoryName));
 
@@ -63,6 +69,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
         IBuildSystemFormatter buildSystemFormatter,
         IBuildSystemCommandWriter commandWriter,
         Lazy<ISecretObfuscator> secretObfuscator,
+        Lazy<ISpectreConsoleLoggerControl?> loggerControl,
         ConditionalWeakTable<Exception, object> reportedErrors,
         bool isIssueCategory) : ILogger
     {
@@ -92,7 +99,14 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             }
 
             var command = buildSystemFormatter.GetLogIssueCommand(logLevel, secretObfuscator.Value.Obfuscate(message, null));
-            if (command is not null)
+            if (command is null)
+            {
+                return;
+            }
+
+            // Module output groups render under this lock; a command written outside it
+            // could land inside another module's group.
+            lock (loggerControl.Value?.SynchronizationLock ?? commandWriter)
             {
                 commandWriter.WriteLine(command);
             }

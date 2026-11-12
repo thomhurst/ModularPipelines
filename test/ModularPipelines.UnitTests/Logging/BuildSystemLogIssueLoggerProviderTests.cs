@@ -1,3 +1,4 @@
+using MEL.Spectre;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
@@ -214,9 +215,35 @@ public class BuildSystemLogIssueLoggerProviderTests
         await Assert.That(writer.ToString()).IsEmpty();
     }
 
+    [Test]
+    public async Task Logger_WaitsForConsoleRenderLockBeforeWritingIssueCommand()
+    {
+        using var writer = new StringWriter();
+        var loggerControl = new Mock<ISpectreConsoleLoggerControl>();
+        var renderLock = new object();
+        loggerControl.SetupGet(x => x.SynchronizationLock).Returns(renderLock);
+        using var provider = CreateProvider(new AzurePipelinesFormatter(), writer, loggerControl.Object);
+        var logger = provider.CreateLogger("Example.Pipeline");
+        Task logging;
+        bool wroteDuringRender;
+
+        lock (renderLock)
+        {
+            logging = Task.Run(() => logger.LogWarning("message"));
+            wroteDuringRender = logging.Wait(TimeSpan.FromMilliseconds(250));
+        }
+
+        await logging;
+
+        await Assert.That(wroteDuringRender).IsFalse();
+        await Assert.That(writer.ToString())
+            .IsEqualTo($"##vso[task.logissue type=warning;]message{Environment.NewLine}");
+    }
+
     private static BuildSystemLogIssueLoggerProvider CreateProvider(
         IBuildSystemFormatter formatter,
-        TextWriter writer)
+        TextWriter writer,
+        ISpectreConsoleLoggerControl? loggerControl = null)
     {
         var obfuscator = new Mock<ISecretObfuscator>();
         obfuscator.Setup(x => x.Obfuscate(It.IsAny<string>(), null))
@@ -224,6 +251,7 @@ public class BuildSystemLogIssueLoggerProviderTests
         return new BuildSystemLogIssueLoggerProvider(
             formatter,
             new BuildSystemCommandWriter(writer),
-            new Lazy<ISecretObfuscator>(() => obfuscator.Object));
+            new Lazy<ISecretObfuscator>(() => obfuscator.Object),
+            new Lazy<ISpectreConsoleLoggerControl?>(() => loggerControl));
     }
 }
