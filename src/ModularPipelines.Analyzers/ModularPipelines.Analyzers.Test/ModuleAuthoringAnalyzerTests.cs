@@ -3043,6 +3043,19 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = third; alias = default; return alias;")]
     [DataRow("first = default; ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = third; return alias;")]
     [DataRow("if (DateTime.UtcNow.Ticks > 0) second = ref first; else second = default; return second;")]
+    [DataRow("var i = 0; first = third; Before: switch (i++) { case 0: first = default; break; default: return first; } goto Before;")]
+    [DataRow("var i = 0; Before: first = third; switch (i++) { case 0: first = default; goto default; default: return first; }")]
+    [DataRow("var i = 0; Before: first = default; switch (i++) { case 0: first = third; break; default: return first; } goto Before;")]
+    [DataRow("var i = 0; first = third; Before: if (i++ == 0) first = default; else return first; goto Before;")]
+    [DataRow("var i = 0; first = ref third; Before: switch (i++) { case 0: first = ref second; break; default: return first; } goto Before;")]
+    [DataRow("var i = 0; Before: first = third; Bypass: switch (i++) { case 0: first = default; break; default: return first; } if (DateTime.UtcNow.Ticks > 0) goto Before; else goto Bypass;")]
+    [DataRow("var i = 0; Before: switch (i++) { case 1: return first; default: first = default; break; } goto Before;")]
+    [DataRow("var i = 0; Before: switch (i++) { case 1: return first; default: first = ref second; break; } goto Before;")]
+    [DataRow("var i = 0; Before: first = third; Bypass: switch (i++) { case 1: return first; default: first = default; break; } if (DateTime.UtcNow.Ticks > 0) goto Before; else goto Bypass;")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: return first; default: first = default; goto case 0; }")]
+    [DataRow("var i = 0; Before: switch (i++) { case 1: if (DateTime.UtcNow.Ticks > 0) first = third; return first; default: first = default; break; } goto Before;")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = third; After: return first; default: first = default; goto After; }")]
+    [DataRow("var i = 0; Before: first = third; Skip: switch (i++) { case 0: first = default; goto Skip; default: return first; }")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3161,6 +3174,12 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = first; break; default: alias = ref third; break; } return alias;", "default")]
     [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else { switch (DateTime.UtcNow.Ticks) { default: alias = ref third; break; } } return alias;", "default")]
     [DataRow("if (DateTime.UtcNow.Ticks > 0) second = ref first; else second = third; return second;", "default")]
+    [DataRow("var i = 0; Before: first = third; switch (i++) { case 1: return first; default: first = default; break; } goto Before;", "default")]
+    [DataRow("var i = 0; Before: first = ref third; switch (i++) { case 1: return first; default: first = ref second; break; } goto Before;", "default")]
+    [DataRow("var i = 0; Before: switch (i++) { case 1: first = third; return first; default: first = default; break; } goto Before;", "default")]
+    [DataRow("var i = 0; Before: switch (i++) { case 0: first = default; break; default: first = third; return first; } goto Before;", "default")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = third; return first; default: first = default; goto case 0; }", "default")]
+    [DataRow("var i = 0; Before: first = third; switch (i++) { case 0: first = default; goto Before; default: return first; }", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);

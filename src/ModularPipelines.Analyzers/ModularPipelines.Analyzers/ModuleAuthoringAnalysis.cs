@@ -5763,7 +5763,8 @@ internal static class ModuleAuthoringAnalysis
             .Where(IsInReachableBranch)
             .Where(assignment => CanReachCancellationStorageRead(assignment, read))
             .Where(assignment => assignment.Syntax.SpanStart < read.Syntax.SpanStart
-                || SharesCancellationStorageLoop(assignment, read))
+                || SharesCancellationStorageLoop(assignment, read)
+                || SharesCancellationStorageBranchTransfer(assignment, read))
             .Where(assignment => isRef
                 ? CancellationStorageAssignmentTargets(assignment, symbol, isRef)
                 : GetCancellationTokenStorages(assignment.Target, assignment, [])
@@ -5845,9 +5846,86 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool ReachesAfterCancellationStorageReset(IOperation write, IOperation? reset, IOperation read) =>
         reset is null
-        || (CanReachCancellationStorageRead(write, read, reset)
-            && ((write.Syntax.SpanStart >= reset.Syntax.SpanStart && write.Syntax.SpanStart < read.Syntax.SpanStart)
-                || (SharesCancellationStorageLoop(write, read) && !ResetsCancellationStorageBackedges(reset, write, read))));
+        || (write.Syntax.SpanStart >= reset.Syntax.SpanStart && write.Syntax.SpanStart < read.Syntax.SpanStart
+            && !ResetsCancellationStorageBranchRevisits(reset, write, read))
+        || (SharesCancellationStorageLoop(write, read) && !ResetsCancellationStorageBackedges(reset, write, read))
+        || (SharesCancellationStorageBranchTransfer(write, read)
+            && !ResetsCancellationStorageBranchRevisits(reset, write, read));
+
+    private static bool SharesCancellationStorageBranchTransfer(IOperation write, IOperation read)
+    {
+        var construct = FindCancellationStorageSiblingBranch(write, read);
+        return construct is not null
+            && (CanRevisitCancellationStorageOperation(construct)
+                || HasCancellationStorageCaseTransfer(construct, write, read));
+    }
+
+    private static bool ResetsCancellationStorageBranchRevisits(IOperation reset, IOperation write, IOperation read)
+    {
+        if (SharesCancellationStorageLoop(write, read))
+        {
+            return false;
+        }
+
+        var construct = FindCancellationStorageSiblingBranch(write, read);
+        if (construct is null)
+        {
+            return false;
+        }
+
+        // A reset already proven definite before the read also executes when
+        // entering its branch through a case transfer or a construct revisit.
+        if (HasAncestor(reset, construct))
+        {
+            return true;
+        }
+
+        if (reset.Syntax.Span.End > construct.Syntax.SpanStart)
+        {
+            return false;
+        }
+
+        // Without direct case transfers, sibling branches communicate only by
+        // revisiting the construct. Internal and trailing backward jumps must
+        // all re-execute the reset; an unknown target remains conservative.
+        var targets = GetCancellationStorageRevisitTargets(construct).ToArray();
+        return targets.Length > 0
+            && targets.All(target => target.Syntax.SpanStart <= reset.Syntax.SpanStart)
+            && construct.DescendantsAndSelf().OfType<IBranchOperation>()
+                .Where(static branch => branch.BranchKind == BranchKind.GoTo)
+                .All(branch => targets.Any(target =>
+                    SymbolEqualityComparer.Default.Equals(target.Label, branch.Target)));
+    }
+
+    private static bool HasCancellationStorageCaseTransfer(IOperation construct, IOperation write, IOperation read) =>
+        construct is ISwitchOperation switchOperation
+        && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(write, candidate)) is { } source
+        && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } target
+        && CanTransferCancellationStorageBetweenCases(source, target, switchOperation);
+
+    private static IOperation? FindCancellationStorageSiblingBranch(IOperation write, IOperation read)
+    {
+        for (var current = write; current.Parent is { } parent; current = parent)
+        {
+            if (current is ISwitchCaseOperation sourceCase && parent is ISwitchOperation switchOperation
+                && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } targetCase
+                && !ReferenceEquals(sourceCase, targetCase))
+            {
+                return switchOperation;
+            }
+
+            if (parent is IConditionalOperation conditional
+                && ((ReferenceEquals(current, conditional.WhenTrue)
+                        && conditional.WhenFalse is { } whenFalse && HasAncestor(read, whenFalse))
+                    || (ReferenceEquals(current, conditional.WhenFalse) && HasAncestor(read, conditional.WhenTrue)))
+                && !conditional.DescendantsAndSelf().OfType<IBranchOperation>().Any())
+            {
+                return conditional;
+            }
+        }
+
+        return null;
+    }
 
     private static bool CancellationStorageAssignmentTargets(ISimpleAssignmentOperation assignment, ISymbol? symbol, bool? isRef)
     {
@@ -6253,12 +6331,12 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsDefiniteCancellationStorageBinding(IOperation binding, IOperation read)
     {
         var predecessor = binding;
-        var block = GetContainingBlock(predecessor);
-        while (block is not null && !HasAncestor(read, block)
-            && block.Parent is IBlockOperation or ILabeledOperation)
+        var sequence = GetCancellationStorageSequenceContainer(predecessor);
+        while (sequence is IBlockOperation && !HasAncestor(read, sequence)
+            && sequence.Parent is IBlockOperation or ILabeledOperation)
         {
-            predecessor = block;
-            block = GetContainingBlock(predecessor);
+            predecessor = sequence;
+            sequence = GetCancellationStorageSequenceContainer(predecessor);
         }
 
         // Internal jumps in a promoted block are not region entry points.
@@ -6270,15 +6348,16 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        if (binding.Syntax.SpanStart >= read.Syntax.SpanStart || !IsLinearPredecessor(predecessor, read))
+        if (binding.Syntax.SpanStart >= read.Syntax.SpanStart || sequence is null
+            || !HasAncestor(read, sequence) || HasBranchingAncestor(predecessor, sequence))
         {
             return false;
         }
 
         var first = predecessor.Syntax.AncestorsAndSelf().OfType<StatementSyntax>()
-            .FirstOrDefault(statement => statement.Parent == block?.Syntax);
+            .FirstOrDefault(statement => statement.Parent == sequence.Syntax);
         var last = read.Syntax.AncestorsAndSelf().OfType<StatementSyntax>()
-            .FirstOrDefault(statement => statement.Parent == block?.Syntax);
+            .FirstOrDefault(statement => statement.Parent == sequence.Syntax);
         if (first is null || last is null)
         {
             return false;
@@ -6289,7 +6368,20 @@ internal static class ModuleAuthoringAnalysis
             && !flow.EntryPoints.Any(entry => entry.SpanStart > binding.Syntax.Span.End);
     }
 
-    private static bool CanReachCancellationStorageRead(IOperation binding, IOperation read, IOperation? reset = null)
+    private static IOperation? GetCancellationStorageSequenceContainer(IOperation operation)
+    {
+        for (var current = operation.Parent; current is not null; current = current.Parent)
+        {
+            if (current is IBlockOperation or ISwitchCaseOperation)
+            {
+                return current;
+            }
+        }
+
+        return null;
+    }
+
+    private static bool CanReachCancellationStorageRead(IOperation binding, IOperation read)
     {
         for (var current = binding; current.Parent is { } parent; current = parent)
         {
@@ -6299,7 +6391,7 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            if (IsUnreachableCancellationStorageCase(current, binding, read, reset))
+            if (IsUnreachableCancellationStorageCase(current, binding, read))
             {
                 return false;
             }
@@ -6310,7 +6402,7 @@ internal static class ModuleAuthoringAnalysis
                     || (ReferenceEquals(conditional.WhenFalse, current)
                         && HasAncestor(read, conditional.WhenTrue)))
                 && !SharesCancellationStorageLoop(binding, read)
-                && !CanRevisitCancellationStorageOperation(conditional, reset))
+                && !CanRevisitCancellationStorageOperation(conditional))
             {
                 return false;
             }
@@ -6319,30 +6411,32 @@ internal static class ModuleAuthoringAnalysis
         return true;
     }
 
-    private static bool IsUnreachableCancellationStorageCase(IOperation current, IOperation binding, IOperation read, IOperation? reset) =>
+    private static bool IsUnreachableCancellationStorageCase(IOperation current, IOperation binding, IOperation read) =>
         current is ISwitchCaseOperation sourceCase && current.Parent is ISwitchOperation switchOperation
         && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } targetCase
         && !ReferenceEquals(sourceCase, targetCase)
         && !SharesCancellationStorageLoop(binding, read)
-        && !CanRevisitCancellationStorageOperation(switchOperation, reset)
+        && !CanRevisitCancellationStorageOperation(switchOperation)
         && !CanTransferCancellationStorageBetweenCases(sourceCase, targetCase, switchOperation);
 
-    private static bool CanRevisitCancellationStorageOperation(IOperation operation, IOperation? reset)
+    private static bool CanRevisitCancellationStorageOperation(IOperation operation) =>
+        GetCancellationStorageRevisitTargets(operation).Any();
+
+    private static IEnumerable<ILabeledOperation> GetCancellationStorageRevisitTargets(IOperation operation)
     {
         var callable = GetEnclosingCallable(operation);
-        var hasReset = reset is not null && IsDefiniteCancellationStorageBinding(reset, operation);
         var labels = GetRoot(operation).DescendantsAndSelf().OfType<ILabeledOperation>()
             .Where(label => label.Syntax.SpanStart <= operation.Syntax.SpanStart)
-            .Where(label => !hasReset || label.Syntax.SpanStart > reset!.Syntax.SpanStart)
             .Where(label => ReferenceEquals(GetEnclosingCallable(label), callable))
-            .Select(static label => label.Label).ToArray();
-        // A backward jump after a construct can carry a write into a different
-        // branch on its next visit, unless its target precedes a mandatory reset.
-        return GetRoot(operation).DescendantsAndSelf().OfType<IBranchOperation>()
-            .Any(branch => branch.BranchKind == BranchKind.GoTo
-                && branch.Syntax.SpanStart >= operation.Syntax.Span.End
-                && ReferenceEquals(GetEnclosingCallable(branch), callable)
-                && labels.Contains(branch.Target, SymbolEqualityComparer.Default));
+            .ToArray();
+        // A backward jump within or after a construct can carry a write into a
+        // different branch on its next visit, like a structured loop backedge.
+        var targets = GetRoot(operation).DescendantsAndSelf().OfType<IBranchOperation>()
+            .Where(branch => branch.BranchKind == BranchKind.GoTo
+                && branch.Syntax.SpanStart >= operation.Syntax.SpanStart
+                && ReferenceEquals(GetEnclosingCallable(branch), callable))
+            .Select(static branch => branch.Target).ToArray();
+        return labels.Where(label => targets.Contains(label.Label, SymbolEqualityComparer.Default));
     }
 
     private static bool CanTransferCancellationStorageBetweenCases(
@@ -7546,7 +7640,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool HasBranchingAncestor(
         IOperation operation,
-        IBlockOperation containingBlock)
+        IOperation containingBlock)
     {
         for (var ancestor = operation.Parent;
              ancestor is not null && !ReferenceEquals(ancestor, containingBlock);
