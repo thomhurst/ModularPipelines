@@ -6,9 +6,9 @@
 # Local branches and detached commits survive for later checkout. Dirty or Git-locked
 # worktrees remain on disk with an explicit diagnostic.
 #
-# Shared Redis coordinates every worker machine. Configure the same endpoint on all
-# workers; missing configuration fails closed. Explicit local mode is single-machine
-# only. See scripts/AgentLocks.md for deployment, credentials and migration.
+# The default local mode uses this machine's Docker Redis and coordinates only workers
+# on this machine. Workers on several machines must all opt into shared mode with the
+# same endpoint. See scripts/AgentLocks.md for deployment, credentials and migration.
 # The lock AUTO-EXPIRES after TTL (see $lockTtlSeconds,
 # 2h). Agents do NOT heartbeat it periodically — they just `release` when done, or let
 # it expire if they die. The cross-process claim that outlives the lock is GitHub's
@@ -104,13 +104,13 @@ $stateRoot = Join-Path ([System.IO.Path]::GetTempPath()) 'modularpipelines-agent
 function Die([int]$code, [string]$msg) { if ($msg) { [Console]::Error.WriteLine($msg) }; exit $code }
 
 $redisMode = $env:MODULARPIPELINES_AGENT_REDIS_MODE
-if (-not $redisMode) { $redisMode = 'shared' }
+if (-not $redisMode) { $redisMode = 'local' }
 if ($redisMode -notin 'shared', 'local') { Die 2 'MODULARPIPELINES_AGENT_REDIS_MODE must be shared or local' }
 $redisEndpoint = $null
 if ($redisMode -eq 'shared') {
     $configuredEndpoint = $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT
     if (-not $configuredEndpoint) {
-        Die 2 'shared Redis requires MODULARPIPELINES_AGENT_REDIS_ENDPOINT; see scripts/AgentLocks.md (local mode is single-machine only)'
+        Die 2 'shared Redis requires MODULARPIPELINES_AGENT_REDIS_ENDPOINT; see scripts/AgentLocks.md'
     }
     if (-not [Uri]::TryCreate($configuredEndpoint, [UriKind]::Absolute, [ref]$redisEndpoint) -or
         $redisEndpoint.Scheme -notin 'redis', 'rediss' -or -not $redisEndpoint.Host -or
@@ -127,7 +127,7 @@ if ($redisMode -eq 'shared') {
     }
 }
 elseif ($env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT) {
-    Die 2 'local mode cannot also configure a shared Redis endpoint'
+    Die 2 'MODULARPIPELINES_AGENT_REDIS_ENDPOINT requires MODULARPIPELINES_AGENT_REDIS_MODE=shared; see scripts/AgentLocks.md'
 }
 
 function Get-WorktreeLockMarker {

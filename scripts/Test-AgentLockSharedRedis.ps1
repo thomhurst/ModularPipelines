@@ -63,8 +63,9 @@ function Assert-Result($Result, [int]$ExitCode, [string]$Output, [string]$Operat
 try {
     $missing = Invoke-Worker a @('acquire') ''
     if ($missing.ExitCode -ne 2 -or $missing.Output) { throw "Missing shared configuration did not fail closed: $($missing.ExitCode) $($missing.Error)" }
-    $missingDefault = Invoke-Worker a @('acquire') '' -Mode ''
-    if ($missingDefault.ExitCode -ne 2 -or $missingDefault.Output) { throw 'Default mode did not require shared configuration.' }
+    # Default mode is local: an endpoint without the shared opt-in is rejected, not silently ignored.
+    $endpointWithoutOptIn = Invoke-Worker a @('acquire') 'redis://example.invalid' -Mode ''
+    if ($endpointWithoutOptIn.ExitCode -ne 2 -or $endpointWithoutOptIn.Output) { throw 'Endpoint without shared mode was accepted.' }
     foreach ($invalid in 'https://example.invalid:6379', 'redis://user:secret@example.invalid', 'redis://example.invalid/1', 'redis://example.invalid?db=0') {
         $result = Invoke-Worker a @('status') $invalid
         if ($result.ExitCode -ne 2 -or $result.Output) { throw 'Invalid endpoint did not fail closed.' }

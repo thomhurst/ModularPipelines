@@ -14,7 +14,7 @@ Read [AGENTS.md](../../../../AGENTS.md) for guarded build/test commands, formatt
 
 Lock owner variable: `MODULARPIPELINES_AGENT_LOCK_OWNER_ID` (read by `scripts/AgentLocks.ps1` after `-OwnerId`, before `CODEX_THREAD_ID`).
 
-Lock deployment: [AgentLocks.md](../../../../scripts/AgentLocks.md). Every worker machine must use the same explicitly configured shared Redis endpoint. Local mode is single-machine only; drain workers before changing backends or upgrading from automatic local locking.
+Lock deployment: [AgentLocks.md](../../../../scripts/AgentLocks.md). The default local mode coordinates workers on one machine only. Workers on several machines must all opt into shared mode with the same Redis endpoint; drain workers before changing backends.
 
 ## Owner-reserved decisions
 
