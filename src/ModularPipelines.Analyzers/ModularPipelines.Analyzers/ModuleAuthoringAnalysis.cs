@@ -6023,6 +6023,14 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
+        if (ancestor is ISwitchExpressionArmOperation arm
+            && HasAncestor(write, arm.Value)
+            && arm.Parent is ISwitchExpressionOperation expression
+            && expression.Arms.Any(other => !ReferenceEquals(other, arm) && HasAncestor(read, other.Value)))
+        {
+            return true;
+        }
+
         return ancestor is IConditionalOperation { WhenFalse: { } whenFalse } conditional
             && ((HasAncestor(write, conditional.WhenTrue) && HasAncestor(read, whenFalse))
                 || (HasAncestor(write, whenFalse) && HasAncestor(read, conditional.WhenTrue)));
