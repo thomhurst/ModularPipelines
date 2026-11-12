@@ -10,6 +10,7 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
     [DataRow("var tokens = new[] { cancellationToken }; ref readonly CancellationToken alias = ref tokens[0]; cancellationToken = alias;", false)]
     [DataRow("var tokens = new[] { cancellationToken }; ReadOnlySpan<CancellationToken> view = tokens; ref readonly CancellationToken alias = ref view[0]; cancellationToken = alias;", false)]
     [DataRow("var tokens = new[] { cancellationToken }; ref readonly CancellationToken alias = ref tokens[0]; cancellationToken = alias; cancellationToken = default;", true)]
+    [DataRow("var saved = cancellationToken; var tokens = new[] { cancellationToken }; ref readonly CancellationToken alias = ref (context != null ? ref saved : ref tokens[0]); cancellationToken = alias;", false)]
     public async Task Unsupported_Readonly_Reference_Target_Remains_Unknown(string statements, bool warns)
     {
         await Verify(statements, warns);
@@ -49,7 +50,7 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
             test.ExpectedDiagnostics.Add(VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"));
         }
 
-        await test.RunAsync();
+        await test.RunAsync(TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -294,10 +295,13 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
     [DataRow("var saved = (cancellationToken, cancellationToken); ref readonly (CancellationToken, CancellationToken) reader = ref saved; ref CancellationToken writer = ref saved.Item2; writer = default; cancellationToken = reader.Item1;", false)]
     [DataRow("var saved = ((cancellationToken, cancellationToken), 1); ref readonly (CancellationToken, CancellationToken) reader = ref saved.Item1; ref CancellationToken writer = ref saved.Item1.Item2; writer = default; cancellationToken = reader.Item1;", false)]
     [DataRow("var saved = (cancellationToken, 1); ref readonly (CancellationToken, int) reader = ref saved; cancellationToken = reader.Item1;", false)]
+    [DataRow("var saved = (cancellationToken, 1); ref readonly (CancellationToken, int) reader = ref saved; var copy = reader; ref CancellationToken writer = ref saved.Item1; writer = default; cancellationToken = copy.Item1;", false)]
     public async Task Readonly_Tuple_References_Mask_Escaped_Descendants(string statements, bool warns)
     {
         await Verify(statements, warns);
     }
+
+    public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")
     {

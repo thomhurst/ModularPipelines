@@ -48,14 +48,7 @@ internal static class CancellationTokenParameterProvenance
         if ((!collections && !operations.OfType<ISimpleAssignmentOperation>().Any(assignment =>
                 assignment.Target is IParameterReferenceOperation parameter
                 && SymbolEqualityComparer.Default.Equals(parameter.Parameter, source)))
-            || operations.Any(static operation => operation is ITryOperation or ILoopOperation)
-            || operations.Any(HasCapturedWrite)
-            // Nested functions retain the dedicated captured-helper analysis.
-            // Their ref/deconstruction effects are not caller-owned storage.
-            || (collections && operations.Any(operation =>
-                operation is IAnonymousFunctionOperation or ILocalFunctionOperation
-                && operation.Descendants().OfType<IParameterReferenceOperation>().Any(reference =>
-                    SymbolEqualityComparer.Default.Equals(reference.Parameter, source))))
+            || RequiresExistingAnalysis(operations, source, collections)
             || root.SemanticModel is not { } model)
         {
             return [];
@@ -121,6 +114,15 @@ internal static class CancellationTokenParameterProvenance
         IAnonymousFunctionOperation anonymous => anonymous.Symbol,
         _ => null,
     };
+    private static bool RequiresExistingAnalysis(IOperation[] operations, IParameterSymbol source, bool collections) =>
+        operations.Any(static operation => operation is ITryOperation or ILoopOperation)
+        || operations.Any(HasCapturedWrite)
+        // Nested functions retain the dedicated captured-helper analysis.
+        // Their ref/deconstruction effects are not caller-owned storage.
+        || (collections && operations.Any(operation =>
+            operation is IAnonymousFunctionOperation or ILocalFunctionOperation
+            && operation.Descendants().OfType<IParameterReferenceOperation>().Any(reference =>
+                SymbolEqualityComparer.Default.Equals(reference.Parameter, source))));
 
     private static bool HasCapturedWrite(IOperation operation)
     {
