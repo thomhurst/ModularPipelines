@@ -114,6 +114,33 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("var saved = cancellationToken; CancellationToken Restore(CancellationToken ignored) => saved;")]
+    [DataRow("CancellationToken Restore(CancellationToken ignored) => cancellationToken;")]
+    public async Task Captured_Helper_Inputs_Keep_Existing_Proof(string helper)
+    {
+        await Verify(helper + " cancellationToken = Restore(cancellationToken);", false, false);
+    }
+
+    [TestMethod]
+    [DataRow("", false)]
+    [DataRow("token = default;", true)]
+    public async Task Tracks_Generic_Helper_Definition_Parameter(string statements, bool warns)
+    {
+        await Verify("static CancellationToken Keep<T>(CancellationToken token) { " + statements
+            + " return token; } cancellationToken = Keep<int>(cancellationToken);", false, warns);
+    }
+
+    [TestMethod]
+    [Timeout(30000, CooperativeCancellation = true)]
+    public async Task Repeated_Helper_Chains_Have_Bounded_Cost()
+    {
+        var helpers = string.Concat(Enumerable.Range(0, 20).Select(i =>
+            $"CancellationToken Keep{i}(CancellationToken token) {{ token = Keep{i + 1}(Keep{i + 1}(token)); return token; }} "));
+        await Verify(helpers + "CancellationToken Keep20(CancellationToken token) => token; "
+            + "cancellationToken = Keep0(cancellationToken);", false, false);
+    }
+
+    [TestMethod]
     public async Task Tracks_Nested_Local_Helper_Own_Parameter()
     {
         await Verify("static CancellationToken Replace(CancellationToken token) { "

@@ -577,6 +577,12 @@ internal static class ModuleAuthoringAnalysis
         IEnumerable<IInvocationOperation> invocations,
         ConcurrentDictionary<(SyntaxTree Tree, TextSpan Span), byte> reportedInvocations)
     {
+        var awaitedInvocations = invocations.ToArray();
+        if (awaitedInvocations.Length == 0)
+        {
+            return;
+        }
+
         var cancellationTokens = GetFlowingCancellationTokens(
             context,
             executeMethod,
@@ -587,7 +593,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var enclosingCallable = GetEnclosingCallable(context.Operation);
-        foreach (var invocation in invocations)
+        foreach (var invocation in awaitedInvocations)
         {
             // Returned tasks can lead into a local function with its own token parameters.
             var invocationTokens = ReferenceEquals(GetEnclosingCallable(invocation), enclosingCallable)
