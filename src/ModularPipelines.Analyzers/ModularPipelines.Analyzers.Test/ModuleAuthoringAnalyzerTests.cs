@@ -3257,7 +3257,7 @@ public class ModuleAuthoringAnalyzerTests
         }
 
         var source = ReboundCancellationTokenHelperSource(body, "default", report);
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected.ToArray());
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
     }
 
     [TestMethod]
@@ -3273,12 +3273,77 @@ public class ModuleAuthoringAnalyzerTests
                 .WithLocation(0).WithArguments("Delay"));
     }
 
-    private static string ReboundCancellationTokenHelperSource(string body, string second, bool report)
+    [TestMethod]
+    [DataRow("ref var alias = ref Identity(ref first); return alias;", false)]
+    [DataRow("ref var alias = ref {|#1:Identity(ref second)|}; return alias;", true)]
+    [DataRow("ref var alias = ref Identity(ref first); alias = default; return alias;", true)]
+    [DataRow("ref var alias = ref Identity(ref first); first = default; return alias;", true)]
+    [DataRow("ref var alias = ref Identity(ref second); alias = third; return alias;", false)]
+    [DataRow("ref var alias = ref {|#1:Identity(ref second)|}; second = third; return alias;", false)]
+    [DataRow("ref var alias = ref Identity(ref first); var snapshot = alias; first = default; return snapshot;", false)]
+    [DataRow("ref var alias = ref Identity(ref first); first = ref second; return alias;", false)]
+    [DataRow("ref var alias = ref Identity(ref first); first = ref second; first = default; return alias;", false)]
+    [DataRow("ref var alias = ref Identity(ref first); first = ref second; alias = default; return alias;", true)]
+    [DataRow("ref var alias = ref Identity(ref Identity(ref first)); return alias;", false)]
+    [DataRow("ref var alias = ref Nested(ref first); return alias;", false)]
+    [DataRow("ref var alias = ref Nested(ref first); first = default; return alias;", true)]
+    [DataRow("ref var alias = ref Local(ref first); return alias;", false)]
+    [DataRow("ref var alias = ref Choose(ref first, ref third, DateTime.UtcNow.Ticks > 0); return alias;", false)]
+    [DataRow("ref var alias = ref Choose(ref first, ref second, DateTime.UtcNow.Ticks > 0); return alias;", true)]
+    [DataRow("ref var alias = ref Choose(ref first, ref second, DateTime.UtcNow.Ticks > 0); alias = third; return alias;", false)]
+    [DataRow("ref var alias = ref Choose(ref first, ref second, DateTime.UtcNow.Ticks > 0); first = third; return alias;", true)]
+    [DataRow("ref var alias = ref Clear(ref first); return alias;", true)]
+    [DataRow("ref var alias = ref Clear(ref first); first = default; return alias;", true)]
+    [DataRow("ref var alias = ref Recur(ref first); return alias;", true)]
+    [DataRow("ref var alias = ref Rebind(ref first, ref third); return alias;", false)]
+    [DataRow("ref var alias = ref Rebind(ref first, ref second); return alias;", true)]
+    [DataRow("ref var alias = ref LocalIdentity(ref first); return alias; static ref CancellationToken LocalIdentity(ref CancellationToken value) => ref value;", false)]
+    [DataRow("ref var alias = ref LocalIdentity(ref first); first = default; return alias; static ref CancellationToken LocalIdentity(ref CancellationToken value) => ref value;", true)]
+    [DataRow("ref var alias = ref Unknown(ref first, DateTime.UtcNow.Ticks > 0); return alias;", true)]
+    public async Task Tracks_CancellationToken_Ref_Return_Helper_Storage(string body, bool report)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            body, "default", report, helpers: """
+                private static ref CancellationToken Identity(ref CancellationToken value) => ref value;
+                private static ref CancellationToken Nested(ref CancellationToken value) => ref Identity(ref value);
+                private static ref CancellationToken Local(ref CancellationToken value)
+                {
+                    ref var alias = ref value;
+                    return ref alias;
+                }
+                private static ref CancellationToken Choose(ref CancellationToken first, ref CancellationToken second, bool choice)
+                    => ref (choice ? ref first : ref second);
+                private static ref CancellationToken Clear(ref CancellationToken value)
+                {
+                    value = default;
+                    return ref value;
+                }
+                private static ref CancellationToken Recur(ref CancellationToken value) => ref Recur(ref value);
+                private static CancellationToken _unknownToken;
+                private static ref CancellationToken Unknown(ref CancellationToken value, bool choice)
+                    => ref (choice ? ref value : ref _unknownToken);
+                private static ref CancellationToken Rebind(ref CancellationToken value, ref CancellationToken other)
+                {
+                    value = ref other;
+                    return ref value;
+                }
+                """);
+        var expected = report
+            ? new[] { VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay") }
+            : [];
+        if (body.Contains("{|#1:", StringComparison.Ordinal))
+        {
+            expected = [.. expected, VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(1).WithArguments("Identity")];
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    private static string ReboundCancellationTokenHelperSource(string body, string second, bool report, string? helpers = null)
     {
         var delay = report ? "{|#0:Task.Delay(1, snapshot)|}" : "Task.Delay(1, snapshot)";
         return ModuleSource($$"""
-            private static void Clear(ref CancellationToken token) => token = default;
-            private static ref CancellationToken Identity(ref CancellationToken token) => ref token;
+            {{helpers ?? "private static void Clear(ref CancellationToken token) => token = default; private static ref CancellationToken Identity(ref CancellationToken token) => ref token;"}}
 
             private static CancellationToken Forward(
                 scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third)

@@ -5628,11 +5628,8 @@ internal static class ModuleAuthoringAnalysis
     {
         var symbol = GetCancellationStorageSymbol(storage);
         var writes = FindCancellationStorageAssignments(read, symbol, isRef: false);
-        var definiteWrite = FindDefiniteCancellationStorageWrite(read, symbol, isRef: false);
-        if (aliasWrite is not null && (definiteWrite is null || aliasWrite.Syntax.SpanStart > definiteWrite.Syntax.SpanStart))
-        {
-            definiteWrite = aliasWrite;
-        }
+        var definiteWrite = LatestCancellationStorageWrite(
+            FindDefiniteCancellationStorageWrite(read, symbol, isRef: false), aliasWrite);
 
         var reachingWrites = writes
             .Where(write => !IsOverwrittenCancellationStorageWrite(write, read, symbol))
@@ -5662,6 +5659,16 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return InitialCancellationTokenStorageFlows(storage, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+    }
+
+    private static IOperation? LatestCancellationStorageWrite(IOperation? storageWrite, IOperation? aliasWrite)
+    {
+        if (aliasWrite is not null && (storageWrite is null || aliasWrite.Syntax.SpanStart > storageWrite.Syntax.SpanStart))
+        {
+            return aliasWrite;
+        }
+
+        return storageWrite;
     }
 
     private static bool IsFormerCancellationAliasReferentWrite(
@@ -5793,9 +5800,9 @@ internal static class ModuleAuthoringAnalysis
                 GetCancellationTokenStorages(value, bindingPoint, [.. visitedBindings]));
         }
 
-        if (reference is IInvocationOperation { TargetMethod.ReturnsByRef: true } invocation)
+        if (reference is IInvocationOperation invocation)
         {
-            return GetCancellationTokenInvocationStorages(invocation, bindingPoint, visitedBindings);
+            return GetCancellationTokenInvocationStorages(invocation, visitedBindings);
         }
 
         var symbol = GetCancellationStorageSymbol(reference);
@@ -5809,47 +5816,83 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static IEnumerable<IOperation> GetCancellationTokenInvocationStorages(
-        IInvocationOperation invocation, IOperation bindingPoint, HashSet<IOperation> visitedBindings)
+        IInvocationOperation invocation, HashSet<IOperation> visitedBindings)
     {
         var method = NormalizeMethod(invocation.TargetMethod);
-        if (!visitedBindings.Add(invocation)
-            || invocation.SemanticModel?.Compilation is not { } compilation
-            || GetMethodOperation(method, compilation, default) is not { } operation)
+        if (!(method.ReturnsByRef || method.ReturnsByRefReadonly)
+            || GetCancellationStorageForwarderOperation(invocation, visitedBindings) is not { } operation)
         {
             return [invocation];
         }
 
-        var returns = operation.DescendantsAndSelf().OfType<IReturnOperation>()
-            .Where(static returned => GetEnclosingCallable(returned) is null && IsInReachableBranch(returned))
+        var nextVisited = new HashSet<IOperation>(visitedBindings) { invocation };
+        if (!IsCancellationStorageForwarder(operation, nextVisited))
+        {
+            return [invocation];
+        }
+
+        var callable = operation as ILocalFunctionOperation;
+        var returnedStorages = operation.DescendantsAndSelf().OfType<IReturnOperation>()
+            .Where(returned => ReferenceEquals(GetEnclosingCallable(returned), callable) && IsInReachableBranch(returned))
             .Select(static returned => returned.ReturnedValue)
             .OfType<IOperation>()
+            .SelectMany(value => GetCancellationTokenStorages(value, value, [.. nextVisited]))
             .ToArray();
-        // Mapping a returned parameter to its caller storage is safe only for
-        // forwarding helpers. A helper-side write requires interprocedural state
-        // tracking, so retain an unknown storage rather than dropping that write.
-        if (returns.Length == 0 || operation.DescendantsAndSelf().Any(static child =>
-            child is ISimpleAssignmentOperation or ICompoundAssignmentOperation or IIncrementOrDecrementOperation)
-            || operation.DescendantsAndSelf().OfType<IInvocationOperation>().Any(call =>
-                !returns.Any(returned => returned.DescendantsAndSelf().Contains(call))))
+        var arguments = returnedStorages.Select(storage => storage is IParameterReferenceOperation parameter
+                ? invocation.Arguments.FirstOrDefault(argument => SymbolEqualityComparer.Default.Equals(
+                    GetTargetParameter(method, argument.Parameter), parameter.Parameter))
+                : null)
+            .ToArray();
+        if (arguments.Length == 0 || arguments.Any(static argument => argument is null))
         {
             return [invocation];
         }
 
-        return returns.SelectMany(returned => GetCancellationTokenStorages(returned, returned, [.. visitedBindings]))
-            .SelectMany(MapStorage);
+        // Freeze the returned reference at the call. Later writes still read the
+        // referent at the outer use, but rebinding an argument cannot redirect it.
+        return arguments.SelectMany(argument =>
+            GetCancellationTokenStorages(argument!.Value, invocation, [.. visitedBindings]));
+    }
 
-        IEnumerable<IOperation> MapStorage(IOperation storage)
+    private static bool IsCancellationStorageForwarder(IOperation operation, HashSet<IOperation> visitedBindings)
+    {
+        var callable = operation as ILocalFunctionOperation;
+        foreach (var child in operation.DescendantsAndSelf().Where(child => ReferenceEquals(GetEnclosingCallable(child), callable)))
         {
-            if (storage is IParameterReferenceOperation parameter
-                && invocation.Arguments.FirstOrDefault(argument =>
-                    argument.Parameter is not null
-                    && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argument.Parameter), parameter.Parameter)) is { } argument)
+            // Mapping the returned storage alone cannot model side effects in the
+            // helper. Leave those calls unknown rather than reuse stale values.
+            if (child is (IAssignmentOperation and not ISimpleAssignmentOperation { IsRef: true })
+                or IIncrementOrDecrementOperation or IObjectCreationOperation or IPropertyReferenceOperation
+                or IDynamicInvocationOperation or IDynamicObjectCreationOperation or IFunctionPointerInvocationOperation
+                or IUsingOperation or IUsingDeclarationOperation or IForEachLoopOperation or IEventAssignmentOperation
+                or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation)
             {
-                return GetCancellationTokenStorages(argument.Value, bindingPoint, [.. visitedBindings]);
+                return false;
             }
 
-            return [invocation];
+            if (child is IInvocationOperation invocation
+                && (GetCancellationStorageForwarderOperation(invocation, visitedBindings) is not { } body
+                    || !IsCancellationStorageForwarder(body, [with(visitedBindings), invocation])))
+            {
+                return false;
+            }
         }
+
+        return true;
+    }
+
+    private static IOperation? GetCancellationStorageForwarderOperation(
+        IInvocationOperation invocation, HashSet<IOperation> visitedBindings)
+    {
+        var method = NormalizeMethod(invocation.TargetMethod);
+        if (visitedBindings.OfType<IInvocationOperation>().Any(previous =>
+                SymbolEqualityComparer.Default.Equals(NormalizeMethod(previous.TargetMethod), method))
+            || invocation.SemanticModel?.Compilation is not { } compilation)
+        {
+            return null;
+        }
+
+        return GetMethodOperation(method, compilation, default);
     }
 
     private static IEnumerable<IOperation> ResolveCancellationTokenReferenceStorage(
