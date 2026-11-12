@@ -301,6 +301,41 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
         await Verify(statements, warns);
     }
 
+    [TestMethod]
+    [DataRow("var pair = (1, 2); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(Pass(cancellationToken), default).Token;", false)]
+    [DataRow("var pair = (1, 2); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(default, Pass(cancellationToken)).Token;", false)]
+    [DataRow("var pair = (1, 2); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(Pass(cancellationToken), default).Token; cancellationToken = default;", true)]
+    [DataRow("cancellationToken = Pair(cancellationToken).Item1;", false)]
+    [DataRow("var saved = Pair(cancellationToken); saved.Item2 = 2; cancellationToken = saved.Item1;", false)]
+    [DataRow("var saved = context != null ? Pair(cancellationToken) : (cancellationToken, 1); cancellationToken = saved.Item1;", false)]
+    [DataRow("cancellationToken = Nested(cancellationToken).Item1.Item1;", false)]
+    [DataRow("cancellationToken = Pair(cancellationToken).Item1; cancellationToken = default;", true)]
+    public async Task Unsupported_Helper_Results_Preserve_Unknown_Provenance(string statements, bool warns)
+    {
+        await Verify(statements, warns, "private static CancellationToken Pass(CancellationToken token) => token; private static (CancellationToken, int) Pair(CancellationToken token) => (token, 1); private static ((CancellationToken, int), int) Nested(CancellationToken token) => ((token, 1), 2);");
+    }
+
+    [TestMethod]
+    [DataRow("ref CancellationToken slot = ref tokens[0];", "tokens", true)]
+    [DataRow("Span<CancellationToken> view = tokens; ref CancellationToken slot = ref view[0];", "tokens", true)]
+    [DataRow("ref CancellationToken slot = ref tokens[0];", "other", false)]
+    public async Task Writable_Element_References_Prevent_Stale_Array_Proofs(string binding, string source, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; var other = new[] {{ cancellationToken }}; {binding} tokens[0] = cancellationToken; slot = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({source}).Token;", warns);
+    }
+
+    [TestMethod]
+    [DataRow("(context != null ? ref other : ref cancellationToken) = default;", true)]
+    [DataRow("(context != null ? ref cancellationToken : ref other) = default;", true)]
+    [DataRow("(context != null ? ref other : ref cancellationToken) = saved;", false)]
+    [DataRow("var storage = (saved, 1); (context != null ? ref other : ref storage.Item1) = default; cancellationToken = storage.Item1;", true)]
+    [DataRow("var storage = (saved, 1); (context != null ? ref other : ref storage.Item1) = saved; cancellationToken = storage.Item1;", false)]
+    [DataRow("(context != null ? ref other : ref cancellationToken) = default; cancellationToken = saved;", false)]
+    public async Task Conditional_Reference_Assignments_Write_Backing_Storage(string assignment, bool warns)
+    {
+        await Verify($"var pair = (1, 2); var saved = cancellationToken; CancellationToken other = default; cancellationToken = saved; {assignment}", warns);
+    }
+
     public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")

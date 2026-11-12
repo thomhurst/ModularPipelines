@@ -61,7 +61,7 @@ internal static class CancellationTokenCollectionProvenance
 
             if (Elements is { } tuple)
             {
-                return new Value(elements: [.. tuple.Select(static element => element.Merge(None))]);
+                return new Value(elements: [.. tuple.Select(element => element.Merge(other.Unsupported ? Unknown : None))]);
             }
 
             if (other.Elements is not null)
@@ -144,6 +144,9 @@ internal static class CancellationTokenCollectionProvenance
 
         public HashSet<TextSpan> SafeArrays { get; } = [];
 
+        // Writable element aliases can mutate after direct writes restore an index.
+        public HashSet<TextSpan> EscapedArrays { get; } = [];
+
         public void SetValue(ISymbol symbol, Value value) =>
             Values[symbol] = EscapedSymbols.Contains(symbol) ? Value.None : value;
 
@@ -205,7 +208,7 @@ internal static class CancellationTokenCollectionProvenance
 
         public void SetArraySafety(TextSpan identity, bool safe)
         {
-            if (safe)
+            if (safe && !EscapedArrays.Contains(identity))
             {
                 SafeArrays.Add(identity);
             }
@@ -234,6 +237,7 @@ internal static class CancellationTokenCollectionProvenance
             }
 
             copy.SafeArrays.UnionWith(SafeArrays);
+            copy.EscapedArrays.UnionWith(EscapedArrays);
             copy.EscapedSymbols.UnionWith(EscapedSymbols);
             copy.EscapedCaptures.UnionWith(EscapedCaptures);
             foreach (var entry in EscapedFields)
@@ -257,6 +261,10 @@ internal static class CancellationTokenCollectionProvenance
         public bool Merge(State other)
         {
             var changed = MergeCaptureTargets(other) | MergeReferenceTargets(other) | MergeEscapedFields(other);
+            var escapedArrayCount = EscapedArrays.Count;
+            EscapedArrays.UnionWith(other.EscapedArrays);
+            changed |= escapedArrayCount != EscapedArrays.Count;
+            SafeArrays.ExceptWith(EscapedArrays);
             var escapedCount = EscapedSymbols.Count + EscapedCaptures.Count;
             EscapedSymbols.UnionWith(other.EscapedSymbols);
             EscapedCaptures.UnionWith(other.EscapedCaptures);
@@ -621,12 +629,15 @@ internal static class CancellationTokenCollectionProvenance
         private Value EvaluateLinkedSource(IInvocationOperation invocation, State state)
         {
             var linked = false;
+            var unsupported = false;
             foreach (var argument in invocation.Arguments)
             {
-                linked |= IsSafe(Evaluate(argument.Value, state), state);
+                var value = Evaluate(argument.Value, state);
+                linked |= IsSafe(value, state);
+                unsupported |= value.Unsupported;
             }
 
-            return linked ? Value.Original : Value.None;
+            return linked ? Value.Original : unsupported ? Value.Unknown : Value.None;
         }
 
         private Value EvaluateInvocation(IInvocationOperation invocation, State state)
@@ -665,7 +676,7 @@ internal static class CancellationTokenCollectionProvenance
 
             // Source-helper and awaitable payload proofs remain with the existing
             // analysis. Unknown scalar results must not become replacement proofs.
-            return IsUnsupportedScalar(invocation) ? Value.Unknown : Value.None;
+            return IsUnsupportedResult(invocation) ? Value.Unknown : Value.None;
         }
 
         private Dictionary<TextSpan, Value> EvaluateInvocationArguments(IInvocationOperation invocation, State state)
@@ -753,12 +764,13 @@ internal static class CancellationTokenCollectionProvenance
                         Evaluate(child, state);
                     }
 
-                    return IsUnsupportedScalar(operation) ? Value.Unknown : Value.None;
+                    return IsUnsupportedResult(operation) ? Value.Unknown : Value.None;
             }
         }
 
-        private static bool IsUnsupportedScalar(IOperation operation) =>
-            operation.Type?.ToDisplayString() is "System.Threading.CancellationToken" or "System.Threading.CancellationTokenSource"
+        private static bool IsUnsupportedResult(IOperation operation) =>
+            (operation.Type is INamedTypeSymbol { IsTupleType: true }
+                || operation.Type?.ToDisplayString() is "System.Threading.CancellationToken" or "System.Threading.CancellationTokenSource")
             && operation is not IDefaultValueOperation
                 and not IObjectCreationOperation
                 and not IPropertyReferenceOperation { Property.Name: "None", Property.ContainingType.Name: "CancellationToken" };
@@ -848,12 +860,12 @@ internal static class CancellationTokenCollectionProvenance
                     InvalidateArrays(Evaluate(field, state), state);
                     break;
                 case IArrayElementReferenceOperation element:
-                    InvalidateArrays(Evaluate(element.ArrayReference, state), state);
+                    EscapeArrays(Evaluate(element.ArrayReference, state), state);
                     InvalidateUnknownReferenceArrays(element.ArrayReference, state);
                     break;
                 case IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } receiver }
                     when IsTokenCollection(receiver.Type):
-                    InvalidateArrays(Evaluate(receiver, state), state);
+                    EscapeArrays(Evaluate(receiver, state), state);
                     InvalidateUnknownReferenceArrays(receiver, state);
                     break;
             }
@@ -950,22 +962,7 @@ internal static class CancellationTokenCollectionProvenance
             if (symbol is ILocalSymbol { RefKind: RefKind.RefReadOnly }
                 && state.ReferenceTargets.TryGetValue(symbol, out var targets))
             {
-                Value? referenced = null;
-                foreach (var target in targets)
-                {
-                    // Unsupported storage is not evidence of a replacement token.
-                    var current = target.Symbol is null
-                        ? Value.Unknown
-                        : state.IsEscaped(target) ? Value.None : GetStorageValue(target, state);
-                    if (target.Symbol is not null && state.EscapedFields.TryGetValue(target.Symbol, out var escapedPaths))
-                    {
-                        current = MaskEscapedFields(current, escapedPaths, target.Path);
-                    }
-
-                    referenced = referenced is null ? current : referenced.Merge(current);
-                }
-
-                return referenced ?? Value.Unknown;
+                return GetReadonlyReferenceValue(targets, state);
             }
 
             if (state.EscapedSymbols.Contains(symbol))
@@ -977,6 +974,26 @@ internal static class CancellationTokenCollectionProvenance
             return state.EscapedFields.TryGetValue(symbol, out var paths)
                 ? MaskEscapedFields(value, paths, string.Empty)
                 : value;
+        }
+
+        private static Value GetReadonlyReferenceValue(IEnumerable<StorageReference> targets, State state)
+        {
+            Value? referenced = null;
+            foreach (var target in targets)
+            {
+                // Unsupported storage is not evidence of a replacement token.
+                var current = target.Symbol is null
+                    ? Value.Unknown
+                    : state.IsEscaped(target) ? Value.None : GetStorageValue(target, state);
+                if (target.Symbol is not null && state.EscapedFields.TryGetValue(target.Symbol, out var escapedPaths))
+                {
+                    current = MaskEscapedFields(current, escapedPaths, target.Path);
+                }
+
+                referenced = referenced is null ? current : referenced.Merge(current);
+            }
+
+            return referenced ?? Value.Unknown;
         }
 
         private static Value MaskEscapedFields(Value value, HashSet<string> paths, string path)
@@ -998,7 +1015,9 @@ internal static class CancellationTokenCollectionProvenance
             || (!value.UnknownArray && value.Arrays is { Count: > 0 } arrays
                 && arrays.All(state.SafeArrays.Contains));
 
-        private static Value Element(Value value, int index) => value.Elements is { } elements && index >= 0 && index < elements.Length ? elements[index] : Value.None;
+        private static Value Element(Value value, int index) => value.Elements is { } elements && index >= 0 && index < elements.Length
+            ? elements[index]
+            : value.Unsupported ? Value.Unknown : Value.None;
 
         private static int TupleElementIndex(IFieldReferenceOperation field)
         {
@@ -1055,11 +1074,21 @@ internal static class CancellationTokenCollectionProvenance
                     return Value.None;
                 }
 
-                var element = State.GetElement(elements, index);
+                var element = state.EscapedArrays.Contains(span) ? Value.None : State.GetElement(elements, index);
                 result = result is null ? element : result.Merge(element);
             }
 
             return result ?? Value.None;
+        }
+
+        private static void EscapeArrays(Value value, State state)
+        {
+            if (value.Arrays is { } arrays)
+            {
+                state.EscapedArrays.UnionWith(arrays);
+            }
+
+            InvalidateArrays(value, state);
         }
 
         private static void InvalidateArrays(Value value, State state)
@@ -1139,6 +1168,38 @@ internal static class CancellationTokenCollectionProvenance
                 || (value.Safe && state.SafeArrays.Contains(identity)));
         }
 
+        private static void AssignStorage(StorageReference storage, Value value, bool conditional, State state)
+        {
+            if (storage.Symbol is not { } symbol)
+            {
+                InvalidateAllArrays(state);
+                return;
+            }
+
+            // Each target of a conditional lvalue may also retain its previous value.
+            var assigned = conditional ? GetStorageValue(storage, state).Merge(value) : value;
+            var indices = storage.Path.Split(['/'], StringSplitOptions.RemoveEmptyEntries)
+                .Select(static index => int.Parse(index, System.Globalization.CultureInfo.InvariantCulture)).ToArray();
+            state.SetValue(symbol, ReplaceStorage(Get(state.Values, symbol), indices, 0, assigned));
+        }
+
+        private static Value ReplaceStorage(Value current, int[] indices, int depth, Value value)
+        {
+            if (depth == indices.Length)
+            {
+                return value;
+            }
+
+            if (current.Elements is not { } elements || indices[depth] >= elements.Length)
+            {
+                return Value.Unknown;
+            }
+
+            var updated = (Value[]) elements.Clone();
+            updated[indices[depth]] = ReplaceStorage(updated[indices[depth]], indices, depth + 1, value);
+            return new Value(elements: updated);
+        }
+
         private void Assign(IOperation target, Value value, State state)
         {
             switch (target)
@@ -1154,6 +1215,14 @@ internal static class CancellationTokenCollectionProvenance
                     state.SetValue(local.Local, value);
                     break;
                 case IFlowCaptureReferenceOperation capture:
+                    if (state.CaptureTargets.TryGetValue(capture.Id, out var targets))
+                    {
+                        foreach (var storage in targets)
+                        {
+                            AssignStorage(storage, value, targets.Count > 1, state);
+                        }
+                    }
+
                     state.SetCapture(capture.Id, value);
                     break;
                 case IConversionOperation conversion:
@@ -1175,7 +1244,7 @@ internal static class CancellationTokenCollectionProvenance
                     // Default tuple values have no element facts until a field is written.
                     var updated = parent.Elements is { } elements
                         ? (Value[]) elements.Clone()
-                        : [.. Enumerable.Repeat(Value.None, ((INamedTypeSymbol) field.Instance!.Type!).TupleElements.Length)];
+                        : [.. Enumerable.Repeat(parent.Unsupported ? Value.Unknown : Value.None, ((INamedTypeSymbol) field.Instance!.Type!).TupleElements.Length)];
                     updated[TupleElementIndex(field)] = value;
                     Assign(field.Instance!, new Value(elements: updated), state);
 
