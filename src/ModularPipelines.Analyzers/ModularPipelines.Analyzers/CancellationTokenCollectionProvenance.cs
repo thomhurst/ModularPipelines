@@ -77,12 +77,12 @@ internal static class CancellationTokenCollectionProvenance
         {
             if (Arrays is { } leftArrays && other.Arrays is { } rightArrays)
             {
-                return new Value(arrays: [.. leftArrays, .. rightArrays], unknownArray: UnknownArray || other.UnknownArray, sliced: Sliced || other.Sliced, unsupported: Unsupported || other.Unsupported);
+                return MergeArrays(other, [.. leftArrays, .. rightArrays], UnknownArray || other.UnknownArray);
             }
 
             if (Arrays is { } knownArrays)
             {
-                return new Value(arrays: knownArrays, unknownArray: true, sliced: Sliced, unsupported: Unsupported || other.Unsupported);
+                return MergeArrays(other, knownArrays, unknownArray: true);
             }
 
             if (other.Arrays is not null)
@@ -102,6 +102,9 @@ internal static class CancellationTokenCollectionProvenance
 
             return None;
         }
+
+        private Value MergeArrays(Value other, HashSet<TextSpan> arrays, bool unknownArray) =>
+            new(arrays: arrays, unknownArray: unknownArray, sliced: Sliced || other.Sliced, unsupported: Unsupported || other.Unsupported);
 
         public bool SameAs(Value other) => Unsupported == other.Unsupported && Safe == other.Safe && UnknownArray == other.UnknownArray && Sliced == other.Sliced
             && ((Elements is null && other.Elements is null)
