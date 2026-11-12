@@ -5882,11 +5882,10 @@ internal static class ModuleAuthoringAnalysis
     private static bool DefinitelyWritesCancellationStorageSwitch(
         ISwitchOperation operation, ISymbol? symbol, bool isRef, IOperation? read)
     {
-        // A switch break is harmless after a write; goto can bypass that write.
+        // A contained switch consumes its own breaks; each case must still write.
         return operation.Cases.Any(@case => @case.Clauses.Any(static clause => clause is IDefaultCaseClauseOperation))
             && !operation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
-                branch.BranchKind != BranchKind.Break
-                || !SymbolEqualityComparer.Default.Equals(branch.Target, operation.ExitLabel))
+                !IsNestedCancellationStorageSwitchBreak(branch, operation))
             && operation.Cases.All(@case => CancellationStorageSequenceDefinitelyWrites(@case.Body, symbol, isRef, read)
                 || (SwitchCaseCannotReachFollowingOperation(@case)
                     && !CanReachReadThroughCaughtCancellationStorageThrow(@case, read ?? GetRoot(@case))));
@@ -5902,7 +5901,8 @@ internal static class ModuleAuthoringAnalysis
                 return true;
             }
 
-            if (operation.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation or IThrowOperation))
+            if (operation.DescendantsAndSelf().Any(child => child is IReturnOperation or IThrowOperation
+                || (child is IBranchOperation branch && !IsNestedCancellationStorageSwitchBreak(branch, operation))))
             {
                 return false;
             }
@@ -5971,7 +5971,7 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            if (current.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
+            if (ContainsCancellationStorageBranchOrReturn(current))
             {
                 break;
             }
@@ -5982,7 +5982,7 @@ internal static class ModuleAuthoringAnalysis
             }
 
             if (HasAncestor(read, parent)
-                || parent.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
+                || ContainsCancellationStorageBranchOrReturn(parent))
             {
                 break;
             }
@@ -5990,6 +5990,9 @@ internal static class ModuleAuthoringAnalysis
 
         return false;
     }
+
+    private static bool ContainsCancellationStorageBranchOrReturn(IOperation operation) =>
+        operation.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation);
 
     private static bool CancellationStorageTryOverwrites(
         ITryOperation attempt, IOperation current, IOperation read, ISymbol? symbol, bool isRef) =>
@@ -6005,7 +6008,7 @@ internal static class ModuleAuthoringAnalysis
         foreach (var next in sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
         {
             if (HasAncestor(read, next) || next.Syntax.SpanStart >= read.Syntax.SpanStart
-                || next.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
+                || ContainsCancellationStorageBranchOrReturn(next))
             {
                 break;
             }
