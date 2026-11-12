@@ -5,6 +5,7 @@ namespace ModularPipelines.Reporting;
 /// </summary>
 /// <remarks>
 /// Values cover the whole machine, including processes unrelated to the pipeline.
+/// On Linux, memory uses a visible cgroup v2 limit when it is lower than host memory.
 /// Fractions range from 0 to 1.
 /// </remarks>
 public sealed record ResourceUsage

@@ -24,6 +24,7 @@ internal sealed class ResourceUsageMonitor(
 
     private MachineResourceReading? _previous;
     private bool _monitoring;
+    private long _previousTimestamp;
     private int _sampleCount;
     private double _cpuSum;
     private double _peakCpu;
@@ -93,6 +94,9 @@ internal sealed class ResourceUsageMonitor(
         }
 
         var previous = _previous;
+        var timestamp = timeProvider.GetTimestamp();
+        var elapsed = timeProvider.GetElapsedTime(_previousTimestamp, timestamp);
+        _previousTimestamp = timestamp;
         _previous = reading;
         if (previous is not { } last)
         {
@@ -123,20 +127,55 @@ internal sealed class ResourceUsageMonitor(
             _cpuSum += cpu;
             _peakCpu = Math.Max(_peakCpu, cpu);
             _peakMemory = Math.Max(_peakMemory, memory);
-            Track(_cpu, cpu, _options.CpuThreshold, now);
-            Track(_memory, memory, _options.MemoryThreshold, now);
+            var pressure = reading.Pressure;
+            var baseline = last.Pressure;
+            var sameSource = pressure is not null && baseline is not null && pressure.Source == baseline.Source;
+            var cpuStalled = sameSource && (Increased(pressure!.ThrottledPeriods, baseline!.ThrottledPeriods)
+                || Increased(pressure.ThrottledMicroseconds, baseline.ThrottledMicroseconds));
+            cpuStalled |= AncestorThrottlingIncreased(pressure?.AncestorThrottling, baseline?.AncestorThrottling);
+            cpuStalled |= pressure is not null && baseline is not null
+                && (pressure.CpuPressureSource ?? pressure.Source) == (baseline.CpuPressureSource ?? baseline.Source)
+                && SignificantStall(pressure.CpuStallMicroseconds, baseline.CpuStallMicroseconds, elapsed);
+            var memoryStalled = pressure is not null && baseline is not null
+                && (pressure.MemoryPressureSource ?? pressure.Source) == (baseline.MemoryPressureSource ?? baseline.Source)
+                && SignificantStall(pressure.MemoryStallMicroseconds, baseline.MemoryStallMicroseconds, elapsed);
+            Track(_cpu, cpu, _options.CpuThreshold, now, cpuStalled);
+            Track(_memory, memory, _options.MemoryThreshold, now, memoryStalled);
         }
 
         return true;
     }
 
+    private static bool AncestorThrottlingIncreased(
+        IReadOnlyList<CgroupCpuThrottlingCounters>? current,
+        IReadOnlyList<CgroupCpuThrottlingCounters>? previous)
+    {
+        if (current is null || previous is null)
+        {
+            return false;
+        }
+
+        var baselines = previous.ToDictionary(counter => counter.Source, StringComparer.Ordinal);
+        return current.Any(counter => baselines.TryGetValue(counter.Source, out var baseline)
+            && (Increased(counter.ThrottledPeriods, baseline.ThrottledPeriods)
+                || Increased(counter.ThrottledMicroseconds, baseline.ThrottledMicroseconds)));
+    }
+
+    private static bool Increased(long? current, long? previous) =>
+        current is { } value && previous is { } baseline && value > baseline;
+
+    // PSI includes routine brief contention; require at least 10% of the actual sample interval.
+    private static bool SignificantStall(long? current, long? previous, TimeSpan elapsed) =>
+        elapsed > TimeSpan.Zero && current is { } value && previous is { } baseline
+        && value > baseline && (double) value - baseline >= elapsed.TotalMicroseconds * 0.1;
+
     private int OpenPeriodCount => (_cpu.IsOpen ? 1 : 0) + (_memory.IsOpen ? 1 : 0);
 
     private static int ToPercent(double fraction) => (int) Math.Round(fraction * 100);
 
-    private void Track(SaturationTracker tracker, double value, double threshold, DateTimeOffset now)
+    private void Track(SaturationTracker tracker, double value, double threshold, DateTimeOffset now, bool stalled)
     {
-        if (value < threshold)
+        if (value < threshold && !stalled)
         {
             Close(tracker, now);
             return;
@@ -146,9 +185,11 @@ internal sealed class ResourceUsageMonitor(
         {
             tracker.Start = now;
             tracker.Peak = 0;
+            tracker.HadStalls = false;
             tracker.Modules.Clear();
         }
 
+        tracker.HadStalls |= stalled;
         tracker.Consecutive++;
         tracker.Peak = Math.Max(tracker.Peak, value);
         foreach (var module in metricsCollector.GetRunningModules())
@@ -164,6 +205,18 @@ internal sealed class ResourceUsageMonitor(
         }
 
         tracker.IsOpen = true;
+        if (tracker.HadStalls)
+        {
+            logger.LogWarning(
+                "Machine {Resource} saturation since {Start:HH:mm:ss}: Linux {Signal} detected (usage {Usage}%). Running modules: {Modules}",
+                tracker.DisplayName,
+                tracker.Start.ToLocalTime(),
+                tracker.Kind == ResourceKind.Cpu ? "task stalls or CPU throttling" : "task stalls",
+                ToPercent(value),
+                tracker.Modules.Count == 0 ? "none" : string.Join(", ", tracker.Modules));
+            return;
+        }
+
         logger.LogWarning(
             "Machine {Resource} usage has been at or above {Threshold}% since {Start:HH:mm:ss} (now {Usage}%). Running modules: {Modules}",
             tracker.DisplayName,
@@ -186,7 +239,7 @@ internal sealed class ResourceUsageMonitor(
                 Modules = [.. tracker.Modules],
             });
             logger.LogInformation(
-                "Machine {Resource} usage dropped below its threshold after {Seconds:F0}s (peak {Peak}%)",
+                "Machine {Resource} saturation ended after {Seconds:F0}s (peak usage {Peak}%)",
                 tracker.DisplayName,
                 (now - tracker.Start).TotalSeconds,
                 ToPercent(tracker.Peak));
@@ -263,6 +316,8 @@ internal sealed class ResourceUsageMonitor(
         public int Consecutive { get; set; }
 
         public bool IsOpen { get; set; }
+
+        public bool HadStalls { get; set; }
 
         public DateTimeOffset Start { get; set; }
 

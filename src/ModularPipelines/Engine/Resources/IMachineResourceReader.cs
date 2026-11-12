@@ -15,4 +15,23 @@ internal readonly record struct MachineResourceReading(
     long CpuIdle,
     long CpuTotal,
     long MemoryTotalBytes,
-    long MemoryAvailableBytes);
+    long MemoryAvailableBytes,
+    ResourcePressureCounters? Pressure = null);
+
+/// <summary>
+/// Optional Linux cumulative counters. A changed source requires a new baseline.
+/// </summary>
+internal sealed record ResourcePressureCounters(
+    string Source,
+    long? ThrottledPeriods,
+    long? ThrottledMicroseconds,
+    long? CpuStallMicroseconds,
+    long? MemoryStallMicroseconds,
+    string? CpuPressureSource = null,
+    string? MemoryPressureSource = null,
+    IReadOnlyList<CgroupCpuThrottlingCounters>? AncestorThrottling = null);
+
+internal sealed record CgroupCpuThrottlingCounters(
+    string Source,
+    long? ThrottledPeriods,
+    long? ThrottledMicroseconds);

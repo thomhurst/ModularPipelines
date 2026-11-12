@@ -32,8 +32,8 @@ public sealed record ResourceMonitoringOptions
     public double MemoryThreshold { get; init; } = 0.9;
 
     /// <summary>
-    /// Gets the number of consecutive samples at or above a threshold before a warning is logged
-    /// and a saturation period is recorded. Default: 3.
+    /// Gets the number of consecutive samples at or above a threshold or with Linux stalls/throttling
+    /// before a warning and saturation period are recorded. Default: 3.
     /// </summary>
     public int SustainedSamples { get; init; } = 3;
 }
