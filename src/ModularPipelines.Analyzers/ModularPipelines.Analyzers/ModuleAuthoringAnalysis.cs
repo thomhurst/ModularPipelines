@@ -5696,25 +5696,7 @@ internal static class ModuleAuthoringAnalysis
             .ToArray();
         AddCallerAllocationAliases(children, callerReference, storageStart, relevant);
 
-        // Parameters owned by this callable may alias even when only one has proven
-        // provenance. Nested callable parameters can receive independent scratch storage.
-        foreach (var parameter in children.OfType<IParameterReferenceOperation>())
-        {
-            if (IsCancellationContainer(parameter.Type)
-                && ReferenceEquals(GetEnclosingCallable(parameter), GetEnclosingCallable(callerReference ?? operation)))
-            {
-                relevant.Add(parameter.Parameter);
-            }
-        }
-
-        foreach (var returned in children.OfType<IReturnOperation>())
-        {
-            if (returned.ReturnedValue is { } value && IsCancellationContainer(value.Type)
-                && ReferenceEquals(GetEnclosingCallable(returned), GetEnclosingCallable(callerReference ?? operation)))
-            {
-                AddContainerReferences(value, relevant);
-            }
-        }
+        AddCallableContainerSymbols(children, GetEnclosingCallable(callerReference ?? operation), relevant);
 
         // Follow possible aliases in either direction. Fresh unrelated containers
         // remain independent; scalar reads such as Length do not create aliases.
@@ -5732,6 +5714,30 @@ internal static class ModuleAuthoringAnalysis
         while (changed);
 
         return relevant;
+    }
+
+    private static void AddCallableContainerSymbols(
+        IOperation[] children, IOperation? callable, HashSet<ISymbol> relevant)
+    {
+        // Parameters owned by this callable may alias even when only one has proven
+        // provenance. Nested callable parameters can receive independent scratch storage.
+        foreach (var parameter in children.OfType<IParameterReferenceOperation>())
+        {
+            if (IsCancellationContainer(parameter.Type)
+                && ReferenceEquals(GetEnclosingCallable(parameter), callable))
+            {
+                relevant.Add(parameter.Parameter);
+            }
+        }
+
+        foreach (var returned in children.OfType<IReturnOperation>())
+        {
+            if (returned.ReturnedValue is { } value && IsCancellationContainer(value.Type)
+                && ReferenceEquals(GetEnclosingCallable(returned), callable))
+            {
+                AddContainerReferences(value, relevant);
+            }
+        }
     }
 
     private static void AddCallerAllocationAliases(
@@ -6017,9 +6023,7 @@ internal static class ModuleAuthoringAnalysis
             foreach (var binding in bindings)
             {
                 if (binding.Syntax.SpanStart > reference.Syntax.SpanStart
-                    && !bindings.Any(later => later.Syntax.SpanStart > binding.Syntax.SpanStart
-                        && IsLinearPredecessor(later, binding)
-                        && !HasInterveningContainerBranch(loop, binding, later)))
+                    && !HasSupersedingContainerBinding(bindings, loop, binding))
                 {
                     yield return binding;
                 }
@@ -6027,15 +6031,59 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
+    private static bool HasSupersedingContainerBinding(
+        ISimpleAssignmentOperation[] bindings, ILoopOperation loop, ISimpleAssignmentOperation binding) =>
+        bindings.Any(later => later.Syntax.SpanStart > binding.Syntax.SpanStart
+            && IsLinearPredecessor(later, binding)
+            && !HasInterveningContainerBranch(loop, binding, later));
+
     private static bool HasInterveningContainerBranch(
         ILoopOperation loop, IOperation binding, IOperation later) =>
-        // A continue or goto can bypass an otherwise linear replacement. Retain
-        // the earlier target unless reaching the next iteration guarantees replacement.
+        // Only a branch that can bypass replacement and reach another iteration
+        // preserves the earlier target. Exiting this loop cannot carry a binding.
         loop.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
             branch.Syntax.SpanStart > binding.Syntax.SpanStart
             && branch.Syntax.SpanStart < later.Syntax.SpanStart
             && ReferenceEquals(GetEnclosingCallable(branch), GetEnclosingCallable(binding))
-            && IsInReachableBranch(branch));
+            && IsInReachableBranch(branch)
+            && CanCarryContainerBinding(branch, loop, binding, later));
+
+    private static bool CanCarryContainerBinding(
+        IBranchOperation branch, ILoopOperation loop, IOperation binding, IOperation later)
+    {
+        if (branch.BranchKind == BranchKind.GoTo)
+        {
+            var target = GetRoot(loop).DescendantsAndSelf().OfType<ILabeledOperation>()
+                .FirstOrDefault(label => SymbolEqualityComparer.Default.Equals(label.Label, branch.Target));
+            // Switch-case targets have no labeled operation; keep those conservative.
+            return target is null || (HasAncestor(target, loop.Body)
+                && (target.Syntax.SpanStart <= binding.Syntax.SpanStart
+                    || target.Syntax.SpanStart > later.Syntax.SpanStart));
+        }
+
+        for (var ancestor = branch.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ILoopOperation targetLoop)
+            {
+                if (SymbolEqualityComparer.Default.Equals(targetLoop.ContinueLabel, branch.Target))
+                {
+                    return ReferenceEquals(targetLoop, loop) || HasAncestor(later, targetLoop.Body);
+                }
+
+                if (SymbolEqualityComparer.Default.Equals(targetLoop.ExitLabel, branch.Target))
+                {
+                    return !ReferenceEquals(targetLoop, loop) && HasAncestor(later, targetLoop.Body);
+                }
+            }
+            else if (ancestor is ISwitchOperation targetSwitch
+                     && SymbolEqualityComparer.Default.Equals(targetSwitch.ExitLabel, branch.Target))
+            {
+                return HasAncestor(later, targetSwitch);
+            }
+        }
+
+        return false;
+    }
 
     private static bool IsReachableRefBinding(
         ISimpleAssignmentOperation binding, ILocalSymbol local, IOperation? callable) =>
