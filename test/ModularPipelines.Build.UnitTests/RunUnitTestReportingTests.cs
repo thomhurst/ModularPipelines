@@ -18,10 +18,13 @@ public class RunUnitTestReportingTests
     [Arguments("missing")]
     [Arguments("malformed")]
     [Arguments("timeout")]
+    [Arguments("noncooperative")]
     public async Task Final_Reporting_Preserves_Execution_Cancellation(string report)
     {
         var directory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(directory);
+        using var releaseParser = new ManualResetEventSlim();
+        var parserFinished = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         try
         {
             var project = new FilePath(Path.Combine(directory, "Tests.csproj"));
@@ -52,6 +55,14 @@ public class RunUnitTestReportingTests
                 .Returns(async (FilePath file, CancellationToken token) =>
                 {
                     reportingToken = token;
+                    if (report == "noncooperative")
+                    {
+                        // Block synchronously, ignoring the reporting token until the caller returns.
+                        releaseParser.Wait();
+                        parserFinished.SetResult();
+                        throw new InvalidOperationException("Late parser failure");
+                    }
+
                     if (report == "timeout")
                     {
                         await Task.Delay(Timeout.InfiniteTimeSpan, token);
@@ -90,13 +101,19 @@ public class RunUnitTestReportingTests
                 Mock.Get(context.Object.Console).Verify(x => x.Write(It.IsAny<Table>()), Times.Exactly(2));
             }
 
-            if (report == "timeout")
+            if (report is "timeout" or "noncooperative")
             {
                 await Assert.That(reportingToken.IsCancellationRequested).IsTrue();
             }
         }
         finally
         {
+            releaseParser.Set();
+            if (report == "noncooperative")
+            {
+                await parserFinished.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+
             Directory.Delete(directory, recursive: true);
         }
     }
