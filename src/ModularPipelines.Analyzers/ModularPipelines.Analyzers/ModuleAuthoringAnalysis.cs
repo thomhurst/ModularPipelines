@@ -5616,6 +5616,28 @@ internal static class ModuleAuthoringAnalysis
         var definiteWrite = LatestCancellationStorageWrite(
             FindDefiniteCancellationStorageWrite(read, symbol, isRef: false), aliasWrite);
 
+        // Calls can mutate the selected referent without an assignment operation
+        // in this helper. Unknown ref/out effects cannot prove token provenance.
+        if (GetRoot(read).DescendantsAndSelf().OfType<IArgumentOperation>()
+            .Where(argument => argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out)
+            .Where(argument => !HasAncestor(read, argument.Parent ?? argument))
+            .Where(argument => ReferenceEquals(GetEnclosingCallable(argument), GetEnclosingCallable(read)))
+            .Where(IsInReachableBranch)
+            .Where(argument => CanReachCancellationStorageRead(argument, read))
+            .Where(argument => argument.Syntax.SpanStart < read.Syntax.SpanStart
+                || SharesCancellationStorageLoop(argument, read)
+                || SharesCancellationStorageBranchTransfer(argument, read))
+            .Where(argument => GetCancellationTokenStorages(argument.Value, argument, []).Any(target =>
+                SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(target), symbol)
+                || (GetCancellationStorageSymbol(target) is { } targetSymbol
+                    && MayShareCancellationParameterStorage(targetSymbol, symbol, cancellationTokens))))
+            .Any(argument => !IsOverwrittenCancellationStorageWrite(argument, read, symbol)
+                && !IsFormerCancellationAliasReferentWrite(argument, read, symbol, cancellationTokens)
+                && ReachesAfterCancellationStorageReset(argument, definiteWrite, read)))
+        {
+            return false;
+        }
+
         var reachingWrites = writes
             .Where(write => !IsOverwrittenCancellationStorageWrite(write, read, symbol))
             .Where(write => !IsFormerCancellationAliasReferentWrite(write, read, symbol, cancellationTokens))

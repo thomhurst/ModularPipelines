@@ -3361,6 +3361,9 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { try { first = default; return third; } finally { first = third; MayThrow(); } } catch {} return first;")]
     [DataRow("try { try { first = default; return third; } finally { try { MayThrow(); } catch {} } } catch {} return first;")]
     [DataRow("try { try { first = default; return third; } finally { MayThrow(); } } catch { return third; } return first;")]
+    [DataRow("var saved = third; first = ref third; Clear(ref first); first = saved; return first;")]
+    [DataRow("Clear(ref second); return first;")]
+    [DataRow("first = ref third; var saved = first; Clear(ref first); return saved;")]
     public async Task Does_Not_Report_CancellationToken_Preserved_Only_By_Exiting_Catch(string body)
     {
         var source = ReboundCancellationTokenHelperSource(
@@ -3386,6 +3389,9 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { try { first = default; return third; } finally { MayThrow(); } } catch {} return first;")]
     [DataRow("try { try { alias = default; return third; } finally { MayThrow(); } } catch {} return alias;")]
     [DataRow("try { try { alias = ref second; return third; } finally { MayThrow(); } } catch {} return alias;")]
+    [DataRow("first = ref third; Clear(ref first); return first;")]
+    [DataRow("ref var selected = ref third; Clear(ref selected); return selected;")]
+    [DataRow("first = ref third; ClearOut(out first); return first; static void ClearOut(out CancellationToken token) => token = default;")]
     public async Task Reports_CancellationToken_Preserved_By_Catch_Or_Early_Case_Exit(string body)
     {
         var isSwitch = body.StartsWith("switch", StringComparison.Ordinal);
