@@ -3244,6 +3244,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref first; try { _ = new[] { alias = default, alias = third }; MayThrow(); alias = third; } catch {} return alias; static void MayThrow() => throw new Exception();", "default")]
     [DataRow("try { _ = (((object)((first = default) is var cleared ? \"ok\" : \"ok\")) as string)?.Equals(first = third); first = third; } catch {} return first;", "default")]
     [DataRow("try { _ = ((object)((first = default) is var cleared ? \"ok\" : \"ok\"))?.Equals(first = third); MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("var skip = DateTime.UtcNow.Ticks > 0; var error = new Exception(); try { while ((first = default) is var cleared && false) { throw error; } first = third; } catch {} return first;", "default")]
+    [DataRow("var skip = DateTime.UtcNow.Ticks > 0; var error = new Exception(); try { while ((first = default) is var cleared && (first = third) is var restored && skip) { throw error; } first = third; } catch {} return first;", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);

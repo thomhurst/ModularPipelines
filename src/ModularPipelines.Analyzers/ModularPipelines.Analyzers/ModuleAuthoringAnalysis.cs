@@ -6455,30 +6455,51 @@ internal static class ModuleAuthoringAnalysis
 
         return CancellationStorageShortCircuitContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary)
             || CancellationStorageCoalesceContinuationCanThrow(current, parent, symbol, isRef, classifier, exceptionBoundary)
-            || CancellationStorageLoopConditionContinuationCanThrow(current, parent, symbol, isRef, classifier, exceptionBoundary)
+            || CancellationStorageLoopConditionContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary)
             || CancellationStorageGuardContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary)
             || CancellationStorageUnknownContinuationCanThrow(current, parent, symbol, isRef, classifier, exceptionBoundary);
     }
 
     private static bool CancellationStorageLoopConditionContinuationCanThrow(
-        IOperation current, IOperation parent, ISymbol? symbol, bool? isRef,
+        IOperation write, IOperation current, IOperation parent, ISymbol? symbol, bool? isRef,
         OperationExceptionClassifier classifier, IOperation exceptionBoundary)
     {
-        var continuations = parent switch
+        var condition = parent switch
         {
-            IWhileLoopOperation loop when ReferenceEquals(current, loop.Condition)
-                && (loop.Condition.ConstantValue is not { HasValue: true, Value: bool condition }
-                    || condition != loop.ConditionIsUntil) => (IEnumerable<IOperation>) [loop.Body],
-            IForLoopOperation loop when ReferenceEquals(current, loop.Condition)
-                && loop.Condition?.ConstantValue is not { HasValue: true, Value: false } =>
-                CanRepeatCancellationStorageLoop(loop) ? new[] { loop.Body }.Concat(loop.AtLoopBottom) : [loop.Body],
-            _ => [],
+            IWhileLoopOperation whileLoop => whileLoop.Condition,
+            IForLoopOperation forLoop => forLoop.Condition,
+            _ => null,
         };
+        var bodyOutcome = parent is not IWhileLoopOperation { ConditionIsUntil: true };
+        if (condition is null || !ReferenceEquals(current, condition)
+            || !CancellationStorageCanHaveBooleanOutcome(condition, bodyOutcome)
+            || CancellationStorageWritesOnBooleanOutcome(condition, bodyOutcome, symbol, isRef, write))
+        {
+            return false;
+        }
 
-        // A condition may skip the body. Preserve its possible exceptions without
-        // treating a body-only restoration as guaranteed on the loop-exit path.
+        // A condition write can enter (or re-enter) the body before the
+        // restoration after the loop. Body writes are conditional on entry,
+        // but body exceptions can escape with the originating write intact.
+        var loop = (ILoopOperation) parent;
+        var continuation = parent is IForLoopOperation forOperation && CanRepeatCancellationStorageLoop(forOperation)
+            ? new[] { loop.Body }.Concat(forOperation.AtLoopBottom)
+            : [loop.Body];
         return CancellationStorageSequenceCanThrowBeforeOverwrite(
-            continuations, symbol, isRef, classifier, exceptionBoundary, out _);
+            continuation, symbol, isRef, classifier, exceptionBoundary, out _);
+    }
+
+    private static bool CancellationStorageCanHaveBooleanOutcome(IOperation operation, bool outcome)
+    {
+        if (operation.ConstantValue is { HasValue: true, Value: bool value })
+        {
+            return value == outcome;
+        }
+
+        return operation is not IBinaryOperation { OperatorMethod: null, Type.SpecialType: SpecialType.System_Boolean, OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary
+            || outcome != (binary.OperatorKind == BinaryOperatorKind.ConditionalAnd)
+            || (CancellationStorageCanHaveBooleanOutcome(binary.LeftOperand, outcome)
+                && CancellationStorageCanHaveBooleanOutcome(binary.RightOperand, outcome));
     }
 
     private static bool CancellationStorageCoalesceContinuationCanThrow(
@@ -6510,6 +6531,8 @@ internal static class ModuleAuthoringAnalysis
             && DefinitelyWritesCancellationStorage(operation, symbol, isRef))
         || (operation is IInvocationOperation invocation
             && invocation.Arguments.Any(argument => CancellationStorageWritesOnBooleanOutcome(argument, outcome, symbol, isRef, after)))
+        || (operation is IIsPatternOperation pattern
+            && CancellationStorageWritesOnBooleanOutcome(pattern.Value, outcome, symbol, isRef, after))
         || (operation is IParenthesizedOperation parenthesized
             && CancellationStorageWritesOnBooleanOutcome(parenthesized.Operand, outcome, symbol, isRef, after))
         || CancellationStorageShortCircuitWritesOnBooleanOutcome(operation, outcome, symbol, isRef, after);
