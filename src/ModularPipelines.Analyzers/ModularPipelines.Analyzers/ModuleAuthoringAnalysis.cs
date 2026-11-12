@@ -5636,7 +5636,7 @@ internal static class ModuleAuthoringAnalysis
 
         var reachingWrites = writes
             .Where(write => !IsOverwrittenCancellationStorageWrite(write, read, symbol))
-            .Where(write => !IsFormerCancellationAliasReferentWrite(write, read, symbol))
+            .Where(write => !IsFormerCancellationAliasReferentWrite(write, read, symbol, cancellationTokens))
             .Where(write => ReachesAfterCancellationStorageReset(write, definiteWrite, read));
         foreach (var write in reachingWrites)
         {
@@ -5665,7 +5665,8 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool IsFormerCancellationAliasReferentWrite(
-        IOperation write, IOperation read, ISymbol? storageSymbol)
+        IOperation write, IOperation read, ISymbol? storageSymbol,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens)
     {
         var aliasSymbol = GetCancellationStorageSymbol(read);
         if (aliasSymbol is not (ILocalSymbol { RefKind: not RefKind.None }
@@ -5686,11 +5687,66 @@ internal static class ModuleAuthoringAnalysis
             .Where(binding => CanReachCancellationStorageRead(write, binding))
             .ToArray();
         return bindings.Length > 0 && bindings.All(binding =>
-            !SharesCancellationStorageLoop(binding, read)
+            IsDistinctCancellationAliasBinding(binding, read, storageSymbol, cancellationTokens));
+    }
+
+    private static bool IsDistinctCancellationAliasBinding(
+        ISimpleAssignmentOperation binding, IOperation read, ISymbol? storageSymbol,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens)
+    {
+        return !SharesCancellationStorageLoop(binding, read)
             && !SharesCancellationStorageBranchTransfer(binding, read)
             && GetCancellationTokenStorages(binding.Value, binding, []).All(storage =>
                 GetCancellationStorageSymbol(storage) is { } symbol
-                && !SymbolEqualityComparer.Default.Equals(symbol, storageSymbol)));
+                && !SymbolEqualityComparer.Default.Equals(symbol, storageSymbol)
+                && !MayShareCancellationParameterStorage(symbol, storageSymbol, cancellationTokens));
+    }
+
+    private static bool MayShareCancellationParameterStorage(
+        ISymbol first, ISymbol? second, IReadOnlyCollection<IParameterSymbol> cancellationTokens)
+    {
+        if (first is not IParameterSymbol firstParameter || second is not IParameterSymbol secondParameter)
+        {
+            return false;
+        }
+
+        if (cancellationTokens is not CancellationHelperParameters parameters)
+        {
+            return true;
+        }
+
+        var firstStorages = parameters.GetCallerStorages(firstParameter);
+        var secondStorages = parameters.GetCallerStorages(secondParameter);
+        return firstStorages.Length == 0 || secondStorages.Length == 0
+            || firstStorages.Any(symbol => symbol is null || secondStorages.Any(static storage => storage is null)
+                || secondStorages.Contains(symbol, SymbolEqualityComparer.Default));
+    }
+
+    private sealed class CancellationHelperParameters(
+        IInvocationOperation invocation, IMethodSymbol method, IReadOnlyCollection<IParameterSymbol> callerTokens)
+        : HashSet<IParameterSymbol>(SymbolEqualityComparer.Default)
+    {
+        public ISymbol?[] GetCallerStorages(IParameterSymbol parameter)
+        {
+            return [
+                .. invocation.Arguments
+                    .Where(argument => argument.Parameter is not null
+                        && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argument.Parameter), parameter))
+                    .SelectMany(argument => GetCancellationTokenStorages(argument.Value, invocation, []))
+                    .Select(GetCancellationStorageSymbol)
+                    .SelectMany(ResolveCallerParameter),
+            ];
+        }
+
+        private IEnumerable<ISymbol?> ResolveCallerParameter(ISymbol? storage)
+        {
+            if (storage is IParameterSymbol parameter && callerTokens is CancellationHelperParameters parent)
+            {
+                return parent.GetCallerStorages(parameter);
+            }
+
+            return [storage];
+        }
     }
 
     private static bool InitialCancellationTokenStorageFlows(
@@ -5737,6 +5793,11 @@ internal static class ModuleAuthoringAnalysis
                 GetCancellationTokenStorages(value, bindingPoint, [.. visitedBindings]));
         }
 
+        if (reference is IInvocationOperation { TargetMethod.ReturnsByRef: true } invocation)
+        {
+            return GetCancellationTokenInvocationStorages(invocation, bindingPoint, visitedBindings);
+        }
+
         var symbol = GetCancellationStorageSymbol(reference);
         if (symbol is not (IParameterSymbol { RefKind: not RefKind.None }
             or ILocalSymbol { RefKind: not RefKind.None }))
@@ -5745,6 +5806,50 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return ResolveCancellationTokenReferenceStorage(reference, bindingPoint, symbol, visitedBindings);
+    }
+
+    private static IEnumerable<IOperation> GetCancellationTokenInvocationStorages(
+        IInvocationOperation invocation, IOperation bindingPoint, HashSet<IOperation> visitedBindings)
+    {
+        var method = NormalizeMethod(invocation.TargetMethod);
+        if (!visitedBindings.Add(invocation)
+            || invocation.SemanticModel?.Compilation is not { } compilation
+            || GetMethodOperation(method, compilation, default) is not { } operation)
+        {
+            return [invocation];
+        }
+
+        var returns = operation.DescendantsAndSelf().OfType<IReturnOperation>()
+            .Where(static returned => GetEnclosingCallable(returned) is null && IsInReachableBranch(returned))
+            .Select(static returned => returned.ReturnedValue)
+            .OfType<IOperation>()
+            .ToArray();
+        // Mapping a returned parameter to its caller storage is safe only for
+        // forwarding helpers. A helper-side write requires interprocedural state
+        // tracking, so retain an unknown storage rather than dropping that write.
+        if (returns.Length == 0 || operation.DescendantsAndSelf().Any(static child =>
+            child is ISimpleAssignmentOperation or ICompoundAssignmentOperation or IIncrementOrDecrementOperation)
+            || operation.DescendantsAndSelf().OfType<IInvocationOperation>().Any(call =>
+                !returns.Any(returned => returned.DescendantsAndSelf().Contains(call))))
+        {
+            return [invocation];
+        }
+
+        return returns.SelectMany(returned => GetCancellationTokenStorages(returned, returned, [.. visitedBindings]))
+            .SelectMany(MapStorage);
+
+        IEnumerable<IOperation> MapStorage(IOperation storage)
+        {
+            if (storage is IParameterReferenceOperation parameter
+                && invocation.Arguments.FirstOrDefault(argument =>
+                    argument.Parameter is not null
+                    && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argument.Parameter), parameter.Parameter)) is { } argument)
+            {
+                return GetCancellationTokenStorages(argument.Value, bindingPoint, [.. visitedBindings]);
+            }
+
+            return [invocation];
+        }
     }
 
     private static IEnumerable<IOperation> ResolveCancellationTokenReferenceStorage(
@@ -6715,8 +6820,8 @@ internal static class ModuleAuthoringAnalysis
         HashSet<IMethodSymbol> visitedMethods,
         HashSet<IOperation> visitedWrites)
     {
-        var flowedParameters = new HashSet<IParameterSymbol>(
-            invocation.Arguments
+        var flowedParameters = new CancellationHelperParameters(invocation, method, cancellationTokens);
+        flowedParameters.UnionWith(invocation.Arguments
                 .Where(static argument =>
                     argument.Parameter is not null
                     && IsCancellationToken(argument.Parameter))
@@ -6727,8 +6832,7 @@ internal static class ModuleAuthoringAnalysis
                     CloneVisitedMethods(visitedMethods),
                     visitedWrites))
                 .Select(argument => GetTargetParameter(method, argument.Parameter))
-                .OfType<IParameterSymbol>(),
-            SymbolEqualityComparer.Default);
+                .OfType<IParameterSymbol>());
         if (TryGetFlowedCancellationReceiver(
                 invocation,
                 method,

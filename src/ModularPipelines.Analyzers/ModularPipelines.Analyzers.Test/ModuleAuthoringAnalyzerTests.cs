@@ -3207,10 +3207,79 @@ public class ModuleAuthoringAnalyzerTests
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
+    [TestMethod]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; return alias;")]
+    [DataRow("ref var alias = ref first; switch (DateTime.UtcNow.Ticks) { case 0: alias = default; alias = ref third; break; default: alias = ref first; break; } return alias;")]
+    public async Task Reports_CancellationToken_Cleared_Through_Shared_Helper_Arguments(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(body, "default", report: true)
+            .Replace("Forward(ref token, ref other, ref third)", "Forward(ref token, ref other, ref token)");
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0).WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+
+        var nestedSource = source.Replace(body, "return Nested(ref first, ref second, ref third);")
+            .Replace("protected override async", $$"""
+                private static CancellationToken Nested(
+                    scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third)
+                {
+                    {{body}}
+                }
+
+                protected override async
+                """);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(nestedSource, expected);
+    }
+
+    [TestMethod]
+    [DataRow("ref var alias = ref Identity(ref first); return alias;", false)]
+    [DataRow("ref var alias = ref Identity(ref second); return alias;", true)]
+    [DataRow("ref var alias = ref Identity(ref first); first = default; return alias;", true)]
+    [DataRow("ref var alias = ref Identity(ref second); second = first; return alias;", false)]
+    [DataRow("ref var alias = ref Identity(ref first); first = ref second; return alias;", false)]
+    [DataRow("ref var alias = ref Identity(ref first); alias = default; return first;", true)]
+    [DataRow("ref var alias = ref Identity(ref first); alias = ref second; return alias;", true)]
+    [DataRow("ref var alias = ref Identity(ref first); var snapshot = alias; first = default; return snapshot;", false)]
+    public async Task Tracks_CancellationToken_Ref_Return_Helper_Initializer(string body, bool report)
+    {
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
+        if (body.Contains("Identity(ref second)"))
+        {
+            body = body.Replace("Identity(ref second)", "{|#1:Identity(ref second)|}");
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(1).WithArguments("Identity"));
+        }
+
+        if (report)
+        {
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+        }
+
+        var source = ReboundCancellationTokenHelperSource(body, "default", report);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected.ToArray());
+    }
+
+    [TestMethod]
+    [DataRow("{ token = default; return ref token; }")]
+    [DataRow("{ Clear(ref token); return ref token; }")]
+    public async Task Reports_CancellationToken_Cleared_By_Ref_Return_Helper(string helperBody)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "ref var alias = ref Identity(ref first); return alias;", "default", report: true)
+            .Replace("=> ref token;", helperBody);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source,
+            VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
     private static string ReboundCancellationTokenHelperSource(string body, string second, bool report)
     {
         var delay = report ? "{|#0:Task.Delay(1, snapshot)|}" : "Task.Delay(1, snapshot)";
         return ModuleSource($$"""
+            private static void Clear(ref CancellationToken token) => token = default;
+            private static ref CancellationToken Identity(ref CancellationToken token) => ref token;
+
             private static CancellationToken Forward(
                 scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third)
             {
