@@ -37,7 +37,8 @@ internal static class CancellationTokenParameterProvenance
 
     private static Dictionary<TextSpan, bool?> Analyze(IOperation root, IParameterSymbol source)
     {
-        var operations = root.DescendantsAndSelf().ToArray();
+        var operations = root.DescendantsAndSelf()
+            .Where(operation => !HasNestedCallableAncestor(operation, root)).ToArray();
         if (!operations.OfType<ISimpleAssignmentOperation>().Any(assignment =>
                 assignment.Target is IParameterReferenceOperation parameter
                 && SymbolEqualityComparer.Default.Equals(parameter.Parameter, source))
@@ -64,6 +65,19 @@ internal static class CancellationTokenParameterProvenance
         {
             return [];
         }
+    }
+
+    private static bool HasNestedCallableAncestor(IOperation operation, IOperation root)
+    {
+        for (var parent = operation.Parent; parent is not null && !ReferenceEquals(parent, root); parent = parent.Parent)
+        {
+            if (parent is ILocalFunctionOperation or IAnonymousFunctionOperation)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool HasCapturedWrite(IOperation operation)
@@ -230,8 +244,18 @@ internal static class CancellationTokenParameterProvenance
                     return Get(state.Values, local.Local);
                 case IFlowCaptureReferenceOperation capture:
                     return Get(state.Captures, capture.Id);
+                default:
+                    return EvaluateValue(operation, state);
+            }
+        }
+
+        private bool? EvaluateValue(IOperation operation, State state)
+        {
+            switch (operation)
+            {
                 case IAwaitOperation awaited:
-                    return Evaluate(awaited.Operation, state);
+                    var awaitedValue = Evaluate(awaited.Operation, state);
+                    return ModuleAuthoringAnalysis.GetCancellationPayloadInput(awaited) is not null ? awaitedValue : false;
                 case IInvocationOperation invocation:
                     return EvaluateInvocation(invocation, state);
                 case IObjectCreationOperation creation when ModuleAuthoringAnalysis.GetCancellationPayloadInput(creation) is { } payload:
@@ -239,8 +263,7 @@ internal static class CancellationTokenParameterProvenance
                 case IPropertyReferenceOperation property when ModuleAuthoringAnalysis.GetCancellationPayloadInput(property) is { } payload:
                     return Evaluate(payload, state);
                 case IConversionOperation conversion:
-                    var converted = Evaluate(conversion.Operand, state);
-                    return conversion.OperatorMethod is not null ? false : conversion.Conversion.IsIdentity || conversion.Operand is IDefaultValueOperation ? converted : null;
+                    return EvaluateConversion(conversion, state);
                 case IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
                     when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource":
                     return Evaluate(instance, state);
@@ -260,6 +283,12 @@ internal static class CancellationTokenParameterProvenance
 
                     return IsReplacementValue(operation) ? false : null;
             }
+        }
+
+        private bool? EvaluateConversion(IConversionOperation conversion, State state)
+        {
+            var converted = Evaluate(conversion.Operand, state);
+            return conversion.OperatorMethod is not null ? false : conversion.Conversion.IsIdentity || conversion.Operand is IDefaultValueOperation ? converted : null;
         }
 
         private bool? EvaluateInvocation(IInvocationOperation invocation, State state)

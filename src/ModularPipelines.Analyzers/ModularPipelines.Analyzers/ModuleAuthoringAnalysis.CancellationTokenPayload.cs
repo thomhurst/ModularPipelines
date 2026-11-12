@@ -15,26 +15,41 @@ internal static partial class ModuleAuthoringAnalysis
         && named.OriginalDefinition.ToDisplayString() is
             "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>");
 
+    private static bool IsCancellationPayloadAwaitableType(ITypeSymbol? type) =>
+        type is INamedTypeSymbol { TypeArguments.Length: 1 } named
+        && named.TypeArguments[0].ToDisplayString() == CancellationTokenMetadataName
+        && named.OriginalDefinition.ToDisplayString() is
+            "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>"
+            or "System.Runtime.CompilerServices.ConfiguredTaskAwaitable<TResult>"
+            or "System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable<TResult>";
+
     // Only framework wrappers preserve payload identity. In particular, an arbitrary
     // Result property, GetAwaiter implementation or conversion is not a proof.
     internal static IOperation? GetCancellationPayloadInput(IOperation operation) => operation switch
     {
-        IAwaitOperation awaited => awaited.Operation,
-        IInvocationOperation { Arguments.Length: 1 } factory
-            when factory.TargetMethod is { Name: "FromResult", IsStatic: true }
-            && factory.TargetMethod.ContainingType.ToDisplayString() is
-                "System.Threading.Tasks.Task" or "System.Threading.Tasks.ValueTask" => factory.Arguments[0].Value,
-        IInvocationOperation { Instance: { } instance } wrapper
-            when wrapper.TargetMethod.Name is "ConfigureAwait" or "AsTask"
-            && wrapper.TargetMethod.ContainingType.OriginalDefinition.ToDisplayString() is
-                "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>" => instance,
+        IAwaitOperation awaited when IsCancellationPayloadAwaitableType(awaited.Operation.Type) => awaited.Operation,
+        IInvocationOperation invocation => GetFrameworkPayloadInvocationInput(invocation),
         IObjectCreationOperation { Arguments.Length: 1 } creation
             when creation.Type is INamedTypeSymbol named
             && named.OriginalDefinition.ToDisplayString() == "System.Threading.Tasks.ValueTask<TResult>"
             => creation.Arguments[0].Value,
         IPropertyReferenceOperation { Property.Name: "Result", Instance: { } instance } property
-            when property.Property.ContainingType.OriginalDefinition.ToDisplayString() is
-                "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>" => instance,
+            when IsFrameworkPayloadContainer(property.Property.ContainingType) => instance,
+        _ => null,
+    };
+
+    private static bool IsFrameworkPayloadContainer(INamedTypeSymbol type) =>
+        type.OriginalDefinition.ToDisplayString() is
+            "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>";
+
+    private static IOperation? GetFrameworkPayloadInvocationInput(IInvocationOperation invocation) => invocation switch
+    {
+        { Arguments.Length: 1, TargetMethod: { Name: "FromResult", IsStatic: true } } factory
+            when factory.TargetMethod.ContainingType.ToDisplayString() is
+                "System.Threading.Tasks.Task" or "System.Threading.Tasks.ValueTask" => factory.Arguments[0].Value,
+        { Instance: { } instance } wrapper
+            when wrapper.TargetMethod.Name is "ConfigureAwait" or "AsTask"
+            && IsFrameworkPayloadContainer(wrapper.TargetMethod.ContainingType) => instance,
         _ => null,
     };
 
@@ -61,7 +76,8 @@ internal static partial class ModuleAuthoringAnalysis
     private static bool ProveCancellationPayloadHelper(
         IInvocationOperation invocation, IMethodSymbol method, Func<IOperation, bool> flows)
     {
-        if (invocation.SemanticModel?.Compilation is not { } compilation
+        if (!HasStaticallyBoundPayloadBody(method)
+            || invocation.SemanticModel?.Compilation is not { } compilation
             || GetMethodOperation(method, compilation, default) is not { } operation)
         {
             return false;
@@ -82,6 +98,11 @@ internal static partial class ModuleAuthoringAnalysis
         // cannot change the selected payload, whereas a conversion of a value can.
         return returns.All(value => ProveReturnedPayload(value, parameters, method));
     }
+
+    private static bool HasStaticallyBoundPayloadBody(IMethodSymbol method) =>
+        !method.IsAbstract && !method.IsExtern
+        && (!(method.IsVirtual || method.IsOverride) || method.IsSealed)
+        && method.ContainingType.TypeKind != TypeKind.Interface;
 
     private static bool ProveReturnedPayload(IOperation value, IParameterSymbol[] parameters, IMethodSymbol method)
     {
@@ -123,9 +144,20 @@ internal static partial class ModuleAuthoringAnalysis
     private static bool HasPayloadParameterWrite(IOperation operation, IParameterSymbol parameter) =>
         operation.DescendantsAndSelf().OfType<IParameterReferenceOperation>().Any(reference =>
             SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
-            && ((reference.Parent is IAssignmentOperation assignment && ReferenceEquals(assignment.Target, reference))
+            && (IsPayloadAssignmentTarget(reference)
                 || reference.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
                 || reference.Parent is IIncrementOrDecrementOperation));
+
+    private static bool IsPayloadAssignmentTarget(IOperation reference)
+    {
+        var target = reference;
+        while (target.Parent is ITupleOperation)
+        {
+            target = target.Parent;
+        }
+
+        return target.Parent is IAssignmentOperation assignment && ReferenceEquals(assignment.Target, target);
+    }
 
     private static bool HasUnsupportedPayloadCollections(IOperation operation, IOperation[] returns) =>
         !returns.SelectMany(GetReachableValueLeaves).All(static value => value is IParameterReferenceOperation)

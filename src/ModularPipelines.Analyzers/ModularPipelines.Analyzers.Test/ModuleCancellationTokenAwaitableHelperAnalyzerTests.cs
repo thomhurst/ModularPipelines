@@ -149,6 +149,80 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
         await Verify($"var saved = context != null ? Task.FromResult(cancellationToken) : Task.FromResult({alternate}); cancellationToken = await saved;", replaced);
     }
 
+    [TestMethod]
+    [DataRow("Task", false)]
+    [DataRow("ValueTask", false)]
+    [DataRow("Task", true)]
+    [DataRow("ValueTask", true)]
+    public async Task Tuple_Parameter_Writes_Reject_Helper_Proof(string taskType, bool nested)
+    {
+        var write = nested ? "((token, _), _) = ((CancellationToken.None, 0), 0);" : "(token, _) = (CancellationToken.None, 0);";
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token) {{ {write} return {taskType}.FromResult(token); }} cancellationToken = await Pass(cancellationToken);", true);
+        await Verify("cancellationToken = await Helpers.Pass(cancellationToken);", true,
+            $"public static class Helpers {{ public static {taskType}<CancellationToken> Pass(CancellationToken token) {{ {write} return {taskType}.FromResult(token); }} }}");
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Overridable_Helper_Bodies_Do_Not_Prove_Runtime_Payload(bool throughOverride)
+    {
+        var type = throughOverride ? "ForwardingHelper" : "Helper";
+        await Verify($"{type} helper = new ReplacingHelper(); cancellationToken = await helper.Pass(cancellationToken);", true, """
+            public class Helper
+            {
+                public virtual Task<CancellationToken> Pass(CancellationToken token) => Task.FromResult(token);
+            }
+            public class ForwardingHelper : Helper
+            {
+                public override Task<CancellationToken> Pass(CancellationToken token) => Task.FromResult(token);
+            }
+            public class ReplacingHelper : ForwardingHelper
+            {
+                public override Task<CancellationToken> Pass(CancellationToken token) => Task.FromResult(CancellationToken.None);
+            }
+            """);
+    }
+
+    [TestMethod]
+    public async Task Sealed_Override_Preserves_Payload()
+    {
+        await Verify("cancellationToken = await new ForwardingHelper().Pass(cancellationToken);", false, """
+            public class Helper
+            {
+                public virtual Task<CancellationToken> Pass(CancellationToken token) => Task.FromResult(CancellationToken.None);
+            }
+            public class ForwardingHelper : Helper
+            {
+                public sealed override Task<CancellationToken> Pass(CancellationToken token) => Task.FromResult(token);
+            }
+            """);
+    }
+
+    [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(true, false)]
+    [DataRow(false, true)]
+    [DataRow(true, true)]
+    public async Task Custom_Token_Awaiter_Does_Not_Preserve_Payload(bool assign, bool helper)
+    {
+        var expression = helper ? "await Pass(cancellationToken)" : "await cancellationToken";
+        var statements = helper ? "static async Task<CancellationToken> Pass(CancellationToken token) => await token; " : "";
+        if (assign)
+        {
+            statements += $"cancellationToken = {expression};";
+            expression = "cancellationToken";
+        }
+
+        await Verify(statements, true, """
+            public static class Helpers
+            {
+                public static System.Runtime.CompilerServices.TaskAwaiter<CancellationToken> GetAwaiter(this CancellationToken token)
+                    => Task.FromResult(CancellationToken.None).GetAwaiter();
+            }
+            """, expression);
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";

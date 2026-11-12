@@ -5440,8 +5440,8 @@ internal static partial class ModuleAuthoringAnalysis
                 cancellationToken,
                 visitedLocals,
                 visitedMethods),
-            IAwaitOperation awaited => FlowsFromCancellationToken(
-                awaited.Operation, cancellationToken, visitedLocals, visitedMethods),
+            IAwaitOperation awaited when GetCancellationPayloadInput(awaited) is { } payload => FlowsFromCancellationToken(
+                payload, cancellationToken, visitedLocals, visitedMethods),
             IObjectCreationOperation creation when GetCancellationPayloadInput(creation) is { } payload =>
                 FlowsFromCancellationToken(payload, cancellationToken, visitedLocals, visitedMethods),
             IParameterReferenceOperation parameterReference =>
