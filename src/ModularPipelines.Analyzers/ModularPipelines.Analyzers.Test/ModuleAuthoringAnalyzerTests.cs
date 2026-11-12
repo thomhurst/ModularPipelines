@@ -3486,6 +3486,28 @@ public class ModuleAuthoringAnalyzerTests
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
+    [TestMethod]
+    [DataRow("first = default", false)]
+    [DataRow("alias = default", false)]
+    [DataRow("MayThrow(first = default)", true)]
+    [DataRow("MayThrow(alias = default)", true)]
+    public async Task Tracks_CancellationToken_Writes_In_Selected_Switch_Expression_Arm(string value, bool report)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { var ignored = choice switch { 0 => "
+            + value + ", _ => throw new Exception() }; first = third; } catch {} return alias;"
+            + " static CancellationToken MayThrow(CancellationToken token) => throw new Exception();",
+            "default", report);
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
+        if (report)
+        {
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
+    }
+
     private static string ReboundCancellationTokenHelperSource(string body, string second, bool report)
     {
         var delay = report ? "{|#0:Task.Delay(1, snapshot)|}" : "Task.Delay(1, snapshot)";

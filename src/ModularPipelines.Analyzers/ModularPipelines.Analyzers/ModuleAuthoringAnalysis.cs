@@ -6381,6 +6381,8 @@ internal static class ModuleAuthoringAnalysis
             // Loop conditions and iteration steps run before following statements.
             ILoopOperation loop when ReferenceEquals(current, loop.Body) && CanRepeatCancellationStorageLoop(loop) =>
                 CancellationStorageLoopExitOperations(loop),
+            // Other arms do not execute after a selected arm completes.
+            ISwitchExpressionOperation when current is ISwitchExpressionArmOperation => [],
             // Operands and arguments evaluate in order. Conditional alternatives
             // are handled by their branch scans rather than as a linear sequence.
             _ when IsLinearCancellationStorageExpression(parent) =>
