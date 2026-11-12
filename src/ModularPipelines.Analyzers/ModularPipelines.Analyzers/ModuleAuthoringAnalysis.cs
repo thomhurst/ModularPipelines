@@ -5630,25 +5630,47 @@ internal static class ModuleAuthoringAnalysis
         IOperation returnValue,
         IParameterSymbol parameter)
     {
+        if (returnValue is IConversionOperation conversion)
+        {
+            return HasAliasedCancellationWrite(invocation, method, body, conversion.Operand, parameter);
+        }
+
+        if (returnValue is IPropertyReferenceOperation { Instance: { } instance } property
+            && IsCancellationTokenSourceToken(property))
+        {
+            return HasAliasedCancellationWrite(invocation, method, body, instance, parameter);
+        }
+
+        if (returnValue is IInvocationOperation factory && IsKnownCancellationCarrierFactory(factory))
+        {
+            // A linked token needs only one intact input, even if another input was overwritten.
+            return !factory.Arguments.Any(argument => argument.Parameter is { } input
+                && IsCancellationInput(input)
+                && FlowsFromCancellationToken(argument.Value, parameter, [with(SymbolEqualityComparer.Default)], [with(SymbolEqualityComparer.Default)])
+                && !HasAliasedCancellationWrite(invocation, method, body, argument.Value, parameter));
+        }
+
         var caller = (Invocation: invocation, Method: method);
         // Value locals keep their original parameter read; ref locals resolve live storage.
         // Keep this proof tied to the call so two helper ref parameters can share a slot.
         var reads = GetCancellationParameterReads(returnValue, parameter, [with(SymbolEqualityComparer.Default)]).ToArray();
         return reads.Any(read => HasCancellationSnapshotMutation(read, read, body, caller, []))
-            || HasCancellationLocalSnapshotMutation(returnValue, body, caller, [with(SymbolEqualityComparer.Default)]);
+            || HasCancellationLocalSnapshotMutation(returnValue, parameter, body, caller, [with(SymbolEqualityComparer.Default)]);
     }
 
     private static bool HasCancellationLocalSnapshotMutation(
         IOperation value,
+        IParameterSymbol parameter,
         IOperation body,
         (IInvocationOperation Invocation, IMethodSymbol Method) caller,
         HashSet<ILocalSymbol> visitedLocals)
     {
         return value.DescendantsAndSelf().OfType<ILocalReferenceOperation>()
-            .Where(local => local.Local.RefKind == RefKind.None && visitedLocals.Add(local.Local))
+            .Where(local => local.Local.RefKind == RefKind.None && visitedLocals.Add(local.Local)
+                && GetCancellationParameterReads(local, parameter, [with(SymbolEqualityComparer.Default)]).Any())
             .Any(local => FindReachingLocalValues(local, local.Local).Any(source =>
                 HasCancellationSnapshotMutation(source, local, body, caller, [])
-                || HasCancellationLocalSnapshotMutation(source, body, caller, CloneVisitedLocals(visitedLocals))));
+                || HasCancellationLocalSnapshotMutation(source, parameter, body, caller, CloneVisitedLocals(visitedLocals))));
     }
 
     private static bool HasCancellationSnapshotMutation(
@@ -5659,7 +5681,7 @@ internal static class ModuleAuthoringAnalysis
         HashSet<IOperation> visitedWrites)
     {
         // A snapshot can survive later writes to its source, but not writes to its own slot.
-        // Passing the store site below compares copied values before the assignment executes.
+        // Compare a preserving write with the snapshot's original value, not its copied slot.
         return body.DescendantsAndSelf()
             .SelectMany(GetCancellationStorageWrites)
             .Where(write => ReferenceEquals(GetEnclosingCallable(write.Target), GetEnclosingCallable(read)))
@@ -5670,14 +5692,30 @@ internal static class ModuleAuthoringAnalysis
             .Where(write => MayShareCancellationStorage(write.Target, read, caller.Invocation, caller.Method))
             .Any(write => !visitedWrites.Contains(write.Target)
                 && (write.Value is null || !IsCancellationPreservingSnapshot(
-                    write.Value, read, write.Target, body, caller, [with(SymbolEqualityComparer.Default)],
+                    write.Value, source, body, caller, [with(SymbolEqualityComparer.Default)],
                     new HashSet<IOperation>(visitedWrites) { write.Target })));
     }
 
     private static bool CanCancellationWriteReachSnapshot(IOperation write, IOperation read)
     {
+        // Ref arguments can be written only after all argument expressions have been evaluated.
+        if (write.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out, Parent: IInvocationOperation nestedCall }
+            && HasAncestor(read, nestedCall))
+        {
+            return false;
+        }
+
         for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
+            if (ancestor is ISwitchCaseOperation switchCase
+                && switchCase.Parent is ISwitchOperation switchOperation
+                && HasAncestor(read, switchOperation)
+                && !HasAncestor(read, switchCase)
+                && SwitchCaseCannotReachFollowingOperation(switchCase))
+            {
+                return false;
+            }
+
             if (ancestor is IBlockOperation block && !HasAncestor(read, block) && AlwaysExitsCallable(block))
             {
                 return false;
@@ -5697,7 +5735,6 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsCancellationPreservingSnapshot(
         IOperation value,
         IOperation read,
-        IOperation store,
         IOperation body,
         (IInvocationOperation Invocation, IMethodSymbol Method) caller,
         HashSet<ILocalSymbol> visitedLocals,
@@ -5706,19 +5743,19 @@ internal static class ModuleAuthoringAnalysis
         switch (value)
         {
             case IConversionOperation conversion:
-                return IsCancellationPreservingSnapshot(conversion.Operand, read, store, body, caller, visitedLocals, visitedWrites);
+                return IsCancellationPreservingSnapshot(conversion.Operand, read, body, caller, visitedLocals, visitedWrites);
             case IParenthesizedOperation parenthesized:
-                return IsCancellationPreservingSnapshot(parenthesized.Operand, read, store, body, caller, visitedLocals, visitedWrites);
+                return IsCancellationPreservingSnapshot(parenthesized.Operand, read, body, caller, visitedLocals, visitedWrites);
             case ILocalReferenceOperation { Local.RefKind: RefKind.None } local when visitedLocals.Add(local.Local):
                 var values = FindReachingLocalValues(local, local.Local).ToArray();
                 return values.Length > 0 && values.All(source =>
                     !HasCancellationSnapshotMutation(source, local, body, caller, visitedWrites)
-                    && IsCancellationPreservingSnapshot(source, read, store, body, caller, CloneVisitedLocals(visitedLocals), visitedWrites));
+                    && IsCancellationPreservingSnapshot(source, read, body, caller, CloneVisitedLocals(visitedLocals), visitedWrites));
             case IParameterReferenceOperation or ILocalReferenceOperation:
                 var storage = GetCancellationStorage(value, [], caller.Invocation, caller.Method);
                 return storage is not null
                     && SymbolEqualityComparer.Default.Equals(storage, GetCancellationStorage(read, [], caller.Invocation, caller.Method))
-                    && !HasCancellationSnapshotMutation(value, store, body, caller, visitedWrites);
+                    && !HasCancellationSnapshotMutation(value, value, body, caller, visitedWrites);
             default:
                 return false;
         }
@@ -6572,6 +6609,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .Where(candidate => IsLinearPredecessor(candidate, operation))
+            .Where(candidate => !HasAncestor(operation, candidate))
             .Where(candidate => DefinitelyAssignsLocal(candidate, local))
             .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
             .FirstOrDefault();

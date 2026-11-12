@@ -47,6 +47,15 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "var saved = first; int count = 0; (count, (second, count)) = (1, (saved, 2)); return first;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; saved = default; int count = 0; (second, count) = (saved, 1); return first;", true)]
     [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = default; return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; switch (Flag) { case true: second = default; return saved; default: return first; }", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken extra = default; ref CancellationToken alias = ref extra; alias = default; return CancellationTokenSource.CreateLinkedTokenSource(first, extra).Token;", false)]
+    [DataRow("ref token, ref token", "", "return Identity(ref second, ref first);", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = first; return saved;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; second = default; alias = first; return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = default; return CancellationTokenSource.CreateLinkedTokenSource(saved, first).Token;", false)]
+    [DataRow("ref token, ref token", "", "switch (Flag) { case true: second = default; goto default; default: return first; }", true)]
+    [DataRow("ref token, ref token", "", "switch (Flag) { case true: second = default; break; default: break; } return first;", true)]
+    [DataRow("ref token, ref token", "", "return IdentityValue(second = default, first);", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
@@ -81,6 +90,10 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 {
                     {{body}}
                 }
+
+                private static CancellationToken Identity(scoped ref CancellationToken ignored, scoped ref CancellationToken value) => value;
+
+                private static CancellationToken IdentityValue(CancellationToken ignored, CancellationToken value) => value;
 
                 protected override async Task<List<string>> ExecuteAsync(
                     IModuleContext context, CancellationToken cancellationToken)
