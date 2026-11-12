@@ -5841,13 +5841,72 @@ internal static class ModuleAuthoringAnalysis
         return ancestor switch
         {
             ISwitchCaseOperation switchCase => CancellationWriteCannotReachOtherSwitchCase(switchCase, write, read),
-            IBlockOperation block => !HasAncestor(read, block) && AlwaysExitsCallable(block),
+            IBlockOperation block => !HasAncestor(read, block)
+                && (AlwaysExitsCallable(block) || CancellationBlockJumpsPastRead(block, read)),
             ISwitchExpressionArmOperation arm => CancellationWriteCannotReachOtherSwitchArm(arm, write, read),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
                 (HasAncestor(write, conditional.WhenTrue) && HasAncestor(read, whenFalse))
                 || (HasAncestor(write, whenFalse) && HasAncestor(read, conditional.WhenTrue)),
             _ => false,
         };
+    }
+
+    private static bool CancellationBlockJumpsPastRead(IBlockOperation block, IOperation read)
+    {
+        if (block.Syntax is not BlockSyntax syntax || block.SemanticModel is not { } semanticModel
+            || !block.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch => branch.BranchKind == BranchKind.GoTo))
+        {
+            return false;
+        }
+
+        // A forward goto may leave this block without leaving the helper. Only prove
+        // this for labels in the callable's outer body, where no enclosing loop can
+        // revisit the skipped read. Exception regions, unknown destinations and
+        // backedges stay conservative.
+        var body = block.Parent;
+        while (body is not null && body is not IMethodBodyOperation)
+        {
+            body = body.Parent;
+        }
+
+        if (body is not IMethodBodyOperation { BlockBody: { } outerBody }
+            || !HasAncestor(read, outerBody)
+            || outerBody.DescendantsAndSelf().OfType<ITryOperation>().Any(region =>
+                HasAncestor(block, region) || HasAncestor(read, region)))
+        {
+            return false;
+        }
+
+        var flow = semanticModel.AnalyzeControlFlow(syntax);
+        if (flow is not { Succeeded: true, EndPointIsReachable: false })
+        {
+            return false;
+        }
+
+        foreach (var exit in flow.ExitPoints)
+        {
+            if (semanticModel.GetOperation(exit) is IReturnOperation or IThrowOperation)
+            {
+                continue;
+            }
+
+            if (semanticModel.GetOperation(exit) is not IBranchOperation { BranchKind: BranchKind.GoTo } branch
+                || !outerBody.Operations.OfType<ILabeledOperation>().Any(label =>
+                    SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+                    && label.Syntax.SpanStart > read.Syntax.SpanStart))
+            {
+                return false;
+            }
+        }
+
+        // A later label can jump back into the skipped region, directly or through
+        // other labels. Reject every such backward destination, including chains.
+        return !outerBody.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+            branch.BranchKind == BranchKind.GoTo
+            && branch.Syntax.SpanStart > read.Syntax.SpanStart
+            && outerBody.DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
+                SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+                && label.Syntax.SpanStart <= read.Syntax.SpanStart));
     }
 
     private static bool CancellationWriteCannotReachOtherSwitchCase(ISwitchCaseOperation switchCase, IOperation write, IOperation read)

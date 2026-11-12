@@ -7,6 +7,13 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "var saved = first; try { second = default; if (Flag) throw new Exception(); goto done; } catch { return first; } done: return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; try { second = default; goto done; } finally { saved = first; } done: return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { second = default; goto done; } return first; done: return saved;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { second = default; if (Flag) goto done; } return first; done: return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { second = default; goto done; } return first; done: return first;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; again: if (Flag) { second = default; goto done; } return first; done: if (Flag) goto again; return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { second = default; goto done; } return first; done: goto earlier; earlier: return saved;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; switch (Flag.GetHashCode()) { case 0: while (Flag) { if (Flag) goto default; second = default; break; } return saved; default: return first; }", false)]
     [DataRow("ref token, ref token", "", "var saved = first; switch (Flag.GetHashCode()) { case 0: while (Flag) { if (Flag) goto default; second = default; if (Flag) break; } return saved; default: return first; }", true)]
     [DataRow("ref token, ref token", "", "var saved = first; switch (Flag.GetHashCode()) { case 0: while (Flag) { if (Flag) goto default; second = default; continue; } return saved; default: return first; }", true)]
