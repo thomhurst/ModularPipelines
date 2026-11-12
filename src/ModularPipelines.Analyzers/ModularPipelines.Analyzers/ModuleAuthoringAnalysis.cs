@@ -5771,7 +5771,7 @@ internal static class ModuleAuthoringAnalysis
         ];
     }
 
-    private static IOperation? FindDefiniteCancellationStorageWrite(IOperation read, ISymbol? symbol, bool isRef)
+    private static IOperation? FindDefiniteCancellationStorageWrite(IOperation read, ISymbol? symbol, bool isRef, bool matchAlias = false)
     {
         var callable = GetEnclosingCallable(read);
         // Exhaustive branches can replace storage collectively even when no
@@ -5784,7 +5784,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(operation => CanReachCancellationStorageRead(operation, read))
             .Where(operation => ReferenceEquals(GetEnclosingCallable(operation), callable))
             .Where(operation => IsDefiniteCancellationStorageBinding(operation, read))
-            .Where(operation => DefinitelyWritesCancellationStorage(operation, symbol, isRef, read))
+            .Where(operation => DefinitelyWritesCancellationStorage(operation, symbol, isRef, read, matchAlias))
             .OrderByDescending(static operation => operation.Syntax.SpanStart)
             .FirstOrDefault();
     }
@@ -5798,7 +5798,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var bindings = FindCancellationStorageAssignments(read, symbol, isRef: true);
-        var write = FindDefiniteCancellationStorageWrite(read, symbol, isRef: false);
+        var write = FindDefiniteCancellationStorageWrite(read, symbol, isRef: false, matchAlias: true);
         // Collective writes establish the selected referent's value only while
         // the alias retains its binding throughout the proof and up to the read.
         if (write is null || bindings.Any(binding =>
@@ -5812,20 +5812,17 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool ReachesAfterCancellationStorageReset(IOperation write, IOperation? reset, IOperation read) =>
         reset is null
-        || (write.Syntax.SpanStart >= reset.Syntax.SpanStart && write.Syntax.SpanStart < read.Syntax.SpanStart)
-        || (SharesCancellationStorageLoop(write, read) && !ResetsCancellationStorageBackedges(reset, write, read));
+        || (CanReachCancellationStorageRead(write, read, reset)
+            && ((write.Syntax.SpanStart >= reset.Syntax.SpanStart && write.Syntax.SpanStart < read.Syntax.SpanStart)
+                || (SharesCancellationStorageLoop(write, read) && !ResetsCancellationStorageBackedges(reset, write, read))));
 
-    private static bool CancellationStorageAssignmentTargets(ISimpleAssignmentOperation assignment, ISymbol? symbol, bool isRef)
+    private static bool CancellationStorageAssignmentTargets(ISimpleAssignmentOperation assignment, ISymbol? symbol, bool isRef, bool matchAlias = false)
     {
-        if (isRef)
+        // Alias-level proofs track the selected reference itself. Storage-level
+        // proofs must resolve the referent after any parameter or local rebind.
+        if (isRef || matchAlias)
         {
             return SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(assignment.Target), symbol);
-        }
-
-        if (symbol is ILocalSymbol { RefKind: not RefKind.None } or IParameterSymbol { RefKind: not RefKind.None }
-            && SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(assignment.Target), symbol))
-        {
-            return true;
         }
 
         var targets = GetCancellationTokenStorages(assignment.Target, assignment, []).ToArray();
@@ -5833,11 +5830,11 @@ internal static class ModuleAuthoringAnalysis
             SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(target), symbol));
     }
 
-    private static bool DefinitelyWritesCancellationStorage(IOperation operation, ISymbol? symbol, bool isRef = false, IOperation? read = null)
+    private static bool DefinitelyWritesCancellationStorage(IOperation operation, ISymbol? symbol, bool isRef = false, IOperation? read = null, bool matchAlias = false)
     {
         if (operation is ISwitchOperation switchOperation)
         {
-            return DefinitelyWritesCancellationStorageSwitch(switchOperation, symbol, isRef, read);
+            return DefinitelyWritesCancellationStorageSwitch(switchOperation, symbol, isRef, read, matchAlias);
         }
 
         // Jumps inside a branch can bypass an otherwise unconditional write.
@@ -5849,12 +5846,12 @@ internal static class ModuleAuthoringAnalysis
         return operation switch
         {
             ISimpleAssignmentOperation assignment => assignment.IsRef == isRef
-                && CancellationStorageAssignmentTargets(assignment, symbol, isRef),
-            IExpressionStatementOperation expression => DefinitelyWritesCancellationStorage(expression.Operation, symbol, isRef, read),
-            IBlockOperation block => block.Operations.Any(child => DefinitelyWritesCancellationStorage(child, symbol, isRef, read)),
-            IConditionalOperation conditional => DefinitelyWritesCancellationStorageBranches(conditional, symbol, isRef, read),
-            IWhileLoopOperation { ConditionIsTop: false } loop => DefinitelyWritesCancellationStorage(loop.Body, symbol, isRef, read),
-            ITryOperation attempt => DefinitelyWritesCancellationStorageTry(attempt, symbol, isRef, read),
+                && CancellationStorageAssignmentTargets(assignment, symbol, isRef, matchAlias),
+            IExpressionStatementOperation expression => DefinitelyWritesCancellationStorage(expression.Operation, symbol, isRef, read, matchAlias),
+            IBlockOperation block => block.Operations.Any(child => DefinitelyWritesCancellationStorage(child, symbol, isRef, read, matchAlias)),
+            IConditionalOperation conditional => DefinitelyWritesCancellationStorageBranches(conditional, symbol, isRef, read, matchAlias),
+            IWhileLoopOperation { ConditionIsTop: false } loop => DefinitelyWritesCancellationStorage(loop.Body, symbol, isRef, read, matchAlias),
+            ITryOperation attempt => DefinitelyWritesCancellationStorageTry(attempt, symbol, isRef, read, matchAlias),
             _ => false,
         };
     }
@@ -5884,23 +5881,23 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool DefinitelyWritesCancellationStorageSwitch(
-        ISwitchOperation operation, ISymbol? symbol, bool isRef, IOperation? read)
+        ISwitchOperation operation, ISymbol? symbol, bool isRef, IOperation? read, bool matchAlias)
     {
         // A contained switch consumes its own breaks; each case must still write.
         return operation.Cases.Any(@case => @case.Clauses.Any(static clause => clause is IDefaultCaseClauseOperation))
             && !operation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
                 !IsNestedCancellationStorageSwitchBreak(branch, operation))
-            && operation.Cases.All(@case => CancellationStorageSequenceDefinitelyWrites(@case.Body, symbol, isRef, read)
+            && operation.Cases.All(@case => CancellationStorageSequenceDefinitelyWrites(@case.Body, symbol, isRef, read, matchAlias)
                 || (SwitchCaseCannotReachFollowingOperation(@case)
                     && !CanReachReadThroughCaughtCancellationStorageThrow(@case, read ?? GetRoot(@case))));
     }
 
     private static bool CancellationStorageSequenceDefinitelyWrites(
-        IEnumerable<IOperation> operations, ISymbol? symbol, bool isRef, IOperation? read)
+        IEnumerable<IOperation> operations, ISymbol? symbol, bool isRef, IOperation? read, bool matchAlias)
     {
         foreach (var operation in operations)
         {
-            if (DefinitelyWritesCancellationStorage(operation, symbol, isRef, read))
+            if (DefinitelyWritesCancellationStorage(operation, symbol, isRef, read, matchAlias))
             {
                 return true;
             }
@@ -5916,32 +5913,32 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool DefinitelyWritesCancellationStorageBranches(
-        IConditionalOperation conditional, ISymbol? symbol, bool isRef, IOperation? read)
+        IConditionalOperation conditional, ISymbol? symbol, bool isRef, IOperation? read, bool matchAlias)
     {
         if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
         {
             return (condition ? conditional.WhenTrue : conditional.WhenFalse) is { } selected
-                && DefinitelyWritesCancellationStorage(selected, symbol, isRef, read);
+                && DefinitelyWritesCancellationStorage(selected, symbol, isRef, read, matchAlias);
         }
 
         return conditional.WhenFalse is { } whenFalse
-            && DefinitelyWritesCancellationStorageOrExits(conditional.WhenTrue, symbol, isRef, read)
-            && DefinitelyWritesCancellationStorageOrExits(whenFalse, symbol, isRef, read);
+            && DefinitelyWritesCancellationStorageOrExits(conditional.WhenTrue, symbol, isRef, read, matchAlias)
+            && DefinitelyWritesCancellationStorageOrExits(whenFalse, symbol, isRef, read, matchAlias);
     }
 
     private static bool DefinitelyWritesCancellationStorageOrExits(
-        IOperation operation, ISymbol? symbol, bool isRef, IOperation? read) =>
-        DefinitelyWritesCancellationStorage(operation, symbol, isRef, read)
+        IOperation operation, ISymbol? symbol, bool isRef, IOperation? read, bool matchAlias = false) =>
+        DefinitelyWritesCancellationStorage(operation, symbol, isRef, read, matchAlias)
         || (AlwaysExitsCallable(operation)
             && !CanReachReadThroughCaughtCancellationStorageThrow(operation, read ?? GetRoot(operation)));
 
     private static bool DefinitelyWritesCancellationStorageTry(
-        ITryOperation attempt, ISymbol? symbol, bool isRef, IOperation? read)
+        ITryOperation attempt, ISymbol? symbol, bool isRef, IOperation? read, bool matchAlias)
     {
         return (attempt.Finally is { } finallyBlock
-                && DefinitelyWritesCancellationStorage(finallyBlock, symbol, isRef, read))
-            || (DefinitelyWritesCancellationStorage(attempt.Body, symbol, isRef, read)
-                && attempt.Catches.All(handler => DefinitelyWritesCancellationStorageOrExits(handler.Handler, symbol, isRef, read)));
+                && DefinitelyWritesCancellationStorage(finallyBlock, symbol, isRef, read, matchAlias))
+            || (DefinitelyWritesCancellationStorage(attempt.Body, symbol, isRef, read, matchAlias)
+                && attempt.Catches.All(handler => DefinitelyWritesCancellationStorageOrExits(handler.Handler, symbol, isRef, read, matchAlias)));
     }
 
     private static bool IsOverwrittenCancellationStorageWrite(
@@ -6222,13 +6219,30 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsDefiniteCancellationStorageBinding(IOperation binding, IOperation read)
     {
-        if (binding.Syntax.SpanStart >= read.Syntax.SpanStart || !IsLinearPredecessor(binding, read))
+        var predecessor = binding;
+        var block = GetContainingBlock(predecessor);
+        while (block is not null && !HasAncestor(read, block)
+            && block.Parent is IBlockOperation or ILabeledOperation)
+        {
+            predecessor = block;
+            block = GetContainingBlock(predecessor);
+        }
+
+        // Internal jumps in a promoted block are not region entry points.
+        // A later label can therefore bypass the assignment being proved.
+        if (!ReferenceEquals(predecessor, binding)
+            && predecessor.DescendantsAndSelf().OfType<ILabeledOperation>()
+                .Any(label => label.Syntax.SpanStart > binding.Syntax.Span.End))
         {
             return false;
         }
 
-        var block = GetContainingBlock(binding);
-        var first = binding.Syntax.AncestorsAndSelf().OfType<StatementSyntax>()
+        if (binding.Syntax.SpanStart >= read.Syntax.SpanStart || !IsLinearPredecessor(predecessor, read))
+        {
+            return false;
+        }
+
+        var first = predecessor.Syntax.AncestorsAndSelf().OfType<StatementSyntax>()
             .FirstOrDefault(statement => statement.Parent == block?.Syntax);
         var last = read.Syntax.AncestorsAndSelf().OfType<StatementSyntax>()
             .FirstOrDefault(statement => statement.Parent == block?.Syntax);
@@ -6242,7 +6256,7 @@ internal static class ModuleAuthoringAnalysis
             && !flow.EntryPoints.Any(entry => entry.SpanStart > binding.Syntax.Span.End);
     }
 
-    private static bool CanReachCancellationStorageRead(IOperation binding, IOperation read)
+    private static bool CanReachCancellationStorageRead(IOperation binding, IOperation read, IOperation? reset = null)
     {
         for (var current = binding; current.Parent is { } parent; current = parent)
         {
@@ -6252,7 +6266,7 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            if (IsUnreachableCancellationStorageCase(current, binding, read))
+            if (IsUnreachableCancellationStorageCase(current, binding, read, reset))
             {
                 return false;
             }
@@ -6263,7 +6277,7 @@ internal static class ModuleAuthoringAnalysis
                     || (ReferenceEquals(conditional.WhenFalse, current)
                         && HasAncestor(read, conditional.WhenTrue)))
                 && !SharesCancellationStorageLoop(binding, read)
-                && !CanRevisitCancellationStorageOperation(conditional))
+                && !CanRevisitCancellationStorageOperation(conditional, reset))
             {
                 return false;
             }
@@ -6272,23 +6286,25 @@ internal static class ModuleAuthoringAnalysis
         return true;
     }
 
-    private static bool IsUnreachableCancellationStorageCase(IOperation current, IOperation binding, IOperation read) =>
+    private static bool IsUnreachableCancellationStorageCase(IOperation current, IOperation binding, IOperation read, IOperation? reset) =>
         current is ISwitchCaseOperation sourceCase && current.Parent is ISwitchOperation switchOperation
         && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } targetCase
         && !ReferenceEquals(sourceCase, targetCase)
         && !SharesCancellationStorageLoop(binding, read)
-        && !CanRevisitCancellationStorageOperation(switchOperation)
+        && !CanRevisitCancellationStorageOperation(switchOperation, reset)
         && !CanTransferCancellationStorageBetweenCases(sourceCase, targetCase, switchOperation);
 
-    private static bool CanRevisitCancellationStorageOperation(IOperation operation)
+    private static bool CanRevisitCancellationStorageOperation(IOperation operation, IOperation? reset)
     {
         var callable = GetEnclosingCallable(operation);
+        var hasReset = reset is not null && IsDefiniteCancellationStorageBinding(reset, operation);
         var labels = GetRoot(operation).DescendantsAndSelf().OfType<ILabeledOperation>()
             .Where(label => label.Syntax.SpanStart <= operation.Syntax.SpanStart)
+            .Where(label => !hasReset || label.Syntax.SpanStart > reset!.Syntax.SpanStart)
             .Where(label => ReferenceEquals(GetEnclosingCallable(label), callable))
             .Select(static label => label.Label).ToArray();
         // A backward jump after a construct can carry a write into a different
-        // branch on its next visit, just like a structured loop backedge.
+        // branch on its next visit, unless its target precedes a mandatory reset.
         return GetRoot(operation).DescendantsAndSelf().OfType<IBranchOperation>()
             .Any(branch => branch.BranchKind == BranchKind.GoTo
                 && branch.Syntax.SpanStart >= operation.Syntax.Span.End

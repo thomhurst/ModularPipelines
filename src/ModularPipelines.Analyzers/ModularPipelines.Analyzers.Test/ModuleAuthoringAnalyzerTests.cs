@@ -3025,6 +3025,14 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var i = 0; Before: switch (i++) { case 0: first = default; break; default: return first; } goto Before;")]
     [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); if (DateTime.UtcNow.Ticks > 1) alias = third; return alias;")]
     [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); if (DateTime.UtcNow.Ticks > 1) alias = third; else alias = third; alias = ref second; return alias;")]
+    [DataRow("ref var alias = ref second; second = ref first; second = third; return alias;")]
+    [DataRow("ref var alias = ref second; second = ref first; if (DateTime.UtcNow.Ticks > 0) second = third; else second = first; return alias;")]
+    [DataRow("ref var alias = ref second; second = ref first; switch (DateTime.UtcNow.Ticks) { case 0: second = third; break; default: second = first; break; } return alias;")]
+    [DataRow("var i = 0; Before: first = third; After: switch (i++) { case 0: first = default; break; default: return first; } goto After;")]
+    [DataRow("var i = 0; Before: if (DateTime.UtcNow.Ticks > 0) first = third; switch (i++) { case 0: first = default; break; default: return first; } goto Before;")]
+    [DataRow("var i = 0; Before: { first = third; } After: switch (i++) { case 0: first = default; break; default: return first; } goto After;")]
+    [DataRow("var i = 0; Before: { if (i > 0) goto After; first = third; After: ; } switch (i++) { case 0: first = default; break; default: return first; } goto Before;")]
+    [DataRow("var i = 0; Before: try { MayThrow(); first = third; } catch (Exception) {} switch (i++) { case 0: first = default; break; default: return first; } goto Before; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); }")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3127,6 +3135,13 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = default; break; case 1: goto default; default: return first; } return third;", "default")]
     [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); if (DateTime.UtcNow.Ticks > 1) alias = third; else alias = third; return alias;", "default")]
     [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); switch (DateTime.UtcNow.Ticks) { case 0: alias = third; break; default: alias = first; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; second = third; second = ref first; return alias;", "default")]
+    [DataRow("ref var alias = ref second; second = ref first; second = third; alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; second = ref first; second = third; return second;", "default")]
+    [DataRow("var i = 0; Before: first = third; switch (i++) { case 0: first = default; break; default: return first; } goto Before;", "default")]
+    [DataRow("var i = 0; Before: first = ref third; switch (i++) { case 0: first = ref second; break; default: return first; } goto Before;", "default")]
+    [DataRow("var i = 0; Before: first = third; if (i++ == 0) first = default; else return first; goto Before;", "default")]
+    [DataRow("var i = 0; Before: { first = third; } switch (i++) { case 0: first = default; break; default: return first; } goto Before;", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);
