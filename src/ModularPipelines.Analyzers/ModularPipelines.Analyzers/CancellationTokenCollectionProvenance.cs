@@ -566,7 +566,7 @@ internal static class CancellationTokenCollectionProvenance
             if (conversion.OperatorMethod is not null)
             {
                 InvalidateArrays(converted, state);
-                return Value.None;
+                return Value.Unknown;
             }
 
             if (converted.Elements is null || conversion.Type is INamedTypeSymbol { IsTupleType: true })
@@ -1319,10 +1319,8 @@ internal static class CancellationTokenCollectionProvenance
 
         private void WriteCollectionElement(IOperation receiver, IReadOnlyList<IOperation> indices, Value array, Value value, State state)
         {
-            if (array.Unsupported)
-            {
-                InvalidateUnknownCollections(state, array.Arrays);
-            }
+            // A helper result may alias a known allocation as well as another helper result.
+            InvalidateUnknownCollections(state, array.Arrays);
 
             if (array.UnknownArray)
             {
@@ -1409,6 +1407,8 @@ internal static class CancellationTokenCollectionProvenance
         {
             switch (target)
             {
+                case IDiscardOperation:
+                    break;
                 case IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } receiver } indexer
                     when IsTokenCollection(receiver.Type):
                     AssignCollectionElement(receiver, [.. indexer.Arguments.Select(argument => argument.Value)], value, state);

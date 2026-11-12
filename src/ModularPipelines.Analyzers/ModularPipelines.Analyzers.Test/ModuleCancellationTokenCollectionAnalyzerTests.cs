@@ -506,6 +506,33 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
             "private static CancellationToken[] Pack(CancellationToken token) => new[] { token }; private static Span<CancellationToken> PackSpan(CancellationToken token) => new CancellationToken[] { token }; private static void Observe(CancellationToken[] tokens) { } private static void ResetPacked() { }");
     }
 
+    [TestMethod]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = Identity(tokens); alias[0] = default; tokens[0] = cancellationToken; cancellationToken = alias[0];", false)]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = Identity(tokens); alias[0] = default; cancellationToken = alias[0];", true)]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = Identity(tokens); alias[0] = default; tokens.AsSpan()[0] = cancellationToken; cancellationToken = alias[0];", false)]
+    public async Task Known_Array_Writes_Invalidate_Possible_Helper_Aliases(string statements, bool warns)
+    {
+        await Verify(statements, warns, "private static CancellationToken[] Identity(CancellationToken[] tokens) => tokens;");
+    }
+
+    [TestMethod]
+    [DataRow("_ = tokens;", false)]
+    [DataRow("(_, _) = (tokens, tokens);", false)]
+    [DataRow("_ = tokens; tokens[0] = default;", true)]
+    public async Task Discarded_Collections_Do_Not_Escape(string discard, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; tokens[0] = cancellationToken; {discard} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", warns);
+    }
+
+    [TestMethod]
+    [DataRow("cancellationToken = new TokenBox(cancellationToken);", false)]
+    [DataRow("cancellationToken = new TokenBox(cancellationToken); cancellationToken = default;", true)]
+    public async Task User_Defined_Token_Conversions_Remain_Unknown(string statements, bool warns)
+    {
+        await Verify($"var pair = (1, 2); {statements}", warns,
+            "private readonly struct TokenBox { private readonly CancellationToken _token; public TokenBox(CancellationToken token) { _token = token; } public static implicit operator CancellationToken(TokenBox box) => box._token; }");
+    }
+
     public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")
