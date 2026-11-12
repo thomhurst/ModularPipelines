@@ -12,7 +12,7 @@ public sealed record PipelineRunReport
     /// <summary>
     /// Gets the current run report schema version.
     /// </summary>
-    public const int CurrentSchemaVersion = 7;
+    public const int CurrentSchemaVersion = 8;
 
     /// <summary>
     /// Gets the schema version used by this report.
@@ -79,6 +79,11 @@ public sealed record PipelineRunReport
     /// Gets execution metrics, when available.
     /// </summary>
     public PipelineMetrics? Metrics { get; init; }
+
+    /// <summary>
+    /// Gets machine-wide CPU and memory usage sampled during the run, when monitoring was enabled and supported.
+    /// </summary>
+    public ResourceUsage? ResourceUsage { get; init; }
 
     /// <summary>
     /// Gets the pipeline-level exception, when the run failed outside a module.

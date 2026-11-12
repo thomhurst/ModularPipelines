@@ -45,7 +45,13 @@ Correlation strings pass through secret obfuscation before persistence.
 
 ## Report schemas and rerun compatibility
 
-The current report schema is v7 (`PipelineRunReport.CurrentSchemaVersion`).
+The current report schema is v8 (`PipelineRunReport.CurrentSchemaVersion`).
+
+### Schema v8: machine resource usage
+
+Schema v8 adds the optional `PipelineRunReport.ResourceUsage` section: peak and average machine CPU,
+peak machine memory, and each period in which usage stayed above its threshold with the modules
+running at the time. See [Machine resource monitoring](./resource-monitoring.md).
 
 ### Schema v7: stable module identifiers
 
@@ -71,7 +77,7 @@ Schema v6 introduced failed-module rerun metadata:
 `--rerun-failed` uses this metadata to match retained reports to typed results from an
 `IModuleResultRepository`. Reports contain status and telemetry, not typed result values.
 Older supported schemas, including v6, remain queryable as history, but cannot supply a compatible
-rerun baseline. A baseline must use the exact current schema (currently v7), the same pipeline
+rerun baseline. A baseline must use the exact current schema (currently v8), the same pipeline
 identity, a matching graph fingerprint, and the same set of module identifiers. The graph fingerprint
 covers module types, compiled module assemblies, result types, and dependency edges. If no
 compatible baseline exists, selected modules execute normally.

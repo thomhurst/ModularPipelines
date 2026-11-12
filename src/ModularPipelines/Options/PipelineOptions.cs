@@ -215,6 +215,11 @@ public sealed record PipelineOptions
     public ConcurrencyOptions Concurrency { get; init; } = new();
 
     /// <summary>
+    /// Gets machine CPU and memory monitoring settings.
+    /// </summary>
+    public ResourceMonitoringOptions ResourceMonitoring { get; init; } = new();
+
+    /// <summary>
     /// Gets a value indicating whether to throw a <see cref="Exceptions.PipelineFailedException"/>
     /// when the pipeline completes with one or more failed modules.
     /// </summary>

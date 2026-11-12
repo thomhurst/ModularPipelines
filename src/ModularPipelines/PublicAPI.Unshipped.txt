@@ -2930,7 +2930,6 @@ const ModularPipelines.Capability.Names.MacOS = "macos" -> string!
 const ModularPipelines.Capability.Names.Windows = "windows" -> string!
 const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion = 4 -> int
 const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion = 2 -> int
-const ModularPipelines.Reporting.PipelineRunReport.CurrentSchemaVersion = 7 -> int
 const ModularPipelines.Tracing.PipelineTelemetry.CommandExitCodeTag = "process.exit.code" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.CommandInputTag = "process.command_line" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.CommandSourceName = "ModularPipelines.Commands" -> string!
@@ -3979,3 +3978,72 @@ override ModularPipelines.ModuleIdJsonConverter.Read(ref System.Text.Json.Utf8Js
 override ModularPipelines.ModuleIdJsonConverter.ReadAsPropertyName(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> ModularPipelines.ModuleId
 override ModularPipelines.ModuleIdJsonConverter.Write(System.Text.Json.Utf8JsonWriter! writer, ModularPipelines.ModuleId value, System.Text.Json.JsonSerializerOptions! options) -> void
 override ModularPipelines.ModuleIdJsonConverter.WriteAsPropertyName(System.Text.Json.Utf8JsonWriter! writer, ModularPipelines.ModuleId value, System.Text.Json.JsonSerializerOptions! options) -> void
+const ModularPipelines.Reporting.PipelineRunReport.CurrentSchemaVersion = 8 -> int
+ModularPipelines.Options.PipelineOptions.ResourceMonitoring.get -> ModularPipelines.Options.ResourceMonitoringOptions!
+ModularPipelines.Options.PipelineOptions.ResourceMonitoring.init -> void
+ModularPipelines.Options.ResourceMonitoringOptions
+ModularPipelines.Options.ResourceMonitoringOptions.<Clone>$() -> ModularPipelines.Options.ResourceMonitoringOptions!
+ModularPipelines.Options.ResourceMonitoringOptions.CpuThreshold.get -> double
+ModularPipelines.Options.ResourceMonitoringOptions.CpuThreshold.init -> void
+ModularPipelines.Options.ResourceMonitoringOptions.Enabled.get -> bool
+ModularPipelines.Options.ResourceMonitoringOptions.Enabled.init -> void
+ModularPipelines.Options.ResourceMonitoringOptions.Equals(ModularPipelines.Options.ResourceMonitoringOptions? other) -> bool
+ModularPipelines.Options.ResourceMonitoringOptions.MemoryThreshold.get -> double
+ModularPipelines.Options.ResourceMonitoringOptions.MemoryThreshold.init -> void
+ModularPipelines.Options.ResourceMonitoringOptions.ResourceMonitoringOptions() -> void
+ModularPipelines.Options.ResourceMonitoringOptions.SampleInterval.get -> System.TimeSpan
+ModularPipelines.Options.ResourceMonitoringOptions.SampleInterval.init -> void
+ModularPipelines.Options.ResourceMonitoringOptions.SustainedSamples.get -> int
+ModularPipelines.Options.ResourceMonitoringOptions.SustainedSamples.init -> void
+ModularPipelines.PipelineBuilder.ConfigureResourceMonitoring(System.Func<ModularPipelines.Options.ResourceMonitoringOptions!, ModularPipelines.Options.ResourceMonitoringOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+ModularPipelines.PipelineSummary.ResourceUsage.get -> ModularPipelines.Reporting.ResourceUsage?
+ModularPipelines.Reporting.PipelineRunReport.ResourceUsage.get -> ModularPipelines.Reporting.ResourceUsage?
+ModularPipelines.Reporting.PipelineRunReport.ResourceUsage.init -> void
+ModularPipelines.Reporting.ResourceKind
+ModularPipelines.Reporting.ResourceKind.Cpu = 0 -> ModularPipelines.Reporting.ResourceKind
+ModularPipelines.Reporting.ResourceKind.Memory = 1 -> ModularPipelines.Reporting.ResourceKind
+ModularPipelines.Reporting.ResourceSaturationPeriod
+ModularPipelines.Reporting.ResourceSaturationPeriod.<Clone>$() -> ModularPipelines.Reporting.ResourceSaturationPeriod!
+ModularPipelines.Reporting.ResourceSaturationPeriod.End.get -> System.DateTimeOffset
+ModularPipelines.Reporting.ResourceSaturationPeriod.End.init -> void
+ModularPipelines.Reporting.ResourceSaturationPeriod.Equals(ModularPipelines.Reporting.ResourceSaturationPeriod? other) -> bool
+ModularPipelines.Reporting.ResourceSaturationPeriod.Kind.get -> ModularPipelines.Reporting.ResourceKind
+ModularPipelines.Reporting.ResourceSaturationPeriod.Kind.init -> void
+ModularPipelines.Reporting.ResourceSaturationPeriod.Modules.get -> System.Collections.Generic.IReadOnlyList<string!>!
+ModularPipelines.Reporting.ResourceSaturationPeriod.Modules.init -> void
+ModularPipelines.Reporting.ResourceSaturationPeriod.Peak.get -> double
+ModularPipelines.Reporting.ResourceSaturationPeriod.Peak.init -> void
+ModularPipelines.Reporting.ResourceSaturationPeriod.ResourceSaturationPeriod() -> void
+ModularPipelines.Reporting.ResourceSaturationPeriod.Start.get -> System.DateTimeOffset
+ModularPipelines.Reporting.ResourceSaturationPeriod.Start.init -> void
+ModularPipelines.Reporting.ResourceUsage
+ModularPipelines.Reporting.ResourceUsage.<Clone>$() -> ModularPipelines.Reporting.ResourceUsage!
+ModularPipelines.Reporting.ResourceUsage.AverageCpu.get -> double
+ModularPipelines.Reporting.ResourceUsage.AverageCpu.init -> void
+ModularPipelines.Reporting.ResourceUsage.Equals(ModularPipelines.Reporting.ResourceUsage? other) -> bool
+ModularPipelines.Reporting.ResourceUsage.PeakCpu.get -> double
+ModularPipelines.Reporting.ResourceUsage.PeakCpu.init -> void
+ModularPipelines.Reporting.ResourceUsage.PeakMemory.get -> double
+ModularPipelines.Reporting.ResourceUsage.PeakMemory.init -> void
+ModularPipelines.Reporting.ResourceUsage.Periods.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Reporting.ResourceSaturationPeriod!>!
+ModularPipelines.Reporting.ResourceUsage.Periods.init -> void
+ModularPipelines.Reporting.ResourceUsage.ResourceUsage() -> void
+ModularPipelines.Reporting.ResourceUsage.SampleCount.get -> int
+ModularPipelines.Reporting.ResourceUsage.SampleCount.init -> void
+ModularPipelines.Reporting.ResourceUsage.SaturatedDuration.get -> System.TimeSpan
+ModularPipelines.Reporting.ResourceUsage.SaturatedDuration.init -> void
+override ModularPipelines.Options.ResourceMonitoringOptions.Equals(object? obj) -> bool
+override ModularPipelines.Options.ResourceMonitoringOptions.GetHashCode() -> int
+override ModularPipelines.Options.ResourceMonitoringOptions.ToString() -> string!
+override ModularPipelines.Reporting.ResourceSaturationPeriod.Equals(object? obj) -> bool
+override ModularPipelines.Reporting.ResourceSaturationPeriod.GetHashCode() -> int
+override ModularPipelines.Reporting.ResourceSaturationPeriod.ToString() -> string!
+override ModularPipelines.Reporting.ResourceUsage.Equals(object? obj) -> bool
+override ModularPipelines.Reporting.ResourceUsage.GetHashCode() -> int
+override ModularPipelines.Reporting.ResourceUsage.ToString() -> string!
+static ModularPipelines.Options.ResourceMonitoringOptions.operator !=(ModularPipelines.Options.ResourceMonitoringOptions? left, ModularPipelines.Options.ResourceMonitoringOptions? right) -> bool
+static ModularPipelines.Options.ResourceMonitoringOptions.operator ==(ModularPipelines.Options.ResourceMonitoringOptions? left, ModularPipelines.Options.ResourceMonitoringOptions? right) -> bool
+static ModularPipelines.Reporting.ResourceSaturationPeriod.operator !=(ModularPipelines.Reporting.ResourceSaturationPeriod? left, ModularPipelines.Reporting.ResourceSaturationPeriod? right) -> bool
+static ModularPipelines.Reporting.ResourceSaturationPeriod.operator ==(ModularPipelines.Reporting.ResourceSaturationPeriod? left, ModularPipelines.Reporting.ResourceSaturationPeriod? right) -> bool
+static ModularPipelines.Reporting.ResourceUsage.operator !=(ModularPipelines.Reporting.ResourceUsage? left, ModularPipelines.Reporting.ResourceUsage? right) -> bool
+static ModularPipelines.Reporting.ResourceUsage.operator ==(ModularPipelines.Reporting.ResourceUsage? left, ModularPipelines.Reporting.ResourceUsage? right) -> bool

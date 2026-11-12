@@ -163,6 +163,17 @@ public class SpectreResultsPrinterTests
     }
 
     [Test]
+    public async Task ResourceUsageLine_ShowsPeaksAndSaturatedTime()
+    {
+        var usage = new ResourceUsage { PeakCpu = 0.984, AverageCpu = 0.71, PeakMemory = 0.83 };
+
+        await Assert.That(SpectreResultsPrinter.CreateResourceUsageLine(usage))
+            .IsEqualTo("CPU peak 98%, avg 71%; memory peak 83%");
+        await Assert.That(SpectreResultsPrinter.CreateResourceUsageLine(usage with { SaturatedDuration = TimeSpan.FromSeconds(5) }))
+            .IsEqualTo($"CPU peak 98%, avg 71%; memory peak 83%; saturated for {TimeSpan.FromSeconds(5).ToDisplayString()}");
+    }
+
+    [Test]
     public async Task DistributedSummaryLine_ShowsIdlePercentageAndLongestQueueWait()
     {
         var line = SpectreResultsPrinter.CreateDistributedSummaryLine(new DistributedRunReport

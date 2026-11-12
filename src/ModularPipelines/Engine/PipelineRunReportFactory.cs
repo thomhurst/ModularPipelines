@@ -105,6 +105,7 @@ internal sealed class PipelineRunReportFactory(
                 ? null
                 : summary.Duration - previousTotalDuration.Value,
             Metrics = summary.Metrics,
+            ResourceUsage = summary.ResourceUsage,
             Exception = CreateExceptionDetails(pipelineException),
             Modules = modules,
             Distributed = distributedTelemetryTracker?.CreateReport(
