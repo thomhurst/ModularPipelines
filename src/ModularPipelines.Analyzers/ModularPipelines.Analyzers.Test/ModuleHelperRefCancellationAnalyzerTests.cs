@@ -7,6 +7,13 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "PreserveLinkedConditional(ref first); return first;", false)]
+    [DataRow("ref token, ref token", "", "DiscardLinkedConditional(ref first); return first;", true)]
+    [DataRow("ref token, ref token", "", "PreserveLinked(ref first); return first;", false)]
+    [DataRow("ref token, ref token", "", "PreserveLinkedNested(ref first); return first;", false)]
+    [DataRow("ref token, ref token", "", "ClearThenLink(ref first); return first;", true)]
+    [DataRow("ref token, ref token", "", "DiscardLinked(ref first); return first;", true)]
+    [DataRow("ref token, ref token", "", "PreserveViaValueHelper(ref first); return first;", false)]
     [DataRow("ref token, ref token", "", "ClearPairLocal(ref second); return first;", true)]
     [DataRow("ref token, ref token", "", "ClearPairCall(ref first); return first;", true)]
     [DataRow("ref token, ref token", "", "ClearNestedPair(ref second); return first;", true)]
@@ -262,6 +269,21 @@ public class ModuleHelperRefCancellationAnalyzerTests
                     int first, second;
                     (first, second) = (1, 2);
                 }
+
+                private static void PreserveLinked(scoped ref CancellationToken value)
+                    => value = CancellationTokenSource.CreateLinkedTokenSource(value, CancellationToken.None).Token;
+                private static void PreserveLinkedConditional(scoped ref CancellationToken value)
+                    => value = Flag ? value : CancellationTokenSource.CreateLinkedTokenSource(value, CancellationToken.None).Token;
+                private static void DiscardLinkedConditional(scoped ref CancellationToken value) => value = Flag ? value : default;
+                private static void PreserveLinkedNested(scoped ref CancellationToken value) => PreserveLinked(ref value);
+                private static void ClearThenLink(scoped ref CancellationToken value)
+                {
+                    value = default;
+                    PreserveLinked(ref value);
+                }
+                private static void DiscardLinked(scoped ref CancellationToken value)
+                    => value = CancellationTokenSource.CreateLinkedTokenSource(default(CancellationToken), CancellationToken.None).Token;
+                private static void PreserveViaValueHelper(scoped ref CancellationToken value) => value = IdentityValue(default, value);
 
                 private static void Clear(scoped ref CancellationToken value) => value = default;
                 private static void Preserve(scoped ref CancellationToken value) => value = value;

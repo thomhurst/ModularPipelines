@@ -6331,22 +6331,13 @@ internal static class ModuleAuthoringAnalysis
         return body.DescendantsAndSelf()
             .Where(static operation => GetEnclosingCallable(operation) is null && IsInReachableBranch(operation))
             .SelectMany(operation => GetCancellationStorageWrites(operation, visitedMethods))
-            .Any(write => CancellationWriteChangesParameter(write.Target, write.Value, parameter));
+            .Any(write => CancellationWriteChangesParameter(write.Target, write.Value, parameter, visitedMethods));
     }
 
-    private static bool CancellationWriteChangesParameter(IOperation target, IOperation? value, IParameterSymbol parameter)
+    private static bool CancellationWriteChangesParameter(
+        IOperation target, IOperation? value, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods)
     {
-        // Discards have no storage, and fresh helper-local arrays cannot contain
-        // the incoming ref parameter's caller slot.
-        if (target is IDiscardOperation
-            || (target is IArrayElementReferenceOperation element
-                && IsNewCancellationArrayInScope(element.ArrayReference, target)))
-        {
-            return false;
-        }
-
-        // Safe C# cannot alias storage of a different type, even when its slot is unknown.
-        if (target.Type is { } targetType && !SymbolEqualityComparer.Default.Equals(targetType, parameter.Type))
+        if (HasDisjointCancellationWriteStorage(target, parameter))
         {
             return false;
         }
@@ -6357,9 +6348,61 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        // A direct self-copy leaves the slot unchanged; other values need a separate proof.
-        return value is null || storage is null
-            || !SymbolEqualityComparer.Default.Equals(GetCancellationStorage(value, [], preserveParameters: true), parameter);
+        // Available ref helpers may replace the token with a linked token or a
+        // proven helper result while retaining cancellation from the input.
+        return value is null || !IsCancellationPreservingParameterWriteValue(value, parameter, visitedMethods);
+    }
+
+    private static bool IsCancellationPreservingParameterWriteValue(
+        IOperation value, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (SymbolEqualityComparer.Default.Equals(GetCancellationStorage(value, [], preserveParameters: true), parameter))
+        {
+            return true;
+        }
+
+        return value switch
+        {
+            IConversionOperation conversion => IsCancellationPreservingParameterWriteValue(conversion.Operand, parameter, visitedMethods),
+            IParenthesizedOperation parenthesized => IsCancellationPreservingParameterWriteValue(parenthesized.Operand, parameter, visitedMethods),
+            IPropertyReferenceOperation { Instance: { } instance } property when IsCancellationTokenSourceToken(property) =>
+                IsCancellationPreservingParameterWriteValue(instance, parameter, visitedMethods),
+            IInvocationOperation invocation => IsCancellationPreservingParameterWriteInvocation(invocation, parameter, visitedMethods),
+            IConditionalOperation or ISwitchExpressionOperation => IsCancellationPreservingParameterWriteBranches(value, parameter, visitedMethods),
+            _ => false,
+        };
+    }
+
+    private static bool IsCancellationPreservingParameterWriteInvocation(
+        IInvocationOperation invocation, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (IsKnownCancellationCarrierFactory(invocation))
+        {
+            return invocation.Arguments.Any(argument => argument.Parameter is { } input
+                && IsCancellationInput(input)
+                && IsCancellationPreservingParameterWriteValue(argument.Value, parameter, CloneVisitedMethods(visitedMethods)));
+        }
+
+        return HasCancellationPreservingHelperInput(invocation, visitedMethods,
+            argument => IsCancellationPreservingParameterWriteValue(argument, parameter, CloneVisitedMethods(visitedMethods)));
+    }
+
+    private static bool IsCancellationPreservingParameterWriteBranches(
+        IOperation value, IParameterSymbol parameter, HashSet<IMethodSymbol> visitedMethods)
+    {
+        var leaves = GetReachableValueLeaves(value).Where(static leaf => !AlwaysThrows(leaf)).ToArray();
+        return leaves.Length > 0 && leaves.All(leaf => IsCancellationPreservingParameterWriteValue(leaf, parameter, CloneVisitedMethods(visitedMethods)));
+    }
+
+    private static bool HasDisjointCancellationWriteStorage(IOperation target, IParameterSymbol parameter)
+    {
+        // Discards have no storage, and fresh helper-local arrays cannot contain
+        // the incoming ref parameter's caller slot.
+        return target is IDiscardOperation
+            || (target is IArrayElementReferenceOperation element
+                && IsNewCancellationArrayInScope(element.ArrayReference, target))
+            // Safe C# cannot alias storage of a different type, even when its slot is unknown.
+            || (target.Type is { } targetType && !SymbolEqualityComparer.Default.Equals(targetType, parameter.Type));
     }
 
     private static IEnumerable<(IOperation Target, IOperation? Value)> GetCancellationTupleWrites(IOperation target, IOperation? value)
