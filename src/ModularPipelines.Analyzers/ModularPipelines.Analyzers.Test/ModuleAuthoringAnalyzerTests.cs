@@ -3232,6 +3232,29 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; return alias;")]
+    [DataRow("ref var alias = ref first; switch (DateTime.UtcNow.Ticks) { case 0: alias = default; alias = ref third; break; default: alias = ref first; break; } return alias;")]
+    public async Task Does_Not_Report_CancellationToken_Read_From_Distinct_Helper_Value_Parameters(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(body, "default", report: false)
+            .Replace("scoped ref CancellationToken", "CancellationToken")
+            .Replace("Forward(ref token, ref other, ref third)", "Forward(token, other, token)");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+
+        var nestedSource = source.Replace(body, "return Nested(ref first, ref second, ref third);")
+            .Replace("protected override async", $$"""
+                private static CancellationToken Nested(
+                    scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third)
+                {
+                    {{body}}
+                }
+
+                protected override async
+                """);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(nestedSource);
+    }
+
+    [TestMethod]
     [DataRow("ref var alias = ref Identity(ref first); return alias;", false)]
     [DataRow("ref var alias = ref Identity(ref second); return alias;", true)]
     [DataRow("ref var alias = ref Identity(ref first); first = default; return alias;", true)]
@@ -3263,6 +3286,7 @@ public class ModuleAuthoringAnalyzerTests
     [TestMethod]
     [DataRow("{ token = default; return ref token; }")]
     [DataRow("{ Clear(ref token); return ref token; }")]
+    [DataRow("{ return ref (ClearAndTrue(ref token) ? ref token : ref token); }")]
     public async Task Reports_CancellationToken_Cleared_By_Ref_Return_Helper(string helperBody)
     {
         var source = ReboundCancellationTokenHelperSource(
@@ -3341,9 +3365,18 @@ public class ModuleAuthoringAnalyzerTests
 
     private static string ReboundCancellationTokenHelperSource(string body, string second, bool report, string? helpers = null)
     {
+        helpers ??= """
+            private static void Clear(ref CancellationToken token) => token = default;
+            private static ref CancellationToken Identity(ref CancellationToken token) => ref token;
+            private static bool ClearAndTrue(ref CancellationToken token)
+            {
+                token = default;
+                return true;
+            }
+            """;
         var delay = report ? "{|#0:Task.Delay(1, snapshot)|}" : "Task.Delay(1, snapshot)";
         return ModuleSource($$"""
-            {{helpers ?? "private static void Clear(ref CancellationToken token) => token = default; private static ref CancellationToken Identity(ref CancellationToken token) => ref token;"}}
+            {{helpers}}
 
             private static CancellationToken Forward(
                 scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third)

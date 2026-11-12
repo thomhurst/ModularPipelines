@@ -5712,7 +5712,8 @@ internal static class ModuleAuthoringAnalysis
     private static bool MayShareCancellationParameterStorage(
         ISymbol first, ISymbol? second, IReadOnlyCollection<IParameterSymbol> cancellationTokens)
     {
-        if (first is not IParameterSymbol firstParameter || second is not IParameterSymbol secondParameter)
+        if (first is not IParameterSymbol { RefKind: not RefKind.None } firstParameter
+            || second is not IParameterSymbol { RefKind: not RefKind.None } secondParameter)
         {
             return false;
         }
@@ -5747,7 +5748,8 @@ internal static class ModuleAuthoringAnalysis
 
         private IEnumerable<ISymbol?> ResolveCallerParameter(ISymbol? storage)
         {
-            if (storage is IParameterSymbol parameter && callerTokens is CancellationHelperParameters parent)
+            if (storage is IParameterSymbol { RefKind: not RefKind.None } parameter
+                && callerTokens is CancellationHelperParameters parent)
             {
                 return parent.GetCallerStorages(parameter);
             }
@@ -5805,14 +5807,7 @@ internal static class ModuleAuthoringAnalysis
             return GetCancellationTokenInvocationStorages(invocation, visitedBindings);
         }
 
-        var symbol = GetCancellationStorageSymbol(reference);
-        if (symbol is not (IParameterSymbol { RefKind: not RefKind.None }
-            or ILocalSymbol { RefKind: not RefKind.None }))
-        {
-            return [reference];
-        }
-
-        return ResolveCancellationTokenReferenceStorage(reference, bindingPoint, symbol, visitedBindings);
+        return ResolveCancellationTokenReferenceStorage(reference, bindingPoint, visitedBindings);
     }
 
     private static IEnumerable<IOperation> GetCancellationTokenInvocationStorages(
@@ -5896,8 +5891,15 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static IEnumerable<IOperation> ResolveCancellationTokenReferenceStorage(
-        IOperation reference, IOperation bindingPoint, ISymbol symbol, HashSet<IOperation> visitedBindings)
+        IOperation reference, IOperation bindingPoint, HashSet<IOperation> visitedBindings)
     {
+        var symbol = GetCancellationStorageSymbol(reference);
+        if (symbol is not (IParameterSymbol { RefKind: not RefKind.None }
+            or ILocalSymbol { RefKind: not RefKind.None }))
+        {
+            return [reference];
+        }
+
         var root = GetRoot(bindingPoint);
         var callable = GetEnclosingCallable(bindingPoint);
         var bindings = FindCancellationStorageAssignments(bindingPoint, symbol, isRef: true);
