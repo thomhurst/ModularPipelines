@@ -2946,6 +2946,375 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { second = third; for (var i = 0; i < 2; i++) { snapshot = first; second = default; } } return snapshot;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else alias = default; return alias;")]
+    [DataRow("for (var i = 0; i < 2; i++) { first = second; second = DateTime.UtcNow.Ticks > 0 ? first : third; } return first;")]
+    [DataRow("for (var i = 0; i < 2; i++) { first = second; second = DateTime.UtcNow.Ticks switch { > 0 => first, _ => third }; } return first;")]
+    [DataRow("for (var i = 0; i < 2; i++) { first = second; second = Identity(first); } return first; static CancellationToken Identity(CancellationToken token) => token;")]
+    [DataRow("var snapshot = third; for (var j = 0; j < 2; j++) { first = ref third; for (var i = 0; i < 2; i++) { snapshot = first; first = ref second; } } return snapshot;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { goto Read; alias = first; } else alias = third; Read: return alias;")]
+    [DataRow("ref var alias = ref first; alias = default; return alias;")]
+    [DataRow("ref var alias = ref first; alias = default; return first;")]
+    [DataRow("first = ref second; second = default; return first;")]
+    [DataRow("first = ref third; var snapshot = first; for (var i = 0; i < 2; i++) { snapshot = first; first = ref second; } return snapshot;")]
+    [DataRow("first = ref second; return first;")]
+    [DataRow("first = ref second; return (first);")]
+    [DataRow("ref var alias = ref second; first = ref alias; return first;")]
+    [DataRow("first = ref second; ref var alias = ref first; return alias;")]
+    [DataRow("first = ref second; second = ref third; return first;")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) first = ref second; return first;")]
+    [DataRow("first = ref second; first = ref first; return first;")]
+    [DataRow("CancellationToken local = default; first = ref local; return first;")]
+    [DataRow("ref var alias = ref first; alias = ref second; return alias;")]
+    [DataRow("first = ref (DateTime.UtcNow.Ticks > 0 ? ref second : ref third); return first;")]
+    [DataRow("var snapshot = first; for (var i = 0; i < 2; i++) { snapshot = first; first = ref second; } return snapshot;")]
+    [DataRow("first = ref second; goto Read; first = ref third; Read: return first;")]
+    [DataRow("first = ref second; for (var i = 0; i < 2; i++) { goto Read; first = ref third; Read: return first; } return first;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = third; alias = default; } else { alias = third; } return alias;")]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { second = third; for (var i = 0; i < 2; i++) { snapshot = first; second = default; continue; } } return snapshot;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = default; if (DateTime.UtcNow.Ticks > 1) alias = third; } else { alias = third; } return alias;")]
+    [DataRow("ref var alias = ref first; try { alias = default; MayThrow(); alias = third; } catch (Exception) {} return alias; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); }")]
+    [DataRow("ref var alias = ref first; try { alias = default; if (DateTime.UtcNow.Ticks > 0) throw new Exception(); alias = third; } catch (Exception) {} return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = ref second; return alias;")]
+    [DataRow("ref var alias = ref first; try { alias = ref second; MayThrow(); alias = ref third; } catch (Exception) {} return alias; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); }")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { goto Read; alias = ref first; } else alias = ref third; Read: return alias;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref third); alias = default; return first;")]
+    [DataRow("ref var alias = ref first; try { alias = default; throw new Exception(); } catch (Exception) {} return alias;")]
+    [DataRow("ref var alias = ref first; var snapshot = first; try { try { alias = ref second; MayThrow(); alias = ref third; } finally { snapshot = alias; } } catch (Exception) {} return snapshot; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); } ")]
+    [DataRow("ref var alias = ref first; var snapshot = first; try { try { alias = default; MayThrow(); alias = third; } finally { snapshot = alias; } } catch (Exception) {} return snapshot; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); } ")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = first; break; } return alias;")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = first; break; default: break; } return alias;")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: if (DateTime.UtcNow.Ticks > 0) break; alias = first; break; default: alias = third; break; } return alias;")]
+    [DataRow("ref var alias = ref second; do { if (DateTime.UtcNow.Ticks > 0) break; alias = first; } while (false); return alias;")]
+    [DataRow("ref var alias = ref second; do { if (DateTime.UtcNow.Ticks > 0) continue; alias = ref first; } while (false); return alias;")]
+    [DataRow("ref var alias = ref second; do { if (DateTime.UtcNow.Ticks > 0) alias = first; } while (false); return alias;")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = first; alias = default; break; default: alias = third; break; } return alias;")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = default; if (DateTime.UtcNow.Ticks > 0) alias = first; break; default: alias = third; break; } return alias;")]
+    [DataRow("ref var alias = ref first; try { do { alias = default; } while (MayThrowBool()); alias = third; } catch (Exception) {} return alias; static bool MayThrowBool() => throw new Exception();")]
+    [DataRow("ref var alias = ref first; var error = new Exception(); var shouldThrow = DateTime.UtcNow.Ticks > 0; try { alias = default; if (shouldThrow) throw error; alias = third; } catch (Exception) {} return alias;")]
+    [DataRow("ref var alias = ref first; try { do { alias = ref second; } while (MayThrowBool()); alias = ref third; } catch (Exception) {} return alias; static bool MayThrowBool() => throw new Exception();")]
+    [DataRow("ref var alias = ref first; var error = new Exception(); var shouldThrow = DateTime.UtcNow.Ticks > 0; try { alias = ref second; if (shouldThrow) throw error; alias = ref third; } catch (Exception) {} return alias;")]
+    [DataRow("ref var alias = ref first; var shouldThrow = DateTime.UtcNow.Ticks > 0; try { throw new Exception(); } catch (Exception) { try { alias = default; if (shouldThrow) throw; alias = third; } catch (Exception) {} } return alias;")]
+    [DataRow("ref var alias = ref first; try { for (var i = 0; i < 2; MayThrow()) { alias = default; i++; } alias = third; } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("ref var alias = ref first; try { for (var i = 0; MayThrowBool(); i++) { alias = default; } alias = third; } catch (Exception) {} return alias; static bool MayThrowBool() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); return true; }")]
+    [DataRow("ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { switch (choice) { case 0: alias = default; MayThrow(); alias = third; break; default: alias = third; break; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("ref var alias = ref second; try { if (DateTime.UtcNow.Ticks > 0) alias = ref first; } finally {} return alias;")]
+    [DataRow("ref var alias = ref second; try { switch (DateTime.UtcNow.Ticks) { case 0: throw new Exception(); default: alias = first; break; } } catch (Exception) {} return alias;")]
+    [DataRow("first = ref third; var snapshot = third; do { snapshot = first; first = ref second; } while (DateTime.UtcNow.Ticks > 0); return snapshot;")]
+    [DataRow("ref var alias = ref first; try { alias = default; } finally { if (DateTime.UtcNow.Ticks > 0) alias = third; } return alias;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); alias = third; return second;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); alias = third; alias = ref second; return alias;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); alias = third; second = default; return alias;")]
+    [DataRow("ref var alias = ref first; try { for (var i = 0; i < 2; i++, MayThrow(), alias = third) { alias = default; } alias = third; } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("ref var alias = ref first; try { try { alias = default; } finally { MayThrow(); alias = third; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("ref var alias = ref first; try { try { throw new Exception(); } catch { alias = default; } finally { MayThrow(); alias = third; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { second = third; for (var i = 0; i < 2; i++) { snapshot = first; second = default; if (DateTime.UtcNow.Ticks > 0) continue; break; } } return snapshot;")]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { second = third; for (var i = 0; i < 2; i++) { snapshot = first; second = default; if (DateTime.UtcNow.Ticks > 0) break; } } return snapshot;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { var snapshot = alias; alias = first; return snapshot; } else { alias = third; return alias; }")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { goto Read; alias = first; Read: ; } else alias = third; return alias;")]
+    [DataRow("ref var alias = ref second; try { if (DateTime.UtcNow.Ticks > 0) alias = first; else throw new Exception(); } catch (Exception) {} return alias;")]
+    [DataRow("ref var alias = ref second; try { if (DateTime.UtcNow.Ticks > 0) alias = ref first; else throw new Exception(); } catch (Exception) {} return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: if (DateTime.UtcNow.Ticks > 1) break; alias = first; break; } } else alias = third; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: if (DateTime.UtcNow.Ticks > 1) break; alias = ref first; break; } } else alias = ref third; return alias;")]
+    [DataRow("ref var alias = ref second; do { switch (DateTime.UtcNow.Ticks) { default: break; } if (DateTime.UtcNow.Ticks > 0) break; alias = first; } while (false); return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: goto Read; } alias = first; } else alias = third; Read: return alias;")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: switch (DateTime.UtcNow.Ticks) { default: break; } if (DateTime.UtcNow.Ticks > 1) break; alias = first; break; default: alias = third; break; } return alias;")]
+    [DataRow("ref var alias = ref second; do { switch (DateTime.UtcNow.Ticks) { default: break; } if (DateTime.UtcNow.Ticks > 0) continue; alias = ref first; } while (false); return alias;")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; switch (DateTime.UtcNow.Ticks) { default: if (DateTime.UtcNow.Ticks > 1) break; alias = third; break; } } return alias;")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; switch (DateTime.UtcNow.Ticks) { default: goto Read; } alias = third; } Read: return alias;")]
+    [DataRow("ref var alias = ref first; do { alias = default; if (DateTime.UtcNow.Ticks > 0) break; switch (DateTime.UtcNow.Ticks) { default: alias = third; break; } } while (false); return alias;")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = default; goto default; default: return first; }")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = ref second; goto case 1; case 1: goto default; default: return first; }")]
+    [DataRow("var snapshot = third; for (var i = 0; i < 2; i++) { switch (DateTime.UtcNow.Ticks) { case 0: first = default; break; default: snapshot = first; break; } } return snapshot;")]
+    [DataRow("var i = 0; Before: switch (i++) { case 0: first = default; goto Before; default: return first; }")]
+    [DataRow("ref var alias = ref first; var snapshot = first; for (var i = 0; i < 2; i++) { if (i == 0) alias = default; else snapshot = alias; } return snapshot;")]
+    [DataRow("var i = 0; Before: switch (i++) { case 0: first = default; break; default: return first; } goto Before;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); if (DateTime.UtcNow.Ticks > 1) alias = third; return alias;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); if (DateTime.UtcNow.Ticks > 1) alias = third; else alias = third; alias = ref second; return alias;")]
+    [DataRow("ref var alias = ref second; second = ref first; second = third; return alias;")]
+    [DataRow("ref var alias = ref second; second = ref first; if (DateTime.UtcNow.Ticks > 0) second = third; else second = first; return alias;")]
+    [DataRow("ref var alias = ref second; second = ref first; switch (DateTime.UtcNow.Ticks) { case 0: second = third; break; default: second = first; break; } return alias;")]
+    [DataRow("var i = 0; Before: first = third; After: switch (i++) { case 0: first = default; break; default: return first; } goto After;")]
+    [DataRow("var i = 0; Before: if (DateTime.UtcNow.Ticks > 0) first = third; switch (i++) { case 0: first = default; break; default: return first; } goto Before;")]
+    [DataRow("var i = 0; Before: { first = third; } After: switch (i++) { case 0: first = default; break; default: return first; } goto After;")]
+    [DataRow("var i = 0; Before: { if (i > 0) goto After; first = third; After: ; } switch (i++) { case 0: first = default; break; default: return first; } goto Before;")]
+    [DataRow("var i = 0; Before: try { MayThrow(); first = third; } catch (Exception) {} switch (i++) { case 0: first = default; break; default: return first; } goto Before; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); }")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: alias = ref second; break; } } else alias = third; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = default; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = third; alias = ref second; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = third; first = default; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = third; return second;")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = ref first; break; default: alias = default; break; } return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else alias = ref second; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = third; alias = default; return alias;")]
+    [DataRow("first = default; ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = third; return alias;")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) second = ref first; else second = default; return second;")]
+    [DataRow("var i = 0; first = third; Before: switch (i++) { case 0: first = default; break; default: return first; } goto Before;")]
+    [DataRow("var i = 0; Before: first = third; switch (i++) { case 0: first = default; goto default; default: return first; }")]
+    [DataRow("var i = 0; Before: first = default; switch (i++) { case 0: first = third; break; default: return first; } goto Before;")]
+    [DataRow("var i = 0; first = third; Before: if (i++ == 0) first = default; else return first; goto Before;")]
+    [DataRow("var i = 0; first = ref third; Before: switch (i++) { case 0: first = ref second; break; default: return first; } goto Before;")]
+    [DataRow("var i = 0; Before: first = third; Bypass: switch (i++) { case 0: first = default; break; default: return first; } if (DateTime.UtcNow.Ticks > 0) goto Before; else goto Bypass;")]
+    [DataRow("var i = 0; Before: switch (i++) { case 1: return first; default: first = default; break; } goto Before;")]
+    [DataRow("var i = 0; Before: switch (i++) { case 1: return first; default: first = ref second; break; } goto Before;")]
+    [DataRow("var i = 0; Before: first = third; Bypass: switch (i++) { case 1: return first; default: first = default; break; } if (DateTime.UtcNow.Ticks > 0) goto Before; else goto Bypass;")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: return first; default: first = default; goto case 0; }")]
+    [DataRow("var i = 0; Before: switch (i++) { case 1: if (DateTime.UtcNow.Ticks > 0) first = third; return first; default: first = default; break; } goto Before;")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = third; After: return first; default: first = default; goto After; }")]
+    [DataRow("var i = 0; Before: first = third; Skip: switch (i++) { case 0: first = default; goto Skip; default: return first; }")]
+    [DataRow("{ if (DateTime.UtcNow.Ticks % 2 == 0) second = third; } return second;")]
+    [DataRow("{ if (DateTime.UtcNow.Ticks % 2 == 0) second = ref first; } return second;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = ref second; if (DateTime.UtcNow.Ticks > 1) alias = first; } else alias = ref first; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = ref second; alias = default; } else alias = ref first; return alias;")]
+    [DataRow("ref var alias = ref second; try { if (DateTime.UtcNow.Ticks > 0) { alias = ref second; MayThrow(); alias = first; } else alias = ref first; } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = ref second; try { MayThrow(); alias = first; } catch (Exception) {} } else alias = ref first; return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref first; } else alias = ref first; return alias;")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; alias = ref first; return alias;")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; if (DateTime.UtcNow.Ticks > 1) alias = ref third; } else alias = ref first; return alias;")]
+    [DataRow("ref var alias = ref first; try { if (DateTime.UtcNow.Ticks > 0) { alias = default; throw new Exception(); alias = ref third; } else alias = ref first; } catch { } return alias;")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; alias = ref first; } else alias = ref first; return alias;")]
+    [DataRow("ref var alias = ref first; for (var i = 0; i < 2; i++) { if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; } return alias;")]
+    public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("first = ref second; var snapshot = third; for (var i = 0; i < 2; i++) { second = third; snapshot = first; second = default; } return snapshot;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = first; } else { alias = third; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { if (DateTime.UtcNow.Ticks > 1) alias = first; else alias = third; } else alias = third; return alias;", "default")]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { for (var i = 0; i < 2; i++) { second = third; snapshot = first; second = default; } } return snapshot;", "default")]
+    [DataRow("var snapshot = third; for (var j = 0; j < 2; j++) { for (var i = 0; i < 2; i++) { first = ref third; snapshot = first; first = ref second; } } return snapshot;", "default")]
+    [DataRow("first = first; return first;", "default")]
+    [DataRow("ref var alias = ref first; alias = alias; return alias;", "default")]
+    [DataRow("first = ref second; second = third; return first;", "default")]
+    [DataRow("ref var alias = ref second; alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; alias = third; return second;", "default")]
+    [DataRow("first = ref second; return first;", "cancellationToken")]
+    [DataRow("second = ref first; return second;", "default")]
+    [DataRow("var snapshot = first; first = ref second; return snapshot;", "default")]
+    [DataRow("ref var alias = ref first; first = ref second; return alias;", "default")]
+    [DataRow("first = ref third; third = ref second; return first;", "default")]
+    [DataRow("first = ref second; first = ref third; return first;", "default")]
+    [DataRow("if (false) first = ref second; return first;", "default")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) first = ref second; return first;", "cancellationToken")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) { first = ref second; throw new Exception(); } return first;", "default")]
+    [DataRow("first = ref second; if (DateTime.UtcNow.Ticks > 0) { first = ref third; return first; } throw new Exception();", "default")]
+    [DataRow("CancellationToken local = first; first = ref local; return first;", "default")]
+    [DataRow("CancellationToken local = default; first = ref local; local = third; return first;", "default")]
+    [DataRow("first = ref (DateTime.UtcNow.Ticks > 0 ? ref second : ref third); return first;", "cancellationToken")]
+    [DataRow("var snapshot = first; for (var i = 0; i < 2; i++) { first = ref third; snapshot = first; first = ref second; } return snapshot;", "default")]
+    [DataRow("first = ref second; goto Reset; Reset: first = ref third; return first;", "default")]
+    [DataRow("static void Unused(ref CancellationToken first, ref CancellationToken second) { first = ref second; } return first;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = third; } else { alias = third; } return alias;", "default")]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { second = third; for (var i = 0; i < 2; i++) { snapshot = first; second = default; break; } } return snapshot;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = default; if (DateTime.UtcNow.Ticks > 1) alias = first; else alias = third; } else { alias = third; } return alias;", "default")]
+    [DataRow("var snapshot = third; for (var j = 0; j < 2; j++) { first = ref third; for (var i = 0; i < 2; i++) { snapshot = first; first = ref second; break; } } return snapshot;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = ref third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { if (DateTime.UtcNow.Ticks > 1) alias = ref first; else alias = ref third; } else alias = ref third; return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { alias = default; MayThrow(); alias = third; } catch (Exception) { alias = third; } return alias; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); }", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = ref second; alias = ref first; } else alias = ref third; return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { alias = default; if (DateTime.UtcNow.Ticks > 0) throw new Exception(); alias = third; return alias; } catch (Exception) { return third; }", "default")]
+    [DataRow("ref var alias = ref first; try { alias = default; alias = third; MayThrow(); } catch (Exception) {} return alias; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); }", "default")]
+    [DataRow("ref var alias = ref first; try { alias = ref second; alias = ref third; MayThrow(); } catch (Exception) {} return alias; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); }", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = first; break; default: alias = third; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = ref first; break; default: alias = ref third; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref first; var snapshot = first; try { try { alias = ref second; alias = ref third; MayThrow(); } finally { snapshot = alias; } } catch (Exception) {} return snapshot; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); }", "default")]
+    [DataRow("ref var alias = ref first; try { alias = default; throw new Exception(); } catch (Exception) { alias = third; } return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { alias = default; { alias = third; MayThrow(); } } catch (Exception) {} return alias; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); }", "default")]
+    [DataRow("ref var alias = ref first; try { alias = default; if (true) { alias = third; MayThrow(); } else { alias = third; } } catch (Exception) {} return alias; static void MayThrow() { if (DateTime.UtcNow.Ticks > 0) throw new Exception(); }", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = default; alias = first; break; default: alias = third; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = ref second; alias = ref first; break; default: alias = ref third; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; do { alias = first; } while (false); return alias;", "default")]
+    [DataRow("ref var alias = ref second; do { alias = ref first; } while (false); return alias;", "default")]
+    [DataRow("ref var alias = ref second; do { if (DateTime.UtcNow.Ticks > 0) alias = first; else alias = third; } while (false); return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { do { alias = default; alias = third; } while (MayThrowBool()); } catch (Exception) {} return alias; static bool MayThrowBool() => throw new Exception();", "default")]
+    [DataRow("ref var alias = ref first; var error = new Exception(); var shouldThrow = DateTime.UtcNow.Ticks > 0; try { alias = default; alias = third; if (shouldThrow) throw error; } catch (Exception) {} return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { do { alias = default; } while (false); alias = third; } catch (Exception) {} return alias;", "default")]
+    [DataRow("ref var alias = ref second; try { alias = ref first; } finally { alias = ref third; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; try { alias = first; } finally { alias = third; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: throw new Exception(); default: alias = first; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: return third; default: alias = ref first; break; } return alias;", "default")]
+    [DataRow("first = ref third; var snapshot = third; do { snapshot = first; first = ref second; } while (false); return snapshot;", "default")]
+    [DataRow("ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { switch (choice) { case 0: alias = default; alias = third; MayThrow(); break; default: alias = third; break; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("ref var alias = ref first; try { alias = default; } finally { alias = third; } return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { alias = ref second; } finally { alias = ref third; } return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { throw new Exception(); } catch { alias = default; } finally { alias = third; } return alias;", "default")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { for (var i = 0; i < 2; i++, alias = third, MayThrow()) { alias = default; } alias = third; } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("ref var alias = ref first; var error = new Exception(); try { alias = default; if (false) throw error; alias = third; } catch (Exception) {} return alias;", "default")]
+    [DataRow("ref var alias = ref first; var error = new Exception(); try { alias = default; if (true) {} else throw error; alias = third; } catch (Exception) {} return alias;", "default")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = third; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = default; if (DateTime.UtcNow.Ticks > 1) alias = first; else alias = third; } else alias = third; return alias;", "default")]
+    [DataRow("second = third; for (var i = 0; i < 2; i++) { first = third; second = DateTime.UtcNow.Ticks > 0 ? first : third; } return second;", "default")]
+    [DataRow("second = third; for (var i = 0; i < 2; i++) { first = third; second = DateTime.UtcNow.Ticks switch { > 0 => first, _ => third }; } return second;", "default")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) second = first; else second = third; return second;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { if (DateTime.UtcNow.Ticks > 1) alias = first; else alias = third; } else alias = first; return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else throw new Exception(); return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else throw new Exception(); return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) throw new Exception(); else alias = first; return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: alias = first; break; } } else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: alias = ref first; break; } } else alias = ref third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: switch (DateTime.UtcNow.Ticks) { default: alias = first; break; } break; default: alias = third; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: switch (DateTime.UtcNow.Ticks) { default: alias = ref first; break; } break; default: alias = ref third; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: break; } alias = first; } else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; do { switch (DateTime.UtcNow.Ticks) { default: alias = first; break; } } while (false); return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: switch (DateTime.UtcNow.Ticks) { default: break; } alias = first; break; default: alias = third; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: switch (DateTime.UtcNow.Ticks) { default: break; } alias = ref first; break; default: alias = ref third; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = default; switch (DateTime.UtcNow.Ticks) { default: alias = first; break; } } else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = ref second; switch (DateTime.UtcNow.Ticks) { default: alias = ref third; break; } } return alias;", "default")]
+    [DataRow("ref var alias = ref first; switch (DateTime.UtcNow.Ticks) { case 0: alias = default; switch (DateTime.UtcNow.Ticks) { default: alias = third; break; } break; } return alias;", "default")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: alias = default; break; } alias = third; } return alias;", "default")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = default; break; default: return first; } return third;", "default")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = ref second; break; default: return first; } return third;", "default")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: return first; default: first = default; break; } return third;", "default")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = default; break; case 1: goto default; default: return first; } return third;", "default")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); if (DateTime.UtcNow.Ticks > 1) alias = third; else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); switch (DateTime.UtcNow.Ticks) { case 0: alias = third; break; default: alias = first; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; second = third; second = ref first; return alias;", "default")]
+    [DataRow("ref var alias = ref second; second = ref first; second = third; alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; second = ref first; second = third; return second;", "default")]
+    [DataRow("var i = 0; Before: first = third; switch (i++) { case 0: first = default; break; default: return first; } goto Before;", "default")]
+    [DataRow("var i = 0; Before: first = ref third; switch (i++) { case 0: first = ref second; break; default: return first; } goto Before;", "default")]
+    [DataRow("var i = 0; Before: first = third; if (i++ == 0) first = default; else return first; goto Before;", "default")]
+    [DataRow("var i = 0; Before: { first = third; } switch (i++) { case 0: first = default; break; default: return first; } goto Before;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: alias = ref first; break; } } else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else alias = ref third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = ref first; break; default: alias = third; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { if (DateTime.UtcNow.Ticks > 1) alias = ref first; else alias = third; } else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; second = ref first; alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; alias = default; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = first; break; default: alias = ref third; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else { switch (DateTime.UtcNow.Ticks) { default: alias = ref third; break; } } return alias;", "default")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) second = ref first; else second = third; return second;", "default")]
+    [DataRow("var i = 0; Before: first = third; switch (i++) { case 1: return first; default: first = default; break; } goto Before;", "default")]
+    [DataRow("var i = 0; Before: first = ref third; switch (i++) { case 1: return first; default: first = ref second; break; } goto Before;", "default")]
+    [DataRow("var i = 0; Before: switch (i++) { case 1: first = third; return first; default: first = default; break; } goto Before;", "default")]
+    [DataRow("var i = 0; Before: switch (i++) { case 0: first = default; break; default: first = third; return first; } goto Before;", "default")]
+    [DataRow("switch (DateTime.UtcNow.Ticks) { case 0: first = third; return first; default: first = default; goto case 0; }", "default")]
+    [DataRow("var i = 0; Before: first = third; switch (i++) { case 0: first = default; goto Before; default: return first; }", "default")]
+    [DataRow("{ if (DateTime.UtcNow.Ticks % 2 == 0) second = third; else second = first; } return second;", "default")]
+    [DataRow("{ if (DateTime.UtcNow.Ticks % 2 == 0) second = ref first; else second = ref third; } return second;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = ref second; alias = first; } else alias = ref first; return alias;", "default")]
+    [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: alias = ref second; alias = first; break; default: alias = ref first; break; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = ref second; if (DateTime.UtcNow.Ticks > 1) alias = first; else alias = third; } else alias = ref first; return alias;", "default")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) { second = ref second; second = first; } else second = ref first; return second;", "default")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; return alias;", "cancellationToken")]
+    [DataRow("ref var alias = ref first; switch (DateTime.UtcNow.Ticks) { case 0: alias = default; alias = ref third; break; default: alias = ref first; break; } return alias;", "cancellationToken")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { first = default; alias = ref third; } else alias = ref first; return alias;", "cancellationToken")]
+    public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
+    {
+        var source = ReboundCancellationTokenHelperSource(body, second, report: false);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; return alias;")]
+    [DataRow("ref var alias = ref first; switch (DateTime.UtcNow.Ticks) { case 0: alias = default; alias = ref third; break; default: alias = ref first; break; } return alias;")]
+    public async Task Reports_CancellationToken_Cleared_Through_Shared_Helper_Arguments(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(body, "default", report: true)
+            .Replace("Forward(ref token, ref other, ref third)", "Forward(ref token, ref other, ref token)");
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0).WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+
+        var nestedSource = source.Replace(body, "return Nested(ref first, ref second, ref third);")
+            .Replace("protected override async", $$"""
+                private static CancellationToken Nested(
+                    scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third)
+                {
+                    {{body}}
+                }
+
+                protected override async
+                """);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(nestedSource, expected);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Does_Not_Report_Copied_CancellationToken_Parameter_Storage(bool nested)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; return alias;",
+            "default", report: false)
+            .Replace("scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third",
+                "CancellationToken first, CancellationToken second, CancellationToken third")
+            .Replace("Forward(ref token, ref other, ref third)", nested
+                ? "Nested(token, other, token)"
+                : "Forward(token, other, token)");
+        if (nested)
+        {
+            source = source
+                .Replace("CancellationToken first, CancellationToken second, CancellationToken third)",
+                    "scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third)")
+                .Replace("private static void Clear", "private static CancellationToken Nested(CancellationToken first, CancellationToken second, CancellationToken third) => Forward(ref first, ref second, ref third); private static void Clear");
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("ref var alias = ref Identity(ref first); return alias;")]
+    [DataRow("ref var alias = ref Identity(ref second); return alias;")]
+    [DataRow("ref var alias = ref Identity(ref first); first = default; return alias;")]
+    public async Task Reports_Unknown_CancellationToken_Ref_Return_Storage(string body)
+    {
+        // Ref-return forwarding is deliberately outside the storage proof's scope.
+        var source = ReboundCancellationTokenHelperSource(body, "default", report: true)
+            .Replace("private static void Clear(ref CancellationToken token) => token = default;",
+                "private static ref CancellationToken Identity(ref CancellationToken token) => ref token;");
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>
+        {
+            VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"),
+        };
+        if (body.Contains("Identity(ref second)", StringComparison.Ordinal))
+        {
+            source = source.Replace("Identity(ref second)", "{|#1:Identity(ref second)|}");
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(1).WithArguments("Identity"));
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
+    }
+
+    private static string ReboundCancellationTokenHelperSource(string body, string second, bool report)
+    {
+        var delay = report ? "{|#0:Task.Delay(1, snapshot)|}" : "Task.Delay(1, snapshot)";
+        return ModuleSource($$"""
+            private static void Clear(ref CancellationToken token) => token = default;
+
+            private static CancellationToken Forward(
+                scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third)
+            {
+                {{body}}
+            }
+
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context, CancellationToken cancellationToken)
+            {
+                var token = cancellationToken;
+                CancellationToken other = {{second}};
+                var third = cancellationToken;
+                var snapshot = Forward(ref token, ref other, ref third);
+                for (var i = 0; i < 2; i++)
+                    await {{delay}};
+                return null!;
+            }
+            """);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Dead_CancellationToken_Helper_Return()
     {
         var source = ModuleSource("""

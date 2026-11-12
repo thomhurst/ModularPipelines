@@ -5423,103 +5423,1227 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals) =>
         FlowsFromCancellationToken(
             value,
-            cancellationToken,
+            [cancellationToken],
             visitedLocals,
             [with(SymbolEqualityComparer.Default)]);
 
     private static bool FlowsFromCancellationToken(
         IOperation value,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods) =>
+        FlowsFromCancellationToken(value, cancellationTokens, visitedLocals, visitedMethods, []);
+
+    private static bool FlowsFromCancellationToken(
+        IOperation value,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         return value switch
         {
             IConversionOperation conversion => FlowsFromCancellationToken(
                 conversion.Operand,
-                cancellationToken,
+                cancellationTokens,
                 visitedLocals,
-                visitedMethods),
+                visitedMethods,
+                visitedWrites),
+            IParenthesizedOperation parenthesized => FlowsFromCancellationToken(
+                parenthesized.Operand,
+                cancellationTokens,
+                visitedLocals,
+                visitedMethods,
+                visitedWrites),
             IParameterReferenceOperation parameterReference =>
                 IsStableCapturedCancellationToken(parameterReference)
-                && ((SymbolEqualityComparer.Default.Equals(
-                    parameterReference.Parameter,
-                    cancellationToken)
-                    && CancellationTokenParameterProvenance.FlowsFromOriginal(parameterReference, cancellationToken))
+                && (FlowsFromCancellationTokenStorage(
+                    parameterReference,
+                    cancellationTokens,
+                    visitedLocals,
+                    visitedMethods,
+                    visitedWrites)
                     || FlowsFromParallelCallbackToken(
                         parameterReference,
-                        cancellationToken,
+                        cancellationTokens,
                         visitedLocals,
-                        visitedMethods)),
+                        visitedMethods,
+                        visitedWrites)),
+            ILocalReferenceOperation { Local.RefKind: not RefKind.None } localReference =>
+                FlowsFromCancellationTokenStorage(
+                    localReference,
+                    cancellationTokens,
+                    visitedLocals,
+                    visitedMethods,
+                    visitedWrites),
             ILocalReferenceOperation localReference =>
                 FlowsFromCancellationTokenLocal(
                     localReference,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             IPropertyReferenceOperation propertyReference =>
                 FlowsFromCancellationTokenProperty(
                     propertyReference,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             IInvocationOperation invocation =>
                 FlowsFromCancellationTokenInvocation(
                     invocation,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             IArrayCreationOperation { Initializer: { } initializer } =>
                 FlowsFromCancellationToken(
                     initializer,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             IArrayInitializerOperation initializer =>
                 initializer.ElementValues.Any(element => FlowsFromCancellationToken(
                     element,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods)),
+                    visitedMethods,
+                    visitedWrites)),
             ICollectionExpressionOperation collection =>
                 collection.Elements.Any(element => FlowsFromCancellationToken(
                     element,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods)),
+                    visitedMethods,
+                    visitedWrites)),
             ISpreadOperation spread =>
                 FlowsFromCancellationToken(
                     spread.Operand,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             IConditionalOperation conditional =>
                 FlowsFromCancellationTokenConditional(
                     conditional,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             ISwitchExpressionOperation switchExpression =>
                 FlowsFromCancellationTokenSwitchExpression(
                     switchExpression,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             ICoalesceOperation coalesce =>
                 FlowsFromCancellationTokenCoalesce(
                     coalesce,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             _ => false,
         };
     }
 
+    private static bool FlowsFromCancellationTokenStorage(
+        IOperation reference,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
+    {
+        // Module entry tokens retain their existing identity-based contract. Storage
+        // value tracking is needed for ref parameters and aliases in source helpers.
+        if (reference is IParameterReferenceOperation { Parameter.RefKind: RefKind.None } parameter)
+        {
+            return cancellationTokens.Contains(parameter.Parameter, SymbolEqualityComparer.Default);
+        }
+
+        return FlowsFromCancellationTokenStorageValue(
+            reference, reference, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+    }
+
+    private static bool FlowsFromCancellationTokenStorageValue(
+        IOperation value,
+        IOperation read,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
+    {
+        if (value is IConversionOperation conversion)
+        {
+            return FlowsFromCancellationTokenStorageValue(
+                conversion.Operand, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+        }
+
+        if (value is IParenthesizedOperation parenthesized)
+        {
+            return FlowsFromCancellationTokenStorageValue(
+                parenthesized.Operand, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+        }
+
+        if (GetCancellationStorageSymbol(value) is null)
+        {
+            return FlowsFromCancellationToken(value, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+        }
+
+        var storages = GetCancellationTokenStorages(value, value, []).ToArray();
+        var aliasWrite = storages.Length > 1 ? FindDefiniteCancellationAliasWrite(read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites) : null;
+        return storages.Length > 0 && storages.All(StorageFlows);
+
+        bool StorageFlows(IOperation storage) => CancellationTokenStorageFlows(
+            storage, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites, aliasWrite);
+    }
+
+    private static bool CancellationTokenStorageFlows(
+        IOperation storage,
+        IOperation read,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites,
+        IOperation? aliasWrite)
+    {
+        var symbol = GetCancellationStorageSymbol(storage);
+        var writes = FindCancellationStorageAssignments(read, symbol, isRef: false);
+        var definiteWrite = LatestCancellationStorageWrite(
+            FindDefiniteCancellationStorageWrite(read, symbol, isRef: false), aliasWrite);
+
+        var reachingWrites = writes
+            .Where(write => !IsOverwrittenCancellationStorageWrite(write, read, symbol))
+            .Where(write => !IsFormerCancellationAliasReferentWrite(write, read, symbol, cancellationTokens))
+            .Where(write => ReachesAfterCancellationStorageReset(write, definiteWrite, read));
+        foreach (var write in reachingWrites)
+        {
+            // A cyclic write cannot prove token provenance; report conservatively.
+            if (!visitedWrites.Add(write))
+            {
+                return false;
+            }
+
+            var flows = FlowsFromCancellationTokenStorageValue(
+                write.Value, write.Value, cancellationTokens,
+                CloneVisitedLocals(visitedLocals), CloneVisitedMethods(visitedMethods), visitedWrites);
+            visitedWrites.Remove(write);
+            if (!flows)
+            {
+                return false;
+            }
+        }
+
+        if (definiteWrite is not null)
+        {
+            return true;
+        }
+
+        return InitialCancellationTokenStorageFlows(storage, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+    }
+
+    private static IOperation? LatestCancellationStorageWrite(IOperation? storageWrite, IOperation? aliasWrite)
+    {
+        if (aliasWrite is not null && (storageWrite is null || aliasWrite.Syntax.SpanStart > storageWrite.Syntax.SpanStart))
+        {
+            return aliasWrite;
+        }
+
+        return storageWrite;
+    }
+
+    private static bool IsFormerCancellationAliasReferentWrite(
+        IOperation write, IOperation read, ISymbol? storageSymbol,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens)
+    {
+        var aliasSymbol = GetCancellationStorageSymbol(read);
+        if (aliasSymbol is not (ILocalSymbol { RefKind: not RefKind.None }
+            or IParameterSymbol { RefKind: not RefKind.None })
+            || SymbolEqualityComparer.Default.Equals(aliasSymbol, storageSymbol)
+            || SharesCancellationStorageLoop(write, read)
+            || SharesCancellationStorageBranchTransfer(write, read)
+            || !IsOverwrittenCancellationStorageWrite(write, read, aliasSymbol, isRef: true))
+        {
+            return false;
+        }
+
+        // A branch can write the old referent and then select different storage.
+        // Keep the write if any subsequent reachable binding could select that
+        // old storage again, including after the branch rejoins the read's path.
+        var bindings = FindCancellationStorageAssignments(read, aliasSymbol, isRef: true)
+            .Where(binding => binding.Syntax.SpanStart > write.Syntax.SpanStart)
+            .Where(binding => CanReachCancellationStorageRead(write, binding))
+            .ToArray();
+        return bindings.Length > 0 && bindings.All(binding =>
+            IsDistinctCancellationAliasBinding(binding, read, storageSymbol, cancellationTokens));
+    }
+
+    private static bool IsDistinctCancellationAliasBinding(
+        ISimpleAssignmentOperation binding, IOperation read, ISymbol? storageSymbol,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens)
+    {
+        return !SharesCancellationStorageLoop(binding, read)
+            && !SharesCancellationStorageBranchTransfer(binding, read)
+            && GetCancellationTokenStorages(binding.Value, binding, []).All(storage =>
+                GetCancellationStorageSymbol(storage) is { } symbol
+                && !SymbolEqualityComparer.Default.Equals(symbol, storageSymbol)
+                && !MayShareCancellationParameterStorage(symbol, storageSymbol, cancellationTokens));
+    }
+
+    private static bool MayShareCancellationParameterStorage(
+        ISymbol first, ISymbol? second, IReadOnlyCollection<IParameterSymbol> cancellationTokens)
+    {
+        if (first is not IParameterSymbol firstParameter || second is not IParameterSymbol secondParameter)
+        {
+            return false;
+        }
+
+        if (firstParameter.RefKind == RefKind.None || secondParameter.RefKind == RefKind.None)
+        {
+            return false;
+        }
+
+        if (cancellationTokens is not CancellationHelperParameters parameters)
+        {
+            return true;
+        }
+
+        var firstStorages = parameters.GetCallerStorages(firstParameter);
+        var secondStorages = parameters.GetCallerStorages(secondParameter);
+        return firstStorages.Length == 0 || secondStorages.Length == 0
+            || firstStorages.Any(symbol => symbol is null || secondStorages.Any(static storage => storage is null)
+                || secondStorages.Contains(symbol, SymbolEqualityComparer.Default));
+    }
+
+    private sealed class CancellationHelperParameters(
+        IInvocationOperation invocation, IMethodSymbol method, IReadOnlyCollection<IParameterSymbol> callerTokens)
+        : HashSet<IParameterSymbol>(SymbolEqualityComparer.Default)
+    {
+        public ISymbol?[] GetCallerStorages(IParameterSymbol parameter)
+        {
+            // A by-value parameter owns a copy, even when its caller supplied the
+            // same variable to another parameter. Preserve that storage identity.
+            if (parameter.RefKind == RefKind.None)
+            {
+                return [parameter];
+            }
+
+            return [
+                .. invocation.Arguments
+                    .Where(argument => argument.Parameter is not null
+                        && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argument.Parameter), parameter))
+                    .SelectMany(argument => GetCancellationTokenStorages(argument.Value, invocation, []))
+                    .Select(GetCancellationStorageSymbol)
+                    .SelectMany(ResolveCallerParameter),
+            ];
+        }
+
+        private IEnumerable<ISymbol?> ResolveCallerParameter(ISymbol? storage)
+        {
+            if (storage is IParameterSymbol parameter && callerTokens is CancellationHelperParameters parent)
+            {
+                return parent.GetCallerStorages(parameter);
+            }
+
+            return [storage];
+        }
+    }
+
+    private static bool InitialCancellationTokenStorageFlows(
+        IOperation storage,
+        IOperation read,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
+    {
+        return storage switch
+        {
+            IParameterReferenceOperation parameter =>
+                IsStableCapturedCancellationToken(parameter)
+                && cancellationTokens.Contains(parameter.Parameter, SymbolEqualityComparer.Default),
+            ILocalReferenceOperation local when !visitedLocals.Contains(local.Local) =>
+                FindReachingLocalValues(read, local.Local).ToArray() is { Length: > 0 } values
+                && values.All(localValue => FlowsFromCancellationTokenStorageValue(
+                    localValue, localValue, cancellationTokens,
+                    new HashSet<ILocalSymbol>(visitedLocals, visitedLocals.Comparer) { local.Local },
+                    CloneVisitedMethods(visitedMethods), visitedWrites)),
+            _ => false,
+        };
+    }
+
+    private static IEnumerable<IOperation> GetCancellationTokenStorages(
+        IOperation reference,
+        IOperation bindingPoint,
+        HashSet<IOperation> visitedBindings)
+    {
+        if (reference is IConversionOperation conversion)
+        {
+            return GetCancellationTokenStorages(conversion.Operand, bindingPoint, visitedBindings);
+        }
+
+        if (reference is IParenthesizedOperation parenthesized)
+        {
+            return GetCancellationTokenStorages(parenthesized.Operand, bindingPoint, visitedBindings);
+        }
+
+        if (reference is IConditionalOperation { IsRef: true })
+        {
+            return GetReachableValueLeaves(reference).SelectMany(value =>
+                GetCancellationTokenStorages(value, bindingPoint, [.. visitedBindings]));
+        }
+
+        var symbol = GetCancellationStorageSymbol(reference);
+        if (symbol is not (IParameterSymbol { RefKind: not RefKind.None }
+            or ILocalSymbol { RefKind: not RefKind.None }))
+        {
+            return [reference];
+        }
+
+        return ResolveCancellationTokenReferenceStorage(reference, bindingPoint, symbol, visitedBindings);
+    }
+
+    private static IEnumerable<IOperation> ResolveCancellationTokenReferenceStorage(
+        IOperation reference, IOperation bindingPoint, ISymbol symbol, HashSet<IOperation> visitedBindings)
+    {
+        var root = GetRoot(bindingPoint);
+        var callable = GetEnclosingCallable(bindingPoint);
+        var bindings = FindCancellationStorageAssignments(bindingPoint, symbol, isRef: true);
+        var definiteBinding = FindDefiniteCancellationStorageWrite(bindingPoint, symbol, isRef: true);
+        var storages = bindings
+            .Where(binding => !IsOverwrittenCancellationStorageWrite(binding, bindingPoint, symbol, isRef: true))
+            .Where(binding => ReachesAfterCancellationStorageReset(binding, definiteBinding, bindingPoint))
+            .SelectMany(binding => visitedBindings.Contains(binding)
+                ? [binding]
+                : GetCancellationTokenStorages(
+                    binding.Value,
+                    binding,
+                    [with(visitedBindings), binding]));
+        if (definiteBinding is not null)
+        {
+            return storages;
+        }
+
+        // Resolve an alias when it is bound, then read its referent at the use.
+        // A later rebinding of the source reference does not redirect this alias.
+        if (symbol is ILocalSymbol local
+            && FindLocalDeclarator(root, bindingPoint, local, callable) is { Initializer.Value: { } initial } declarator
+            && visitedBindings.Add(declarator))
+        {
+            return storages.Concat(GetCancellationTokenStorages(initial, declarator, visitedBindings));
+        }
+
+        return storages.Append(reference);
+    }
+
+    private static ISimpleAssignmentOperation[] FindCancellationStorageAssignments(
+        IOperation read, ISymbol? symbol, bool isRef)
+    {
+        var callable = GetEnclosingCallable(read);
+        return [
+            .. GetRoot(read).DescendantsAndSelf()
+            .OfType<ISimpleAssignmentOperation>()
+            .Where(assignment => assignment.IsRef == isRef)
+            .Where(assignment => !HasAncestor(read, assignment))
+            .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), callable))
+            .Where(IsInReachableBranch)
+            .Where(assignment => CanReachCancellationStorageRead(assignment, read))
+            .Where(assignment => assignment.Syntax.SpanStart < read.Syntax.SpanStart
+                || SharesCancellationStorageLoop(assignment, read)
+                || SharesCancellationStorageBranchTransfer(assignment, read))
+            .Where(assignment => isRef
+                ? CancellationStorageAssignmentTargets(assignment, symbol, isRef)
+                : GetCancellationTokenStorages(assignment.Target, assignment, [])
+                    .Any(target => SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(target), symbol)))
+            .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
+        ];
+    }
+
+    private static IOperation? FindDefiniteCancellationStorageWrite(IOperation read, ISymbol? symbol, bool? isRef)
+    {
+        var callable = GetEnclosingCallable(read);
+        // Exhaustive branches can replace storage collectively even when no
+        // individual assignment is a linear predecessor of the read.
+        return GetRoot(read).DescendantsAndSelf()
+            .Where(operation => operation is ISimpleAssignmentOperation or IConditionalOperation or ISwitchOperation
+                or IWhileLoopOperation { ConditionIsTop: false } or ITryOperation)
+            .Where(operation => !HasAncestor(read, operation))
+            .Where(IsInReachableBranch)
+            .Where(operation => CanReachCancellationStorageRead(operation, read))
+            .Where(operation => ReferenceEquals(GetEnclosingCallable(operation), callable))
+            .Where(operation => IsDefiniteCancellationStorageBinding(operation, read))
+            .Where(operation => DefinitelyWritesCancellationStorage(operation, symbol, isRef, read))
+            .OrderByDescending(static operation => operation.Syntax.SpanStart)
+            .FirstOrDefault();
+    }
+
+    private static IOperation? FindDefiniteCancellationAliasWrite(
+        IOperation read,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
+    {
+        var symbol = GetCancellationStorageSymbol(read);
+        if (symbol is not (ILocalSymbol { RefKind: not RefKind.None } or IParameterSymbol { RefKind: not RefKind.None }))
+        {
+            return null;
+        }
+
+        var write = FindDefiniteCancellationStorageWrite(read, symbol, isRef: null);
+        var bindings = FindCancellationStorageAssignments(read, symbol, isRef: true);
+        // Exhaustive branches may establish the alias's value either by writing
+        // its referent or by selecting incoming-token storage. This proves only
+        // the alias read: neither possible referent is definitely written.
+        if (write is null || bindings.Any(binding =>
+            (!HasAncestor(binding, write) && binding.Syntax.SpanStart > write.Syntax.SpanStart)
+                || SharesCancellationStorageLoop(binding, read)))
+        {
+            return null;
+        }
+
+        // A branch may select non-flowing storage and then replace its value.
+        // Only bindings whose contents survive that branch constrain the read.
+        if (!bindings.Where(binding => HasAncestor(binding, write))
+            .Where(binding => !IsOverwrittenCancellationStorageWrite(binding, read, symbol, isRef: null))
+            .All(binding =>
+            CancellationAliasBindingFlows(binding, cancellationTokens, visitedLocals, visitedMethods, visitedWrites)))
+        {
+            return null;
+        }
+
+        return write;
+    }
+
+    private static bool CancellationAliasBindingFlows(
+        ISimpleAssignmentOperation binding,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
+    {
+        if (!visitedWrites.Add(binding))
+        {
+            return false;
+        }
+
+        var flows = FlowsFromCancellationTokenStorageValue(
+            binding.Value, binding.Value, cancellationTokens,
+            CloneVisitedLocals(visitedLocals), CloneVisitedMethods(visitedMethods), visitedWrites);
+        visitedWrites.Remove(binding);
+        return flows;
+    }
+
+    private static bool ReachesAfterCancellationStorageReset(IOperation write, IOperation? reset, IOperation read) =>
+        reset is null
+        || (write.Syntax.SpanStart >= reset.Syntax.SpanStart && write.Syntax.SpanStart < read.Syntax.SpanStart
+            && !ResetsCancellationStorageBranchRevisits(reset, write, read))
+        || (SharesCancellationStorageLoop(write, read) && !ResetsCancellationStorageBackedges(reset, write, read))
+        || (SharesCancellationStorageBranchTransfer(write, read)
+            && !ResetsCancellationStorageBranchRevisits(reset, write, read));
+
+    private static bool SharesCancellationStorageBranchTransfer(IOperation write, IOperation read)
+    {
+        var construct = FindCancellationStorageSiblingBranch(write, read);
+        return construct is not null
+            && (CanRevisitCancellationStorageOperation(construct)
+                || HasCancellationStorageCaseTransfer(construct, write, read));
+    }
+
+    private static bool ResetsCancellationStorageBranchRevisits(IOperation reset, IOperation write, IOperation read)
+    {
+        if (SharesCancellationStorageLoop(write, read))
+        {
+            return false;
+        }
+
+        var construct = FindCancellationStorageSiblingBranch(write, read);
+        if (construct is null)
+        {
+            return false;
+        }
+
+        // A reset already proven definite before the read also executes when
+        // entering its branch through a case transfer or a construct revisit.
+        if (HasAncestor(reset, construct))
+        {
+            return true;
+        }
+
+        if (reset.Syntax.Span.End > construct.Syntax.SpanStart)
+        {
+            return false;
+        }
+
+        // Without direct case transfers, sibling branches communicate only by
+        // revisiting the construct. Internal and trailing backward jumps must
+        // all re-execute the reset; an unknown target remains conservative.
+        var targets = GetCancellationStorageRevisitTargets(construct).ToArray();
+        return targets.Length > 0
+            && targets.All(target => target.Syntax.SpanStart <= reset.Syntax.SpanStart)
+            && construct.DescendantsAndSelf().OfType<IBranchOperation>()
+                .Where(static branch => branch.BranchKind == BranchKind.GoTo)
+                .All(branch => targets.Any(target =>
+                    SymbolEqualityComparer.Default.Equals(target.Label, branch.Target)));
+    }
+
+    private static bool HasCancellationStorageCaseTransfer(IOperation construct, IOperation write, IOperation read) =>
+        construct is ISwitchOperation switchOperation
+        && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(write, candidate)) is { } source
+        && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } target
+        && CanTransferCancellationStorageBetweenCases(source, target, switchOperation);
+
+    private static IOperation? FindCancellationStorageSiblingBranch(IOperation write, IOperation read)
+    {
+        for (var current = write; current.Parent is { } parent; current = parent)
+        {
+            if (current is ISwitchCaseOperation sourceCase && parent is ISwitchOperation switchOperation
+                && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } targetCase
+                && !ReferenceEquals(sourceCase, targetCase))
+            {
+                return switchOperation;
+            }
+
+            if (parent is IConditionalOperation conditional
+                && IsReadInSiblingCancellationConditional(current, conditional, read)
+                && !conditional.DescendantsAndSelf().OfType<IBranchOperation>().Any())
+            {
+                return conditional;
+            }
+        }
+
+        return null;
+    }
+
+    private static bool CancellationStorageAssignmentTargets(ISimpleAssignmentOperation assignment, ISymbol? symbol, bool? isRef)
+    {
+        // null proves the value read through this alias, not a write to each
+        // possible referent. Storage-level proofs must resolve the actual target.
+        if (isRef is not false)
+        {
+            return SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(assignment.Target), symbol);
+        }
+
+        var targets = GetCancellationTokenStorages(assignment.Target, assignment, []).ToArray();
+        return targets.Length > 0 && targets.All(target =>
+            SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(target), symbol));
+    }
+
+    private static bool DefinitelyWritesCancellationStorage(IOperation operation, ISymbol? symbol, bool? isRef = false, IOperation? read = null)
+    {
+        if (operation is ISwitchOperation switchOperation)
+        {
+            return DefinitelyWritesCancellationStorageSwitch(switchOperation, symbol, isRef, read);
+        }
+
+        // Jumps inside a branch can bypass an otherwise unconditional write.
+        if (operation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch => !IsNestedCancellationStorageSwitchBreak(branch, operation)))
+        {
+            return false;
+        }
+
+        return operation switch
+        {
+            ISimpleAssignmentOperation assignment => (isRef is null || assignment.IsRef == isRef)
+                && CancellationStorageAssignmentTargets(assignment, symbol, isRef),
+            IExpressionStatementOperation expression => DefinitelyWritesCancellationStorage(expression.Operation, symbol, isRef, read),
+            IBlockOperation block => block.Operations.Any(child => DefinitelyWritesCancellationStorage(child, symbol, isRef, read)),
+            IConditionalOperation conditional => DefinitelyWritesCancellationStorageBranches(conditional, symbol, isRef, read),
+            IWhileLoopOperation { ConditionIsTop: false } loop => DefinitelyWritesCancellationStorage(loop.Body, symbol, isRef, read),
+            ITryOperation attempt => DefinitelyWritesCancellationStorageTry(attempt, symbol, isRef, read),
+            _ => false,
+        };
+    }
+
+    private static bool IsNestedCancellationStorageSwitchBreak(IBranchOperation branch, IOperation operation)
+    {
+        if (branch.BranchKind != BranchKind.Break)
+        {
+            return false;
+        }
+
+        for (var parent = branch.Parent; parent is not null; parent = parent.Parent)
+        {
+            if (parent is ISwitchOperation nestedSwitch
+                && SymbolEqualityComparer.Default.Equals(branch.Target, nestedSwitch.ExitLabel))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(parent, operation))
+            {
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool DefinitelyWritesCancellationStorageSwitch(
+        ISwitchOperation operation, ISymbol? symbol, bool? isRef, IOperation? read)
+    {
+        // A contained switch consumes its own breaks; each case must still write.
+        return operation.Cases.Any(@case => @case.Clauses.Any(static clause => clause is IDefaultCaseClauseOperation))
+            && !operation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+                !IsNestedCancellationStorageSwitchBreak(branch, operation))
+            && operation.Cases.All(@case => CancellationStorageSequenceDefinitelyWrites(@case.Body, symbol, isRef, read)
+                || (SwitchCaseCannotReachFollowingOperation(@case)
+                    && !CanReachReadThroughCaughtCancellationStorageThrow(@case, read ?? GetRoot(@case))));
+    }
+
+    private static bool CancellationStorageSequenceDefinitelyWrites(
+        IEnumerable<IOperation> operations, ISymbol? symbol, bool? isRef, IOperation? read)
+    {
+        foreach (var operation in operations)
+        {
+            if (DefinitelyWritesCancellationStorage(operation, symbol, isRef, read))
+            {
+                return true;
+            }
+
+            if (operation.DescendantsAndSelf().Any(child => child is IReturnOperation or IThrowOperation
+                || (child is IBranchOperation branch && !IsNestedCancellationStorageSwitchBreak(branch, operation))))
+            {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool DefinitelyWritesCancellationStorageBranches(
+        IConditionalOperation conditional, ISymbol? symbol, bool? isRef, IOperation? read)
+    {
+        if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+        {
+            return (condition ? conditional.WhenTrue : conditional.WhenFalse) is { } selected
+                && DefinitelyWritesCancellationStorage(selected, symbol, isRef, read);
+        }
+
+        return conditional.WhenFalse is { } whenFalse
+            && DefinitelyWritesCancellationStorageOrExits(conditional.WhenTrue, symbol, isRef, read)
+            && DefinitelyWritesCancellationStorageOrExits(whenFalse, symbol, isRef, read);
+    }
+
+    private static bool DefinitelyWritesCancellationStorageOrExits(
+        IOperation operation, ISymbol? symbol, bool? isRef, IOperation? read) =>
+        DefinitelyWritesCancellationStorage(operation, symbol, isRef, read)
+        || (AlwaysExitsCallable(operation)
+            && !CanReachReadThroughCaughtCancellationStorageThrow(operation, read ?? GetRoot(operation)));
+
+    private static bool DefinitelyWritesCancellationStorageTry(
+        ITryOperation attempt, ISymbol? symbol, bool? isRef, IOperation? read)
+    {
+        return (attempt.Finally is { } finallyBlock
+                && DefinitelyWritesCancellationStorage(finallyBlock, symbol, isRef, read))
+            || (DefinitelyWritesCancellationStorage(attempt.Body, symbol, isRef, read)
+                && attempt.Catches.All(handler => DefinitelyWritesCancellationStorageOrExits(handler.Handler, symbol, isRef, read)));
+    }
+
+    private static bool IsOverwrittenCancellationStorageWrite(
+        IOperation write, IOperation read, ISymbol? symbol, bool? isRef = false)
+    {
+        // A caught exception can reach a read outside the try without executing
+        // a later overwrite. Preserve intermediate values on that exceptional path.
+        if (CanEscapeCancellationStorageWriteToRead(write, read, symbol, isRef))
+        {
+            return false;
+        }
+
+        // A later unconditional overwrite in this branch kills intermediate
+        // values even when the branch as a whole is the definite predecessor.
+        for (var current = write; current.Parent is { } parent; current = parent)
+        {
+            if (parent is ITryOperation attempt
+                && CancellationStorageTryOverwrites(attempt, current, read, symbol, isRef))
+            {
+                return true;
+            }
+
+            var sequence = parent switch
+            {
+                IBlockOperation block => block.Operations,
+                ISwitchCaseOperation @case => @case.Body,
+                _ => default,
+            };
+            if (sequence.IsDefault)
+            {
+                continue;
+            }
+
+            if (ContainsCancellationStorageBranchOrReturn(current))
+            {
+                break;
+            }
+
+            if (CancellationStorageFollowingSequenceOverwrites(sequence, current, read, symbol, isRef))
+            {
+                return true;
+            }
+
+            // A case break reaches the end of its switch, so it cannot bypass
+            // an overwrite after that switch. Other jumps still stop traversal.
+            if (HasAncestor(read, parent)
+                || ContainsCancellationStorageBranchOrReturn(parent, parent is ISwitchCaseOperation ? parent.Parent : parent))
+            {
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool ContainsCancellationStorageBranchOrReturn(IOperation operation, IOperation? branchBoundary = null) =>
+        operation.DescendantsAndSelf().Any(child => child is IReturnOperation
+            || (child is IBranchOperation branch && !IsNestedCancellationStorageSwitchBreak(branch, branchBoundary ?? operation)));
+
+    private static bool CancellationStorageTryOverwrites(
+        ITryOperation attempt, IOperation current, IOperation read, ISymbol? symbol, bool? isRef) =>
+        (!ReferenceEquals(current, attempt.Finally)
+            && FinallyOverwritesCancellationStorage(attempt, read, symbol, isRef))
+        || (attempt.Catches.Length > 0 && ReferenceEquals(current, attempt.Body)
+            && !HasAncestor(read, attempt.Body) && AlwaysExitsCallable(attempt.Body)
+            && attempt.Catches.All(handler => DefinitelyWritesCancellationStorage(handler.Handler, symbol, isRef)));
+
+    private static bool CancellationStorageFollowingSequenceOverwrites(
+        IEnumerable<IOperation> sequence, IOperation current, IOperation read, ISymbol? symbol, bool? isRef)
+    {
+        foreach (var next in sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
+        {
+            if (HasAncestor(read, next) || next.Syntax.SpanStart >= read.Syntax.SpanStart
+                || ContainsCancellationStorageBranchOrReturn(next))
+            {
+                break;
+            }
+
+            if (DefinitelyWritesCancellationStorage(next, symbol, isRef))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool FinallyOverwritesCancellationStorage(
+        ITryOperation attempt, IOperation read, ISymbol? symbol, bool? isRef) =>
+        attempt.Finally is { } finalizer && !HasAncestor(read, attempt)
+        && DefinitelyWritesCancellationStorage(finalizer, symbol, isRef, read)
+        && !CancellationStorageOperationCanThrowBeforeOverwrite(
+            finalizer, symbol, isRef, new OperationExceptionClassifier(attempt.SemanticModel), out _);
+
+    private static bool CanEscapeCancellationStorageWriteToRead(
+        IOperation write, IOperation read, ISymbol? symbol, bool? isRef)
+    {
+        for (var current = write.Parent; current is not null; current = current.Parent)
+        {
+            if (current is ITryOperation attempt && HasAncestor(write, attempt.Body)
+                && !FinallyOverwritesCancellationStorage(attempt, read, symbol, isRef)
+                && ((attempt.Finally is { } finallyBlock && HasAncestor(read, finallyBlock))
+                    || (!HasAncestor(read, attempt.Body) && attempt.Catches.Any(handler =>
+                        !DefinitelyWritesCancellationStorage(handler.Handler, symbol, isRef))))
+                && CanThrowBeforeCancellationStorageOverwrite(write, attempt.Body, symbol, isRef))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool CanThrowBeforeCancellationStorageOverwrite(
+        IOperation write, IBlockOperation body, ISymbol? symbol, bool? isRef)
+    {
+        var classifier = new OperationExceptionClassifier(write.SemanticModel);
+        for (var current = write; current.Parent is { } parent; current = parent)
+        {
+            var sequence = parent switch
+            {
+                IBlockOperation block => block.Operations,
+                ISwitchCaseOperation @case => @case.Body,
+                _ => default,
+            };
+            if (!sequence.IsDefault)
+            {
+                if (CancellationStorageSequenceCanThrowBeforeOverwrite(
+                    sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1),
+                    symbol, isRef, classifier, out var overwritten))
+                {
+                    return true;
+                }
+
+                if (overwritten)
+                {
+                    return false;
+                }
+            }
+
+            // Leaving a loop body evaluates its condition and iteration steps
+            // before a later statement can overwrite the storage.
+            if (parent is ILoopOperation loop && ReferenceEquals(current, loop.Body)
+                && CanRepeatCancellationStorageLoop(loop))
+            {
+                if (CancellationStorageSequenceCanThrowBeforeOverwrite(
+                    CancellationStorageLoopExitOperations(loop), symbol, isRef, classifier, out var overwritten))
+                {
+                    return true;
+                }
+
+                if (overwritten)
+                {
+                    return false;
+                }
+            }
+
+            if (ReferenceEquals(parent, body))
+            {
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    private static IEnumerable<IOperation> CancellationStorageLoopExitOperations(ILoopOperation loop)
+    {
+        return loop switch
+        {
+            IWhileLoopOperation { Condition: { } condition } => (IEnumerable<IOperation>) [condition],
+            IForLoopOperation forLoop => forLoop.Condition is { } condition
+                ? forLoop.AtLoopBottom.Concat([condition])
+                : forLoop.AtLoopBottom,
+            _ => [],
+        };
+    }
+
+    private static bool CancellationStorageOperationCanThrowBeforeOverwrite(
+        IOperation operation, ISymbol? symbol, bool? isRef, OperationExceptionClassifier classifier, out bool overwritten)
+    {
+        overwritten = false;
+        if (operation is IBlockOperation block)
+        {
+            return CancellationStorageSequenceCanThrowBeforeOverwrite(block.Operations, symbol, isRef, classifier, out overwritten);
+        }
+
+        if (operation is IConditionalOperation conditional)
+        {
+            return CancellationStorageBranchesCanThrowBeforeOverwrite(conditional, symbol, isRef, classifier, out overwritten);
+        }
+
+        overwritten = DefinitelyWritesCancellationStorage(operation, symbol, isRef);
+        return operation.DescendantsAndSelf().Any(child =>
+            ReferenceEquals(GetEnclosingCallable(child), GetEnclosingCallable(operation))
+            && (child is IThrowOperation || !classifier.Classify(child).IsEmpty));
+    }
+
+    private static bool CancellationStorageSequenceCanThrowBeforeOverwrite(
+        IEnumerable<IOperation> operations, ISymbol? symbol, bool? isRef,
+        OperationExceptionClassifier classifier, out bool overwritten)
+    {
+        overwritten = false;
+        foreach (var child in operations)
+        {
+            if (CancellationStorageOperationCanThrowBeforeOverwrite(child, symbol, isRef, classifier, out overwritten))
+            {
+                return true;
+            }
+
+            if (overwritten)
+            {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool CancellationStorageBranchesCanThrowBeforeOverwrite(
+        IConditionalOperation conditional, ISymbol? symbol, bool? isRef,
+        OperationExceptionClassifier classifier, out bool overwritten)
+    {
+        overwritten = false;
+        if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+        {
+            return (condition ? conditional.WhenTrue : conditional.WhenFalse) is { } selected
+                && CancellationStorageOperationCanThrowBeforeOverwrite(selected, symbol, isRef, classifier, out overwritten);
+        }
+
+        if (conditional.Condition.DescendantsAndSelf().Any(child => !classifier.Classify(child).IsEmpty)
+            || CancellationStorageOperationCanThrowBeforeOverwrite(conditional.WhenTrue, symbol, isRef, classifier, out var whenTrue))
+        {
+            return true;
+        }
+
+        if (conditional.WhenFalse is not { } whenFalse)
+        {
+            return false;
+        }
+
+        var canThrow = CancellationStorageOperationCanThrowBeforeOverwrite(whenFalse, symbol, isRef, classifier, out var falseOverwrite);
+        overwritten = whenTrue && falseOverwrite;
+        return canThrow;
+    }
+
+    private static bool CanRepeatCancellationStorageLoop(ILoopOperation loop)
+    {
+        if ((loop is IWhileLoopOperation { Condition.ConstantValue: { HasValue: true, Value: bool condition } } whileLoop
+                && condition == whileLoop.ConditionIsUntil)
+            || loop is IForLoopOperation { Condition.ConstantValue: { HasValue: true, Value: false } })
+        {
+            return false;
+        }
+
+        var flow = loop.SemanticModel?.AnalyzeControlFlow(loop.Body.Syntax);
+        return flow?.Succeeded != true || flow.EndPointIsReachable
+            || loop.Body.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+                branch.BranchKind == BranchKind.GoTo
+                || SymbolEqualityComparer.Default.Equals(branch.Target, loop.ContinueLabel));
+    }
+
+    private static bool ResetsCancellationStorageBackedges(IOperation reset, IOperation write, IOperation read)
+    {
+        // Every shared loop can carry the write back to the read. A reset in an
+        // outer loop cannot kill writes from a subsequent inner iteration.
+        for (var current = write.Parent; current is not null; current = current.Parent)
+        {
+            if (current is ILoopOperation loop && HasAncestor(read, current)
+                && !HasAncestor(reset, current) && CanRepeatCancellationStorageLoop(loop))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool IsDefiniteCancellationStorageBinding(IOperation binding, IOperation read)
+    {
+        var predecessor = GetCancellationStorageBindingPredecessor(binding, read);
+        var sequence = GetCancellationStorageSequenceContainer(predecessor);
+
+        // Internal jumps in a promoted block are not region entry points.
+        // A later label can therefore bypass the assignment being proved.
+        if (!ReferenceEquals(predecessor, binding)
+            && predecessor.DescendantsAndSelf().OfType<ILabeledOperation>()
+                .Any(label => label.Syntax.SpanStart > binding.Syntax.Span.End))
+        {
+            return false;
+        }
+
+        if (binding.Syntax.SpanStart >= read.Syntax.SpanStart || sequence is null
+            || !HasAncestor(read, sequence) || HasBranchingAncestor(predecessor, sequence)
+            || (!ReferenceEquals(binding, predecessor) && HasBranchingAncestor(binding, predecessor)))
+        {
+            return false;
+        }
+
+        return HasDefiniteCancellationStorageEntry(binding, predecessor, read, sequence);
+    }
+
+    private static IOperation GetCancellationStorageBindingPredecessor(IOperation binding, IOperation read)
+    {
+        var predecessor = binding;
+        var sequence = GetCancellationStorageSequenceContainer(predecessor);
+        while (sequence is IBlockOperation && !HasAncestor(read, sequence)
+            && sequence.Parent is IBlockOperation or ILabeledOperation)
+        {
+            predecessor = sequence;
+            sequence = GetCancellationStorageSequenceContainer(predecessor);
+        }
+
+        return predecessor;
+    }
+
+    private static bool HasDefiniteCancellationStorageEntry(
+        IOperation binding, IOperation predecessor, IOperation read, IOperation sequence)
+    {
+        var first = predecessor.Syntax.AncestorsAndSelf().OfType<StatementSyntax>()
+            .FirstOrDefault(statement => statement.Parent == sequence.Syntax);
+        var last = read.Syntax.AncestorsAndSelf().OfType<StatementSyntax>()
+            .FirstOrDefault(statement => statement.Parent == sequence.Syntax);
+        if (first is null || last is null)
+        {
+            return false;
+        }
+
+        var flow = binding.SemanticModel?.AnalyzeControlFlow(first, last);
+        return flow?.Succeeded == true
+            && !flow.EntryPoints.Any(entry => entry.SpanStart > binding.Syntax.Span.End);
+    }
+
+    private static IOperation? GetCancellationStorageSequenceContainer(IOperation operation)
+    {
+        for (var current = operation.Parent; current is not null; current = current.Parent)
+        {
+            if (current is IBlockOperation or ISwitchCaseOperation)
+            {
+                return current;
+            }
+        }
+
+        return null;
+    }
+
+    private static bool CanReachCancellationStorageRead(IOperation binding, IOperation read)
+    {
+        for (var current = binding; current.Parent is { } parent; current = parent)
+        {
+            if (AlwaysExitsCallable(current) && !HasAncestor(read, current)
+                && !CanReachReadThroughCaughtCancellationStorageThrow(current, read))
+            {
+                return false;
+            }
+
+            if (IsUnreachableCancellationStorageCase(current, binding, read))
+            {
+                return false;
+            }
+
+            if (parent is IConditionalOperation conditional
+                && IsReadInSiblingCancellationConditional(current, conditional, read)
+                && !SharesCancellationStorageLoop(binding, read)
+                && !CanRevisitCancellationStorageOperation(conditional))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool IsReadInSiblingCancellationConditional(
+        IOperation branch, IConditionalOperation conditional, IOperation read) =>
+        (ReferenceEquals(conditional.WhenTrue, branch)
+            && conditional.WhenFalse is { } whenFalse && HasAncestor(read, whenFalse))
+        || (ReferenceEquals(conditional.WhenFalse, branch) && HasAncestor(read, conditional.WhenTrue));
+
+    private static bool IsUnreachableCancellationStorageCase(IOperation current, IOperation binding, IOperation read) =>
+        current is ISwitchCaseOperation sourceCase && current.Parent is ISwitchOperation switchOperation
+        && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } targetCase
+        && !ReferenceEquals(sourceCase, targetCase)
+        && !SharesCancellationStorageLoop(binding, read)
+        && !CanRevisitCancellationStorageOperation(switchOperation)
+        && !CanTransferCancellationStorageBetweenCases(sourceCase, targetCase, switchOperation);
+
+    private static bool CanRevisitCancellationStorageOperation(IOperation operation) =>
+        GetCancellationStorageRevisitTargets(operation).Any();
+
+    private static IEnumerable<ILabeledOperation> GetCancellationStorageRevisitTargets(IOperation operation)
+    {
+        var callable = GetEnclosingCallable(operation);
+        var labels = GetRoot(operation).DescendantsAndSelf().OfType<ILabeledOperation>()
+            .Where(label => label.Syntax.SpanStart <= operation.Syntax.SpanStart)
+            .Where(label => ReferenceEquals(GetEnclosingCallable(label), callable))
+            .ToArray();
+        // A backward jump within or after a construct can carry a write into a
+        // different branch on its next visit, like a structured loop backedge.
+        var targets = GetRoot(operation).DescendantsAndSelf().OfType<IBranchOperation>()
+            .Where(branch => branch.BranchKind == BranchKind.GoTo
+                && branch.Syntax.SpanStart >= operation.Syntax.SpanStart
+                && ReferenceEquals(GetEnclosingCallable(branch), callable))
+            .Select(static branch => branch.Target).ToArray();
+        return labels.Where(label => targets.Contains(label.Label, SymbolEqualityComparer.Default));
+    }
+
+    private static bool CanTransferCancellationStorageBetweenCases(
+        ISwitchCaseOperation source,
+        ISwitchCaseOperation target,
+        ISwitchOperation switchOperation)
+    {
+        var pending = new Stack<ISwitchCaseOperation>();
+        var visited = new HashSet<ISwitchCaseOperation>();
+        pending.Push(source);
+        while (pending.Count > 0)
+        {
+            var current = pending.Pop();
+            if (ReferenceEquals(current, target))
+            {
+                return true;
+            }
+
+            if (!visited.Add(current))
+            {
+                continue;
+            }
+
+            var labels = current.DescendantsAndSelf().OfType<IBranchOperation>()
+                .Where(static branch => branch.BranchKind == BranchKind.GoTo)
+                .Select(static branch => branch.Target).ToArray();
+            // A jump outside the switch may re-enter it through a later case.
+            if (labels.Any(label => !switchOperation.Cases.Any(candidate =>
+                    IsCancellationStorageCaseTarget(candidate, label))))
+            {
+                return true;
+            }
+
+            foreach (var candidate in switchOperation.Cases)
+            {
+                if (labels.Any(label => IsCancellationStorageCaseTarget(candidate, label)))
+                {
+                    pending.Push(candidate);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static bool IsCancellationStorageCaseTarget(ISwitchCaseOperation candidate, ILabelSymbol label) =>
+        candidate.Clauses.Any(clause => SymbolEqualityComparer.Default.Equals(label, clause.Label))
+        || candidate.DescendantsAndSelf().OfType<ILabeledOperation>().Any(operation =>
+            SymbolEqualityComparer.Default.Equals(label, operation.Label));
+
+    private static bool CanReachReadThroughCaughtCancellationStorageThrow(IOperation operation, IOperation read)
+    {
+        if (!operation.DescendantsAndSelf().Any(static child => child is IThrowOperation))
+        {
+            return false;
+        }
+
+        for (var current = operation; current.Parent is { } parent; current = parent)
+        {
+            if (parent is ITryOperation attempt && ReferenceEquals(current, attempt.Body)
+                && !HasAncestor(read, attempt.Body)
+                && (attempt.Catches.Any(handler => !AlwaysExitsCallable(handler.Handler))
+                    || (attempt.Finally is { } finallyBlock && HasAncestor(read, finallyBlock))))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool SharesCancellationStorageLoop(IOperation binding, IOperation read)
+    {
+        for (var current = binding.Parent; current is not null; current = current.Parent)
+        {
+            if (current is ILoopOperation loop && HasAncestor(read, current)
+                && CanRepeatCancellationStorageLoop(loop))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static ISymbol? GetCancellationStorageSymbol(IOperation reference) => reference switch
+    {
+        IParameterReferenceOperation parameter => parameter.Parameter,
+        ILocalReferenceOperation local => local.Local,
+        _ => null,
+    };
+
     private static bool FlowsFromParallelCallbackToken(
         IParameterReferenceOperation parameterReference,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (!IsCancellationToken(parameterReference.Parameter)
             || parameterReference.Parameter.ContainingSymbol
@@ -5542,31 +6666,35 @@ internal static class ModuleAuthoringAnalysis
                 && IsCancellationToken(argument.Parameter))
             .Any(argument => FlowsFromCancellationToken(
                 argument.Value,
-                cancellationToken,
+                cancellationTokens,
                 CloneVisitedLocals(visitedLocals),
-                CloneVisitedMethods(visitedMethods)));
+                CloneVisitedMethods(visitedMethods),
+                visitedWrites));
     }
 
     private static bool FlowsFromCancellationTokenProperty(
         IPropertyReferenceOperation propertyReference,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         return IsCancellationTokenSourceToken(propertyReference)
                && propertyReference.Instance is not null
                && FlowsFromCancellationToken(
                    propertyReference.Instance,
-                   cancellationToken,
+                   cancellationTokens,
                    visitedLocals,
-                   visitedMethods);
+                   visitedMethods,
+                   visitedWrites);
     }
 
     private static bool FlowsFromCancellationTokenInvocation(
         IInvocationOperation invocation,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (IsKnownCancellationCarrierFactory(invocation))
         {
@@ -5575,23 +6703,26 @@ internal static class ModuleAuthoringAnalysis
                 && IsCancellationInput(argument.Parameter)
                 && FlowsFromCancellationToken(
                     argument.Value,
-                    cancellationToken,
+                    cancellationTokens,
                     visitedLocals,
-                    visitedMethods));
+                    visitedMethods,
+                    visitedWrites));
         }
 
         return FlowsFromCancellationTokenSourceHelper(
             invocation,
-            cancellationToken,
+            cancellationTokens,
             visitedLocals,
-            visitedMethods);
+            visitedMethods,
+            visitedWrites);
     }
 
     private static bool FlowsFromCancellationTokenSourceHelper(
         IInvocationOperation invocation,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         var method = NormalizeMethod(invocation.TargetMethod);
         if (!visitedMethods.Add(method)
@@ -5605,9 +6736,10 @@ internal static class ModuleAuthoringAnalysis
         var flowedParameters = GetFlowedCancellationParameters(
             invocation,
             method,
-            cancellationToken,
+            cancellationTokens,
             visitedLocals,
-            visitedMethods);
+            visitedMethods,
+            visitedWrites);
         if (flowedParameters.Count == 0)
         {
             return false;
@@ -5625,40 +6757,43 @@ internal static class ModuleAuthoringAnalysis
                && returnValues
                    .SelectMany(GetReachableValueLeaves)
                    .Where(static returnValue => !AlwaysThrows(returnValue))
-                   .All(returnValue => flowedParameters.Any(parameter =>
+                   .All(returnValue =>
                        FlowsFromCancellationToken(
                            returnValue,
-                           parameter,
+                           flowedParameters,
                            CloneVisitedLocals(visitedLocals),
-                           CloneVisitedMethods(visitedMethods))));
+                           CloneVisitedMethods(visitedMethods),
+                           visitedWrites));
     }
 
     private static HashSet<IParameterSymbol> GetFlowedCancellationParameters(
         IInvocationOperation invocation,
         IMethodSymbol method,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
-        var flowedParameters = new HashSet<IParameterSymbol>(
-            invocation.Arguments
+        var flowedParameters = new CancellationHelperParameters(invocation, method, cancellationTokens);
+        flowedParameters.UnionWith(invocation.Arguments
                 .Where(static argument =>
                     argument.Parameter is not null
                     && IsCancellationToken(argument.Parameter))
                 .Where(argument => FlowsFromCancellationToken(
                     argument.Value,
-                    cancellationToken,
+                    cancellationTokens,
                     CloneVisitedLocals(visitedLocals),
-                    CloneVisitedMethods(visitedMethods)))
+                    CloneVisitedMethods(visitedMethods),
+                    visitedWrites))
                 .Select(argument => GetTargetParameter(method, argument.Parameter))
-                .OfType<IParameterSymbol>(),
-            SymbolEqualityComparer.Default);
+                .OfType<IParameterSymbol>());
         if (TryGetFlowedCancellationReceiver(
                 invocation,
                 method,
-                cancellationToken,
+                cancellationTokens,
                 visitedLocals,
-                visitedMethods) is { } receiverParameter)
+                visitedMethods,
+                visitedWrites) is { } receiverParameter)
         {
             flowedParameters.Add(receiverParameter);
         }
@@ -5669,9 +6804,10 @@ internal static class ModuleAuthoringAnalysis
     private static IParameterSymbol? TryGetFlowedCancellationReceiver(
         IInvocationOperation invocation,
         IMethodSymbol method,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (invocation.TargetMethod.ReducedFrom is not null
             && invocation.Instance is { } instance
@@ -5679,9 +6815,10 @@ internal static class ModuleAuthoringAnalysis
             && IsCancellationToken(receiverParameter)
             && FlowsFromCancellationToken(
                 instance,
-                cancellationToken,
+                cancellationTokens,
                 CloneVisitedLocals(visitedLocals),
-                CloneVisitedMethods(visitedMethods)))
+                CloneVisitedMethods(visitedMethods),
+                visitedWrites))
         {
             return receiverParameter;
         }
@@ -5715,9 +6852,10 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool FlowsFromCancellationTokenConditional(
         IConditionalOperation conditional,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
         {
@@ -5726,43 +6864,49 @@ internal static class ModuleAuthoringAnalysis
                 : conditional.WhenFalse;
             return BranchFlowsFromCancellationToken(
                 selectedBranch,
-                cancellationToken,
+                cancellationTokens,
                 visitedLocals,
-                visitedMethods);
+                visitedMethods,
+                visitedWrites);
         }
 
         return BranchFlowsFromCancellationToken(
                    conditional.WhenTrue,
-                   cancellationToken,
+                   cancellationTokens,
                    CloneVisitedLocals(visitedLocals),
-                   CloneVisitedMethods(visitedMethods))
+                   CloneVisitedMethods(visitedMethods),
+                   visitedWrites)
                && BranchFlowsFromCancellationToken(
                    conditional.WhenFalse,
-                   cancellationToken,
+                   cancellationTokens,
                    CloneVisitedLocals(visitedLocals),
-                   CloneVisitedMethods(visitedMethods));
+                   CloneVisitedMethods(visitedMethods),
+                   visitedWrites);
     }
 
     private static bool BranchFlowsFromCancellationToken(
         IOperation? branch,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         return branch is not null
                && (AlwaysThrows(branch)
                    || FlowsFromCancellationToken(
                        branch,
-                       cancellationToken,
+                       cancellationTokens,
                        visitedLocals,
-                       visitedMethods));
+                       visitedMethods,
+                       visitedWrites));
     }
 
     private static bool FlowsFromCancellationTokenSwitchExpression(
         ISwitchExpressionOperation switchExpression,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         return switchExpression.Arms.Length > 0
                && switchExpression.Arms
@@ -5771,9 +6915,10 @@ internal static class ModuleAuthoringAnalysis
                    .All(arm =>
                     FlowsFromCancellationToken(
                         arm.Value,
-                        cancellationToken,
+                        cancellationTokens,
                         CloneVisitedLocals(visitedLocals),
-                        CloneVisitedMethods(visitedMethods)));
+                        CloneVisitedMethods(visitedMethods),
+                        visitedWrites));
     }
 
     private static bool AlwaysThrows(IOperation operation)
@@ -5831,26 +6976,29 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool FlowsFromCancellationTokenCoalesce(
         ICoalesceOperation coalesce,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (coalesce.Value.ConstantValue is { HasValue: true, Value: null })
         {
             return FlowsFromCancellationToken(
                 coalesce.WhenNull,
-                cancellationToken,
+                cancellationTokens,
                 visitedLocals,
-                visitedMethods);
+                visitedMethods,
+                visitedWrites);
         }
 
         if (IsStaticallyNonNullCoalesceValue(coalesce.Value))
         {
             return FlowsFromCancellationToken(
                 coalesce.Value,
-                cancellationToken,
+                cancellationTokens,
                 visitedLocals,
-                visitedMethods);
+                visitedMethods,
+                visitedWrites);
         }
 
         // Null leaves select the fallback; only present values need token provenance.
@@ -5858,14 +7006,16 @@ internal static class ModuleAuthoringAnalysis
                    .Where(static leaf => leaf.ConstantValue is not { HasValue: true, Value: null })
                    .All(leaf => BranchFlowsFromCancellationToken(
                        leaf,
-                       cancellationToken,
+                       cancellationTokens,
                        CloneVisitedLocals(visitedLocals),
-                       CloneVisitedMethods(visitedMethods)))
+                       CloneVisitedMethods(visitedMethods),
+                       visitedWrites))
                && FlowsFromCancellationToken(
                    coalesce.WhenNull,
-                   cancellationToken,
+                   cancellationTokens,
                    CloneVisitedLocals(visitedLocals),
-                   CloneVisitedMethods(visitedMethods));
+                   CloneVisitedMethods(visitedMethods),
+                   visitedWrites);
     }
 
     private static bool IsStaticallyNonNullCoalesceValue(IOperation value)
@@ -5896,9 +7046,10 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool FlowsFromCancellationTokenLocal(
         ILocalReferenceOperation localReference,
-        IParameterSymbol cancellationToken,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (!visitedLocals.Add(localReference.Local))
         {
@@ -5913,9 +7064,10 @@ internal static class ModuleAuthoringAnalysis
                && localValues.All(localValue =>
                    FlowsFromCancellationToken(
                        localValue,
-                       cancellationToken,
+                       cancellationTokens,
                        CloneVisitedLocals(visitedLocals),
-                       CloneVisitedMethods(visitedMethods)));
+                       CloneVisitedMethods(visitedMethods),
+                       visitedWrites));
     }
 
     private static bool IsCancellationTokenSourceToken(
@@ -6599,7 +7751,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool HasBranchingAncestor(
         IOperation operation,
-        IBlockOperation containingBlock)
+        IOperation containingBlock)
     {
         for (var ancestor = operation.Parent;
              ancestor is not null && !ReferenceEquals(ancestor, containingBlock);
