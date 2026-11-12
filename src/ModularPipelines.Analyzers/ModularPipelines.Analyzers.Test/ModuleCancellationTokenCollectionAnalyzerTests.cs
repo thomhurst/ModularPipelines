@@ -1,0 +1,266 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ModuleAsyncSafetyAnalyzer>;
+
+namespace ModularPipelines.Analyzers.Test;
+
+[TestClass]
+public class ModuleCancellationTokenCollectionAnalyzerTests
+{
+    [TestMethod]
+    [DataRow("var tokens = new[] { cancellationToken }; var view = tokens.AsSpan(); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(view).Token;", false)]
+    [DataRow("var tokens = new[] { cancellationToken }; var view = tokens.AsSpan(); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", false)]
+    [DataRow("var tokens = new[] { cancellationToken }; var view = tokens.AsSpan(); view[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", true)]
+    [DataRow("var tokens = new[] { cancellationToken }; var view = tokens.AsSpan(); tokens[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(view).Token;", true)]
+    public async Task Full_Array_Span_Preserves_Aliasing_Facts(string statements, bool warns)
+    {
+        await Verify(statements, warns);
+    }
+
+    [TestMethod]
+    [DataRow(false, true)]
+    [DataRow(true, true)]
+    [DataRow(false, false)]
+    public async Task Unknown_Reference_Target_Survives_Join(bool replace, bool mutate)
+    {
+        var statements = $$"""
+            var tokens = new[] { cancellationToken };
+            var other = new[] { cancellationToken };
+            ref readonly CancellationToken[] alias = ref tokens;
+            if (context != null) alias = ref Unknown(ref other);
+            var fresh = new[] { cancellationToken };
+            other = fresh;
+            {{(replace ? "tokens = new[] { cancellationToken };" : "")}}
+            {{(mutate ? "alias[0] = default;" : "")}}
+            cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(fresh).Token;
+            """;
+        await Verify(statements, mutate, "private static ref readonly CancellationToken[] Unknown(ref CancellationToken[] value) => ref value;");
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Stable_Readonly_Array_References_Invalidate_Only_Their_Allocation(bool affected)
+    {
+        var statements = "CancellationToken[] tokens = new[] { cancellationToken }; CancellationToken[] other = new[] { cancellationToken }; ref readonly CancellationToken[] alias = ref other; alias[0] = default; "
+            + $"cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({(affected ? "other" : "tokens")}).Token;";
+        var call = affected ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, call), affected
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("ref (context != null ? ref first : ref second)", "", "first", true)]
+    [DataRow("ref (context != null ? ref first : ref second)", "", "untouched", false)]
+    [DataRow("ref first", "alias = ref second;", "first", false)]
+    public async Task Array_Reference_Targets_Follow_Conditional_Bindings_And_Reassignment(string binding, string rebind, string source, bool warns)
+    {
+        var statements = "CancellationToken[] first = new[] { cancellationToken }; CancellationToken[] second = new[] { cancellationToken }; CancellationToken[] untouched = new[] { cancellationToken }; "
+            + $"ref readonly CancellationToken[] alias = {binding}; {rebind} alias[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({source}).Token;";
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, warns ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)"), warns
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(true, false)]
+    [DataRow(false, true)]
+    [DataRow(true, true)]
+    public async Task Readonly_Reference_Array_Writes_Track_Current_Target_Storage(bool retargetStorage, bool affected)
+    {
+        var statements = "CancellationToken[] tokens = new[] { cancellationToken }; CancellationToken[] other = new[] { cancellationToken }; ref readonly CancellationToken[] alias = ref other; "
+            + (retargetStorage ? "other = tokens; " : "") + "alias[0] = default; "
+            + $"cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({(affected ? "other" : "tokens")}).Token;";
+        var warns = affected || retargetStorage;
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, warns ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)"), warns
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("ref")]
+    [DataRow("ref readonly")]
+    public async Task Array_References_Invalidate_Backing_Facts_Before_Storage_Escape(string reference)
+    {
+        var statements = $"CancellationToken[] tokens = new[] {{ cancellationToken }}; var copy = tokens; {reference} CancellationToken[] alias = ref tokens; alias[0] = default; "
+            + "cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(copy).Token;";
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Readonly_Span_References_Invalidate_Only_On_Content_Writes(bool writes)
+    {
+        var mutation = writes ? "alias[0] = default;" : "";
+        var statements = "var tokens = new[] { cancellationToken }; var span = new Span<CancellationToken>(tokens); ref readonly Span<CancellationToken> alias = ref span; "
+            + $"{mutation} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;";
+        var call = writes ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, call), writes
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    public async Task Readonly_Array_References_Preserve_Unchanged_Contents()
+    {
+        var statements = "CancellationToken[] tokens = new[] { cancellationToken }; ref readonly CancellationToken[] alias = ref tokens; "
+            + "cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;";
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Conditional_Parameter_References_Track_Writable_Escapes(bool writable)
+    {
+        var reference = writable ? "ref CancellationToken" : "ref readonly CancellationToken";
+        var mutation = writable ? "alias = default;" : "";
+        var statements = $"CancellationToken other = default; {reference} alias = ref (context != null ? ref cancellationToken : ref other); {mutation}";
+        var call = writable ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, call), writable
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("var saved = cancellationToken; (cancellationToken, saved) = (CancellationToken.None, cancellationToken); cancellationToken = CancellationToken.None;")]
+    [DataRow("var tokens = new[] { cancellationToken }; tokens[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = tokens; alias[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = context != null ? tokens : new CancellationToken[1]; alias[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var saved = context != null ? (tokens, 1) : default; saved.Item1[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = tokens; tokens = new[] { cancellationToken }; alias[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
+    [DataRow("var saved = (cancellationToken, 1); saved.Item1 = CancellationToken.None; (cancellationToken, _) = saved;")]
+    [DataRow("var saved = (cancellationToken, 1); var copy = saved; copy.Item1 = CancellationToken.None; (cancellationToken, _) = copy;")]
+    [DataRow("var saved = (cancellationToken, 1); if (context != null) saved.Item1 = CancellationToken.None; (cancellationToken, _) = saved;")]
+    [DataRow("var tokens = new[] { cancellationToken }; tokens[context != null ? 0 : 0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var saved = (tokens, 1); saved.Item1[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; tokens.SetValue(CancellationToken.None, 0); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; Span<CancellationToken> alias = tokens; alias[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; object saved = (tokens, 1); ((ValueTuple<CancellationToken[], int>)saved).Item1[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var saved = (cancellationToken, 1); saved = (CancellationToken.None, 1); (cancellationToken, _) = saved;")]
+    [DataRow("var saved = (cancellationToken, 1); saved.Item1 = CancellationToken.None; cancellationToken = saved.Item1;")]
+    [DataRow("var saved = (cancellationToken, 1); if (context != null) saved = (CancellationToken.None, 1); (cancellationToken, _) = saved;")]
+    [DataRow("var saved = ((cancellationToken, 1), 2); saved.Item1 = (CancellationToken.None, 1); ((cancellationToken, _), _) = saved;")]
+    [DataRow("var saved = ((cancellationToken, 1), 2); (saved.Item1, _) = ((CancellationToken.None, 1), 2); ((cancellationToken, _), _) = saved;")]
+    [DataRow("var saved = ((cancellationToken, 1), 2); saved.Item1 = (CancellationToken.None, 1); cancellationToken = saved.Item1.Item1;")]
+    [DataRow("var saved = (cancellationToken, 1); (saved.Item1, _) = (CancellationToken.None, 2); cancellationToken = saved.Item1;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = context != null ? tokens : new[] { cancellationToken }; alias[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; (tokens[0], _) = (CancellationToken.None, 1); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var saved = (tokens, 1); tokens[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(saved.Item1).Token;")]
+    [DataRow("var tokens = new CancellationToken[1]; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new CancellationToken[1]; tokens[0] = cancellationToken; tokens[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("(CancellationToken First, CancellationToken Second) saved = default; saved.First = cancellationToken; cancellationToken = saved.Second;")]
+    [DataRow("(CancellationToken Token, int Count) saved = default; if (context != null) saved.Token = cancellationToken; cancellationToken = saved.Token;")]
+    [DataRow("(CancellationToken Token, int Count) saved = default; saved.Token = cancellationToken; saved = default; cancellationToken = saved.Token;")]
+    [DataRow("(CancellationToken[] Tokens, int Count) saved = default; saved.Tokens = new[] { cancellationToken }; saved.Tokens[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(saved.Tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new Span<CancellationToken>(tokens); alias[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new ReadOnlySpan<CancellationToken>(tokens); tokens[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new Span<CancellationToken>(tokens, 0, 1); alias[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    public async Task Reports_Replaced_Collections_And_Tuples(string statements)
+    {
+        await Verify(statements, true);
+    }
+
+    [TestMethod]
+    [DataRow("var tokens = new[] { cancellationToken }; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource([..tokens, CancellationToken.None]).Token;")]
+    [DataRow("var saved = (cancellationToken, 1); (cancellationToken, _) = saved;")]
+    [DataRow("var saved = (cancellationToken, 1); var copy = saved; (cancellationToken, _) = copy;")]
+    [DataRow("var saved = ((cancellationToken, 1), 2); ((cancellationToken, _), _) = saved;")]
+    [DataRow("var saved = (1, cancellationToken); (_, cancellationToken) = saved;")]
+    [DataRow("var saved = (number: 1, token: cancellationToken); cancellationToken = saved.token;")]
+    [DataRow("var saved = (cancellationToken, 1); var copy = saved; copy.Item1 = CancellationToken.None; (cancellationToken, _) = saved;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = tokens; alias = new[] { CancellationToken.None }; alias[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken, cancellationToken }; tokens[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; tokens[0] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken, cancellationToken }; if (context != null) tokens[0] = CancellationToken.None; else tokens[1] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var saved = ((1, cancellationToken), 2); ((_, cancellationToken), _) = saved;")]
+    [DataRow("var saved = (cancellationToken, 1); var copy = saved; cancellationToken = CancellationToken.None; (cancellationToken, _) = copy;")]
+    [DataRow("var saved = context != null ? (cancellationToken, 1) : (cancellationToken, 2); (cancellationToken, _) = saved;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var other = new[] { cancellationToken }; other[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var linked = CancellationTokenSource.CreateLinkedTokenSource(tokens); tokens[0] = CancellationToken.None; cancellationToken = linked.Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = tokens; var linked = CancellationTokenSource.CreateLinkedTokenSource(tokens); alias[0] = CancellationToken.None; cancellationToken = linked.Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = tokens; alias = new[] { cancellationToken }; alias[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; tokens[0] = CancellationToken.None; tokens = new[] { cancellationToken }; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var saved = ((CancellationToken.None, 1), 2); saved.Item1 = (cancellationToken, 1); ((cancellationToken, _), _) = saved;")]
+    [DataRow("var saved = ((CancellationToken.None, 1), 2); (saved.Item1, _) = ((cancellationToken, 1), 2); ((cancellationToken, _), _) = saved;")]
+    [DataRow("var saved = ((cancellationToken, 1), (cancellationToken, 2)); saved.Item1 = (CancellationToken.None, 1); cancellationToken = saved.Item2.Item1;")]
+    [DataRow("var saved = ((cancellationToken, 1), 2); var pair = saved.Item1; cancellationToken = CancellationToken.None; (cancellationToken, _) = pair;")]
+    [DataRow("var saved = ((cancellationToken, 1), 2); saved.Item1 = saved.Item1; ((cancellationToken, _), _) = saved;")]
+    [DataRow("var tokens = new CancellationToken[1]; tokens[0] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new CancellationToken[int.MaxValue]; tokens[1000000] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new CancellationToken[context != null ? 1 : 2]; tokens[0] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; GC.KeepAlive(tokens); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("(CancellationToken Token, int Count) saved = default; saved.Token = cancellationToken; cancellationToken = saved.Token;")]
+    [DataRow("((CancellationToken Token, int Count) Pair, int Count) saved = default; saved.Pair.Token = cancellationToken; cancellationToken = saved.Pair.Token;")]
+    [DataRow("(CancellationToken Token, int Count) saved = default; (saved.Token, _) = (cancellationToken, 1); (cancellationToken, _) = saved;")]
+    [DataRow("(CancellationToken First, CancellationToken Second) saved = default; saved.First = cancellationToken; saved.Second = CancellationToken.None; cancellationToken = saved.First;")]
+    [DataRow("(CancellationToken Token, int Count) saved = default; if (context != null) saved.Token = cancellationToken; else saved.Token = cancellationToken; cancellationToken = saved.Token;")]
+    [DataRow("(CancellationToken[] Tokens, int Count) saved = default; saved.Tokens = new[] { cancellationToken }; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(saved.Tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(new ReadOnlySpan<CancellationToken>(tokens)).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new Span<CancellationToken>(tokens); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
+    [DataRow("var tokens = new CancellationToken[1]; var alias = new Span<CancellationToken>(tokens); alias[0] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; _ = new Tuple<CancellationToken[], CancellationToken>(tokens, cancellationToken = tokens[0]);")]
+    [DataRow("var tokens = new[] { cancellationToken }; var slice = new Span<CancellationToken>(tokens, 0, 1); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var slice = new ReadOnlySpan<CancellationToken>(tokens, 0, 1); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new ReadOnlySpan<CancellationToken>(tokens); cancellationToken = alias[0];")]
+    public async Task Preserves_Collections_And_Tuples(string statements)
+    {
+        await Verify(statements, false);
+    }
+
+    [TestMethod]
+    [DataRow("var saved = cancellationToken; Reset(ref cancellationToken); cancellationToken = saved;", false)]
+    [DataRow("var saved = cancellationToken; Reset(ref saved); saved = cancellationToken; cancellationToken = saved;", false)]
+    [DataRow("var saved = cancellationToken; ref CancellationToken alias = ref saved; saved = cancellationToken; alias = default; cancellationToken = saved;", true)]
+    [DataRow("var saved = (cancellationToken, cancellationToken); ref CancellationToken alias = ref saved.Item2; alias = default; cancellationToken = saved.Item1;", false)]
+    [DataRow("var saved = ((cancellationToken, cancellationToken), 1); ref CancellationToken alias = ref saved.Item1.Item2; alias = default; cancellationToken = saved.Item1.Item1;", false)]
+    [DataRow("var saved = ((cancellationToken, cancellationToken), 1); ref CancellationToken alias = ref saved.Item1.Item2; saved.Item1 = (cancellationToken, cancellationToken); alias = default; cancellationToken = saved.Item1.Item2;", true)]
+    public async Task Reference_Storage_Escapes_Are_Persistent_Only_While_References_Survive(string statements, bool warns)
+    {
+        await Verify(statements, warns, "private static void Reset(ref CancellationToken token) => token = default;");
+    }
+
+    [TestMethod]
+    [DataRow("var pair = (1, 2); cancellationToken = Pass(cancellationToken);")]
+    [DataRow("var pair = (1, 2); cancellationToken = Task.FromResult(cancellationToken).Result;")]
+    public async Task Unsupported_Helper_And_Awaitable_Proofs_Stay_On_Existing_Path(string statements)
+    {
+        await Verify(statements, false, "private static CancellationToken Pass(CancellationToken token) => token;");
+    }
+
+    [TestMethod]
+    [DataRow("var saved = cancellationToken; (saved, cancellationToken) = (CancellationToken.None, saved);", false)]
+    [DataRow("var tokens = new[] { cancellationToken }; var saved = tokens; tokens[0] = (tokens = new[] { default(CancellationToken) })[0]; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(saved).Token;", true)]
+    [DataRow("var tokens = new[] { cancellationToken }; var saved = tokens; var span = tokens.AsSpan(); span[0] = (tokens = new[] { default(CancellationToken) })[0]; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(saved).Token;", true)]
+    public async Task Assignments_Snapshot_Values_And_Storage_In_Language_Order(string statements, bool warns)
+    {
+        await Verify(statements, warns);
+    }
+
+    private static Task Verify(string statements, bool warns, string helpers = "")
+    {
+        var source = Source(statements, warns ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)", helpers);
+        return warns ? VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"))
+            : VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    private static string Source(string statements, string call, string helpers = "") => $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+            #nullable disable
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+                protected override Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    {{statements}}
+                    return {{call}};
+                }
+                {{helpers}}
+            }
+            """;
+}

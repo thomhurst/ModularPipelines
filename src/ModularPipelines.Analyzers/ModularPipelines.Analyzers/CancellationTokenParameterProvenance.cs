@@ -36,26 +36,26 @@ internal static class CancellationTokenParameterProvenance
 
         var references = Results.GetValue(root, static _ => new(SymbolEqualityComparer.Default))
             .GetOrAdd(source, token => new Lazy<Dictionary<TextSpan, bool?>>(() => Analyze(root, token))).Value;
-        // Unsupported shapes keep the existing proof. Helper summaries are limited
-        // to scalar by-value tokens; collection, tuple, reference-storage, awaitable,
-        // loop and exception-cleanup proofs remain separate.
+        // Unsupported shapes keep the existing proof. Helper, awaitable, loop and
+        // exception-cleanup proofs remain on their existing paths.
         return !references.TryGetValue(reference.Syntax.Span, out var value) || value != false;
     }
 
     private static Dictionary<TextSpan, bool?> Analyze(IOperation root, IParameterSymbol source)
     {
         var operations = root.DescendantsAndSelf().ToArray();
-        if (!operations.OfType<ISimpleAssignmentOperation>().Any(assignment =>
+        var collections = operations.Any(CancellationTokenCollectionProvenance.RequiresTracking);
+        if ((!collections && !operations.OfType<ISimpleAssignmentOperation>().Any(assignment =>
                 assignment.Target is IParameterReferenceOperation parameter
-                && SymbolEqualityComparer.Default.Equals(parameter.Parameter, source))
-            || operations.Any(static operation => operation is ITryOperation
-                or ILoopOperation
-                or IDeconstructionAssignmentOperation
-                or ISimpleAssignmentOperation { IsRef: true }
-                or ILocalReferenceOperation { Local.RefKind: not RefKind.None }
-                or IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None }
-                or IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out })
+                && SymbolEqualityComparer.Default.Equals(parameter.Parameter, source)))
+            || operations.Any(static operation => operation is ITryOperation or ILoopOperation)
             || operations.Any(HasCapturedWrite)
+            // Nested functions retain the dedicated captured-helper analysis.
+            // Their ref/deconstruction effects are not caller-owned storage.
+            || (collections && operations.Any(operation =>
+                operation is IAnonymousFunctionOperation or ILocalFunctionOperation
+                && operation.Descendants().OfType<IParameterReferenceOperation>().Any(reference =>
+                    SymbolEqualityComparer.Default.Equals(reference.Parameter, source))))
             || root.SemanticModel is not { } model)
         {
             return [];
@@ -64,7 +64,7 @@ internal static class CancellationTokenParameterProvenance
         try
         {
             return GetGraph(root, model) is { } graph
-                ? new Analysis(graph, source, model).Run()
+                ? collections ? CancellationTokenCollectionProvenance.Analyze(graph, source) : new Analysis(graph, source, model).Run()
                 : [];
         }
         catch (ArgumentException)
