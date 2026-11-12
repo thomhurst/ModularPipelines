@@ -5879,7 +5879,8 @@ internal static class ModuleAuthoringAnalysis
             foreach (var branch in current.DescendantsAndSelf().OfType<IBranchOperation>())
             {
                 if (branch.BranchKind != BranchKind.GoTo || !IsInReachableBranch(branch)
-                    || (afterWrite && (branch.Syntax.SpanStart < write.Syntax.SpanStart
+                    || (afterWrite && ((branch.Syntax.SpanStart < write.Syntax.SpanStart
+                            && !CancellationWriteCanReachEarlierJump(current, write, branch))
                         || !CanCancellationWriteReachSnapshot(write, branch))))
                 {
                     continue;
@@ -5894,6 +5895,29 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool CancellationWriteCanReachEarlierJump(
+        ISwitchCaseOperation switchCase, IOperation write, IBranchOperation jump)
+    {
+        // A loop can revisit a jump that precedes the write in source order.
+        for (var ancestor = write.Parent; ancestor is not null && !ReferenceEquals(ancestor, switchCase); ancestor = ancestor.Parent)
+        {
+            if (ancestor is ILoopOperation && HasAncestor(jump, ancestor))
+            {
+                return true;
+            }
+        }
+
+        // Retain the write conservatively when a later goto can revisit an earlier label.
+        // This also covers chains of ordinary labels without recursively walking their cycles.
+        return switchCase.DescendantsAndSelf().OfType<IBranchOperation>().Any(backedge =>
+            backedge.BranchKind == BranchKind.GoTo
+            && backedge.Syntax.SpanStart > write.Syntax.SpanStart
+            && IsInReachableBranch(backedge)
+            && switchCase.DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
+                SymbolEqualityComparer.Default.Equals(label.Label, backedge.Target)
+                && label.Syntax.SpanStart <= jump.Syntax.SpanStart));
     }
 
     private static bool CancellationWriteCannotReachOtherSwitchArm(ISwitchExpressionArmOperation arm, IOperation write, IOperation read)
@@ -5913,6 +5937,17 @@ internal static class ModuleAuthoringAnalysis
         if (value.Type is IArrayTypeSymbol)
         {
             return false;
+        }
+
+        // Compare unchanged storage before expanding value-local snapshots. Expanding only
+        // the assigned side loses the shared intermediate local in chained snapshots.
+        if (value is ILocalReferenceOperation && read is ILocalReferenceOperation
+            && GetCancellationStorage(value, [], caller.Invocation, caller.Method) is { } valueStorage
+            && SymbolEqualityComparer.Default.Equals(valueStorage,
+                GetCancellationStorage(read, [], caller.Invocation, caller.Method))
+            && !HasCancellationSnapshotMutation(read, value, body, caller, visitedWrites, visitedMethods))
+        {
+            return true;
         }
 
         switch (value)
