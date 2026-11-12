@@ -104,6 +104,8 @@ internal static class CancellationTokenParameterProvenance
 
         public Dictionary<CaptureId, bool?> Captures { get; } = [];
 
+        public Dictionary<CaptureId, Optional<object?>> Constants { get; } = [];
+
         public State Clone()
         {
             var copy = new State();
@@ -117,12 +119,32 @@ internal static class CancellationTokenParameterProvenance
                 copy.Captures.Add(pair.Key, pair.Value);
             }
 
+            foreach (var pair in Constants)
+            {
+                copy.Constants.Add(pair.Key, pair.Value);
+            }
+
             return copy;
         }
 
         public bool Merge(State other)
         {
-            return MergeValues(Values, other.Values) | MergeValues(Captures, other.Captures);
+            var changed = MergeValues(Values, other.Values) | MergeValues(Captures, other.Captures);
+            foreach (var key in Constants.Keys.Concat(other.Constants.Keys).Distinct().ToArray())
+            {
+                Constants.TryGetValue(key, out var left);
+                other.Constants.TryGetValue(key, out var right);
+                // Keep a constant only when every incoming path agrees, including
+                // paths where the capture is absent or its value is unsupported.
+                var merged = left.HasValue && right.HasValue && Equals(left.Value, right.Value) ? left : default;
+                if (!Constants.ContainsKey(key) || left.HasValue != merged.HasValue)
+                {
+                    Constants[key] = merged;
+                    changed = true;
+                }
+            }
+
+            return changed;
         }
 
         private static bool MergeValues<T>(Dictionary<T, bool?> values, Dictionary<T, bool?> incoming) where T : notnull
@@ -170,7 +192,7 @@ internal static class CancellationTokenParameterProvenance
                     Evaluate(branchValue, state);
                 }
 
-                if (block.BranchValue?.ConstantValue is { HasValue: true, Value: bool condition }
+                if (GetConstant(block.BranchValue, state) is { HasValue: true, Value: bool condition }
                     && block.ConditionKind != ControlFlowConditionKind.None)
                 {
                     Follow(condition == (block.ConditionKind == ControlFlowConditionKind.WhenTrue) ? block.ConditionalSuccessor : block.FallThroughSuccessor, state);
@@ -271,7 +293,31 @@ internal static class CancellationTokenParameterProvenance
             }
 
             Set(state.Captures, capture.Id, Evaluate(capture.Value, state));
+            state.Constants[capture.Id] = GetConstant(capture.Value, state);
             return state.Captures[capture.Id];
+        }
+
+        private static Optional<object?> GetConstant(IOperation? operation, State state)
+        {
+            if (operation?.ConstantValue is { HasValue: true } constant)
+            {
+                return constant;
+            }
+
+            if (operation is IFlowCaptureReferenceOperation capture)
+            {
+                return state.Constants.TryGetValue(capture.Id, out var captured) ? captured : default;
+            }
+
+            if (operation is IIsPatternOperation { Pattern: IConstantPatternOperation pattern } test
+                && GetConstant(test.Value, state) is { HasValue: true } value
+                && GetConstant(pattern.Value, state) is { HasValue: true } expected
+                && (value.Value is null || expected.Value is null || value.Value.GetType() == expected.Value.GetType()))
+            {
+                return new Optional<object?>(Equals(value.Value, expected.Value));
+            }
+
+            return default;
         }
 
         private bool? EvaluateAssignment(ISimpleAssignmentOperation assignment, State state)
