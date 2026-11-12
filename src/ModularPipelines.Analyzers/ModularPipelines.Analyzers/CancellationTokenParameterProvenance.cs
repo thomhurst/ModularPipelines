@@ -182,12 +182,7 @@ internal static class CancellationTokenParameterProvenance
             switch (operation)
             {
                 case IParameterReferenceOperation parameter:
-                    var value = Get(state.Values, parameter.Parameter);
-                    var span = parameter.Syntax.Span;
-                    _results[span] = _results.TryGetValue(span, out var previous)
-                        ? MergeSignals(previous, value)
-                        : value;
-                    return value;
+                    return EvaluateParameter(parameter, state);
                 case IDeclarationPatternOperation { DeclaredSymbol: { } declared }:
                     // Pattern bindings are outside the scalar assignment proofs. Keep
                     // their values unknown rather than treating an untracked local as replaced.
@@ -212,21 +207,9 @@ internal static class CancellationTokenParameterProvenance
                     when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource":
                     return Evaluate(instance, state);
                 case IFlowCaptureOperation capture:
-                    if (GetTarget(capture.Value) is { } target)
-                    {
-                        _targets[capture.Id] = target;
-                    }
-
-                    Set(state.Captures, capture.Id, Evaluate(capture.Value, state));
-                    return state.Captures[capture.Id];
+                    return EvaluateCapture(capture, state);
                 case ISimpleAssignmentOperation assignment:
-                    var assigned = Evaluate(assignment.Value, state);
-                    if (GetTarget(assignment.Target) is { } assignedTarget)
-                    {
-                        Set(state.Values, assignedTarget, assigned);
-                    }
-
-                    return assigned;
+                    return EvaluateAssignment(assignment, state);
                 case IArgumentOperation argument:
                     return Evaluate(argument.Value, state);
                 case IAnonymousFunctionOperation or IFlowAnonymousFunctionOperation or ILocalFunctionOperation:
@@ -237,9 +220,45 @@ internal static class CancellationTokenParameterProvenance
                         Evaluate(child, state);
                     }
 
-                    return operation is IDefaultValueOperation or IObjectCreationOperation || operation.ConstantValue.HasValue || operation is IPropertyReferenceOperation { Property.Name: "None", Property.ContainingType.Name: "CancellationToken" } ? false : null;
+                    return IsReplacementValue(operation) ? false : null;
             }
         }
+
+        private bool? EvaluateParameter(IParameterReferenceOperation parameter, State state)
+        {
+            var value = Get(state.Values, parameter.Parameter);
+            var span = parameter.Syntax.Span;
+            _results[span] = _results.TryGetValue(span, out var previous)
+                ? MergeSignals(previous, value)
+                : value;
+            return value;
+        }
+
+        private bool? EvaluateCapture(IFlowCaptureOperation capture, State state)
+        {
+            if (GetTarget(capture.Value) is { } target)
+            {
+                _targets[capture.Id] = target;
+            }
+
+            Set(state.Captures, capture.Id, Evaluate(capture.Value, state));
+            return state.Captures[capture.Id];
+        }
+
+        private bool? EvaluateAssignment(ISimpleAssignmentOperation assignment, State state)
+        {
+            var assigned = Evaluate(assignment.Value, state);
+            if (GetTarget(assignment.Target) is { } target)
+            {
+                Set(state.Values, target, assigned);
+            }
+
+            return assigned;
+        }
+
+        private static bool IsReplacementValue(IOperation operation) =>
+            operation is IDefaultValueOperation or IObjectCreationOperation || operation.ConstantValue.HasValue ||
+            operation is IPropertyReferenceOperation { Property.Name: "None", Property.ContainingType.Name: "CancellationToken" };
 
         private ISymbol? GetTarget(IOperation operation) => operation switch
         {
