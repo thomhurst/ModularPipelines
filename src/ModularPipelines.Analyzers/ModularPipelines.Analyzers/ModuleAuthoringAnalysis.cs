@@ -5433,6 +5433,11 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        if (GetCancellationTokenReachingValue(value, cancellationToken, visitedMethods) is { } reachingValue)
+        {
+            return reachingValue;
+        }
+
         return value switch
         {
             IConversionOperation conversion => FlowsFromCancellationToken(
@@ -5513,6 +5518,19 @@ internal static class ModuleAuthoringAnalysis
                     visitedMethods),
             _ => false,
         };
+    }
+
+    private static bool? GetCancellationTokenReachingValue(
+        IOperation value,
+        IParameterSymbol cancellationToken,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (value is not (ILocalReferenceOperation or IParameterReferenceOperation))
+        {
+            return null;
+        }
+
+        return CancellationTokenReachingValues.TryGetValue(value, cancellationToken, visitedMethods);
     }
 
     private static bool FlowsFromParallelCallbackToken(
@@ -5613,6 +5631,71 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        return HelperReturnsFlowedCancellationToken(operation, flowedParameters, visitedLocals, visitedMethods);
+    }
+
+    internal static bool FlowsFromCancellationTokenSourceHelper(
+        IInvocationOperation invocation,
+        Compilation compilation,
+        bool[] argumentValues,
+        bool receiverValue,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IParameterSymbol> visitedSources)
+    {
+        var returnType = invocation.Type;
+        if (returnType is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullableType)
+        {
+            returnType = nullableType.TypeArguments[0];
+        }
+
+        if (returnType?.ToDisplayString() != CancellationTokenMetadataName)
+        {
+            return false;
+        }
+
+        var method = NormalizeMethod(invocation.TargetMethod);
+        if (GetMethodOperation(method, compilation, default) is not { } operation)
+        {
+            return false;
+        }
+
+        var flowedParameters = new HashSet<IParameterSymbol>(
+            invocation.Arguments.Where((argument, index) => argumentValues[index]
+                    && argument.Parameter is not null && IsCancellationToken(argument.Parameter))
+                .Select(argument => GetTargetParameter(method, argument.Parameter))
+                .OfType<IParameterSymbol>(), SymbolEqualityComparer.Default);
+        if (receiverValue && invocation.TargetMethod.ReducedFrom is not null
+            && method.Parameters.FirstOrDefault() is { } receiverParameter && IsCancellationToken(receiverParameter))
+        {
+            flowedParameters.Add(receiverParameter);
+        }
+
+        visitedMethods = CloneVisitedMethods(visitedMethods);
+        if (!visitedMethods.Add(method))
+        {
+            // The active bodies still prove their returns. A recursive edge may
+            // assume that proof only when every original source slot is retained.
+            var sources = visitedSources.Where(source =>
+                SymbolEqualityComparer.Default.Equals(source.ContainingSymbol, method)).ToArray();
+            return sources.Length > 0 && sources.All(flowedParameters.Contains);
+        }
+
+        return flowedParameters.Count > 0
+            && HelperReturnsFlowedCancellationToken(
+                operation,
+                flowedParameters,
+                [with(SymbolEqualityComparer.Default)],
+                visitedMethods,
+                visitedSources);
+    }
+
+    private static bool HelperReturnsFlowedCancellationToken(
+        IOperation operation,
+        HashSet<IParameterSymbol> flowedParameters,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IParameterSymbol>? visitedSources = null)
+    {
         var returnValues = operation.DescendantsAndSelf()
             .OfType<IReturnOperation>()
             .Where(static returnOperation =>
@@ -5625,8 +5708,9 @@ internal static class ModuleAuthoringAnalysis
                && returnValues
                    .SelectMany(GetReachableValueLeaves)
                    .Where(static returnValue => !AlwaysThrows(returnValue))
-                   .All(returnValue => flowedParameters.Any(parameter =>
-                       FlowsFromCancellationToken(
+                   .All(returnValue => CancellationTokenReachingValues.TryGetValueFromSources(
+                       returnValue, flowedParameters, visitedMethods, visitedSources)
+                       ?? flowedParameters.Any(parameter => FlowsFromCancellationToken(
                            returnValue,
                            parameter,
                            CloneVisitedLocals(visitedLocals),

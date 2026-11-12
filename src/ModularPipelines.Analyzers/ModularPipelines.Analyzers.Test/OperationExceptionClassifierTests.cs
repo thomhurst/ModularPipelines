@@ -331,7 +331,7 @@ public class OperationExceptionClassifierTests
     [DataRow("int[]", "[1, .. values, flag ? 2 : 3]", true, true)]
     [DataRow("Built", "[1, flag ? 2 : 3]", false, false)]
     public void CollectionCallsDescribeEarlyRangesAndCompletion(string destination, string expression,
-        bool early, bool startsAtSpread)
+        bool early, bool followsSpread)
     {
         var (root, classifier) = Compile($$"""
             using System;
@@ -353,11 +353,12 @@ public class OperationExceptionClassifierTests
             !classifier.Classify(collection).IsEmpty);
         if (early)
         {
-            Assert.AreEqual(startsAtSpread ? collection.Elements.OfType<ISpreadOperation>().Single().Syntax.SpanStart
-                : collection.Syntax.SpanStart, spans.Single().Start);
-            Assert.AreEqual(collection.Syntax.Span.End, spans.Single().End);
+            var expectedElements = followsSpread
+                ? collection.Elements.SkipWhile(static element => element is not ISpreadOperation).Skip(1)
+                : collection.Elements;
+            Assert.AreSequenceEqual(expectedElements.Select(static element => element.Syntax.Span), spans);
             var conditional = collection.DescendantsAndSelf().OfType<IConditionalOperation>().Single();
-            Assert.IsTrue(spans.Single().Contains(conditional.Syntax.Span));
+            Assert.IsTrue(spans.Any(span => span.Contains(conditional.Syntax.Span)));
         }
     }
 

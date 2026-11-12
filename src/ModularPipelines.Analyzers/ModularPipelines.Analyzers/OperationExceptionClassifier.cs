@@ -24,7 +24,7 @@ internal sealed class OperationExceptionClassifier(
         IOperation? storedValue = null)
     {
         var arithmetic = GetArithmeticExceptions(operation);
-        if (GetReceiverExceptionName(operation) is { } receiver)
+        if (GetReceiverExceptionName(operation, deconstructionStore) is { } receiver)
         {
             return [receiver];
         }
@@ -66,13 +66,12 @@ internal sealed class OperationExceptionClassifier(
         return result.ToImmutable();
     }
 
-    /// <summary>Source ranges requiring an early unknown-exception edge before each contained
-    /// operation. These survive CFG hoisting of branching element evaluations. Collection builders
-    /// run at collection completion instead; constructor/Add and spread iteration can run earlier.</summary>
+    /// <summary>Element ranges preceded by implicit constructor, Add or spread calls.
+    /// These survive CFG hoisting; callers must dispatch only on entry into each element.</summary>
     internal static ImmutableArray<TextSpan> GetEarlyCollectionCallSpans(IOperation root) =>
         [.. GetCollectionCallSpans(root)];
 
-    private string? GetReceiverExceptionName(IOperation operation)
+    private string? GetReceiverExceptionName(IOperation operation, bool deconstructionStore)
     {
         var field = GetFieldAccess(operation);
         var eventAccess = GetEventAccess(operation);
@@ -81,7 +80,31 @@ internal sealed class OperationExceptionClassifier(
             return "System.TypeInitializationException";
         }
 
-        return (field is not null && HasNullableReceiver(field.Instance)) || (eventAccess is not null && HasNullableReceiver(eventAccess.Instance)) || IsThrowingMethodReference(operation) ? "System.NullReferenceException" : null;
+        return DereferencesRefField(operation, field, deconstructionStore) || (field is not null && HasNullableReceiver(field.Instance)) || (eventAccess is not null && HasNullableReceiver(eventAccess.Instance)) || IsThrowingMethodReference(operation) ? "System.NullReferenceException" : null;
+    }
+
+    private static bool DereferencesRefField(IOperation operation, IFieldReferenceOperation? field, bool deconstructionStore)
+    {
+        if (field is not { Field.RefKind: not RefKind.None }
+            || operation is ISimpleAssignmentOperation { IsRef: true }
+            || field.Syntax.Parent is RefExpressionSyntax
+            || field.Syntax.Parent is ArgumentSyntax { RefKindKeyword.RawKind: not 0 })
+        {
+            return false;
+        }
+
+        // CFG captures of assignment locations precede the RHS and do not read the referent.
+        // Deconstruction completion explicitly classifies the target after all RHS values.
+        var target = field.Syntax;
+        while (target.Parent is ArgumentSyntax { Parent: TupleExpressionSyntax tuple })
+        {
+            target = tuple;
+        }
+
+        return deconstructionStore || operation is ISimpleAssignmentOperation
+            || target.Parent is not AssignmentExpressionSyntax assignment
+            || !assignment.IsKind(SyntaxKind.SimpleAssignmentExpression)
+            || !ReferenceEquals(assignment.Left, target);
     }
 
     private static bool IsSimpleAssignmentTarget(IOperation operation) =>
@@ -157,16 +180,15 @@ internal sealed class OperationExceptionClassifier(
     {
         foreach (var collection in root.DescendantsAndSelf().OfType<ICollectionExpressionOperation>())
         {
-            if (collection.ConstructMethod?.MethodKind == MethodKind.Constructor)
+            var hasEarlyCall = collection.ConstructMethod?.MethodKind == MethodKind.Constructor;
+            foreach (var element in collection.Elements)
             {
-                yield return collection.Syntax.Span;
-            }
-            else
-            {
-                foreach (var spread in collection.Elements.OfType<ISpreadOperation>())
+                if (hasEarlyCall)
                 {
-                    yield return TextSpan.FromBounds(spread.Syntax.SpanStart, collection.Syntax.Span.End);
+                    yield return element.Syntax.Span;
                 }
+
+                hasEarlyCall |= element is ISpreadOperation;
             }
         }
     }
