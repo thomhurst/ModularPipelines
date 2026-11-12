@@ -5790,7 +5790,9 @@ internal static class ModuleAuthoringAnalysis
 
         return !HasCancellationPreservingHelperInput(helper, visitedMethods, argument =>
             FlowsFromCancellationToken(argument, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
-            && !HasAliasedCancellationWrite(invocation, method, body, argument, parameter, visitedMethods, CloneVisitedLocals(visitedSnapshots)));
+            && !HasAliasedCancellationWrite(invocation, method, body, argument, parameter, visitedMethods, CloneVisitedLocals(visitedSnapshots))
+            && !(argument.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.In }
+                && HasCancellationSnapshotMutation(argument, argument, body, (invocation, method), [], visitedMethods, helper)));
     }
 
     private static bool HasCancellationLocalSnapshotMutation(
@@ -5815,8 +5817,10 @@ internal static class ModuleAuthoringAnalysis
         IOperation body,
         (IInvocationOperation Invocation, IMethodSymbol Method) caller,
         HashSet<IOperation> visitedWrites,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        IOperation? evaluationEnd = null)
     {
+        var position = evaluationEnd ?? read;
         // A snapshot can survive later writes to its source, but not writes to its own slot.
         // Compare a preserving write with the snapshot's original value, not its copied slot.
         return body.DescendantsAndSelf()
@@ -5824,8 +5828,11 @@ internal static class ModuleAuthoringAnalysis
             .Where(write => ReferenceEquals(GetEnclosingCallable(write.Target), GetEnclosingCallable(read)))
             .Where(write => IsInReachableBranch(write.Target)
                 && CanCancellationWriteReachSnapshot(write.Target, read)
-                && write.Target.Syntax.SpanStart < read.Syntax.SpanStart
-                && (ReferenceEquals(source, read) || write.Target.Syntax.SpanStart > source.Syntax.SpanStart))
+                && (write.Target.Syntax.SpanStart < position.Syntax.SpanStart
+                    || (evaluationEnd is not null && HasAncestor(write.Target, evaluationEnd))
+                    || CancellationOperationsMayRepeat(write.Target, read))
+                && (ReferenceEquals(source, read) || write.Target.Syntax.SpanStart > source.Syntax.SpanStart
+                    || CancellationOperationsMayRepeat(write.Target, source)))
             .Where(write => MayShareCancellationStorage(write.Target, read, caller.Invocation, caller.Method))
             .Any(write => !visitedWrites.Contains(write.Target)
                 && !(write.Value is { } value
@@ -5933,15 +5940,49 @@ internal static class ModuleAuthoringAnalysis
             ISwitchCaseOperation switchCase => CancellationWriteCannotReachOtherSwitchCase(switchCase, write, read),
             IBlockOperation block => !HasAncestor(read, block)
                 && ((AlwaysExitsCallable(block)
+                        && !CancellationThrowMayReachRead(block, read)
                         && !block.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
                             CancellationBranchEscapesBlock(branch, block)))
                     || CancellationBlockJumpsPastRead(block, read)),
             ISwitchExpressionArmOperation arm => CancellationWriteCannotReachOtherSwitchArm(arm, write, read),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
-                (HasAncestor(write, conditional.WhenTrue) && HasAncestor(read, whenFalse))
-                || (HasAncestor(write, whenFalse) && HasAncestor(read, conditional.WhenTrue)),
+                !CancellationOperationsMayRepeat(write, read)
+                && ((HasAncestor(write, conditional.WhenTrue) && HasAncestor(read, whenFalse))
+                    || (HasAncestor(write, whenFalse) && HasAncestor(read, conditional.WhenTrue))),
             _ => false,
         };
+    }
+
+    private static bool CancellationOperationsMayRepeat(IOperation first, IOperation second)
+    {
+        var root = GetRoot(first);
+        return root.DescendantsAndSelf().OfType<ILoopOperation>().Any(loop =>
+                HasAncestor(first, loop) && HasAncestor(second, loop))
+            || root.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+                branch.BranchKind == BranchKind.GoTo
+                && branch.Syntax.SpanStart >= Math.Max(first.Syntax.SpanStart, second.Syntax.SpanStart)
+                && root.DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
+                    SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+                    && label.Syntax.SpanStart <= Math.Min(first.Syntax.SpanStart, second.Syntax.SpanStart)));
+    }
+
+    private static bool CancellationThrowMayReachRead(IBlockOperation block, IOperation read)
+    {
+        if (!block.DescendantsAndSelf().OfType<IThrowOperation>().Any())
+        {
+            return false;
+        }
+
+        for (var ancestor = block.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ITryOperation region && HasAncestor(block, region.Body)
+                && region.Catches.Length > 0 && !HasAncestor(read, region.Body))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool CancellationBranchEscapesBlock(IBranchOperation branch, IBlockOperation block)
@@ -6070,6 +6111,7 @@ internal static class ModuleAuthoringAnalysis
         => switchCase.Parent is ISwitchOperation switchOperation
             && HasAncestor(read, switchOperation)
             && !HasAncestor(read, switchCase)
+            && !CancellationOperationsMayRepeat(write, read)
             // C# switch sections cannot fall through; only an explicit jump reaches another case.
             && !CancellationWriteCanReachSwitchCase(switchOperation, switchCase, write, read);
 
@@ -6591,7 +6633,7 @@ internal static class ModuleAuthoringAnalysis
         var rebinding = FindCancellationStorageRebinding(value, symbol);
         if (rebinding is not null)
         {
-            return IsLinearPredecessor(rebinding, value)
+            return rebinding.Syntax.SpanStart < value.Syntax.SpanStart && IsLinearPredecessor(rebinding, value)
                 ? GetCancellationStorage(rebinding.Value, visitedStorage, invocation, method, preserveParameters)
                 : null;
         }
@@ -6602,7 +6644,8 @@ internal static class ModuleAuthoringAnalysis
     private static ISimpleAssignmentOperation? FindCancellationStorageRebinding(IOperation value, ISymbol symbol)
     {
         return GetRoot(value).DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
-            .Where(assignment => assignment.IsRef && assignment.Syntax.SpanStart < value.Syntax.SpanStart)
+            .Where(assignment => assignment.IsRef && (assignment.Syntax.SpanStart < value.Syntax.SpanStart
+                || CancellationOperationsMayRepeat(assignment, value)))
             .Where(assignment => assignment.Target switch
             {
                 ILocalReferenceOperation local => SymbolEqualityComparer.Default.Equals(local.Local, symbol),

@@ -7,6 +7,14 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "var saved = first; for (var i = 0; i < 2; i++) { if (i == 1) return first; second = default; } return saved;", true)]
+    [DataRow("ref token, ref token", "", "try { second = default; throw new Exception(); } catch { return first; }", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; for (var i = 0; i < 2; i++) { if (i == 0) { second = default; } else { return first; } } return saved;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; for (var i = 0; i < 2; i++) { switch(i) { case 0: second = default; break; case 1: return first; } } return saved;", true)]
+    [DataRow("ref token, ref token", "", "return Pick(ref first, second = default);", true)]
+    [DataRow("ref token, ref other", "var other = token;", "ref CancellationToken alias = ref second; for (var i = 0; i < 2; i++) { alias = default; alias = ref first; } return first;", true)]
+    [DataRow("ref token, ref other", "var other = token;", "return Pick(ref first, second = default);", false)]
+    [DataRow("ref token, ref token", "", "return Pick(ref first, second = first);", false)]
     [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = (Flag ? (CancellationToken?)first : null) ?? first; return saved;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = (Flag ? (CancellationToken?)default(CancellationToken) : null) ?? first; return saved;", true)]
     [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = (Flag ? (CancellationToken?)first : null) ?? default; return saved;", true)]
@@ -354,6 +362,7 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 private static void Copy(ref CancellationToken destination, CancellationToken source) => destination = source;
                 private static void CopyCleared(ref CancellationToken destination, CancellationToken source) { source = default; destination = source; }
                 private static void CopyAfterClear(ref CancellationToken destination, ref CancellationToken source) { destination = default; destination = source; }
+                private static CancellationToken Pick(ref CancellationToken value, CancellationToken ignored) => value;
                 private static CancellationToken IdentityValue(CancellationToken ignored, CancellationToken value) => value;
 
                 private static CancellationToken Link(CancellationToken token, int remaining)
