@@ -7,6 +7,9 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "Observe(ref first, new int[1]); return first;", false)]
+    [DataRow("ref token, ref token", "", "ObserveNested(ref first, new int[1]); return first;", false)]
+    [DataRow("ref token, ref token", "", "ObserveAndClear(ref first, new int[1]); return first;", true)]
     [DataRow("ref token, ref token", "", "second = default; return first;", true)]
     [DataRow("second: ref token, first: ref token", "", "second = default; return first;", true)]
     [DataRow("ref token, ref alias", "ref CancellationToken alias = ref token;", "second = default; return first;", true)]
@@ -206,6 +209,14 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 }
 
                 private static CancellationToken Identity(scoped ref CancellationToken ignored, scoped ref CancellationToken value) => value;
+
+                private static void Observe(scoped ref CancellationToken value, int[] counts) => counts[0] = 1;
+                private static void ObserveNested(scoped ref CancellationToken value, int[] counts) => Observe(ref value, counts);
+                private static void ObserveAndClear(scoped ref CancellationToken value, int[] counts)
+                {
+                    counts[0] = 1;
+                    value = default;
+                }
 
                 private static void Clear(scoped ref CancellationToken value) => value = default;
                 private static void Preserve(scoped ref CancellationToken value) => value = value;

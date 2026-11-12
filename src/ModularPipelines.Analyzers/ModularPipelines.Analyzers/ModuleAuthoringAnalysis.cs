@@ -6336,6 +6336,12 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CancellationWriteChangesParameter(IOperation target, IOperation? value, IParameterSymbol parameter)
     {
+        // Safe C# cannot alias storage of a different type, even when its slot is unknown.
+        if (target.Type is { } targetType && !SymbolEqualityComparer.Default.Equals(targetType, parameter.Type))
+        {
+            return false;
+        }
+
         var storage = GetCancellationStorage(target, [], preserveParameters: true);
         if (storage is not null && !SymbolEqualityComparer.Default.Equals(storage, parameter))
         {
