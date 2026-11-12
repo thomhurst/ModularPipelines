@@ -179,6 +179,10 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("token, ref Field", "", "first = CancellationTokenSource.CreateLinkedTokenSource(new[] { CancellationToken.None, first }).Token; return first;", false)]
     [DataRow("token, ref Field", "", "first = CancellationTokenSource.CreateLinkedTokenSource([CancellationToken.None, first]).Token; return first;", false)]
     [DataRow("token, ref Field", "", "first = default; first = CancellationTokenSource.CreateLinkedTokenSource(new[] { CancellationToken.None, first }).Token; return first;", true)]
+    [DataRow("token, ref Field", "", "CancellationToken[] inputs = [first]; CancellationToken[] alias = []; (alias = inputs)[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("token, ref Field", "", "CancellationToken[] inputs = [first]; var alias = IdentityArray(inputs); alias[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("token, ref Field", "", "CancellationToken[] inputs = [first]; CancellationToken[] alias = []; (alias = new CancellationToken[1])[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("token, ref Field", "", "CancellationToken[] inputs = [first]; var alias = IdentityArray(inputs); alias[0] = first; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
     public async Task Checks_Helper_Private_Value_Parameter_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: false);
@@ -207,6 +211,8 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 private static void Preserve(scoped ref CancellationToken value) => value = value;
                 private static void ClearNested(scoped ref CancellationToken value) => Clear(ref value);
                 private static void IdentityNested(scoped ref CancellationToken value) => Identity(ref value, ref value);
+
+                private static CancellationToken[] IdentityArray(CancellationToken[] value) => value;
 
                 private static CancellationToken IdentityValue(CancellationToken ignored, CancellationToken value) => value;
 

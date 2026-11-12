@@ -5971,8 +5971,24 @@ internal static class ModuleAuthoringAnalysis
             return ReferencesCancellationArraySymbol(value, symbol, initializer, visitedSymbols);
         }
 
-        // Only a matching reaching allocation proves an alias.
-        return value.Syntax.SyntaxTree == initializer.Syntax.SyntaxTree && value.Syntax.Span == initializer.Syntax.Span;
+        if (value is ISimpleAssignmentOperation assignment)
+        {
+            return ReferencesCancellationArray(assignment.Value, initializer, visitedSymbols);
+        }
+
+        if (value.Syntax.SyntaxTree == initializer.Syntax.SyntaxTree && value.Syntax.Span == initializer.Syntax.Span)
+        {
+            return true;
+        }
+
+        // Separate allocations cannot alias; unresolved calls and other computed values can.
+        if (value is IArrayCreationOperation or IArrayInitializerOperation or ICollectionExpressionOperation
+            || value.ConstantValue is { HasValue: true, Value: null })
+        {
+            return false;
+        }
+
+        return null;
     }
 
     private static bool? ReferencesCancellationArraySymbol(
