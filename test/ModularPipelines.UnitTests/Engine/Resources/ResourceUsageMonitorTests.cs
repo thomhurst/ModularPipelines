@@ -1,3 +1,4 @@
+using System.Diagnostics.Metrics;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
@@ -8,14 +9,73 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Reporting;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.Tracing;
 using ModularPipelines.UnitTests.Logging;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Engine.Resources;
 
+[NotInParallel]
 public class ResourceUsageMonitorTests
 {
     private static readonly DateTimeOffset Start = new(2026, 1, 1, 12, 0, 0, TimeSpan.Zero);
+
+    [Test]
+    public async Task Gauges_ReportLatestActiveSample_AndStopAfterDisposal()
+    {
+        var measurements = new Dictionary<string, double>();
+        var instruments = new List<Instrument>();
+        using var listener = new MeterListener();
+        listener.InstrumentPublished = (instrument, meterListener) =>
+        {
+            if (instrument.Meter.Name == PipelineTelemetry.MeterName
+                && (instrument.Name == PipelineTelemetry.MachineCpuUtilizationMetric
+                    || instrument.Name == PipelineTelemetry.MachineMemoryUtilizationMetric))
+            {
+                instruments.Add(instrument);
+                meterListener.EnableMeasurementEvents(instrument);
+            }
+        };
+        listener.SetMeasurementEventCallback<double>((instrument, value, tags, state) => measurements[instrument.Name] = value);
+        listener.Start();
+
+        // Initialize the meter without publishing a sample.
+        _ = ModuleActivityTracing.TelemetryMeter;
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements).IsEmpty();
+        await Assert.That(instruments.Count).IsEqualTo(2);
+        await Assert.That(instruments.All(instrument => instrument is ObservableGauge<double> && instrument.Unit == "1")).IsTrue();
+
+        var first = new Harness();
+        await using var firstScope = first.Monitor.Start();
+        first.Sample(0.25, 0.75);
+        var readCount = first.Reader.ReadCount;
+        listener.RecordObservableInstruments();
+        await Assert.That(first.Reader.ReadCount).IsEqualTo(readCount);
+        await Assert.That(measurements[PipelineTelemetry.MachineCpuUtilizationMetric]).IsEqualTo(0.25);
+        await Assert.That(measurements[PipelineTelemetry.MachineMemoryUtilizationMetric]).IsEqualTo(0.75);
+
+        var second = new Harness();
+        await using var secondScope = second.Monitor.Start();
+        second.Sample(0.5, 0.6);
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements[PipelineTelemetry.MachineCpuUtilizationMetric]).IsEqualTo(0.5);
+        await Assert.That(measurements[PipelineTelemetry.MachineMemoryUtilizationMetric]).IsEqualTo(0.6);
+
+        await secondScope.DisposeAsync();
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements[PipelineTelemetry.MachineCpuUtilizationMetric]).IsEqualTo(0.25);
+
+        await firstScope.DisposeAsync();
+        measurements.Clear();
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements).IsEmpty();
+
+        var disabled = new Harness(options => options with { Enabled = false });
+        await using var disabledScope = disabled.Monitor.Start();
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements).IsEmpty();
+    }
 
     [Test]
     public async Task Sample_RecordsPeriodOnlyAfterSustainedSamples_AndNamesRunningModules()

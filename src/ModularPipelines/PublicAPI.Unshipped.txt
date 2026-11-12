@@ -4075,3 +4075,5 @@ override ModularPipelines.Reporting.CommandResourceUsage.GetHashCode() -> int
 override ModularPipelines.Reporting.CommandResourceUsage.ToString() -> string!
 static ModularPipelines.Reporting.CommandResourceUsage.operator !=(ModularPipelines.Reporting.CommandResourceUsage? left, ModularPipelines.Reporting.CommandResourceUsage? right) -> bool
 static ModularPipelines.Reporting.CommandResourceUsage.operator ==(ModularPipelines.Reporting.CommandResourceUsage? left, ModularPipelines.Reporting.CommandResourceUsage? right) -> bool
+const ModularPipelines.Tracing.PipelineTelemetry.MachineCpuUtilizationMetric = "modular_pipelines.machine.cpu.utilization" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.MachineMemoryUtilizationMetric = "modular_pipelines.machine.memory.utilization" -> string!

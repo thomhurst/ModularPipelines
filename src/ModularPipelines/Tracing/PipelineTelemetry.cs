@@ -53,6 +53,12 @@ public static class PipelineTelemetry
     /// <summary>Gets the command-exit-code tag key.</summary>
     public const string CommandExitCodeTag = "process.exit.code";
 
+    /// <summary>Gets the machine CPU utilization gauge name.</summary>
+    public const string MachineCpuUtilizationMetric = "modular_pipelines.machine.cpu.utilization";
+
+    /// <summary>Gets the machine memory utilization gauge name.</summary>
+    public const string MachineMemoryUtilizationMetric = "modular_pipelines.machine.memory.utilization";
+
     /// <summary>Gets the module-duration instrument name.</summary>
     public const string ModuleDurationMetric = "modular_pipelines.module.duration";
 

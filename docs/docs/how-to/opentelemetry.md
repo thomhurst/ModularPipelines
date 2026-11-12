@@ -146,6 +146,17 @@ The `ModularPipelines` meter publishes:
 - `modular_pipelines.module.retries` — module retry count
 - `modular_pipelines.module.cache_hits` — fingerprint cache hit count
 - `modular_pipelines.module.cache_misses` — fingerprint cache miss count
+- `modular_pipelines.machine.cpu.utilization` — observable gauge of machine CPU usage
+- `modular_pipelines.machine.memory.utilization` — observable gauge of machine memory usage
+
+The machine gauges use unit `1` and report fractions from 0 to 1 (for example,
+`0.75` means 75%). They expose the latest valid resource-monitor sample, without
+additional counter reads during collection. No measurement is emitted before the
+first valid sample, when monitoring is disabled or unsupported, or after monitoring
+stops. Concurrent pipelines share one untagged machine time series using the most
+recent sample from an active monitor. Configure the sampling interval with
+`ConfigureResourceMonitoring`; the public instrument names are available in
+`PipelineTelemetry`.
 
 Module metrics include the short type name in `modular_pipelines.module.type`.
 The full type name, `modular_pipelines.module.type_full`, appears only on module
