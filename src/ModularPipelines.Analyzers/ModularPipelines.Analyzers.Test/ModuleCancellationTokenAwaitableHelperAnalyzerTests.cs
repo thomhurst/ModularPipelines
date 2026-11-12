@@ -630,6 +630,38 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
             : []);
     }
 
+    [TestMethod]
+    [DataRow("(saved = Replace(saved = cancellationToken)).CanBeCanceled | await CALL", true)]
+    [DataRow("(saved = KeepLast(saved = default, cancellationToken)).CanBeCanceled | await CALL", false)]
+    [DataRow("(saved = KeepLast(saved = cancellationToken, default)).CanBeCanceled | await CALL", true)]
+    [DataRow("(saved = Replace(await CALL)).CanBeCanceled", false)]
+    public async Task Do_Loop_Condition_Uses_Completed_Nested_Assignments(string condition, bool warns)
+    {
+        var call = warns ? "{|#0:Task.Run(() => false, saved)|}" : "Task.Run(() => false, saved)";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+                protected override async Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    CancellationToken saved = default;
+                    do
+                    {
+                        if (context != null) saved = cancellationToken;
+                        else saved = cancellationToken;
+                    }
+                    while ({{condition.Replace("CALL", call)}});
+                }
+                private static CancellationToken Replace<T>(T value) => default;
+                private static CancellationToken KeepLast(CancellationToken first, CancellationToken last) => last;
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source, warns
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Run")]
+            : []);
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";

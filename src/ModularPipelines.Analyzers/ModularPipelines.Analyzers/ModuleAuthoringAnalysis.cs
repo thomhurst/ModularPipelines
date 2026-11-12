@@ -6296,37 +6296,11 @@ internal static partial class ModuleAuthoringAnalysis
         if (branchingOperation is not null
             && branchingOperation.Syntax.SpanStart == lowerBound)
         {
-            var branchValues = GetReachingLocalAssignments(
-                    branchingOperation,
-                    local)
-                .Select(static assignment => assignment.Value);
-            // The completed body supplies the branch proof inside a do condition.
-            // Writes between that body and the use must still contribute values.
-            var completedBranchEnd = branchingOperation is IWhileLoopOperation
-            { ConditionIsTop: false, Condition: { } condition } whileLoop
-                && HasAncestor(operation, condition)
-                    ? whileLoop.Body.Syntax.Span.End
-                    : branchingOperation.Syntax.Span.End;
-            var conditionReset = branchingOperation is IWhileLoopOperation
-            { ConditionIsTop: false, Condition: { } completedCondition }
-                && HasAncestor(operation, completedCondition)
-                    ? assignments.FirstOrDefault(candidate =>
-                        candidate.Syntax.SpanStart > completedBranchEnd
-                        && candidate.Syntax.Span.End <= operation.Syntax.SpanStart
-                        && !HasBranchingAncestor(candidate, completedCondition))
-                    : null;
-            var subsequentValues = assignments
-                .Where(candidate =>
-                    candidate.Syntax.SpanStart > completedBranchEnd
-                    && (conditionReset is null
-                        || candidate.Syntax.SpanStart >= conditionReset.Syntax.SpanStart))
-                .Where(IsInReachableBranch)
-                .Select(static assignment => assignment.Value);
-            // A guaranteed condition reset supersedes the completed body and
-            // earlier condition writes, while optional writes retain both paths.
-            return conditionReset is null
-                ? subsequentValues.Concat(branchValues)
-                : subsequentValues;
+            return GetReachingLocalValuesAfterBranch(
+                assignments,
+                branchingOperation,
+                operation,
+                local);
         }
 
         var assignedValues = assignments
@@ -6342,6 +6316,58 @@ internal static partial class ModuleAuthoringAnalysis
         return declarator?.Initializer?.Value is { } initialValue
             ? assignedValues.Append(initialValue)
             : assignedValues;
+    }
+
+    private static IEnumerable<IOperation> GetReachingLocalValuesAfterBranch(
+        ISimpleAssignmentOperation[] assignments,
+        IOperation branchingOperation,
+        IOperation operation,
+        ILocalSymbol local)
+    {
+        var branchValues = GetReachingLocalAssignments(branchingOperation, local)
+            .Select(static assignment => assignment.Value);
+        // The completed body supplies the branch proof inside a do condition.
+        // Writes between that body and the use must still contribute values.
+        var completedBranchEnd = branchingOperation is IWhileLoopOperation
+        { ConditionIsTop: false, Condition: { } condition } whileLoop
+            && HasAncestor(operation, condition)
+                ? whileLoop.Body.Syntax.Span.End
+                : branchingOperation.Syntax.Span.End;
+        var conditionReset = FindDoConditionReset(
+            assignments, branchingOperation, operation, completedBranchEnd);
+        var subsequentValues = assignments
+            .Where(candidate => candidate.Syntax.SpanStart > completedBranchEnd
+                && candidate.Syntax.Span.End <= operation.Syntax.SpanStart
+                && (conditionReset is null
+                    || candidate.Syntax.Span.End >= conditionReset.Syntax.Span.End))
+            .Where(IsInReachableBranch)
+            .Select(static assignment => assignment.Value);
+        // A guaranteed condition reset supersedes the completed body and
+        // earlier condition writes, while optional writes retain both paths.
+        return conditionReset is null
+            ? subsequentValues.Concat(branchValues)
+            : subsequentValues;
+    }
+
+    private static ISimpleAssignmentOperation? FindDoConditionReset(
+        ISimpleAssignmentOperation[] assignments,
+        IOperation branchingOperation,
+        IOperation operation,
+        int completedBranchEnd)
+    {
+        if (branchingOperation is not IWhileLoopOperation
+            { ConditionIsTop: false, Condition: { } condition }
+            || !HasAncestor(operation, condition))
+        {
+            return null;
+        }
+
+        return assignments
+            .OrderByDescending(static candidate => candidate.Syntax.Span.End)
+            .FirstOrDefault(candidate =>
+                candidate.Syntax.SpanStart > completedBranchEnd
+                && candidate.Syntax.Span.End <= operation.Syntax.SpanStart
+                && !HasBranchingAncestor(candidate, condition));
     }
 
     private static IOperation? FindLatestDefinitelyAssigningBranch(
