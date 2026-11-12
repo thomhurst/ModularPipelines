@@ -27,7 +27,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
         foreach (var mutation in mutations)
         {
             var source = Source(root, mutation, "{|#0:Task.Delay(1, cancellationToken)|}");
-            var warnsAtRun = root != "configuration" && mutation == "cancellationToken = CancellationToken.None;";
+            var warnsAtRun = mutation == "cancellationToken = CancellationToken.None;";
             if (warnsAtRun)
             {
                 source = source.Replace("Task.Run(async () => await", "{|#1:Task.Run(async () => await")
