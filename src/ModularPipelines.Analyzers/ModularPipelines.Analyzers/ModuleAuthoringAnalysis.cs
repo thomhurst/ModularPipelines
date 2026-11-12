@@ -5709,7 +5709,8 @@ internal static class ModuleAuthoringAnalysis
 
         foreach (var returned in children.OfType<IReturnOperation>())
         {
-            if (returned.ReturnedValue is { } value && IsCancellationContainer(value.Type))
+            if (returned.ReturnedValue is { } value && IsCancellationContainer(value.Type)
+                && ReferenceEquals(GetEnclosingCallable(returned), GetEnclosingCallable(callerReference ?? operation)))
             {
                 AddContainerReferences(value, relevant);
             }
@@ -6017,13 +6018,24 @@ internal static class ModuleAuthoringAnalysis
             {
                 if (binding.Syntax.SpanStart > reference.Syntax.SpanStart
                     && !bindings.Any(later => later.Syntax.SpanStart > binding.Syntax.SpanStart
-                        && IsLinearPredecessor(later, binding)))
+                        && IsLinearPredecessor(later, binding)
+                        && !HasInterveningContainerBranch(loop, binding, later)))
                 {
                     yield return binding;
                 }
             }
         }
     }
+
+    private static bool HasInterveningContainerBranch(
+        ILoopOperation loop, IOperation binding, IOperation later) =>
+        // A continue or goto can bypass an otherwise linear replacement. Retain
+        // the earlier target unless reaching the next iteration guarantees replacement.
+        loop.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+            branch.Syntax.SpanStart > binding.Syntax.SpanStart
+            && branch.Syntax.SpanStart < later.Syntax.SpanStart
+            && ReferenceEquals(GetEnclosingCallable(branch), GetEnclosingCallable(binding))
+            && IsInReachableBranch(branch));
 
     private static bool IsReachableRefBinding(
         ISimpleAssignmentOperation binding, ILocalSymbol local, IOperation? callable) =>

@@ -72,6 +72,10 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias[0] = default; alias = ref value; if (flag) alias = ref scratch; }", true)]
     [DataRow("CancellationToken[] s1 = new CancellationToken[1]; CancellationToken[] s2 = new CancellationToken[1]; ref CancellationToken[] a = ref s1; ref CancellationToken[] b = ref s2; for (var i = 0; i < 2; i++) { a[0] = default; a = ref (flag ? ref b : ref s1); b = ref (flag ? ref a : ref s2); }", false)]
     [DataRow("CancellationToken[] s1 = new CancellationToken[1]; CancellationToken[] s2 = new CancellationToken[1]; ref CancellationToken[] a = ref s1; ref CancellationToken[] b = ref s2; for (var i = 0; i < 2; i++) { a[0] = default; a = ref (flag ? ref b : ref value); b = ref (flag ? ref a : ref s2); }", true)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias[0] = default; alias = ref value; if (i == 0) continue; alias = ref scratch; }", true)]
+    [DataRow("_ = MakeScratch(); CancellationToken[] MakeScratch() { var scratch = new CancellationToken[1]; scratch[0] = default; return scratch; }", false)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias[0] = default; alias = ref value; if (false) continue; alias = ref scratch; }", false)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; var i = 0; while (i++ < 2) { alias[0] = default; alias = ref value; if (i == 1) continue; alias = ref scratch; }", true)]
     public async Task Tracks_Container_Helper_Storage(string body, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";
@@ -153,6 +157,8 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("void ClearScratch(CancellationToken[] scratch) => scratch[0] = default; ClearScratch(new CancellationToken[1]);", false)]
     [DataRow("void ClearScratch(CancellationToken[] scratch) => scratch[0] = default; ClearScratch(tokens);", true)]
     [DataRow("void ClearScratch(CancellationToken[] scratch) { var alias = scratch; alias[0] = default; } ClearScratch(new CancellationToken[1]);", false)]
+    [DataRow("_ = MakeScratch(); CancellationToken[] MakeScratch() { var scratch = new CancellationToken[1]; scratch[0] = default; return scratch; }", false)]
+    [DataRow("_ = MakeTokens(); CancellationToken[] MakeTokens() { tokens[0] = default; return tokens; }", true)]
     public async Task Tracks_Caller_Container_Storage(string body, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";
