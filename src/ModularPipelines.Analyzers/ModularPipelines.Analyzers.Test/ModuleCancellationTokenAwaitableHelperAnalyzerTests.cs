@@ -135,9 +135,18 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Collection_Dependent_Helper_Remains_Conservative()
+    public async Task Linked_Helper_Ignores_Unrelated_Params_Array()
     {
-        await Verify("static Task<CancellationToken> Pass(CancellationToken token) { var tokens = new[] { token }; tokens[0] = default; return Task.FromResult(tokens[0]); } cancellationToken = await Pass(cancellationToken);", true);
+        await Verify("static void Log(params object[] values) { } static CancellationToken Linked(CancellationToken token) { Log(1, 2); return CancellationTokenSource.CreateLinkedTokenSource(token, CancellationToken.None).Token; }", false, token: "Linked(cancellationToken)");
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Collection_Dependent_Helper_Remains_Conservative(bool throughLocal)
+    {
+        var returned = throughLocal ? "var saved = Task.FromResult(tokens[0]); return saved;" : "return Task.FromResult(tokens[0]);";
+        await Verify($"static Task<CancellationToken> Pass(CancellationToken token) {{ var tokens = new[] {{ token }}; tokens[0] = default; {returned} }} cancellationToken = await Pass(cancellationToken);", true);
     }
 
     [TestMethod]

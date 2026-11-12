@@ -99,7 +99,7 @@ internal static partial class ModuleAuthoringAnalysis
             .Select(static returned => returned.ReturnedValue).OfType<IOperation>().ToArray();
         var parameters = GetScalarPayloadParameters(invocation, method, flows)
             .Where(parameter => !HasPayloadParameterWrite(operation, parameter)).ToArray();
-        if (parameters.Length == 0 || returns.Length == 0 || HasUnsupportedPayloadCollections(operation, returns))
+        if (parameters.Length == 0 || returns.Length == 0 || HasUnsupportedPayloadCollections(returns, []))
         {
             return false;
         }
@@ -305,8 +305,25 @@ internal static partial class ModuleAuthoringAnalysis
         return target.Parent is IAssignmentOperation assignment && ReferenceEquals(assignment.Target, target);
     }
 
-    private static bool HasUnsupportedPayloadCollections(IOperation operation, IOperation[] returns) =>
-        !returns.SelectMany(GetReachableValueLeaves).All(static value => value is IParameterReferenceOperation)
-        && operation.DescendantsAndSelf().Any(static child => child.Type is IArrayTypeSymbol
-            || (child.Type is INamedTypeSymbol named && named.OriginalDefinition.ToDisplayString() is "System.Span<T>" or "System.ReadOnlySpan<T>"));
+    private static bool HasUnsupportedPayloadCollections(
+        IEnumerable<IOperation> values, HashSet<IOperation> visited)
+    {
+        foreach (var child in values.SelectMany(static value => value.DescendantsAndSelf()))
+        {
+            if (child.Type is IArrayTypeSymbol
+                || (child.Type is INamedTypeSymbol named
+                    && named.OriginalDefinition.ToDisplayString() is "System.Span<T>" or "System.ReadOnlySpan<T>"))
+            {
+                return true;
+            }
+
+            if (child is ILocalReferenceOperation local && visited.Add(local)
+                && HasUnsupportedPayloadCollections(FindReachingLocalValues(local, local.Local), visited))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
