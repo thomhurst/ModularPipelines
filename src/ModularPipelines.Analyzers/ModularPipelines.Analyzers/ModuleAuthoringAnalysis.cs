@@ -6709,7 +6709,11 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CanReachReadThroughCaughtCancellationStorageThrow(IOperation operation, IOperation read)
     {
-        if (!operation.DescendantsAndSelf().Any(static child => child is IThrowOperation))
+        // A return's enclosing finalizer can throw even when the exiting block
+        // itself contains no throw. Keep its writes reachable through a catch.
+        if (!operation.DescendantsAndSelf().Any(child => child is IThrowOperation
+                || (child is IReturnOperation returned
+                    && CancellationStorageReturnCanBypassOverwrite(returned, GetCancellationStorageSymbol(read), isRef: null))))
         {
             return false;
         }

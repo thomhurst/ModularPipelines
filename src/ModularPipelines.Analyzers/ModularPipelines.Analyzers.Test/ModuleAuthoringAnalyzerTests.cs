@@ -3357,6 +3357,10 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var skip = DateTime.UtcNow.Ticks > 0; try { try { first = default; if (skip) return third; first = third; } finally {} } catch {} return first;")]
     [DataRow("var skip = DateTime.UtcNow.Ticks > 0; try { try { first = default; if (skip) return third; first = third; } finally { first = third; MayThrow(); } } catch {} return first;")]
     [DataRow("var skip = DateTime.UtcNow.Ticks > 0; try { try { first = default; if (skip) return third; first = third; } finally { try { MayThrow(); } catch {} } } catch {} return first;")]
+    [DataRow("try { try { first = default; return third; } finally {} } catch {} return first;")]
+    [DataRow("try { try { first = default; return third; } finally { first = third; MayThrow(); } } catch {} return first;")]
+    [DataRow("try { try { first = default; return third; } finally { try { MayThrow(); } catch {} } } catch {} return first;")]
+    [DataRow("try { try { first = default; return third; } finally { MayThrow(); } } catch { return third; } return first;")]
     public async Task Does_Not_Report_CancellationToken_Preserved_Only_By_Exiting_Catch(string body)
     {
         var source = ReboundCancellationTokenHelperSource(
@@ -3379,6 +3383,9 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { try { first = default; if (skip) return third; first = third; } finally { MayThrow(); } } catch {} return first;")]
     [DataRow("try { try { alias = default; if (skip) return third; alias = third; } finally { MayThrow(); } } catch {} return alias;")]
     [DataRow("try { try { alias = ref second; if (skip) return third; alias = ref third; } finally { MayThrow(); } } catch {} return alias;")]
+    [DataRow("try { try { first = default; return third; } finally { MayThrow(); } } catch {} return first;")]
+    [DataRow("try { try { alias = default; return third; } finally { MayThrow(); } } catch {} return alias;")]
+    [DataRow("try { try { alias = ref second; return third; } finally { MayThrow(); } } catch {} return alias;")]
     public async Task Reports_CancellationToken_Preserved_By_Catch_Or_Early_Case_Exit(string body)
     {
         var isSwitch = body.StartsWith("switch", StringComparison.Ordinal);
