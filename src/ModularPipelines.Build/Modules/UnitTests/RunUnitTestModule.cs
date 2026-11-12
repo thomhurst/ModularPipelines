@@ -147,7 +147,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
         }
         finally
         {
-            await PrintTestResults(context, trxFile, cancellationToken).ConfigureAwait(false);
+            await PrintTestResults(context, trxFile).ConfigureAwait(false);
         }
     }
 
@@ -158,11 +158,15 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             .GetFile(TrxFileName);
     }
 
-    private static async Task PrintTestResults(IModuleContext context, FilePath trxFile, CancellationToken cancellationToken)
+    private static async Task PrintTestResults(IModuleContext context, FilePath trxFile)
     {
         try
         {
-            await PrintTestResultsCore(context, trxFile, cancellationToken).ConfigureAwait(false);
+            // Reporting must survive execution cancellation, but must not hold up shutdown indefinitely.
+            using var reportingCancellation = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+#pragma warning disable MP0016 // Final reporting intentionally uses its own lifetime after execution is canceled.
+            await PrintTestResultsCore(context, trxFile, reportingCancellation.Token).ConfigureAwait(false);
+#pragma warning restore MP0016
         }
         catch (Exception exception)
         {
