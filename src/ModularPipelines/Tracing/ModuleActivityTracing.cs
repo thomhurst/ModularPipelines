@@ -95,6 +95,53 @@ internal static class ModuleActivityTracing
         unit: "{miss}",
         description: "Number of module fingerprint-cache misses.");
 
+    private static readonly Lock ResourceSamplesLock = new();
+    private static readonly Dictionary<object, (double Cpu, double Memory, long Sequence)> ResourceSamples = [];
+    private static long _resourceSampleSequence;
+
+    private static readonly ObservableGauge<double> MachineCpuUtilization = TelemetryMeter.CreateObservableGauge(
+        PipelineTelemetry.MachineCpuUtilizationMetric,
+        () => ObserveMachineUsage(cpu: true),
+        unit: "1",
+        description: "Latest machine-wide CPU utilization as a fraction from 0 to 1.");
+
+    private static readonly ObservableGauge<double> MachineMemoryUtilization = TelemetryMeter.CreateObservableGauge(
+        PipelineTelemetry.MachineMemoryUtilizationMetric,
+        () => ObserveMachineUsage(cpu: false),
+        unit: "1",
+        description: "Latest machine-wide memory utilization as a fraction from 0 to 1.");
+
+    internal static void RecordMachineUsage(object monitor, double cpu, double memory)
+    {
+        lock (ResourceSamplesLock)
+        {
+            ResourceSamples[monitor] = (cpu, memory, ++_resourceSampleSequence);
+        }
+    }
+
+    internal static void RemoveMachineUsage(object monitor)
+    {
+        lock (ResourceSamplesLock)
+        {
+            ResourceSamples.Remove(monitor);
+        }
+    }
+
+    private static IEnumerable<Measurement<double>> ObserveMachineUsage(bool cpu)
+    {
+        lock (ResourceSamplesLock)
+        {
+            if (ResourceSamples.Count == 0)
+            {
+                return [];
+            }
+
+            // Concurrent pipelines sample the same machine: emit one untagged time series.
+            var latest = ResourceSamples.Values.MaxBy(static sample => sample.Sequence);
+            return [new Measurement<double>(cpu ? latest.Cpu : latest.Memory)];
+        }
+    }
+
     public static readonly ActivitySource PipelineSource = new(PipelineSourceName, InstrumentationVersion);
 
     /// <summary>

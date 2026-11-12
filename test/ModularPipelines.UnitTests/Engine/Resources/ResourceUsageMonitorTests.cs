@@ -1,3 +1,4 @@
+using System.Diagnostics.Metrics;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
@@ -8,14 +9,121 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Reporting;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.Tracing;
 using ModularPipelines.UnitTests.Logging;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Engine.Resources;
 
+// These tests observe process-wide gauges and must exclude other pipeline tests.
+[TUnit.Core.NotInParallel]
 public class ResourceUsageMonitorTests
 {
     private static readonly DateTimeOffset Start = new(2026, 1, 1, 12, 0, 0, TimeSpan.Zero);
+
+    [Test]
+    public async Task Gauges_ReportLatestActiveSample_AndStopAfterDisposal()
+    {
+        var measurements = new Dictionary<string, double>();
+        var instruments = new List<Instrument>();
+        using var listener = new MeterListener();
+        listener.InstrumentPublished = (instrument, meterListener) =>
+        {
+            if (instrument.Meter.Name == PipelineTelemetry.MeterName
+                && (instrument.Name == PipelineTelemetry.MachineCpuUtilizationMetric
+                    || instrument.Name == PipelineTelemetry.MachineMemoryUtilizationMetric))
+            {
+                instruments.Add(instrument);
+                meterListener.EnableMeasurementEvents(instrument);
+            }
+        };
+        listener.SetMeasurementEventCallback<double>((instrument, value, tags, state) => measurements[instrument.Name] = value);
+        listener.Start();
+
+        // Initialize the meter without publishing a sample.
+        _ = ModuleActivityTracing.TelemetryMeter;
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements).IsEmpty();
+        await Assert.That(instruments.Count).IsEqualTo(2);
+        await Assert.That(instruments.All(instrument => instrument is ObservableGauge<double> && instrument.Unit == "1")).IsTrue();
+
+        var first = new Harness(options => options with { SampleInterval = TimeSpan.FromHours(1) });
+        await using var firstScope = first.Monitor.Start();
+        first.Sample(0.25, 0.75);
+        var readCount = first.Reader.ReadCount;
+        listener.RecordObservableInstruments();
+        await Assert.That(first.Reader.ReadCount).IsEqualTo(readCount);
+        await Assert.That(measurements[PipelineTelemetry.MachineCpuUtilizationMetric]).IsEqualTo(0.25);
+        await Assert.That(measurements[PipelineTelemetry.MachineMemoryUtilizationMetric]).IsEqualTo(0.75);
+
+        var second = new Harness(options => options with { SampleInterval = TimeSpan.FromHours(1) });
+        await using var secondScope = second.Monitor.Start();
+        second.Sample(0.5, 0.6);
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements[PipelineTelemetry.MachineCpuUtilizationMetric]).IsEqualTo(0.5);
+        await Assert.That(measurements[PipelineTelemetry.MachineMemoryUtilizationMetric]).IsEqualTo(0.6);
+
+        await secondScope.DisposeAsync();
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements[PipelineTelemetry.MachineCpuUtilizationMetric]).IsEqualTo(0.25);
+
+        await firstScope.DisposeAsync();
+        measurements.Clear();
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements).IsEmpty();
+
+        var disabled = new Harness(options => options with { Enabled = false });
+        await using var disabledScope = disabled.Monitor.Start();
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements).IsEmpty();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    [Timeout(10_000)]
+    public async Task Gauges_StopWhenPeriodicSamplingFails(bool throws, CancellationToken cancellationToken)
+    {
+        var measurements = new Dictionary<string, double>();
+        using var listener = new MeterListener();
+        listener.InstrumentPublished = (instrument, meterListener) =>
+        {
+            if (instrument.Meter.Name == PipelineTelemetry.MeterName
+                && (instrument.Name == PipelineTelemetry.MachineCpuUtilizationMetric
+                    || instrument.Name == PipelineTelemetry.MachineMemoryUtilizationMetric))
+            {
+                meterListener.EnableMeasurementEvents(instrument);
+            }
+        };
+        listener.SetMeasurementEventCallback<double>((instrument, value, tags, state) => measurements[instrument.Name] = value);
+        listener.Start();
+
+        var harness = new Harness();
+        await using var scope = harness.Monitor.Start();
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements.Count).IsEqualTo(2);
+
+        harness.Reader.Throw = throws;
+        harness.Reader.Available = false;
+        harness.Time.Advance(TimeSpan.FromSeconds(1));
+
+        // The timer continuation may run asynchronously; observe cleanup before disposing the scope.
+        do
+        {
+            await Task.Delay(10, cancellationToken);
+            measurements.Clear();
+            listener.RecordObservableInstruments();
+        }
+        while (measurements.Count != 0);
+
+        // A later successful read must not publish after periodic monitoring has stopped.
+        harness.Reader.Throw = false;
+        harness.Reader.Available = true;
+        harness.Monitor.Sample();
+        listener.RecordObservableInstruments();
+        await Assert.That(measurements).IsEmpty();
+        await Assert.That(harness.Monitor.GetResult()).IsNotNull();
+    }
 
     [Test]
     public async Task Sample_RecordsPeriodOnlyAfterSustainedSamples_AndNamesRunningModules()
@@ -334,6 +442,8 @@ public class ResourceUsageMonitorTests
 
         public bool Throw { get; set; }
 
+        public bool Available { get; set; } = true;
+
         public int ReadCount { get; private set; }
 
         public Task WaitForNextReadAsync()
@@ -347,6 +457,12 @@ public class ResourceUsageMonitorTests
             if (Throw)
             {
                 throw new IOException("counters unavailable");
+            }
+
+            if (!Available)
+            {
+                reading = default;
+                return false;
             }
 
             ReadCount++;

@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Options;
 using ModularPipelines.Reporting;
+using ModularPipelines.Tracing;
 
 namespace ModularPipelines.Engine.Resources;
 
@@ -22,6 +23,7 @@ internal sealed class ResourceUsageMonitor(
     private readonly SaturationTracker _memory = new(ResourceKind.Memory, "memory");
 
     private MachineResourceReading? _previous;
+    private bool _monitoring;
     private int _sampleCount;
     private double _cpuSum;
     private double _peakCpu;
@@ -32,6 +34,11 @@ internal sealed class ResourceUsageMonitor(
         if (reader is null || !_options.Enabled || _options.SampleInterval <= TimeSpan.Zero)
         {
             return NoopScope.Instance;
+        }
+
+        lock (_lock)
+        {
+            _monitoring = true;
         }
 
         return new Scope(this);
@@ -107,6 +114,11 @@ internal sealed class ResourceUsageMonitor(
 
         lock (_lock)
         {
+            if (_monitoring)
+            {
+                ModuleActivityTracing.RecordMachineUsage(this, cpu, memory);
+            }
+
             _sampleCount++;
             _cpuSum += cpu;
             _peakCpu = Math.Max(_peakCpu, cpu);
@@ -199,6 +211,8 @@ internal sealed class ResourceUsageMonitor(
         var now = timeProvider.GetUtcNow();
         lock (_lock)
         {
+            _monitoring = false;
+            ModuleActivityTracing.RemoveMachineUsage(this);
             Close(_cpu, now);
             Close(_memory, now);
         }
@@ -227,6 +241,14 @@ internal sealed class ResourceUsageMonitor(
         {
             // Monitoring is diagnostic only and must never fail the run.
             logger.LogDebug(exception, "Resource monitoring stopped after an error");
+        }
+        finally
+        {
+            lock (_lock)
+            {
+                _monitoring = false;
+                ModuleActivityTracing.RemoveMachineUsage(this);
+            }
         }
     }
 
