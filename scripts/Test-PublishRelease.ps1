@@ -15,6 +15,7 @@ $releaseLookupStatus = $null
 $tagCommit = $null
 $annotatedTag = $false
 $failTagLookup = $false
+$previousReleaseTag = 'v4.2.2'
 function git {
     $calls.Add(@($args))
     if ($failTagLookup) { $global:LASTEXITCODE = 128; return }
@@ -39,6 +40,7 @@ function gh {
         elseif ($releaseExists) { 200 }
         else { 404 }
         $global:LASTEXITCODE = if ($status -eq 200) { 0 } else { 1 }
+        if ($status -eq 200 -and $args -contains '--jq') { $previousReleaseTag }
         if ($args -contains '--include' -and $status -ne 0) { "HTTP/2.0 $status" }
         return
     }
@@ -120,7 +122,8 @@ try {
             $calls[5][2] -ne "v$version" -or $calls[5] -notcontains '--generate-notes' -or
             ($calls[5] -contains '--prerelease') -ne $version.Split('+')[0].Contains('-') -or
             ($calls[5] -contains '--latest=false') -ne $version.Split('+')[0].Contains('-') -or
-            $calls[5][6] -ne ('a' * 40)) {
+            $calls[5][6] -ne ('a' * 40) -or
+            $calls[5][-2] -ne '--notes-start-tag' -or $calls[5][-1] -ne 'v4.2.2') {
             throw "Publication must upload the verified packages/symbols before creating release $version at the validated commit."
         }
         if ($version -eq '4.0.0-rc.1') {
@@ -164,6 +167,12 @@ try {
     & $publishScript @parameters
     if ($calls.Count -ne 5) { throw 'Retry must keep an existing release.' }
     $releaseExists = $false
+
+    Write-Fixture
+    $previousReleaseTag = $null
+    & $publishScript @parameters
+    if ($calls[5] -contains '--notes-start-tag') { throw 'A first release must use the default notes range.' }
+    $previousReleaseTag = 'v4.2.2'
 
     Write-Fixture
     $failUpload = $true

@@ -91,7 +91,9 @@ if ($tagLookupExitCode -eq 0) {
 elseif ($tagLookupExitCode -ne 2) { throw 'Could not verify the remote release tag; publication stopped.' }
 
 # Verify authenticated access to releases before interpreting a tag lookup's 404 as missing.
-& gh api "repos/$Repository/releases?per_page=1" --silent
+# The newest release also bounds the generated notes: every push to main is tagged, so GitHub's
+# default range (the previous tag) would cover a single commit.
+$previousReleaseTag = & gh api "repos/$Repository/releases?per_page=1" --jq '.[0].tag_name // empty'
 if ($LASTEXITCODE -ne 0) { throw 'Could not authenticate or access GitHub releases; publication stopped.' }
 $releaseResponse = @(& gh api "repos/$Repository/releases/tags/$([Uri]::EscapeDataString($tag))" --include --silent 2>$null)
 $releaseExists = $LASTEXITCODE -eq 0
@@ -109,6 +111,7 @@ if (-not $releaseExists) {
     $releaseArguments = @('release', 'create', $tag, '--repo', $Repository, '--target', $Commit,
         '--title', $ExpectedVersion, '--generate-notes')
     if ($ExpectedVersion.Split('+')[0].Contains('-')) { $releaseArguments += @('--prerelease', '--latest=false') }
+    if ($previousReleaseTag) { $releaseArguments += @('--notes-start-tag', $previousReleaseTag) }
     & gh @releaseArguments
     if ($LASTEXITCODE -ne 0) { throw 'GitHub release creation failed.' }
 }
