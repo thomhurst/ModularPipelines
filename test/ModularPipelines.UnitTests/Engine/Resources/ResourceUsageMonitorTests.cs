@@ -294,6 +294,7 @@ public class ResourceUsageMonitorTests
     public async Task Sample_AncestorThrottlingWarnsIndependentlyOfLeafAndOtherAncestors()
     {
         var harness = new Harness();
+        // Harness.Sample advances one second, so each 100ms increase reaches the 10% threshold.
         for (var index = 0; index <= 3; index++)
         {
             harness.Reader.Pressure = new ResourcePressureCounters($"leaf{index}", 0, null, null,
@@ -304,6 +305,31 @@ public class ResourceUsageMonitorTests
         harness.Sample(cpu: 0.1);
         await Assert.That(harness.Log.ToString()).Contains("Linux task stalls or CPU throttling detected");
         await Assert.That(harness.Monitor.GetResult()!.Periods.Single().Kind).IsEqualTo(ResourceKind.Cpu);
+    }
+
+    [Test]
+    [Arguments(1)]
+    [Arguments(2)]
+    public async Task Sample_AncestorThrottlingRequiresTenPercentOfActualElapsedInterval(int intervalSeconds)
+    {
+        var harness = new Harness(options => options with { SustainedSamples = 1 });
+        harness.Reader.Pressure = new ResourcePressureCounters("leaf", 0, null, null,
+            AncestorThrottling: [new("parent", 0)]);
+        harness.Sample(cpu: 0.1);
+
+        var thresholdMicroseconds = intervalSeconds * 100_000;
+        // Sample adds one second itself; exercise a longer actual interval than the configured interval too.
+        harness.Time.Advance(TimeSpan.FromSeconds(intervalSeconds - 1));
+        harness.Reader.Pressure = new ResourcePressureCounters("leaf", 0, null, null,
+            AncestorThrottling: [new("parent", thresholdMicroseconds - 1)]);
+        harness.Sample(cpu: 0.1);
+        await Assert.That(harness.Log.ToString()).IsEmpty();
+
+        harness.Time.Advance(TimeSpan.FromSeconds(intervalSeconds - 1));
+        harness.Reader.Pressure = new ResourcePressureCounters("leaf", 0, null, null,
+            AncestorThrottling: [new("parent", (2 * thresholdMicroseconds) - 1)]);
+        harness.Sample(cpu: 0.1);
+        await Assert.That(harness.Log.ToString()).Contains("Linux task stalls or CPU throttling detected");
     }
 
     [Test]
