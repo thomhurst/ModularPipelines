@@ -25,8 +25,7 @@ public class LinuxMachineResourceReaderTests
         await Assert.That(reader.TryRead(out var reading)).IsTrue();
         await Assert.That(reading.MemoryTotalBytes).IsEqualTo(1000);
         await Assert.That(reading.MemoryAvailableBytes).IsEqualTo(50);
-        await Assert.That(reading.Pressure!.ThrottledPeriods).IsEqualTo(12);
-        await Assert.That(reading.Pressure.ThrottledMicroseconds).IsEqualTo(345);
+        await Assert.That(reading.Pressure!.ThrottledMicroseconds).IsEqualTo(345);
         await Assert.That(reading.Pressure.CpuStallMicroseconds).IsEqualTo(123);
         await Assert.That(reading.Pressure.MemoryStallMicroseconds).IsEqualTo(456);
     }
@@ -79,7 +78,7 @@ public class LinuxMachineResourceReaderTests
         await Assert.That(reader.TryRead(out var reading)).IsTrue();
         await Assert.That(reading.Pressure!.CpuStallMicroseconds).IsEqualTo(123);
         await Assert.That(reading.Pressure.MemoryStallMicroseconds).IsEqualTo(456);
-        await Assert.That(reading.Pressure.ThrottledPeriods).IsNull();
+        await Assert.That(reading.Pressure.ThrottledMicroseconds).IsNull();
     }
 
     [Test]
@@ -92,8 +91,7 @@ public class LinuxMachineResourceReaderTests
         var reader = new LinuxMachineResourceReader(path => files.GetValueOrDefault(path));
 
         await Assert.That(reader.TryRead(out var reading)).IsTrue();
-        await Assert.That(reading.Pressure!.ThrottledPeriods).IsNull();
-        await Assert.That(reading.Pressure.ThrottledMicroseconds).IsNull();
+        await Assert.That(reading.Pressure!.ThrottledMicroseconds).IsNull();
         await Assert.That(reading.Pressure.CpuStallMicroseconds).IsNull();
         await Assert.That(reading.Pressure.MemoryStallMicroseconds).IsNull();
     }
@@ -228,15 +226,14 @@ public class LinuxMachineResourceReaderTests
     public async Task ReadsThrottlingThroughVisibleMountOnly()
     {
         var files = CgroupFiles();
-        files["/sys/fs/cgroup/job/cpu.stat"] = "nr_throttled 0";
+        files["/sys/fs/cgroup/job/cpu.stat"] = "throttled_usec 0";
         files["/sys/fs/cgroup/cpu.stat"] = "nr_throttled 12\nthrottled_usec 345";
-        files["/sys/fs/cpu.stat"] = "nr_throttled 999";
+        files["/sys/fs/cpu.stat"] = "throttled_usec 999";
         var reader = new LinuxMachineResourceReader(path => files.GetValueOrDefault(path));
 
         await Assert.That(reader.TryRead(out var reading)).IsTrue();
         var ancestor = reading.Pressure!.AncestorThrottling!.Single();
         await Assert.That(ancestor.Source).IsEqualTo("/sys/fs/cgroup");
-        await Assert.That(ancestor.ThrottledPeriods).IsEqualTo(12);
         await Assert.That(ancestor.ThrottledMicroseconds).IsEqualTo(345);
     }
 

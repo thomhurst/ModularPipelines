@@ -193,18 +193,17 @@ public class ResourceUsageMonitorTests
     [Arguments(0)]
     [Arguments(1)]
     [Arguments(2)]
-    [Arguments(3)]
     public async Task Sample_SustainedStallsWarnEvenWithLowUsage_WithoutInflatingUsage(int signal)
     {
         var harness = new Harness();
         harness.RunningModules = [typeof(BusyModule)];
-        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0, 0, 0);
+        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0, 0);
         harness.Sample(cpu: 0.1);
         for (var index = 1; index <= 3; index++)
         {
             harness.Reader.Pressure = new ResourcePressureCounters("container",
-                signal == 0 ? index : 0, signal == 1 ? index : 0,
-                signal == 2 ? index * 100_000 : 0, signal == 3 ? index * 100_000 : 0);
+                signal == 0 ? index * 100_000 : 0,
+                signal == 1 ? index * 100_000 : 0, signal == 2 ? index * 100_000 : 0);
             harness.Sample(cpu: 0.1);
             if (index < 3)
             {
@@ -215,37 +214,38 @@ public class ResourceUsageMonitorTests
         // Unchanged counters close the period; historical stalls do not keep warning.
         harness.Sample(cpu: 0.1);
         var result = harness.Monitor.GetResult()!;
-        await Assert.That(harness.Log.ToString()).Contains(signal == 3 ? "Linux task stalls detected" : "Linux task stalls or CPU throttling detected")
+        await Assert.That(harness.Log.ToString()).Contains(signal == 2 ? "Linux task stalls detected" : "Linux task stalls or CPU throttling detected")
             .And.Contains("Running modules: BusyModule");
         await Assert.That(result.PeakCpu).IsEqualTo(0.1).Within(0.001);
         await Assert.That(result.AverageCpu).IsEqualTo(0.1).Within(0.001);
         await Assert.That(result.PeakMemory).IsEqualTo(0.5);
-        await Assert.That(result.Periods.Single().Kind).IsEqualTo(signal == 3 ? ResourceKind.Memory : ResourceKind.Cpu);
+        await Assert.That(result.Periods.Single().Kind).IsEqualTo(signal == 2 ? ResourceKind.Memory : ResourceKind.Cpu);
         await Assert.That(result.Periods.Single().Start).IsEqualTo(Start.AddSeconds(2));
         await Assert.That(result.Periods.Single().End).IsEqualTo(Start.AddSeconds(5));
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Sample_PressureRequiresTenPercentOfActualElapsedInterval(bool memory)
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    public async Task Sample_StallsRequireTenPercentOfActualElapsedInterval(int signal)
     {
         var harness = new Harness(options => options with { SustainedSamples = 1 });
-        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0, 0, 0);
+        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0, 0);
         harness.Sample(cpu: 0.1);
 
         // 100ms is only 5% of this two-second interval, even though configured samples are one second.
         harness.Time.Advance(TimeSpan.FromSeconds(1));
-        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0,
-            memory ? 0 : 100_000, memory ? 100_000 : 0);
+        harness.Reader.Pressure = new ResourcePressureCounters("container",
+            signal == 0 ? 100_000 : 0, signal == 1 ? 100_000 : 0, signal == 2 ? 100_000 : 0);
         harness.Sample(cpu: 0.1);
         await Assert.That(harness.Log.ToString()).IsEmpty();
 
         // 100ms in the next one-second interval reaches the threshold.
-        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0,
-            memory ? 0 : 200_000, memory ? 200_000 : 0);
+        harness.Reader.Pressure = new ResourcePressureCounters("container",
+            signal == 0 ? 200_000 : 0, signal == 1 ? 200_000 : 0, signal == 2 ? 200_000 : 0);
         harness.Sample(cpu: 0.1);
-        await Assert.That(harness.Log.ToString()).Contains("Linux task stalls");
+        await Assert.That(harness.Log.ToString()).Contains(signal == 2 ? "Linux task stalls detected" : "Linux task stalls or CPU throttling detected");
     }
 
     [Test]
@@ -254,12 +254,12 @@ public class ResourceUsageMonitorTests
         var harness = new Harness(options => options with { SustainedSamples = 1 });
         foreach (var counters in new ResourcePressureCounters?[]
         {
-            new("a", 100, 100, 100, 100),
-            new("a", 0, 0, 0, 0),
+            new("a", 1_000_000, 1_000_000, 1_000_000),
+            new("a", 0, 0, 0),
             null,
-            new("a", 200, 200, 200, 200),
-            new("b", 300, 300, 300, 300),
-            new("b", 300, 300, 300, 300),
+            new("a", 2_000_000, 2_000_000, 2_000_000),
+            new("b", 3_000_000, 3_000_000, 3_000_000),
+            new("b", 3_000_000, 3_000_000, 3_000_000),
         })
         {
             harness.Reader.Pressure = counters;
@@ -277,12 +277,12 @@ public class ResourceUsageMonitorTests
     public async Task Sample_UnrelatedSourceChangesPreserveStallDetection(int signal)
     {
         var harness = new Harness();
-        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0, 0, 0, "cpu", "memory");
+        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0, 0, "cpu", "memory");
         harness.Sample(cpu: 0.1);
         for (var index = 1; index <= 3; index++)
         {
             harness.Reader.Pressure = new ResourcePressureCounters("container",
-                signal == 0 ? index : 0, 0, signal == 1 ? index * 100_000 : 0, signal == 2 ? index * 100_000 : 0,
+                signal == 0 ? index * 100_000 : 0, signal == 1 ? index * 100_000 : 0, signal == 2 ? index * 100_000 : 0,
                 signal == 2 ? $"cpu{index}" : "cpu", signal == 2 ? "memory" : $"memory{index}");
             harness.Sample(cpu: 0.1);
         }
@@ -291,16 +291,14 @@ public class ResourceUsageMonitorTests
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Sample_AncestorThrottlingWarnsIndependentlyOfLeafAndOtherAncestors(bool microseconds)
+    public async Task Sample_AncestorThrottlingWarnsIndependentlyOfLeafAndOtherAncestors()
     {
         var harness = new Harness();
+        // Harness.Sample advances one second, so each 100ms increase reaches the 10% threshold.
         for (var index = 0; index <= 3; index++)
         {
-            harness.Reader.Pressure = new ResourcePressureCounters($"leaf{index}", 0, 0, null, null,
-                AncestorThrottling:
-                [new("parent", microseconds ? 0 : index, microseconds ? index : 0), new($"other{index}", 100, 100)]);
+            harness.Reader.Pressure = new ResourcePressureCounters($"leaf{index}", 0, null, null,
+                AncestorThrottling: [new("parent", index * 100_000), new($"other{index}", 1_000_000)]);
             harness.Sample(cpu: 0.1);
         }
 
@@ -310,21 +308,46 @@ public class ResourceUsageMonitorTests
     }
 
     [Test]
+    [Arguments(1)]
+    [Arguments(2)]
+    public async Task Sample_AncestorThrottlingRequiresTenPercentOfActualElapsedInterval(int intervalSeconds)
+    {
+        var harness = new Harness(options => options with { SustainedSamples = 1 });
+        harness.Reader.Pressure = new ResourcePressureCounters("leaf", 0, null, null,
+            AncestorThrottling: [new("parent", 0)]);
+        harness.Sample(cpu: 0.1);
+
+        var thresholdMicroseconds = intervalSeconds * 100_000;
+        // Sample adds one second itself; exercise a longer actual interval than the configured interval too.
+        harness.Time.Advance(TimeSpan.FromSeconds(intervalSeconds - 1));
+        harness.Reader.Pressure = new ResourcePressureCounters("leaf", 0, null, null,
+            AncestorThrottling: [new("parent", thresholdMicroseconds - 1)]);
+        harness.Sample(cpu: 0.1);
+        await Assert.That(harness.Log.ToString()).IsEmpty();
+
+        harness.Time.Advance(TimeSpan.FromSeconds(intervalSeconds - 1));
+        harness.Reader.Pressure = new ResourcePressureCounters("leaf", 0, null, null,
+            AncestorThrottling: [new("parent", (2 * thresholdMicroseconds) - 1)]);
+        harness.Sample(cpu: 0.1);
+        await Assert.That(harness.Log.ToString()).Contains("Linux task stalls or CPU throttling detected");
+    }
+
+    [Test]
     public async Task Sample_AncestorThrottlingRequiresMatchingNonResetBaseline()
     {
         var harness = new Harness(options => options with { SustainedSamples = 1 });
         foreach (var counters in new IReadOnlyList<CgroupCpuThrottlingCounters>?[]
         {
-            [new("parent", 100, 100)],
-            [new("parent", 0, 0)],
+            [new("parent", 1_000_000)],
+            [new("parent", 0)],
             null,
-            [new("parent", 200, 200)],
-            [new("different", 300, 300)],
-            [new("different", null, null)],
-            [new("different", 400, 400)],
+            [new("parent", 2_000_000)],
+            [new("different", 3_000_000)],
+            [new("different", null)],
+            [new("different", 4_000_000)],
         })
         {
-            harness.Reader.Pressure = new ResourcePressureCounters("leaf", 0, 0, null, null,
+            harness.Reader.Pressure = new ResourcePressureCounters("leaf", 0, null, null,
                 AncestorThrottling: counters);
             harness.Sample(cpu: 0.1);
         }
