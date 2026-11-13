@@ -9,6 +9,7 @@ param(
 
     [string]$Repository = $env:GITHUB_REPOSITORY,
     [string]$Commit = $env:GITHUB_SHA,
+    [string]$ReleaseNotesDirectory = (Join-Path $PSScriptRoot '../.github/release-notes'),
     [switch]$ValidateOnly
 )
 
@@ -107,12 +108,18 @@ foreach ($file in $files) {
 
 if (-not $releaseExists) {
     $releaseArguments = @('release', 'create', $tag, '--repo', $Repository, '--target', $Commit,
-        '--title', $ExpectedVersion, '--generate-notes')
+        '--title', $ExpectedVersion)
     if ($ExpectedVersion.Split('+')[0].Contains('-')) { $releaseArguments += @('--prerelease', '--latest=false') }
-    # Start the notes from the latest stable release; GitHub's default starts from the newest tag,
-    # which need not be a release. Without a stable release the default range applies.
-    $latestReleaseTag = & gh api "repos/$Repository/releases/latest" --jq '.tag_name' 2>$null
-    if ($LASTEXITCODE -eq 0 -and $latestReleaseTag) { $releaseArguments += @('--notes-start-tag', $latestReleaseTag) }
+    # Hand-written notes for this version replace the generated ones.
+    $notesFile = Join-Path $ReleaseNotesDirectory "$($ExpectedVersion.Split('+')[0]).md"
+    if (Test-Path -LiteralPath $notesFile) { $releaseArguments += @('--notes-file', $notesFile) }
+    else {
+        # Start the notes from the latest stable release; GitHub's default starts from the newest tag,
+        # which need not be a release. Without a stable release the default range applies.
+        $releaseArguments += '--generate-notes'
+        $latestReleaseTag = & gh api "repos/$Repository/releases/latest" --jq '.tag_name' 2>$null
+        if ($LASTEXITCODE -eq 0 -and $latestReleaseTag) { $releaseArguments += @('--notes-start-tag', $latestReleaseTag) }
+    }
     & gh @releaseArguments
     if ($LASTEXITCODE -ne 0) { throw 'GitHub release creation failed.' }
 }

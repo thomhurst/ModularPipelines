@@ -181,6 +181,16 @@ try {
     $latestReleaseTag = 'v4.2.2'
 
     Write-Fixture
+    $notesFile = Join-Path $directory '4.2.3.md'
+    Set-Content -LiteralPath $notesFile -Value 'notes fixture'
+    & $publishScript @parameters -ReleaseNotesDirectory $directory
+    if ($calls.Count -ne 6 -or $calls[5][-2] -ne '--notes-file' -or $calls[5][-1] -ne $notesFile -or
+        $calls[5] -contains '--generate-notes') {
+        throw 'Hand-written notes for the version must replace generated notes.'
+    }
+    Remove-Item -LiteralPath $notesFile
+
+    Write-Fixture
     $failUpload = $true
     $failed = $false
     try { & $publishScript @parameters } catch { $failed = $true }
