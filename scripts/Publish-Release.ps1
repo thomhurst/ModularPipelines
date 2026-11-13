@@ -93,8 +93,20 @@ elseif ($tagLookupExitCode -ne 2) { throw 'Could not verify the remote release t
 # Verify authenticated access to releases before interpreting a tag lookup's 404 as missing.
 # The newest release also bounds the generated notes: every push to main is tagged, so GitHub's
 # default range (the previous tag) would cover a single commit.
-$previousReleaseTag = & gh api "repos/$Repository/releases?per_page=1" --jq '.[0].tag_name // empty'
-if ($LASTEXITCODE -ne 0) { throw 'Could not authenticate or access GitHub releases; publication stopped.' }
+# Authenticated callers can see drafts. Continue until a published release (including
+# prereleases) is found so an unpublished tag cannot truncate the generated notes.
+$previousReleaseTag = $null
+$releasePageNumber = 1
+do {
+    $releaseEndpoint = "repos/$Repository/releases?per_page=1"
+    if ($releasePageNumber -gt 1) { $releaseEndpoint += "&page=$releasePageNumber" }
+    $releasePageJson = & gh api $releaseEndpoint
+    if ($LASTEXITCODE -ne 0) { throw 'Could not authenticate or access GitHub releases; publication stopped.' }
+    $releasePage = @($releasePageJson | ConvertFrom-Json)
+    $publishedRelease = $releasePage | Where-Object { $_.draft -eq $false } | Select-Object -First 1
+    if ($publishedRelease) { $previousReleaseTag = $publishedRelease.tag_name }
+    $releasePageNumber++
+} while ($releasePage.Count -gt 0 -and -not $publishedRelease)
 $releaseResponse = @(& gh api "repos/$Repository/releases/tags/$([Uri]::EscapeDataString($tag))" --include --silent 2>$null)
 $releaseExists = $LASTEXITCODE -eq 0
 if (-not $releaseExists -and ($releaseResponse.Count -eq 0 -or $releaseResponse[0] -notmatch '^HTTP/\S+ 404(?:\s|$)')) {

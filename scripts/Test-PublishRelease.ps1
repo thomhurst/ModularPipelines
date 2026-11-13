@@ -15,7 +15,8 @@ $releaseLookupStatus = $null
 $tagCommit = $null
 $annotatedTag = $false
 $failTagLookup = $false
-$previousReleaseTag = 'v4.2.2'
+$fixturePreviousReleaseTag = 'v4.2.2'
+$draftReleaseCount = 0
 function git {
     $calls.Add(@($args))
     if ($failTagLookup) { $global:LASTEXITCODE = 128; return }
@@ -35,12 +36,21 @@ function dotnet {
 function gh {
     $calls.Add(@($args))
     if ($args[0] -eq 'api') {
-        $status = if ($args[1] -eq 'repos/owner/repo/releases?per_page=1') { $preflightStatus }
+        $status = if ($args[1] -like 'repos/owner/repo/releases?per_page=1*') { $preflightStatus }
         elseif ($null -ne $releaseLookupStatus) { $releaseLookupStatus }
         elseif ($releaseExists) { 200 }
         else { 404 }
         $global:LASTEXITCODE = if ($status -eq 200) { 0 } else { 1 }
-        if ($status -eq 200 -and $args -contains '--jq') { $previousReleaseTag }
+        if ($status -eq 200 -and $args[1] -like 'repos/owner/repo/releases?per_page=1*') {
+            $page = if ($args[1] -match '&page=(\d+)$') { [int]$Matches[1] } else { 1 }
+            if ($page -le $draftReleaseCount) {
+                '[{"tag_name":"v4.2.3-draft","draft":true}]'
+            }
+            elseif ($fixturePreviousReleaseTag) {
+                @(@{ tag_name = $fixturePreviousReleaseTag; draft = $false; prerelease = $fixturePreviousReleaseTag.Contains('-') }) | ConvertTo-Json -AsArray
+            }
+            else { '[]' }
+        }
         if ($args -contains '--include' -and $status -ne 0) { "HTTP/2.0 $status" }
         return
     }
@@ -168,11 +178,26 @@ try {
     if ($calls.Count -ne 5) { throw 'Retry must keep an existing release.' }
     $releaseExists = $false
 
+    # Drafts can fill multiple pages; the published prerelease remains the baseline.
     Write-Fixture
-    $previousReleaseTag = $null
+    $draftReleaseCount = 2
+    $fixturePreviousReleaseTag = 'v4.0.0-rc.1'
+    & $publishScript @parameters
+    if ($calls.Count -ne 8 -or $calls[2][1] -ne 'repos/owner/repo/releases?per_page=1&page=2' -or
+        $calls[3][1] -ne 'repos/owner/repo/releases?per_page=1&page=3' -or
+        $calls[7][-2] -ne '--notes-start-tag' -or $calls[7][-1] -ne 'v4.0.0-rc.1') {
+        throw 'Release notes must skip draft pages and retain the first published prerelease.'
+    }
+    Write-Fixture
+    $fixturePreviousReleaseTag = $null
+    & $publishScript @parameters
+    if ($calls[7] -contains '--notes-start-tag') { throw 'Only drafts must not supply a notes baseline.' }
+    $draftReleaseCount = 0
+    Write-Fixture
+    $fixturePreviousReleaseTag = $null
     & $publishScript @parameters
     if ($calls[5] -contains '--notes-start-tag') { throw 'A first release must use the default notes range.' }
-    $previousReleaseTag = 'v4.2.2'
+    $fixturePreviousReleaseTag = 'v4.2.2'
 
     Write-Fixture
     $failUpload = $true
