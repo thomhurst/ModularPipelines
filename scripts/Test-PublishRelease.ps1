@@ -15,6 +15,7 @@ $releaseLookupStatus = $null
 $tagCommit = $null
 $annotatedTag = $false
 $failTagLookup = $false
+$latestReleaseTag = 'v4.2.2'
 function git {
     $calls.Add(@($args))
     if ($failTagLookup) { $global:LASTEXITCODE = 128; return }
@@ -34,6 +35,10 @@ function dotnet {
 function gh {
     $calls.Add(@($args))
     if ($args[0] -eq 'api') {
+        if ($args[1] -eq 'repos/owner/repo/releases/latest') {
+            $global:LASTEXITCODE = if ($latestReleaseTag) { 0 } else { 1 }
+            return $latestReleaseTag
+        }
         $status = if ($args[1] -eq 'repos/owner/repo/releases?per_page=1') { $preflightStatus }
         elseif ($null -ne $releaseLookupStatus) { $releaseLookupStatus }
         elseif ($releaseExists) { 200 }
@@ -108,7 +113,7 @@ try {
         & $publishScript @parameters -ValidateOnly | Out-Null
         if ($calls.Count -ne 0) { throw 'Validation must not authenticate or publish.' }
         & $publishScript @parameters
-        if ($calls.Count -ne 6 -or $calls[0][0] -ne 'ls-remote' -or
+        if ($calls.Count -ne 7 -or $calls[0][0] -ne 'ls-remote' -or
             $calls[0][3] -ne 'https://github.com/owner/repo.git' -or $calls[0][4] -ne "refs/tags/v$version" -or
             $calls[0][5] -ne "refs/tags/v$version^{}" -or
             $calls[1][0] -ne 'api' -or $calls[1][1] -ne 'repos/owner/repo/releases?per_page=1' -or
@@ -116,11 +121,13 @@ try {
             $calls[2] -notcontains '--include' -or $calls[2] -notcontains '--silent' -or
             $calls[3][0] -ne 'nuget' -or $calls[4][0] -ne 'nuget' -or
             $calls[3] -notcontains '--skip-duplicate' -or $calls[4] -notcontains '--skip-duplicate' -or
-            $calls[4][2] -notlike '*.snupkg' -or $calls[5][1] -ne 'create' -or
-            $calls[5][2] -ne "v$version" -or $calls[5] -notcontains '--generate-notes' -or
-            ($calls[5] -contains '--prerelease') -ne $version.Split('+')[0].Contains('-') -or
-            ($calls[5] -contains '--latest=false') -ne $version.Split('+')[0].Contains('-') -or
-            $calls[5][6] -ne ('a' * 40)) {
+            $calls[4][2] -notlike '*.snupkg' -or
+            $calls[5][1] -ne 'repos/owner/repo/releases/latest' -or $calls[6][1] -ne 'create' -or
+            $calls[6][2] -ne "v$version" -or $calls[6] -notcontains '--generate-notes' -or
+            ($calls[6] -contains '--prerelease') -ne $version.Split('+')[0].Contains('-') -or
+            ($calls[6] -contains '--latest=false') -ne $version.Split('+')[0].Contains('-') -or
+            $calls[6][6] -ne ('a' * 40) -or
+            $calls[6][-2] -ne '--notes-start-tag' -or $calls[6][-1] -ne 'v4.2.2') {
             throw "Publication must upload the verified packages/symbols before creating release $version at the validated commit."
         }
         if ($version -eq '4.0.0-rc.1') {
@@ -137,7 +144,7 @@ try {
             Write-Fixture
             $tagCommit = 'a' * 40
             & $publishScript @parameters
-            if ($calls.Count -ne $(if ($existingRelease) { 5 } else { 6 })) {
+            if ($calls.Count -ne $(if ($existingRelease) { 5 } else { 7 })) {
                 throw 'A matching lightweight or annotated tag must allow publication and release retries.'
             }
             Write-Fixture
@@ -166,6 +173,24 @@ try {
     $releaseExists = $false
 
     Write-Fixture
+    $latestReleaseTag = $null
+    & $publishScript @parameters
+    if ($calls.Count -ne 7 -or $calls[6] -contains '--notes-start-tag') {
+        throw 'Without a stable release the default notes range must apply.'
+    }
+    $latestReleaseTag = 'v4.2.2'
+
+    Write-Fixture
+    $notesFile = Join-Path $directory '4.2.3.md'
+    Set-Content -LiteralPath $notesFile -Value 'notes fixture'
+    & $publishScript @parameters -ReleaseNotesDirectory $directory
+    if ($calls.Count -ne 6 -or $calls[5][-2] -ne '--notes-file' -or $calls[5][-1] -ne $notesFile -or
+        $calls[5] -contains '--generate-notes') {
+        throw 'Hand-written notes for the version must replace generated notes.'
+    }
+    Remove-Item -LiteralPath $notesFile
+
+    Write-Fixture
     $failUpload = $true
     $failed = $false
     try { & $publishScript @parameters } catch { $failed = $true }
@@ -176,7 +201,7 @@ try {
     $failRelease = $true
     $failed = $false
     try { & $publishScript @parameters } catch { $failed = $true }
-    if (-not $failed -or $calls.Count -ne 6) { throw 'Release creation failures must fail publication.' }
+    if (-not $failed -or $calls.Count -ne 7) { throw 'Release creation failures must fail publication.' }
     $failRelease = $false
 
     Write-Fixture
@@ -188,7 +213,7 @@ try {
     $manifest.Files += @{ File = [IO.Path]::GetFileName($contentPackage); Sha256 = (Get-FileHash -LiteralPath $contentPackage).Hash }
     $manifest | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $manifestPath
     & $publishScript @parameters
-    if ($calls.Count -ne 7 -or $calls[5][2] -notlike '*Templates*.nupkg') { throw 'Content-only packages must publish without symbols.' }
+    if ($calls.Count -ne 8 -or $calls[5][2] -notlike '*Templates*.nupkg') { throw 'Content-only packages must publish without symbols.' }
 
     Write-Fixture
     $env:NUGET_API_KEY = ''
