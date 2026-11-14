@@ -6,7 +6,13 @@ title: Liquibase Package
 
 The `ModularPipelines.Liquibase` package provides strongly typed options and services for the Liquibase command-line interface. It covers database updates, rollbacks, changelog generation, snapshots, validation, initialization, and the other commands exposed by Liquibase 5.
 
-Install the package and access Liquibase through the pipeline context:
+## Installation
+
+```shell
+dotnet add package ModularPipelines.Liquibase
+```
+
+Access Liquibase through the pipeline context:
 
 ```csharp
 using ModularPipelines;

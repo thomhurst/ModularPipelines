@@ -16,7 +16,7 @@ dotnet add package ModularPipelines.GitHub
 
 ## GitHub Client
 
-Using **Octokit** in Modular Pipelines is pretty straightforward. Simply reference the `ModularPipelines.GitHub` package, and then, in your module, access the OctoKit client using `GitHub().Client` property as (an example):
+Using **Octokit** in Modular Pipelines is pretty straightforward. Simply reference the `ModularPipelines.GitHub` package, and then, in your module, access the OctoKit client using `context.Tools.GitHub.Client` as (an example):
 
 ```cs
 public class GitHubModule : Module<string?>
@@ -37,7 +37,7 @@ public class GitHubModule : Module<string?>
 
 ## RepositoryInfo
 
-Various GitHub APIs need certain repository data to be passed to make them work. For general developer ergonomics and easy access, as an additional convenience to work with GitHub APIs, Modular Pipelines' `GitHub()` provides the `RepositoryInfo` property that holds various basic data for easy interaction with OctoKit.
+Various GitHub APIs need certain repository data to be passed to make them work. For general developer ergonomics and easy access, as an additional convenience to work with GitHub APIs, `context.Tools.GitHub` provides the `RepositoryInfo` property that holds various basic data for easy interaction with OctoKit.
 
 This feature is really important because many services in the GitHub API need details such as the **repository owner** and **the name of the repository.** For example:
 
@@ -52,7 +52,7 @@ await context.Tools.GitHub.Client.Repository.Release.Delete(owner, repo, 12);
 
 ## Client Auth
 
-Modular Pipelines' `GitHub()` automatically authenticates OctoKit client when:
+`context.Tools.GitHub` automatically authenticates the OctoKit client when:
 
 *   Environment variable named `GITHUB_TOKEN` is set (which is automatically provided by GitHub when running the pipeline in the GitHub workflow)
 *   By using property `AccessToken` in`GitHubOptions` record provided by the Modular Pipelines
@@ -81,7 +81,9 @@ where `appsettings.json` is constructed as follows:
 {
   "ModularPipelines": {
     "Secrets": {
-      "AccessToken": "your github access token"
+      "GitHub": {
+        "AccessToken": "your github access token"
+      }
     }
   }
 }

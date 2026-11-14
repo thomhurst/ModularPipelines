@@ -8,10 +8,12 @@ title: Distributed SignalR Package
 workers. The master hosts a SignalR hub; workers connect to it and pull work, so they need no shared
 database.
 
+This package is published as a `-beta` prerelease, independently of ModularPipelines core v4.
+
 ## Installation
 
 ```shell
-dotnet add package ModularPipelines.Distributed.SignalR
+dotnet add package ModularPipelines.Distributed.SignalR --prerelease
 ```
 
 ## Configuration
@@ -25,7 +27,7 @@ var builder = Pipeline.CreateBuilder(args);
 builder.AddDistributedMode(options => options with { TotalInstances = 2 });
 builder.AddSignalRDistributedCoordinator(options => options with
 {
-    ListenUrl = new Uri("http://0.0.0.0:5099"),
+    ListenUrl = new Uri("https://0.0.0.0:5099"),
     AdvertisedUrl = new Uri("https://pipeline-master.example.com"),
     AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN"),
 });

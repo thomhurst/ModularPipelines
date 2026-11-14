@@ -47,8 +47,8 @@ var result = await context.Tools.Cosign.VerifyAsync(
     cancellationToken: cancellationToken);
 ```
 
-Generated password, token, OIDC secret, PIN, PUK, and hardware-management-key properties
-are marked as secrets so Modular Pipelines masks their values in command logs.
+Generated password, registry password, registry token, identity token, and OIDC client-secret-file
+properties are marked as secrets so Modular Pipelines masks their values in command logs.
 
 ## Shared logging and timeout settings
 

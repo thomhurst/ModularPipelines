@@ -203,6 +203,8 @@ The built-in `DependsOn` and selector attributes are sealed. For custom selectio
 deterministic and free of side effects, so dependency-graph export and dry-run planning can evaluate it:
 
 ```csharp
+using ModularPipelines.Context;
+
 public sealed class DependsOnDeployTargetsAttribute : DependsOnBaseAttribute, IPlanningSafe
 {
     public override bool ShouldDependOn(Type candidateModule, IDependencyContext context) =>

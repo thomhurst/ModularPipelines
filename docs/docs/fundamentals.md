@@ -40,8 +40,9 @@ await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
 
 `context.Tools.DotNet` is the canonical API. Import `ModularPipelines.Context`, where the source
 generator emits the tool extension properties, and `ModularPipelines.DotNet.Options` for the
-option types. Extension properties require C# 14 or later. Projects using C# 13 or another .NET
-language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()`. Legacy
+option types. Extension properties require C# 14 or later. Projects using C# 13 can use
+`context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()`. Other .NET languages can use the
+same call after registering the integration with `builder.Services.RegisterDotNetContext()`. Legacy
 `context.DotNet()` access was removed in v4.
 
 ## Strong Typing

@@ -27,7 +27,7 @@ to the Berry base class.
 
 ## Migrating callers
 
-After automated regeneration, initialize inherited options on the selected command
+Initialize inherited options on the selected command
 record. Reflection that uses `DeclaredOnly` must include the base class. Equivalent
 pnpm options are generated once; a command that changes an option's arity or aliases
 keeps its own replacement property. Shared pnpm reporter enums use the base-options
@@ -44,10 +44,4 @@ retain secret metadata because they may include credentials; certificate/config
 file paths are paths, not credential contents. pnpm `Color` uses `CliOptionValue`
 for a bare switch or an attached explicit value.
 
-The npm/npx API migration is owned by #5962 / #6054. This audit changes the merged
-scraper source independently and does not replace that migration's generated output.
-Complete generated packages, references, coverage, and provenance ship through
-**Generate CLI Options** after generator source merges. Automated output PRs must
-build/test the affected package solutions and pass coverage/freshness checks. There
-are no handwritten generated-file changes or generated-package API baselines in
-this audit.
+The npm/npx API migration is described in the [Node.js guide](./node.md#npm-and-npx-in-v4).

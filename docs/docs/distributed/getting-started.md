@@ -20,7 +20,7 @@ This guide walks you through adding distributed execution to an existing Modular
 Add the `ModularPipelines.Distributed.Redis` NuGet package to your pipeline project:
 
 ```bash
-dotnet add package ModularPipelines.Distributed.Redis
+dotnet add package ModularPipelines.Distributed.Redis --prerelease
 ```
 
 This brings in `ModularPipelines` (which contains the core distributed abstractions) and the [Respire](https://respire.tomlonghurst.dev/) Redis client automatically.
@@ -90,7 +90,7 @@ Every Redis key is prefixed with a run identifier so concurrent or repeated pipe
 1. Explicit `DistributedOptions.RunId` configuration
 2. The `MODULARPIPELINES_RUN_ID` environment variable
 
-Use the same invocation-specific value on every process. Redis and SignalR coordinators, Redis discovery, and S3 artifact stores require an explicit shared identifier even when `TotalInstances` is `1`. The generated GUID fallback applies only to single-instance configurations that do not require an explicit run ID; it never applies to these backends.
+Use the same invocation-specific value on every process. Redis and SignalR coordinators, Redis and S3 artifact stores, and Redis discovery require an explicit shared identifier even when `TotalInstances` is `1`. The generated GUID fallback applies only to single-instance configurations that do not require an explicit run ID; it never applies to these backends.
 
 Commit hashes are not safe because repeated executions of the same commit would reuse stale keys.
 These backends and all multi-process runs fail fast when no shared identifier is configured. For local or CI runs, set

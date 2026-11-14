@@ -124,7 +124,7 @@ because workflows from forks cannot access the Redis repository secret. Trusted 
 opt in by setting `TriggerCondition.PullRequest`; repositories accepting fork contributions should
 keep secret-dependent distributed jobs disabled for those events.
 
-The following hand-written workflow is equivalent and can be customized directly.
+The following hand-written workflow has the same structure, without the extra worker and the NuGet cache step, and can be customized directly.
 
 ## Workflow File
 

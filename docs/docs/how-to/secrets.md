@@ -62,7 +62,7 @@ objects cannot expose unmasked contents. This conservatively requires a sanitize
 when the object's text contains no secret. Plain scalar values retain their types when unchanged.
 
 Sanitized exceptions can have a different concrete type from the original exception. For example,
-`ModuleFailedException` and `PipelineFailedException` are replaced, so catches for those types and
+`PipelineFailedException` is replaced, so a `catch (PipelineFailedException)` and
 access to `PipelineFailedException.Summary` do not apply to sanitized exceptions. Aggregate
 exceptions remain `AggregateException` instances, and cancellation remains an
 `OperationCanceledException` with the original cancellation token. When nothing needs masking,

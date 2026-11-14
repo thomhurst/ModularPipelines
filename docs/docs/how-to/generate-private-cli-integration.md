@@ -59,8 +59,7 @@ Create `tools/private-widget.json`:
             "switchName": "--dry-run",
             "propertyName": "DryRun",
             "cSharpType": "bool?",
-            "isFlag": true,
-            "valueArity": "none"
+            "isFlag": true
           }
         ]
       }

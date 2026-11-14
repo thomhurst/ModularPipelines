@@ -6,10 +6,12 @@ title: Distributed S3 Artifacts Package
 
 `ModularPipelines.Distributed.Artifacts.S3` stores distributed pipeline artifacts in AWS S3 or an S3-compatible service such as Cloudflare R2, Backblaze B2, or MinIO.
 
+This package is published as a `-beta` prerelease, independently of ModularPipelines core v4.
+
 ## Installation
 
 ```shell
-dotnet add package ModularPipelines.Distributed.Artifacts.S3
+dotnet add package ModularPipelines.Distributed.Artifacts.S3 --prerelease
 ```
 
 ## Configuration

@@ -134,7 +134,7 @@ Relative produce and restore paths use `ModuleCacheOptions.WorkingDirectory`. St
 
 ## Share entries through S3 or Redis
 
-The S3 and Redis packages provide cross-run cache backends. Their cache namespaces do not use distributed pipeline run identifiers, so concurrent runs can safely share entries.
+The `ModularPipelines.Distributed.Artifacts.S3` and `ModularPipelines.Distributed.Redis` packages provide cross-run cache backends; import the namespace of the same name. Their cache namespaces do not use distributed pipeline run identifiers, so concurrent runs can safely share entries.
 
 ```csharp
 builder.AddS3ModuleCache(options => options with

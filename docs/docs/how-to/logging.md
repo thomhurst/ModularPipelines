@@ -13,7 +13,7 @@ The context logger applies Modular Pipelines' secret masking and groups output w
 These are detailed below.
 
 ## Secret Obfuscation
-If secrets have been defined (See [Secrets](secrets) for details on this), then if any of them are attempted to be written through the context logger, either directly or through HTTP and command logs, they will be obfuscated in the output. For example, a bearer token of 'MySuperSecretToken' will appear as '**********'.
+If secrets have been defined (See [Secrets](secrets.md) for details on this), then if any of them are attempted to be written through the context logger, either directly or through HTTP and command logs, they will be obfuscated in the output. For example, a bearer token of 'MySuperSecretToken' will appear as '**********'.
 
 ## Grouped Logs
 When writing through `context.Logger`, logs are grouped by the current module.

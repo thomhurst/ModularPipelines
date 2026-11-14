@@ -623,7 +623,7 @@ public record CliOptionDefinition
     public bool IsFlag { get; init; }
 
     /// <summary>
-    /// Whether a value is required, optional, or absent.
+    /// Whether a value is required or optional. Flags take no value and are marked with <see cref="IsFlag"/>.
     /// </summary>
     public CliOptionValueArity ValueArity { get; init; } = CliOptionValueArity.Required;
 

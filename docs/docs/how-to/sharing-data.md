@@ -21,8 +21,8 @@ public class DeployModule : Module<DeployResult>
         // Get the build module's result
         var buildResult = await context.GetModule<BuildModule>();
 
-        // Access the required dependency value. This throws with module context
-        // if the module failed, was skipped, or returned null.
+        // Access the dependency value. This throws with module context
+        // if the module failed or was skipped.
         var artifact = buildResult.Value.ArtifactPath;
 
         return await Deploy(artifact);
@@ -66,9 +66,11 @@ return result.Match(
 
 ## Accessing Required Values
 
-Use `Value` when the dependency must have produced a non-null value. It returns `T`
-without a null-forgiveness operator. If the module failed, was skipped, or returned
-`null`, it throws an `InvalidOperationException` that identifies the module and outcome:
+Use `Value` when the dependency must have succeeded. It returns `T`
+without a null-forgiveness operator. If the module failed or was skipped, it throws
+an `InvalidOperationException` that identifies the module and outcome. A successful
+result's value is returned unchanged, including `null`, so add an explicit check when
+null must be rejected:
 
 ```csharp
 var result = await context.GetModule<MyModule>();

@@ -274,7 +274,9 @@ with `WaitAsync` and later commands are not issued.
 
 The SignalR master hosts the in-memory coordinator behind `DistributedPipelineHub`. Workers invoke hub
 methods for every operation: `RegisterWorker`, `Heartbeat`, `ReconcileHeartbeat`, `DequeueModule`, `PublishResult`,
-`WaitForResult` and `WaitForCancellation`. The master never pushes to workers, so a worker that reconnects
+`WaitForResult`, `WaitForCancellation` and `AcknowledgeCompletion`. The master's only push is `MasterCompleted`,
+sent to every connected worker when it completes and again to a worker that registers afterwards. Everything
+else is a worker invocation, so a worker that reconnects
 re-registers its session, reconciles its exact leases, and retries its interrupted invocations. Reconciliation
 renews leases it still holds and identifies lost leases for cancellation. Leases of a worker that does not
 come back expire and are requeued until `MaxModuleLeaseExpirations` is reached, then the module fails. When the connection closes for

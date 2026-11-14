@@ -164,16 +164,16 @@ Conditions inside a `WithSkipWhenAll` group use AND-to-skip semantics and combin
 The group composes with other skip conditions using OR-to-skip semantics.
 
 In V3, a later `WithSkipWhen` call replaced an earlier one. Analyzer [`MP0020`](../analyzers/MP0020.md)
-reports repeated `WithSkipWhen` calls on the same builder as a suggestion; suppress it when OR-to-skip
+reports repeated `WithSkipWhen` calls on the same builder as a warning; suppress it when OR-to-skip
 is intended, or switch to `WithSkipWhenAll` when every condition must match.
 
 ## History
-If a module was skipped, you can attempt to find its history from a previous run. See [History](storing-and-retrieving-results)
+If a module was skipped, you can attempt to find its history from a previous run. See [History](storing-and-retrieving-results.md)
 
 ## Run Conditions
 
-See [Run Conditions](run-conditions)
+See [Run Conditions](run-conditions.md)
 
 ## Categories
 
-See [Categories](categories)
+See [Categories](categories.md)

@@ -30,7 +30,7 @@ tests, from Snyk 1.1302.0 and the hosted Flyway 10.20.1 installation.
 | Liquibase 5.0.3 | `LiquibaseOptions`, including `SearchPath`, `LogLevel`, and supplemental licensed settings | Existing parsed and supplemental globals already share the base class. Preserve them, their value syntax, secret marking, and command-level deduplication. [Liquibase parameters](https://docs.liquibase.com/reference-guide/parameters/what-are-parameters). |
 | Ansible core 2.21.4 | `AnsibleExecuteOptions`, including `Pattern`, repeated `Inventory`, and `Verbose` | `ansible` is one executable; `ansible-playbook` and other executables are not its subcommands. [Ansible CLI](https://docs.ansible.com/projects/ansible/latest/cli/ansible.html). |
 | ShellCheck 0.11.0 | `ShellcheckExecuteOptions`, including `Format` and `Files` | One file-analysis invocation; no child command requires inherited settings. [ShellCheck manual](https://github.com/koalaman/shellcheck/blob/master/shellcheck.1.md). |
-| Newman 6.2.2 | `NewmanRunOptions` | Root options are help/version control actions. Collection, reporter, timeout, and variable options belong to `run`; “global variables” do not mean executable-wide flags. A separate value-arity defect is tracked in #5721. [Newman command-line options](https://github.com/postmanlabs/newman#command-line-options). |
+| Newman 6.2.2 | `NewmanRunOptions` | Root options are help/version control actions. Collection, reporter, timeout, and variable options belong to `run`; “global variables” do not mean executable-wide flags. Optional-value run options use `CliOptionValue`; see the [Newman guide](./newman.md#optional-values-and-migration). [Newman command-line options](https://github.com/postmanlabs/newman#command-line-options). |
 
 ## Migrating callers
 

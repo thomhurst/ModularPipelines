@@ -88,7 +88,7 @@ public class MyModule : Module<FileInfo>
 | Method | Description |
 |--------|-------------|
 | `.WithTimeout(TimeSpan)` | Maximum execution time per attempt; must be positive, or `Timeout.InfiniteTimeSpan` to disable the default timeout |
-| `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter |
+| `.WithRetry(int, TimeSpan?, Func<Exception, bool>?, TimeSpan?)` | Retry attempts, jittered base delay, optional exception filter, and maximum delay |
 | `.WithShield(Shield)` | Custom Kevlar resilience shield for advanced scenarios |
 | `.WithSkipWhen(...)` | Condition to skip the module |
 | `.WithRunIf<T>()` / `.WithRunIf(IRunCondition)` | Run only when an `IRunCondition` is satisfied |

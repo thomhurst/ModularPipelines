@@ -12,7 +12,7 @@ The recommended approach is to create a console application and use this builder
 The pipeline builder follows the ASP.NET Core minimal API pattern, providing direct access to:
 - `Configuration` - for adding configuration sources
 - `Services` - for dependency injection
-- `Options` - for pipeline behavior settings
+- `Options` - the current immutable pipeline options snapshot (change it with `ConfigureOptions`)
 - `Environment` - for host environment information
 
 ## Basic Example
@@ -91,7 +91,7 @@ builder.AddModule<AlwaysRunModule>();
 
 ## Pipeline Options
 
-Configure pipeline behavior via the `Options` property:
+Configure pipeline behavior with `ConfigureOptions`. `builder.Options` returns the current immutable snapshot:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);

@@ -45,7 +45,9 @@ CompressionLevel.NoCompression })` to configure artifact behavior in local mode.
 not enable distributed execution. Redis `ConfigureConnection` options are
 `Func<RespireOptions, RespireOptions>` transforms over the immutable Respire connection options.
 
-Both Redis integration packages remain beta independently of core v4. Their `ConfigureConnection`
+All four distributed integration packages (`Distributed.Redis`, `Distributed.Discovery.Redis`,
+`Distributed.SignalR`, and `Distributed.Artifacts.S3`) ship as `-beta` prereleases independently of
+core v4; install them with `--prerelease`. The two Redis packages' `ConfigureConnection`
 callbacks intentionally expose pre-1.0 Respire types, so package upgrades may require callback changes.
 This beta status is separate from core's versioning policy, which allows breaking changes in minor
 versions. See the compatibility policy for [Redis](../mp-packages/distributed-redis.md) and
@@ -77,13 +79,13 @@ builder.AddDistributedMode(o => o with
 | `MaxParallelism` | `int?` | `null` | Optional per-node concurrency limit. It can lower, but cannot raise, the pipeline's global `Concurrency.MaxParallelism` limit. Workers advertise it when they register. |
 | `Capabilities` | `IReadOnlyList<Capability>` | `[]` | Capabilities this instance advertises in addition to those detected by registered `ICapabilityProvider` services, including the current OS. Built-in values are available from `Capability`; create custom values with `new Capability("name")`. |
 | `RunId` | `string` | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run: 1-128 ASCII letters, digits, `.`, `_` or `-`, because backends embed it in keys and URLs. Multi-instance runs fail fast when neither source is configured. |
-| `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. The Redis and SignalR coordinators and Redis discovery enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`. |
+| `RequireExplicitRunId` | `bool` | `false` | Reject generated single-instance IDs. The Redis and SignalR coordinators, the Redis and S3 artifact stores, and Redis discovery enable this automatically, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`. |
 | `WorkerRegistrationTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | How long the master waits for workers to register: for `MinimumWorkerCount` before dispatch starts, and for a capable worker before an assignment the master cannot run fails with a routing error. |
 | `WorkerHeartbeatInterval` | `TimeSpan` | `TimeSpan.FromSeconds(5)` | How often workers, and the master's own worker loop, report liveness and renew the leases on their in-flight modules. |
 | `WorkerTimeout` | `TimeSpan` | `TimeSpan.FromSeconds(30)` | How long a registration and its leases stay valid without a heartbeat. The master requeues expired leases until `MaxModuleLeaseExpirations` is reached, then fails the module. Must exceed `WorkerHeartbeatInterval`. |
 | `MaxModuleLeaseExpirations` | `int` | `2` | Number of lease expirations that permanently fail a module. Allows one recovery by default; `1` fails on the first expiration. Must be at least `1`. The budget applies per module across all workers, independently of module retries. |
 | `MasterTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(1)` | How long workers keep running after the master stops sending heartbeats without having signalled completion, or while they cannot reach the coordinator to check. Workers then cancel their in-flight modules, including AlwaysRun modules, and fail. SignalR workers detect a lost master when their connection closes for good instead. Must exceed `WorkerHeartbeatInterval`. |
-| `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch. |
+| `MinimumWorkerCount` | `int` | `0` | Number of external workers the master waits for before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch. If fewer have registered when `WorkerRegistrationTimeout` expires, the master logs a warning and dispatches with the workers available. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | The master's backstop, measured from when a worker claims the module. With a finite per-attempt timeout, it allows every configured attempt at that timeout plus this period. With an infinite or unconfigured effective timeout, this period is the entire deadline. `Timeout.InfiniteTimeSpan` disables this backstop; worker timeouts remain independent. Zero and other negative values are rejected. See [Module result deadlines](#module-result-deadlines). |
 | `RunCleanup` | `DistributedRunCleanupPolicy` | `Always` | Which pipeline outcomes delete the data backends stored for the run. See [Run data cleanup](#run-data-cleanup). |
 | `RunCleanupTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(2)` | How long cleanup waits for workers to publish their final status, and how long each backend may take to delete the run's data. Cleanup is skipped when a worker does not finish in time. |
@@ -385,10 +387,11 @@ touch several keys atomically. With the defaults, keys look like:
 
 | Key | Redis Type | Purpose |
 |-----|-----------|---------|
-| `modpipe:{run}:work:queue` | Sorted set | Queued assignments, scored by priority and critical-path weight |
+| `modpipe:{run}:work:queue` | Sorted set | Queued assignments. All members have score zero and sort lexically by capability class, then priority, critical-path weight, and enqueue time |
 | `modpipe:{run}:work:leases` | Hash | Active leases (field = module ID; the value holds the lease ID, worker ID and expiry) |
 | `modpipe:{run}:results` | Hash | Final module results (field = module ID), written with `HSETNX` after lease validation so the first accepted result wins |
-| `modpipe:{run}:workers` | Hash | Worker registrations (field = worker ID) and `heartbeat:{worker ID}` timestamps |
+| `modpipe:{run}:workers` | Hash | Worker registrations (field = worker ID) |
+| `modpipe:{run}:workers:heartbeat` | Hash | Heartbeat timestamps (field = worker ID); each field has its own expiry |
 | `modpipe:{run}:workers:status` | Hash | Latest `WorkerStatus` per worker |
 | `modpipe:{run}:completion` | String | Set when the master signals completion |
 | `modpipe:{run}:cancellation` | String | Cancellation reason (`PipelineFailed` or `Stopped`) |
@@ -447,7 +450,7 @@ builder.AddSignalRDistributedCoordinator(options => options with
 | `ListenUrl` | `Uri` | `http://localhost:5099` | HTTPS URL the master binds (HTTP only on loopback). Port `0` lets the operating system choose a port. |
 | `AdvertisedUrl` | `Uri?` | `null` | HTTPS URL workers connect to (HTTP only on loopback). The master advertises it through discovery; workers without discovery connect to it, or to `ListenUrl` when it is unset. |
 | `HubPath` | `string` | `/pipeline-hub` | Hub path, starting with `/`. |
-| `AccessToken` | `string?` | `null` | Token workers present to the master. When unset, the master generates one whenever it is reachable beyond the machine (a tunnel or a non-loopback `ListenUrl`) and shares it through master discovery; without discovery such a master fails at startup until every process configures a token. The token is never logged. |
+| `AccessToken` | `string?` | `null` | Token workers present to the master. When unset, the master generates one whenever it is reachable beyond the machine (a tunnel, a non-loopback `ListenUrl`, or a non-loopback `AdvertisedUrl`) and shares it through master discovery; without discovery such a master fails at startup until every process configures a token. The token is never logged. |
 | `ConnectionTimeout` | `TimeSpan` | `00:02:00` | How long a worker keeps trying to connect. |
 | `MaxReconnectAttempts` | `int` | `5` | Maximum automatic reconnect attempts with exponential backoff; `0` disables reconnecting. Recovery, including attempts and re-registration, is bounded by `WorkerTimeout - WorkerHeartbeatInterval - PeerTimeout` (zero when no budget remains). |
 | `KeepAliveInterval` | `TimeSpan` | `00:00:05` | Ping interval on both sides. |

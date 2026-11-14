@@ -1507,5 +1507,5 @@ ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPi
 If you encounter issues migrating to V3:
 
 1. Check the [GitHub Issues](https://github.com/thomhurst/ModularPipelines/issues) for known migration problems
-2. Review the [Examples](https://github.com/thomhurst/ModularPipelines/tree/main/src/ModularPipelines.Examples) for V3 patterns
+2. Review the [Examples at v3.2.8](https://github.com/thomhurst/ModularPipelines/tree/v3.2.8/src/ModularPipelines.Examples) for V3 patterns
 3. Open a new issue with the `migration` label if you're stuck

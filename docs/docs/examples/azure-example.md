@@ -11,7 +11,25 @@ So for example, we want to provision some Azure services like this:
 - A blob storage container under that account
 - An azure function, with our user assigned identity being used for its identity, meaning it would have access to the blob storage
 
-That would look like this:
+Install the Azure integration and register an ARM client before adding the modules. The
+provisioners need the client, and the default registration does not supply one:
+
+```powershell
+dotnet add package ModularPipelines.Azure
+dotnet add package Azure.Identity
+```
+
+```csharp
+using Azure.Identity;
+using ModularPipelines;
+using ModularPipelines.Azure.Extensions;
+
+var builder = Pipeline.CreateBuilder(args);
+builder.Services.AddAzureArmClient(new DefaultAzureCredential());
+```
+
+The modules below need `using ModularPipelines.Context;` and `using ModularPipelines.Azure.Scopes;`,
+plus the relevant `Azure.ResourceManager.*` namespaces. They would look like this:
 
 ## Managed User Assigned Identity
 

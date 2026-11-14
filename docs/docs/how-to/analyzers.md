@@ -205,13 +205,6 @@ The legacy prose IDs were renamed so `.editorconfig` settings can use one predic
 | `MPDEP001` | `MP0009` |
 | `MPDEP002` | `MP0005` |
 | `MPDEP003` | `MP0010` |
-| `MPREG001` | `MP0013` |
-| `MPASYNC001` | `MP0014` |
-| `MPASYNC002` | `MP0015` |
-| `MPASYNC003` | `MP0016` |
-| `MPASYNC004` | `MP0017` |
-| `MPTYPE001` | `MP0018` |
-| `MPDEP004` | `MP0019` |
 
 Update existing `dotnet_diagnostic.<id>.severity` entries and warning suppressions to the current IDs.
 

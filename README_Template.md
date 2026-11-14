@@ -103,8 +103,8 @@ Built-in Roslyn analyzers catch common mistakes before you even run:
 
 * Missing `[DependsOn]` when calling `GetModule<T>()`
 * Circular dependencies between modules
-* Forgetting to `await` module results
-* Using `Console.Write` instead of the logging system
+* A module awaiting or depending on itself
+* Injecting a logger into a module constructor instead of using the module context
 
 ## Documentation
 

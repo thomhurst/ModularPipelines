@@ -24,7 +24,7 @@ The next build creates the provider's conventional file:
 | `GitLab` | `.gitlab-ci.yml` |
 | `AzurePipelines` | `azure-pipelines.yml` |
 
-The generated job installs .NET and runs the pipeline project in Release
+The generated job installs .NET (the GitLab job uses the .NET SDK container image instead) and runs the pipeline project in Release
 configuration. Commit the generated YAML to the repository.
 
 ## Azure Repos pull request validation

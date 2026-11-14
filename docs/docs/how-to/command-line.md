@@ -155,7 +155,7 @@ builder.ConfigureOptions(options => options with
 `RunOnlyModules` includes each selected module's transitive dependency closure.
 `IgnoreModules` excludes modules even when they are selected by `RunOnlyModules`.
 Both accept the same module identifiers and type names as the command-line options.
-In v4, these properties replace `TargetModules` and `SkippedModules`, respectively.
+Both properties are new in V4. (V4 pre-release builds named them `TargetModules` and `SkippedModules`.)
 
 Set `DryRun = true` to make `RunAsync()` print the same plan and execute no modules:
 

@@ -18,7 +18,7 @@ Modular Pipelines is a framework for writing your pipeline in C#. Giving you str
 *   Ability to run pipelines locally, even creating versions for setting up local development
 *   Strong typing, where different modules/steps can pass data to one another
 *   Dependency collision detection - Don't worry about accidentally making two modules dependent on each other
-*   Numerous helpers to do things like: Search files, check checksums, (un)zip folders, download files, install files, execute CLI commands, hash data, and more
+*   Numerous helpers to do things like: Search files, (un)zip folders, download files, install files, execute CLI commands, hash data, and more
 *   Easy to Skip or Ignore Failures for each individual module by passing in custom logic
 *   Hooks that can run before and/or after modules
 *   Pipeline requirements - Validate your requirements are met before executing your pipeline, such as a Linux operating system

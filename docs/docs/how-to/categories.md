@@ -13,10 +13,10 @@ Categories to run or ignore are configured by replacing the immutable `PipelineO
 `PipelineBuilder.ConfigureOptions(...)`.
 
 ## Run-Only Categories
-If `RunOnlyCategories` has been set with some values, only Modules that have any of those categories will be run. If a module has none of those categories, it will not run.
+If `RunOnlyCategories` has been set with some values, only modules whose category is one of those values will run. A module with a different category, or no category, will not run.
 
 ## Ignore Categories
-If "Ignore Categories" have been set with some values, if a Module has one of those categories, it will not run.
+If `IgnoreCategories` has been set with some values, a module whose category is one of those values will not run.
 
 Category names are matched case-insensitively. Pipeline validation fails when a configured run or ignore category
 does not match any registered module, including when a `RunOnlyCategories` filter would select zero modules.

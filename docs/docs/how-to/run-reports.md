@@ -17,7 +17,7 @@ var builder = Pipeline.CreateBuilder(args);
 builder.WriteRunReport("artifacts/run-report.json");
 ```
 
-Known CI systems automatically write `artifacts/run-report.json` when no explicit path is set. To
+CI runs (a detected build system, or a truthy `CI` environment variable) automatically write `artifacts/run-report.json` when no explicit path is set. To
 disable that behavior while keeping an explicitly configured path available, set `AutoWriteInCi`:
 
 ```csharp
@@ -192,7 +192,7 @@ can lose all of its history when newer reports from other identities fill the gl
 pipeline identities and separate history directories for independently bounded histories. A
 positive global limit must be at least as large as `HistoryRetention`.
 
-When `RunReport.HistoryRetention <= 0` or `PipelineOptions.DisableModuleCache` is enabled
+When `RunReport.HistoryRetention` is `0` or `PipelineOptions.DisableModuleCache` is enabled
 (including through `--no-cache`), `--rerun-failed` does not reuse successful results. Selected
 modules execute normally, subject to module/category filters and skip conditions, even if older
 reports and repository results still exist.

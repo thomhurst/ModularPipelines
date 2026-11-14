@@ -78,8 +78,6 @@ passwords stay local and retain secret masking.
 The four property names and types are unchanged. They now live on `SyftOptions`
 instead of being redeclared by each generated command. Object initializers keep
 working; reflection code using `DeclaredOnly` must include inherited properties.
-The root command's scan flags are not universally inherited. This audit uses
-Syft 1.54.1 and preserves all eight existing command paths. Complete generation
-from current main also includes `syft version`, discovered by the separately
-merged version-discovery change. Its `Output` option stays local to
-`SyftVersionOptions`; the wider command/version rollout remains in #5687.
+The root command's scan flags are not universally inherited. The package covers
+nine command paths, including `syft version` through `VersionAsync`; its `Output` option
+stays local to `SyftVersionOptions`.

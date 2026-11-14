@@ -44,10 +44,9 @@ on their command records. Repeated password values retain secret metadata.
 
 Migration: existing object initializers keep the same property names. Reflection
 using `DeclaredOnly` must now inspect `TrivyOptions` for these eight properties.
-Remove duplicate manual arguments for inherited settings. The separate version-command
-work tracks new version APIs; this scope audit does not change version discovery.
-Regeneration against 0.75.0 also adds the CLI's `crypto` image scanner value as
-`TrivyImageScanners.Crypto`; all 31 existing commands remain available.
+Remove duplicate manual arguments for inherited settings. The generated API covers
+32 commands, including `version` through `VersionAsync` and `TrivyVersionOptions`, and exposes
+the CLI's `crypto` image scanner value as `TrivyImageScanners.Crypto`.
 
 ## Scan an image
 

@@ -52,4 +52,4 @@ new KindCreateClusterOptions { Quiet = true, Verbosity = 2, Name = "integration"
 
 `Quiet` is a presence-only flag: false or null omits it. `Verbosity` is an optional integer value; zero is emitted when explicitly set. Neither option contains a secret or accepts a collection. Repeated command-local settings such as `Name`, `KubeConfig`, and `Wait` stay on their applicable command records. Root help/version actions are not inherited settings.
 
-Existing property initializers remain valid when these two properties move to the base record; reflection consumers should use inherited properties rather than `DeclaredOnly`. Version-subcommand generation is tracked separately in #5687.
+Existing property initializers remain valid when these two properties move to the base record; reflection consumers should use inherited properties rather than `DeclaredOnly`. `kind version` is available through `VersionAsync` and `KindVersionOptions`.
