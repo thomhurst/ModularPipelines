@@ -19,7 +19,7 @@ public static class NugetUploadHelper
         foreach (var nugetFile in packagePaths)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var options = new DotNetNuGetPushOptions(GetPushPaths(nugetFile))
+            var options = new DotNetNuGetPushOptions([nugetFile.Path])
             {
                 Source = source,
                 ApiKey = apiKey,
@@ -30,15 +30,5 @@ public static class NugetUploadHelper
         }
 
         return results.ToArray();
-    }
-
-    private static string[] GetPushPaths(FilePath package)
-    {
-        var symbolsPath = Path.ChangeExtension(package.Path, ".snupkg");
-        // NuGet skips automatic symbol uploads when the primary package already exists.
-        // An explicit symbol input retries that upload independently of the primary.
-        return package.Path.EndsWith(".nupkg", StringComparison.OrdinalIgnoreCase) && File.Exists(symbolsPath)
-            ? [package.Path, symbolsPath]
-            : [package.Path];
     }
 }

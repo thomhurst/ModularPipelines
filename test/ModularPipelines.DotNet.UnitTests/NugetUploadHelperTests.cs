@@ -13,7 +13,7 @@ public class NugetUploadHelperTests
     [Test]
     [Arguments(false)]
     [Arguments(true)]
-    public async Task Retry_Explicitly_Includes_Existing_Symbols(bool hasSymbols)
+    public async Task Pushes_Only_The_Primary_Package(bool hasSymbols)
     {
         var directory = Directory.CreateTempSubdirectory("nuget upload ");
         try
@@ -42,8 +42,8 @@ public class NugetUploadHelperTests
                 context, [new FilePath(packagePath)], "https://api.nuget.org/v3/index.json", "test-key", cancellation.Token);
 
             var options = capturedOptions!;
-            string[] expectedPaths = hasSymbols ? [packagePath, symbolsPath] : [packagePath];
-            await Assert.That(options.PackagePaths.SequenceEqual(expectedPaths)).IsTrue();
+            // dotnet nuget push uploads a sibling .snupkg automatically; listing it again conflicts.
+            await Assert.That(options.PackagePaths.SequenceEqual([packagePath])).IsTrue();
             await Assert.That(options.SkipDuplicate).IsTrue();
             await Assert.That(options.NoSymbols).IsNotEqualTo(true);
             await Assert.That(options.Source).IsEqualTo("https://api.nuget.org/v3/index.json");
