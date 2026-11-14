@@ -4,32 +4,96 @@ sidebar_position: 6
 
 # Why Modular Pipelines?
 
-## C# / .NET
+Most pipelines are written in YAML, and most YAML pipelines are built the same way: push a change, wait for CI, read the logs, guess, and push again.
 
-- The .NET ecosystem is rich with features and libraries. You can utilize what already exists and not have to re-invent the wheel.
+Modular Pipelines lets you write your pipeline as a normal C# project instead. You run it with `dotnet run`, on your machine or on any build agent.
 
-- If you're already a .NET developer, you don't have to concern yourself as much with the different features, languages or syntaxes of different build systems. No need for YAML-based pipeline definitions, PowerShell scripts, bash scripts, or even just unfamiliar UI based build systems.
+```csharp
+[DependsOn<BuildModule>]
+[DependsOn<TestModule>]
+public class PublishModule : Module<CommandResult>
+{
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        return await context.Tools.DotNet.PublishAsync(new DotNetPublishOptions
+        {
+            ProjectSolution = "src/MyApp/MyApp.csproj",
+            Configuration = "Release",
+        }, cancellationToken: cancellationToken);
+    }
+}
+```
 
-- Strong typing - We can structure our modules with objects that we can pass around, and we know what data we then have available to use.
+Here is what that gets you.
 
-## Source Control
+## Run and debug it on your own machine
 
-Some Pipelines, such as TeamCity, aren't typically source controlled. They're built from within the UI itself. This means that making changes for a new feature that isn't released yet has to happen globally, which can cause build breakages between different branches. With it in Source Control, we can change the pipeline on a branch for a new feature without affecting other builds and branches. This makes testing easier and doesn't degrade your production deployments.
+Your pipeline is a console app, so it runs anywhere the .NET SDK is installed, including your laptop.
 
-A broken pipeline shouldn't ever get merged into the main branch if it never went green. A pipeline change should be made via a pull request, and require a successful build in order to merge.
+- Try a change in seconds instead of waiting for a build agent.
+- Set a breakpoint, step through the code, and look at the real values.
+- Find out a step is broken before you push, not ten minutes after.
 
-We are able to easily look back at a history of changes if they're all stored in git commits
+## Mistakes are caught before the pipeline runs
 
-We are easily able to identify who made what changes
+A typo in YAML fails halfway through a build. A typo in C# doesn't compile.
 
-## Running locally
+- Your IDE autocompletes options and flags mistakes as you type.
+- Renaming or restructuring is a safe refactor, not a find-and-replace.
+- [Built-in analyzers](./how-to/analyzers.md) warn about pipeline-specific mistakes, such as a missing dependency or two modules that depend on each other.
 
-Many build systems, such as TeamCity and Azure DevOps require running pipelines on their remote agents, and then waiting for a result and parsing through the build output if anything went wrong. It can be very trial-and-error, with lots of lengthy re-runs when trying to debug something.
-Because ModularPipelines is not tied to a specific build system, it can be run anywhere that has the .NET SDK installed. That includes your developer machine. So as long as you have adequate permissions, you can debug a pipeline locally on your machine. You get all the benefits of the .NET debugger, so we can view in-memory values, and access exceptions, etc. This makes for a much quicker feedback loop!
+## It runs in parallel without you planning it
 
-Because a pipeline can be run locally, there's nothing to stop you from creating a 'local developer pipeline'.
-How many times have you started a new role or team, and been provided a huge developer setup guide that requires you to download and install numerous different things? You could define a pipeline for local machines. You can decide in startup, depending on something like the Environment name, and decide to either register modules for setting up a local developer machine, or if on a build agent, for deploying to the cloud.
+Each module says what it depends on. Modular Pipelines works out the order and runs everything else at the same time.
 
-## Portability
+You don't arrange jobs and stages by hand, and adding a module never means reshuffling the rest. See [execution and dependencies](./how-to/execution-and-dependencies.md).
 
-Want to move to a different build system? You don't have to re-learn or setup the whole thing from scratch. Your system simply needs access to your Pipeline project and have the .NET SDK installed.
+## Steps share real data
+
+A module can return a typed result, and any module that depends on it can read that result directly.
+
+No more writing values to files, parsing console output, or passing strings through environment variables. See [sharing data](./how-to/sharing-data.md).
+
+## You aren't tied to one CI provider
+
+Your build logic lives in your repository as C#, not in one vendor's YAML format. The CI configuration shrinks to a single step:
+
+```yaml
+- run: dotnet run --project build/Pipeline.csproj
+```
+
+Moving from one build system to another means rewriting that step, not your whole pipeline.
+
+## Common tools are already wrapped
+
+There are typed wrappers for dozens of command line tools, including .NET, Git, Docker, Kubernetes, Helm, Terraform, Azure and AWS. Options are properties you can autocomplete, not strings you have to remember.
+
+Anything without a wrapper can still be run as a [custom command](./how-to/custom-commands.md).
+
+## The hard parts are built in
+
+Things you would otherwise script by hand are a line or two of configuration:
+
+- [Retries](./how-to/retry-policy.md) and [timeouts](./how-to/timeouts.md) for flaky steps.
+- [Skipping](./how-to/skipping.md) and [run conditions](./how-to/run-conditions.md) for steps that only apply sometimes.
+- [Secret masking](./how-to/secrets.md), so keys and passwords stay out of your logs.
+- [Result caching](./how-to/module-caching.md), so unchanged work isn't repeated.
+- [Distributed mode](./distributed/overview.md), to spread one pipeline across several machines.
+
+## You can test your pipeline
+
+Because modules are ordinary classes, you can [write tests for them](./how-to/testing.md). Commands and file operations are faked, so a test checks what your module would do without actually doing it.
+
+## It's the .NET you already know
+
+There is no new language to learn. Dependency injection, configuration, options and logging work the way they do in ASP.NET Core, and any NuGet package is available to you.
+
+Pipeline changes also go through the same pull requests, reviews and history as the rest of your code.
+
+## It's useful beyond CI
+
+Since a pipeline runs locally, it can do local jobs too. A common one is developer setup: replace the long "install these twelve things" guide with a pipeline that new team members run once.
+
+## Ready to try it?
+
+Head to [Getting Started](./getting-started.md) to create your first pipeline in a few minutes.
