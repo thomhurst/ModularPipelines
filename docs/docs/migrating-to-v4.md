@@ -6,12 +6,22 @@ sidebar_position: 8
 # Migrating from V3 to V4
 
 ModularPipelines V4 consolidates module configuration, makes pipeline options immutable, and
-standardizes the public API. This guide lists what changed from V3 and how to migrate, with
-a reference for automated migrations at the end.
+standardizes the public API. This guide lists what changed between **V3.2.8** (the last V3
+release) and **V4.0.0**, and how to migrate.
 
-The comparison baseline is released **V3.2.8**. V4 is still under development; this guide
-describes the current V4 source. If you used an intermediate development build, also check
-the [GitHub releases](https://github.com/thomhurst/ModularPipelines/releases).
+**How to use this guide**
+
+1. Read the six biggest changes below and the [complete before/after example](#complete-migration-example).
+   Most pipelines need little more than those.
+2. Upgrade the packages, then work through the [checklist](#quick-migration-checklist). Each item
+   links to the section that explains it. Skip sections for features you do not use.
+3. Once the pipeline compiles, read [Runtime Behavior Changes](#runtime-behavior-changes). Those
+   changes do not produce compiler errors.
+
+Stuck on a compiler error? Look it up in
+[Common compiler errors and fixes](#common-compiler-errors-and-fixes) or the
+[Breaking API Reference](#breaking-api-reference). Coding agents should start at the
+[Agents / LLM Migration Reference](#agents--llm-migration-reference).
 
 > **TL;DR - The 6 biggest changes:**
 > 1. Register modules on `builder`, then use `await builder.RunAsync()` or `await builder.BuildAsync()`.
@@ -21,27 +31,31 @@ the [GitHub releases](https://github.com/thomhurst/ModularPipelines/releases).
 > 5. Use `Task<T>` for `Module<T>`, typed result variants, and `summary.Results`.
 > 6. Use `Async` command methods, `cancellationToken:`, and the regenerated CLI option contracts.
 
-Still using a **3.x** package? Read the
-[frozen v3.2.8 documentation source](https://github.com/thomhurst/ModularPipelines/tree/v3.2.8/docs/docs)
-for the released APIs. This migration guide describes the upcoming V4 release.
+Staying on a **3.x** package for now? Read the
+[v3.2.8 documentation source](https://github.com/thomhurst/ModularPipelines/tree/v3.2.8/docs/docs)
+for those APIs. If you used a V4 pre-release build, also check the
+[GitHub releases](https://github.com/thomhurst/ModularPipelines/releases).
 
 ## Quick Migration Checklist
 
-- [ ] Upgrade all used ModularPipelines packages together, including custom integration projects and test helpers.
-- [ ] Use a .NET 11 SDK/runtime for the pipeline project and CI runner. Use C# 14 or later for generated `context.Tools.<Tool>` properties.
-- [ ] Update namespaces for modules, contexts, results, dependencies, events, secrets, and reporting services.
-- [ ] Move framework registrations from `builder.Services` to `builder`; keep ordinary DI registrations on `builder.Services`.
-- [ ] Replace `Build()` / `ExecutePipelineAsync()` with `BuildAsync()` / `RunAsync()` and dispose explicitly built pipelines.
-- [ ] Replace mutable pipeline options with `ConfigureOptions` and the grouped console, command, and HTTP settings.
-- [ ] Rewrite `Configure()`, `DeclareDependencies()`, metadata overrides, retries, and fluent lifecycle hooks.
-- [ ] Replace generated `GetXModule()` / `GetXModuleIfRegistered()` helpers with explicit generic module lookups.
-- [ ] Make module result nullability explicit; update result metadata, status checks, and summary consumers.
-- [ ] Migrate hook interfaces, plugins, requirements, run conditions, build-system checks, and sub-modules.
-- [ ] Update tool access, command method names, named cancellation parameters, logging options, and generated arguments.
-- [ ] Rewrite Git information and command calls for the async, grouped Git API.
-- [ ] Review timeouts, output capture limits, working directories, skip propagation, and failure handling.
+Work through the list in order; earlier items clear the most compiler errors.
+
+- [ ] Upgrade all used ModularPipelines packages together, including custom integration projects and test helpers. ([Package setup](#namespaces-and-package-setup))
+- [ ] Use a .NET 11 SDK/runtime for the pipeline project and CI runner. Use C# 14 or later for generated `context.Tools.<Tool>` properties. ([Package setup](#namespaces-and-package-setup))
+- [ ] Update namespaces for modules, contexts, results, dependencies, events, secrets, and reporting services. ([Namespaces](#namespaces-and-package-setup))
+- [ ] Move framework registrations from `builder.Services` to `builder`; keep ordinary DI registrations on `builder.Services`. ([Entry point](#entry-point-and-registration-changes))
+- [ ] Replace `Build()` / `ExecutePipelineAsync()` with `BuildAsync()` / `RunAsync()` and dispose explicitly built pipelines. ([Entry point](#entry-point-and-registration-changes))
+- [ ] Replace mutable pipeline options with `ConfigureOptions` and the grouped console, command, and HTTP settings. ([Pipeline options](#pipeline-options-and-failure-modes))
+- [ ] Rewrite `Configure()`, `DeclareDependencies()`, metadata overrides, retries, and fluent lifecycle hooks. ([Module configuration](#module-configuration-and-dependencies))
+- [ ] Replace generated `GetXModule()` / `GetXModuleIfRegistered()` helpers with explicit generic module lookups. ([Generated accessors](#generated-module-accessors-removed))
+- [ ] Make module result nullability explicit; update result metadata, status checks, and summary consumers. ([Results and summaries](#module-results-and-pipeline-summaries))
+- [ ] Migrate hook interfaces, plugins, requirements, run conditions, build-system checks, and sub-modules. ([Hooks](#lifecycle-hooks-and-event-handlers), [conditions and requirements](#run-conditions-and-requirements), [context services](#context-services-and-sub-modules))
+- [ ] Update tool access, command method names, named cancellation parameters, logging options, and generated arguments. ([Tool access](#tool-access-and-command-execution), [generated options](#generated-cli-options-and-custom-commands), [logging](#logging-and-http))
+- [ ] Rewrite Git information and command calls for the async, grouped Git API. ([Git](#git))
+- [ ] Update file paths, utility calls, and `catch` blocks. ([Files and utilities](#files-working-directories-and-utility-apis), [exceptions](#exceptions-and-extension-points))
+- [ ] Review timeouts, output capture limits, working directories, skip propagation, and failure handling. ([Runtime behavior](#runtime-behavior-changes))
 - [ ] Ignore or disable the new [default run history](#default-run-history) before running the pipeline.
-- [ ] Rebuild custom integrations with the V4 source generator and update analyzer suppressions.
+- [ ] Rebuild custom integrations with the V4 source generator and update analyzer suppressions. ([Source generation](#source-generation-and-private-integrations), [analyzer IDs](./how-to/analyzers.md#id-migration))
 - [ ] Build and test the migrated pipeline, including command arguments and failure/skip paths, before running deployment modules.
 
 ## Table of Contents
@@ -65,7 +79,8 @@ for the released APIs. This migration guide describes the upcoming V4 release.
 11. [Logging and HTTP](#logging-and-http)
 12. [Files, Working Directories, and Utility APIs](#files-working-directories-and-utility-apis)
 13. [Exceptions and Extension Points](#exceptions-and-extension-points)
-14. [Runtime Behavior Changes](#runtime-behavior-changes)
+14. [Runtime Behavior Changes](#runtime-behavior-changes), including the new [default run history](#default-run-history)
+15. [Other Integration Package Changes](#other-integration-package-changes): Azure, AWS, and build agent variables
 
 **Reference:**
 
@@ -98,6 +113,11 @@ pipeline SDK/runtime, but the applications your pipeline builds can keep their o
 Keep the core framework, integrations, and projects containing shared module or command types
 on compatible V4 versions. Recompile those projects to refresh source-generated metadata.
 
+The core package no longer brings in `Polly`, `CliWrap`, `AsyncSemaphore`, or
+`vertical-spectreconsolelogger`. Add your own `PackageReference` if your code uses one of them
+directly. `ModularPipelines.Azure` likewise no longer references `Azure.ResourceManager.Kubernetes`
+or `Azure.ResourceManager.KubernetesConfiguration`.
+
 Most module-authoring types now live directly in `ModularPipelines`:
 
 | V3 location or type | V4 location or type |
@@ -108,25 +128,24 @@ Most module-authoring types now live directly in `ModularPipelines`:
 | `ModularPipelines.Models.PipelineSummary`, `IModuleResult` | `ModularPipelines` |
 | `ModularPipelines.Configuration.ModuleConfigurationBuilder`, `ModuleConfiguration` | `ModularPipelines` |
 | `ModularPipelines.Modules.IModule` | `ModularPipelines.IModule` |
-| `ModularPipelines.Models.PipelinePlan`, `PipelinePlanModule`, `PipelinePlanWave` | `ModularPipelines` |
-| `ModularPipelines.Models.CommandLine`, `KeyValue`, `CliOptionValue`, `CliValuePair`, `CliValueGroup` | `ModularPipelines` |
-| `ModularPipelines.Models.CliOptionValueRangeAttribute`, `CliOptionValueRegularExpressionAttribute` | `ModularPipelines` |
-| `ModularPipelines.DependencyInjection.ICancellableInitializer` | `ModularPipelines.ICancellableInitializer` |
+| `ModularPipelines.Models.CommandLine`, `KeyValue` | `ModularPipelines` |
 | `ModularPipelines.Plugins.IModularPipelinesPlugin` | `ModularPipelines.IModularPipelinesPlugin` |
 | `ModularPipelines.Models.RequirementDecision` | `ModularPipelines.Requirements.RequirementDecision` |
 | `ModularPipelines.Attributes.DependsOn*` | `ModularPipelines` |
 | Run-condition types in `Attributes` / `Conditions` | `ModularPipelines` |
 | `ModularPipelines.Enums.ModulePriority` | `ModularPipelines.ModulePriority` |
+| `ModularPipelines.Interfaces.IParallelLimit` | `ModularPipelines.IParallelLimit` |
+| `ModularPipelines.Attributes.NotInParallelAttribute`, `PriorityAttribute` | `ModularPipelines` (sealed; `NotInParallelAttribute.ConstraintKeys` is now `IReadOnlySet<string>`) |
 | `ModularPipelines.Enums.BuildSystem` | `ModularPipelines.BuildSystem` |
 | `ModularPipelines.Attributes.ModuleCategoryAttribute`, `ModuleTagAttribute` | `ModularPipelines` |
-| `ModularPipelines.Attributes.ModuleIdAttribute`, `ParallelLimiterAttribute`, `ParallelLimiterAttribute<T>`, `CacheInputsAttribute`, `ProducesArtifactAttribute`, `ConsumesArtifactAttribute`, `RequiresCapabilityAttribute`, `RequiresAnyCapabilityAttribute` | `ModularPipelines` |
+| `ModularPipelines.Attributes.ParallelLimiterAttribute`, `ParallelLimiterAttribute<T>` | `ModularPipelines` |
 | Capability interfaces under `Context.Domains` and its subnamespaces | `ModularPipelines.Context` (some renamed; see below) |
 | `Context.Domains.IEnvironmentDomainContext` (`context.Environment`) | `ModularPipelines.Context.IEnvironmentContext` |
 | `Context.Domains.Security.IHasherContext` (`context.Security.Hasher`) | `ModularPipelines.Context.IHashContext` (`context.Security.Hash`) |
 | `Enums.ExecutionType` | `ModularPipelines.ExecutionHint` |
 | `Attributes.ExecutionHintAttribute` | `ModularPipelines.ExecutionHintAttribute` |
 | `Attributes.Events` handler interfaces and `Context.IModuleHookContext` | `ModularPipelines.Events` |
-| `Attributes.SecretValueAttribute`, `Options.SecretMaskingOptions`, secret services in `Engine` | `ModularPipelines.Secrets` |
+| `Attributes.SecretValueAttribute`, `Options.SecretMaskingOptions`, `Engine.ISecretRegistry` | `ModularPipelines.Secrets` (`ISecretObfuscator` is now internal) |
 | `Engine.IModuleResultRepository`, `Engine.IModuleEstimatedTimeProvider` | `ModularPipelines.Reporting` |
 | `Models.PipelineMetrics`, `Models.ModuleTimeline`, `Models.SubModuleEstimation` | `ModularPipelines.Reporting` |
 
@@ -135,22 +154,28 @@ such as `ModularPipelines.Options`, `ModularPipelines.FileSystem`,
 and generated CLI option namespaces.
 
 Remove `using ModularPipelines.Extensions;` from V4 code. That namespace now contains only internal
-types; public builder APIs are available through `ModularPipelines`.
+types; public builder APIs are available through `ModularPipelines`. `stream.ToMemoryStreamAsync()`
+is no longer public; copy the stream to a `MemoryStream` yourself.
 For file-system extension methods such as `AssertExists()`, add
 `using ModularPipelines.FileSystem;`. For example, a migrated Git root search still uses
 `root.FindFile(file => file.Name == "Example.csproj").AssertExists()` with that import.
 
-Replace `using ModularPipelines.Models;` with `using ModularPipelines;` for CLI contracts and their
-value validation attributes. Update fully qualified references as well, for example
+Replace `using ModularPipelines.Models;` with `using ModularPipelines;`. Update fully qualified
+references as well, for example
 `ModularPipelines.Models.KeyValue` becomes `ModularPipelines.KeyValue`. No public core types remain
 in `ModularPipelines.Models`; the old names have no compatibility aliases. `RequirementDecision`
 uses `ModularPipelines.Requirements`, while reporting models keep their feature namespace.
 
 Update fully qualified references to the moved module attributes as well. For example,
-`ModularPipelines.Attributes.ModuleIdAttribute` becomes `ModularPipelines.ModuleIdAttribute`,
+`ModularPipelines.Attributes.ModuleCategoryAttribute` becomes `ModularPipelines.ModuleCategoryAttribute`,
 and both forms of `ParallelLimiterAttribute` now use `ModularPipelines`. Shorthand such as
-`[ModuleId("build")]` needs only the root namespace. Keep `using ModularPipelines.Attributes;`
+`[ModuleCategory("Build")]` needs only the root namespace. Keep `using ModularPipelines.Attributes;`
 when the same file also uses CLI attributes.
+
+If you used a V4 pre-release build, these types also moved to the root `ModularPipelines`
+namespace: `PipelinePlan`, `PipelinePlanModule`, `PipelinePlanWave`, `CliOptionValue`,
+`CliValuePair`, `CliValueGroup`, the CLI value validation attributes, `ICancellableInitializer`,
+`ModuleIdAttribute`, `CacheInputsAttribute`, and the artifact and capability attributes.
 
 Do not replace whole namespaces blindly. Some types did not move:
 
@@ -191,7 +216,9 @@ The V3 `Context.Domains.*` interfaces with the same `*Context` names also move t
 
 The core `Context.Linux.AptGet` / `IAptGet` wrappers and the
 `ModularPipelines.Options.Linux.AptGet` family (`AptGetOptions`, `AptGetInstallOptions`, etc.) are
-removed, with no typed core replacement. To keep invoking `apt-get`, use the command context
+removed, with no typed core replacement. The `ModularPipelines.Options.Linux`, `.Mac`, and
+`.Windows` namespaces (`DpkgInstallOptions`, `MacBrewOptions`, `ExeInstallerOptions`,
+`MsiInstallerOptions`) are removed as well; see [Installers](#installers). To keep invoking `apt-get`, use the command context
 with explicit argument tokens, or define your own typed integration using the
 [custom integration guide](./how-to/generate-private-cli-integration.md):
 
@@ -233,7 +260,7 @@ these do not move to the package root namespace.
 
 ## Entry Point and Registration Changes
 
-### Before (V3)
+**Before (V3)**
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
@@ -243,7 +270,7 @@ await builder.Build().RunAsync();
 // Or: await builder.ExecutePipelineAsync();
 ```
 
-### After (V4)
+**After (V4)**
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
@@ -290,6 +317,7 @@ initialization and validation from starting.
 | `builder.Services.AddModule<T>()` | `builder.AddModule<T>()` |
 | Module instance/factory registration on services | `builder.AddModule(instance)` / `builder.AddModule<T>(factory)` |
 | `builder.Services.AddModulesFromAssembly(...)` | `builder.AddModulesFromAssembly(...)` |
+| `builder.Services.AddModulesFromAssemblyContainingType<T>()` | `builder.AddModulesFromAssemblyContainingType<T>()` |
 | `builder.AddModules<T1, T2>()` (and higher arities) | Chain `.AddModule<T1>().AddModule<T2>()`, or use `.AddModules(typeof(T1), typeof(T2))` |
 | `builder.Services.AddRequirement<T>()` | `builder.AddRequirement<T>()` |
 | `AddPipelineGlobalHooks<T>()` on the builder or its services | `builder.AddPipelineEventHandler<T>()`, with the new interface |
@@ -334,6 +362,12 @@ var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
 });
 ```
 
+Relative paths passed to `builder.Configuration.AddJsonFile(...)` now resolve against the pipeline
+working directory instead of the application output directory. On a local run, that is usually
+the pipeline project's source folder. If you run a published pipeline from another directory, set
+`WorkingDirectory` in the settings or the `MODULAR_PIPELINES_DIRECTORY` environment variable, or
+pass an absolute path. See [Relative paths](./how-to/relative-paths.md).
+
 V4 consumes its built-in pipeline CLI switches from `args`. If an application already owns those
 arguments, set `EnableCommandLineOptions = false` in the settings. Referenced ModularPipelines
 assemblies still load, but eager loading of unreferenced `*ModularPipeline*.dll` files from the
@@ -345,7 +379,7 @@ application directory is disabled by default; copied plugin assemblies that rely
 Pipeline options and nested option records are immutable. `builder.Options` is a read-only
 view; use `ConfigureOptions` and `with` expressions, preserving existing settings.
 
-### Before (V3)
+**Before (V3)**
 
 ```csharp
 builder.Options.ExecutionMode = ExecutionMode.WaitForAllModules;
@@ -354,7 +388,7 @@ builder.Options.PrintLogo = false;
 builder.Options.Concurrency.MaxParallelism = 4;
 ```
 
-### After (V4)
+**After (V4)**
 
 ```csharp
 builder.ConfigureOptions(options => options with
@@ -376,7 +410,7 @@ builder
 ```
 
 The shortcuts are `ConfigureConsole`, `ConfigureConcurrency`, `ConfigureCommands`, `ConfigureHttp`,
-and `ConfigureSecrets`.
+`ConfigureSecrets`, and `ConfigureResourceMonitoring`.
 
 | V3 option | V4 option |
 | --- | --- |
@@ -391,11 +425,14 @@ and `ConfigureSecrets`.
 | `DefaultHttpResilienceOptions` | `Http.Resilience` |
 | `DefaultExecutionOptions` | Pass `CommandExecutionOptions` to each command; use builder settings for the pipeline working directory |
 | `builder.RunCategories(...)` / `IgnoreCategories(...)` | Set `RunOnlyCategories` / `IgnoreCategories` in `ConfigureOptions` |
-| `PipelineOptions.TargetModules` / `SkippedModules` | `PipelineOptions.RunOnlyModules` / `IgnoreModules`; both also accept `[ModuleId]` identifiers |
+| `builder.Services.Configure<PipelineOptions>(o => o.X = ...)` | `builder.ConfigureOptions(o => o with { X = ... })` |
 | `builder.ConfigurePipelineOptions(...)`, including the `(builder, options)` overload | `builder.ConfigureOptions(options => options with { ... })`; capture the builder in the lambda if needed |
 | `builder.Services.Configure<SchedulerOptions>(...)` | `builder.ConfigureConcurrency(c => c with { NotificationTimeout = ... })`; `SchedulerOptions` is removed |
 | `builder.Services.Configure<SecretMaskingOptions>(...)` | `builder.ConfigureSecrets(s => s with { ... })`; the DI `Configure` call no longer applies |
 | `builder.SetLogLevel(level)` | `builder.Logging.SetMinimumLevel(level)` (`Microsoft.Extensions.Logging`) |
+
+V4 also adds `RunOnlyModules` and `IgnoreModules` for selecting modules by name or `[ModuleId]`.
+(In V4 pre-release builds these were `TargetModules` and `SkippedModules`.)
 
 Collections such as category filters are now read-only contracts. Assign replacement collections
 in `ConfigureOptions`, rather than calling `.Add()` on the existing options.
@@ -437,7 +474,7 @@ registration, command, secret, and event metadata remain available.
 `Configure()` no longer returns a `ModuleConfiguration`. V4 supplies the builder to a `void`
 override. There is no `ModuleConfiguration.Create()`, `.Default`, or final `.Build()` to call.
 
-### Before (V3)
+**Before (V3)**
 
 ```csharp
 protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
@@ -453,7 +490,7 @@ protected override void DeclareDependencies(IDependencyDeclaration dependencies)
 public override string? Category => "Build";
 ```
 
-### After (V4)
+**After (V4)**
 
 ```csharp
 protected override void Configure(ModuleConfigurationBuilder module)
@@ -474,8 +511,8 @@ planning. Use context-aware callbacks for decisions that require runtime service
 | V3 pattern | V4 replacement |
 | --- | --- |
 | `DeclareDependencies(IDependencyDeclaration)` | `DependsOn`, `DependsOnOptional`, `DependsOnIf` on the supplied module builder |
-| `DependsOnLazy<T>()` / `DependsOnLazy(Type)` | `DependsOnOptional<T>()`; V3 lazy dependencies were already optional and did not defer execution |
-| `DependsOnIf<T>(Func<bool>)` | `DependsOnIf<T>(bool)`; evaluate the predicate while configuring |
+| `DependsOnLazy<T>()` / `DependsOnLazy(Type)` | `DependsOnOptional<T>()` / `DependsOnOptional(Type)`; V3 lazy dependencies were already optional and did not defer execution |
+| `DependsOnIf<T>(Func<bool>)` / `DependsOnIf(Type, Func<bool>)` | `DependsOnIf<T>(bool)` / `DependsOnIf(Type, bool)`; evaluate the predicate while configuring |
 | `Tags` / `Category` overrides | `WithTags(...)` / `WithCategory(...)`, or existing attributes |
 | `WithRetryCount(count)` | `WithRetry(count, baseDelay: ..., shouldRetry: ...)` |
 | `WithRetryPolicy(Polly.IAsyncPolicy)` | `WithRetry(...)` or `WithShield(Kevlar.Shield)` |
@@ -517,6 +554,12 @@ Review filters, delays, and wrapped policies instead of replacing the Polly type
 Standard `WithRetry` uses exponential backoff with jitter; its default base delay is 100 ms.
 V3's `WithRetryCount` waited `attempt² × 100 ms` without jitter, so `WithRetry(n)` does not
 reproduce the old delays exactly; pass `baseDelay` or a shield when timing matters.
+Delays are capped at `maxDelay`, which defaults to 30 seconds. The global
+`PipelineOptions.DefaultRetryCount` uses the same backoff.
+`WithRetry` and `WithShield` cannot be combined: calling both on one builder, including through
+`base.Configure(module)`, throws `InvalidOperationException`. In V3 the last `WithRetryCount` or
+`WithRetryPolicy` call silently replaced earlier ones. Keep one, and put the retry inside the
+shield when you need both.
 V3 applied the module timeout to all attempts combined. V4 applies it **per attempt**, with
 backoff outside that timeout.
 See [Retries and Resilience Shields](./how-to/retry-policy.md).
@@ -599,11 +642,12 @@ named constructor argument is now `value:` rather than `Value:`.
 
 Results, plans, timelines, and module run reports use `Name` for their display name and `ModuleId`
 for stable identity, including IDs configured with `[ModuleId]`. Use `TypeName` on results, plans, and
-timelines for type metadata. `PipelinePlanModule.Name` is now the short type name; use `TypeName` for
-the fully qualified label. Hook contexts retain `ModuleName`.
+timelines for type metadata. Hook contexts retain `ModuleName`.
 
-`ModuleTimeline.ModuleName` / `ModuleTypeName` become `Name` / `TypeName`, and
-`ModuleRunReport.ModuleName` / `Start` / `End` become `Name` / `StartTime` / `EndTime`.
+`ModuleTimeline.ModuleName` / `ModuleTypeName` become `Name` / `TypeName`. `PipelinePlanModule` and
+`ModuleRunReport` are new in V4. If you used them in a V4 pre-release build:
+`PipelinePlanModule.Name` is now the short type name, with `TypeName` for the fully qualified label,
+and `ModuleRunReport.ModuleName` / `Start` / `End` are now `Name` / `StartTime` / `EndTime`.
 Report `ResultStartTime` / `ResultEndTime` still describe the original stored result when reused,
 while `StartTime` / `EndTime` describe execution in the current run. Existing report and timeline
 JSON field names are preserved. Manually constructed or legacy results may have a default
@@ -727,6 +771,9 @@ Every module, pipeline, and registration handler method now takes a trailing `Ca
 for example `OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken)` and
 `OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)`.
 
+Hand-written implementations or test fakes of `IModuleHookContext` and `IModuleRegistrationContext`
+must add the new `ModuleId` and `RemoveDependency(Type)` members respectively.
+
 Register the new contracts with `builder.AddPipelineEventHandler<T>()` and
 `builder.AddModuleEventHandler<T>()`. Attribute handlers and global handlers share the
 interfaces in `ModularPipelines.Events`. See [Hooks](./how-to/hooks.md) for signatures and ordering.
@@ -773,23 +820,6 @@ Plugin assemblies that declare `[assembly: ModularPipelinesPlugin(3)]` must chan
 a mismatched major version throws `PluginVersionMismatchException`.
 
 ## Run Conditions and Requirements
-
-### Git package namespaces and implementation types
-
-Git repository models, branch attributes, and registration extensions now use
-`ModularPipelines.Git`. Replace imports of `ModularPipelines.Git.Models`,
-`ModularPipelines.Git.Attributes`, and `ModularPipelines.Git.Extensions` with that namespace.
-Command options remain in `ModularPipelines.Git.Options`.
-
-`GitCommands`, `GitCommandRunner`, `GitCommitMapper`, and `GitCommandService` are internal.
-Register the integration with `RegisterGitContext` and consume or replace its public interfaces
-(`IGitCommands`, `IGitCommandRunner`, and `IGitCommitMapper`) instead of constructing or
-subclassing implementation types.
-
-`RunIfBranch` and `RunIfBranchStartsWith` remain OR alternatives sharing one group.
-`RunOnlyOnBranch` and `RunOnlyIfBranchStartsWith` remain independent AND requirements;
-use them when a branch restriction must apply even if another run alternative matches.
-Branch prefixes now use case-sensitive ordinal matching instead of culture-sensitive matching.
 
 ### Run conditions and skip decisions
 
@@ -849,6 +879,22 @@ and later `WithSkipWhen` calls on the same builder so you can review them.
 Projects that treat warnings as errors can fail their build on this diagnostic.
 Keep conditions free of external side effects because planning can evaluate them.
 See [Run conditions](./how-to/run-conditions.md) and [Skipping](./how-to/skipping.md).
+
+### Git branch conditions
+
+`RunIfBranch` and `RunIfBranchStartsWith` remain OR alternatives sharing one group.
+`RunOnlyOnBranch` and `RunOnlyIfBranchStartsWith` remain independent AND requirements;
+use them when a branch restriction must apply even if another run alternative matches.
+Branch prefixes now use case-sensitive ordinal matching instead of culture-sensitive matching.
+
+In V3, all non-mandatory run-condition attributes on a module formed one OR set, whatever their
+type. In V4, only attributes with the same `GroupKey` are alternatives, and separate groups must
+all pass. The two branch attributes share a group that other attributes cannot join. A module that
+combined `[RunIfBranch("main")]` with a different kind of alternative, such as an OS attribute, ran
+when either matched in V3 and now needs both. To keep the OR, express the alternatives as
+`IRunCondition` types in one `[RunIfAny<...>]`, or as one custom `RunConditionAttribute`.
+
+Import `ModularPipelines.Git` for these attributes; see [Git](#git).
 
 ### Requirements
 
@@ -958,7 +1004,7 @@ calls to `RunSubModuleAsync`. See [Sub-modules](./how-to/sub-modules.md).
 
 ## Tool Access and Command Execution
 
-### Before (V3)
+**Before (V3)**
 
 ```csharp
 await context.DotNet().Build(
@@ -967,7 +1013,7 @@ await context.DotNet().Build(
     cancellationToken: cancellationToken);
 ```
 
-### After (V4)
+**After (V4)**
 
 ```csharp
 await context.Tools.DotNet.BuildAsync(
@@ -988,7 +1034,17 @@ allow a token immediately after the tool options; a named argument makes the int
 
 ### Git
 
-The Git integration changed beyond the accessor:
+Git repository models, branch attributes, and registration extensions now use
+`ModularPipelines.Git`. Replace imports of `ModularPipelines.Git.Models`,
+`ModularPipelines.Git.Attributes`, and `ModularPipelines.Git.Extensions` with that namespace.
+Command options remain in `ModularPipelines.Git.Options`.
+
+`GitCommands`, `GitCommandRunner`, `GitCommitMapper`, and `GitCommandService` are internal.
+Register the integration with `RegisterGitContext` and consume or replace its public interfaces
+(`IGitCommands`, `IGitCommandRunner`, and `IGitCommitMapper`) instead of constructing or
+subclassing implementation types.
+
+The API changed beyond the namespaces and the accessor:
 
 | V3 API | V4 API |
 | --- | --- |
@@ -1048,7 +1104,7 @@ for script files. `ICmd` is replaced by `ICmdContext`, and `CmdScriptOptions` mo
 | V3 API | V4 API |
 | --- | --- |
 | `context.Shell.Command.ExecuteCommandLineTool(options, executionOptions, token)` | `context.Shell.RunAsync(options, executionOptions, token)` |
-| `GenericCommandLineToolOptions` / command-builder wrappers | `CommandLineToolOptions("tool")` or the raw `RunAsync` overload |
+| `GenericCommandLineToolOptions`; the fluent `ICommandBuilder` / `CommandBuilderBase<,>` types in `ModularPipelines.Builders`; `DotNetBuildBuilder` | `new CommandLineToolOptions("tool")`, the tool's options record, or the raw `RunAsync` overload |
 | `context.Shell.Bash.Command(options, token)` | `context.Shell.Bash.RunAsync(options, executionOptions, token)` |
 | `context.Shell.Bash.FromFile(options, token)` | `context.Shell.Bash.RunFileAsync(options, executionOptions, token)` |
 | `context.Shell.PowerShell.Script(options, token)` | `context.Shell.PowerShell.RunAsync(options, executionOptions, token)` |
@@ -1064,7 +1120,9 @@ await context.Shell.RunAsync(
 ```
 
 For scripts, execution settings belong in the separate `CommandExecutionOptions` parameter,
-as with tool integrations. Custom integration implementations can still use
+as with tool integrations. That parameter now comes second, so a V3 call that passed the token
+positionally, such as `Bash.Command(options, token)`, needs `cancellationToken: token` after the
+rename. The same applies to `Tools.Cmd.RunAsync`. Custom integration implementations can still use
 `ICommandContext.ExecuteCommandLineToolAsync`; the module-facing convenience API is `Shell.RunAsync`.
 
 CliWrap types are no longer part of the consumer contract. Use
@@ -1082,6 +1140,11 @@ property names and types, enum values, required inputs, and subcommand grouping 
 Migrate against the **installed V4 integration's** options and service signatures, not a universal
 text replacement. Use the [CLI command catalogs](./mp-packages/cli/dotnet.md) and the corresponding
 catalog for each tool to locate its current options type.
+
+V3's duplicate `ModularPipelines.DotNet.Generated.*`, `ModularPipelines.Kubernetes.Generated.*`
+(`Kubectl*` types), and `ModularPipelines.Azure.Generated.*` namespaces are removed, as is
+`ModularPipelines.Git.Services.IGit`. Use the types in each package's `Options`, `Enums`, and
+`Services` namespaces.
 
 Update consumer calls using the regenerated contract and validate the resulting command line.
 Required arguments and option combinations are
@@ -1105,7 +1168,8 @@ render after the selected subcommand. See the [Buildah package guide](./mp-packa
 ### Helm and kubectl global settings
 
 Helm persistent settings now live on `HelmOptions`, including `Namespace`, `KubeContext`,
-`KubeConfig`, and `KubeToken`. Command initializers can still set these inherited properties.
+`KubeConfig`, and `KubeToken`. Command initializers can still set these inherited properties,
+but V3's `Kubeconfig` is now spelled `KubeConfig`.
 Rebuild consumers after upgrading: these properties are no longer declared separately on
 each Helm command record. Reflection code using `BindingFlags.DeclaredOnly` must also inspect
 the base record.
@@ -1116,7 +1180,7 @@ Both packages render inherited settings after the subcommand. Local replacements
 `KubernetesConfigSetContextOptions.Namespace`, retain their command-specific metadata and
 render only once, including when initialized through the base type.
 
-`HelmVersionOptions` and `KubernetesVersionOptions` remain available through `VersionAsync`.
+`HelmVersionOptions` and `KubernetesVersionOptions` are available through `VersionAsync`.
 See the generated [Helm reference](./mp-packages/cli/helm.md) and
 [kubectl reference](./mp-packages/cli/kubectl.md) for the complete global option lists.
 
@@ -1167,8 +1231,9 @@ await context.Tools.DotNet.TestAsync(new DotNetTestOptions
 });
 ```
 
-VSTest's `Filter`, `Logger`, `Collect`, `Settings`, `Blame`, and `ProjectSolution`
-members moved to `DotNetTestVstestOptions`:
+VSTest switches such as `Filter`, `Logger`, `Collect`, `Settings`, and `Blame`, and the
+positional `ProjectSolution`, are on `DotNetTestVstestOptions`. `Logger` and `Collect` are
+collections:
 
 ```csharp
 await context.Tools.DotNet.TestVstestAsync(new DotNetTestVstestOptions
@@ -1181,8 +1246,8 @@ await context.Tools.DotNet.TestVstestAsync(new DotNetTestVstestOptions
 
 Choosing a method does not select the runner: keep `global.json` consistent with
 the options you use.
-`DotNetPackOptions.Version` accepts a package-version string; `Verbosity`,
-`SelfContained`, and `UseCurrentRuntime` are available where the CLI supports them.
+`DotNetPackOptions.Version` accepts a package-version string, and the type also has `Verbosity`
+and `UseCurrentRuntime`. `SelfContained` is on the build, publish, and run options.
 
 ### Handwritten command attributes
 
@@ -1191,7 +1256,7 @@ the options you use.
 | `[CliCommand("tool", "sub", ...)]` | `[CliTool("tool")]` plus `[CliSubCommand("sub", ...)]` |
 | `CliOptionAttribute.AllowMultiple` | Removed; collections repeat the option for each value, as before. Set `GroupValues = true` for one occurrence, or `CollectionSeparator` to join values |
 | `CliOptionAttribute.CustomSeparator` | `Format` (`SpaceSeparated`, `EqualsSeparated`, `ColonSeparated`, `NoSeparator`); arbitrary separators are no longer supported |
-| `CliOptionAttribute.GetSeparator()`, `GetEffectiveName()` | Removed |
+| `CliOptionAttribute.GetSeparator()`, `CliOptionAttribute.GetEffectiveName()`, `CliFlagAttribute.GetEffectiveName()` | Removed |
 | `CommandLineToolOptions.CommandParts` as `string[]?` | `IReadOnlyList<string>?` |
 | `CliSubCommandAttribute.SubCommands`, `CliCommandAliasAttribute.CommandParts` as `string[]` | `IReadOnlyList<string>` |
 
@@ -1260,6 +1325,8 @@ for the complete registration and `Tools` metadata pattern.
 | `CommandLogVerbosity.Minimal` (documented as "errors and warnings") | `CommandLogVerbosity.InputOnly`, which logs command input only. Choose the level by the output you need |
 | `HttpOptions.LogSettings` | `HttpOptions.Logging` |
 | `HttpOptions.LoggingType` / `HttpLoggingType` flags | `HttpLoggingOptions` booleans or presets |
+| `HttpLoggingOptions.LogRequest`, `LogRequestBody`, `LogStatusCode`, and the other `Log*` switches | Same names with a `Show` prefix: `ShowRequest`, `ShowRequestBody`, `ShowStatusCode`, etc. |
+| `HttpLoggingOptions.None` / `Full` presets | `HttpLoggingOptions.Silent` / `Diagnostic` |
 | `DownloadOptions.LoggingType` | `DownloadOptions.Logging` with `HttpLoggingOptions` |
 | `context.Logger` typed as `IModuleLogger` | Standard `ILogger`; rich console output goes through `context.Console` |
 | `IModuleLoggerProvider` | `IModuleLoggerAccessor` for advanced logger access |
@@ -1273,6 +1340,12 @@ to provide `WriteLine`, `WriteMarkupLine`, and `Write`; do not dispose `context.
 Code using `IModuleLoggerProvider.GetLogger()` should resolve `IModuleLoggerAccessor` and read
 its `Logger` property instead. `IHttpLogger`, `ICommandLogger`, and `IExceptionOutputFormatter`
 are no longer public; configure output through the logging options above.
+HTTP request and response bodies are no longer logged by default: V3's `LogRequestBody` and
+`LogResponseBody` defaulted to `true`, while `ShowRequestBody` and `ShowResponseBody` default to
+`false`. Set them, or use `HttpLoggingOptions.Diagnostic`, to log bodies.
+The `Show*` switches on `CommandLoggingOptions` are now `bool?`; `null` means the switch follows
+`Verbosity`, and an explicit value overrides it in either direction. Code that reads one as a plain
+`bool` needs a null check.
 `context.Summary.Info(...)` becomes `context.Summary.Information(...)`. Reading buffered summary
 entries/output is separated into `ISummaryLogReader`; resolve that service for `GetEntries(...)`
 or `GetOutput()` instead of calling them on `ISummaryLogger`.
@@ -1454,6 +1527,9 @@ entry kind matters.
 | `context.Files.Zip.ZipFolder(...)` | `context.Files.Zip.CreateFromDirectory(...)` |
 | `context.Files.Zip.UnZipToFolder(...)` | `context.Files.Zip.ExtractToDirectory(...)` |
 
+`Environment.Variables.AddToPath` no longer adds duplicate or empty entries, and its `User` and
+`Machine` targets throw `PlatformNotSupportedException` outside Windows. `GetPath` omits empty entries.
+
 Choose `*File` hashing methods for file contents; a text hash of the path is a different result.
 V3's `Checksum.Md5` returned uppercase hex; `Md5File` returns lowercase hex, so compare hashes
 case-insensitively. Mocks of `IHasherContext` / `IChecksumContext` move to `IHashContext`.
@@ -1530,9 +1606,11 @@ platform, and unattended-install behavior deliberately.
 | `SubModuleFailedException` | Catch the original sub-module exception |
 | `AlwaysRunPostponedException` | Removed |
 
-Existing `CommandException` members move to that result: `ExitCode` becomes `Result.ExitCode`,
+`CommandException` now carries the failed command's `CommandResult` in its `Result` property, and
+the old members move there: `ExitCode` becomes `Result.ExitCode`,
 `StandardOutput` / `StandardError` become `Result.StandardOutput` / `Result.StandardError`, and
-`ExecutionTime` becomes `Result.Duration`. Construct custom command exceptions with a
+`ExecutionTime` becomes `Result.Duration`. The exception message no longer includes the captured
+output; read it from `Result`. Construct custom command exceptions with a
 `CommandResult`, rather than the removed individual output/exit-code constructor parameters.
 
 Review your `catch` blocks. Several exceptions changed type or base class:
@@ -1600,7 +1678,7 @@ Other custom extension points changed shape:
 
 | V3 contract | V4 contract |
 | --- | --- |
-| `IModuleEstimatedTimeProvider` methods | Same methods with a trailing `CancellationToken`; estimates are best-effort and never fail a module |
+| `IModuleEstimatedTimeProvider` methods | Each method takes a `ModuleId` instead of a `Type`, plus a trailing `CancellationToken`. The sub-module methods have default implementations. Re-key stored estimates that used `Type.FullName`. Estimates are best-effort and never fail a module |
 | `IModuleResultRepository.SaveResultAsync` / `GetResultAsync` | Take a `CancellationToken`; `IsEnabled` defaults to `true` |
 | `IPipelineValidator.Validate(IServiceProvider)` | `ValidateAsync(IServiceProvider, CancellationToken)`; `Order` defaults to `0` |
 | `ISecretObfuscator` | Internal; supply secrets through `ISecretRegistry` or `[SecretValue]`, and configure masking with `PipelineOptions.Secrets` |
@@ -1622,7 +1700,7 @@ These changes need behavioral checks even after the code compiles:
 | Fluent and attribute conditions share the execution pipeline after dependency waiting | Verify condition ordering, skip hooks, and inherited condition composition |
 | Dependencies are validated even when a condition would skip a module | Register required dependencies or use the intended conditional/optional declaration |
 | HTTP retries now default to idempotent methods and require replayable bodies of at most 1 MiB; V3 retried all methods | Audit `POST`/`PATCH` and upload calls; opt in with `HttpResilienceOptions.RetryEnabled` only when repeating the operation is safe. See [HTTP resilience](#http-resilience) for body limits and `AttemptTimeout` |
-| Commands keep a 30-minute default `ExecutionTimeout`, but `ExecutionTimeout = null` now removes the limit (V3 treated `null` as 30 minutes) | Set a longer per-command `ExecutionTimeout`, or `null` for no command limit. The `TimeoutException` names the limit and this option. The module default is still 30 minutes, now configurable with `DefaultModuleTimeout` |
+| Commands now time out after 30 minutes by default. In V3, `ExecutionTimeout` defaulted to `null`, and tool commands then ran with no command-level limit | For a command that can run longer than 30 minutes, set a longer `ExecutionTimeout`, or `null` for no command limit. The `TimeoutException` names the limit and this option. The module default is still 30 minutes, now configurable with `DefaultModuleTimeout` |
 | Module timeouts apply to each retry attempt, not the whole retry sequence | Include attempts and backoff in the total runtime budget; forward cancellation into work |
 | `WithTimeout(TimeSpan.Zero)` meant "no timeout" in V3; V4 rejects zero and negative values | Use `WithTimeout(Timeout.InfiniteTimeSpan)` to disable a module timeout |
 | Registration helpers for single-instance services replace earlier registrations; multi-instance helpers add each type once | Check that repeated `Add*` calls, such as a results repository or time estimator, register the implementation you expect |
@@ -1632,15 +1710,19 @@ These changes need behavioral checks even after the code compiles:
 | Background descendants of normally completed commands have platform-specific lifetimes | On Windows, descendants in the command's job object are terminated at pipeline disposal; on Linux and macOS, pipeline disposal leaves them running. Explicitly stop background servers or daemons during cleanup on every platform |
 | Always-run cleanup is scheduled after failures/cancellation, with bounded progress waits | Test teardown under failure and cancellation; keep cleanup bounded and idempotent |
 | Category matching and selection are validated more strictly | Check configured category/module selectors instead of silently accepting typos |
-| OpenTelemetry module status tag values use lowercase snake_case: `Successful` becomes `succeeded`, `Failed` becomes `failed`, `Skipped` becomes `skipped`, and `TimedOut` becomes `timed_out` | Update dashboards, alerts, and metric queries that filter `modular_pipelines.module.status`; old case-sensitive filters such as `status == "Failed"` no longer match |
+| OpenTelemetry module status tag values use lowercase snake_case: `Successful` becomes `succeeded`, `Failed` becomes `failed`, and `Skipped` becomes `skipped`. Timed-out modules, which V3 tagged `Failed`, are now `timed_out` | Update dashboards, alerts, and metric queries that filter `modular_pipelines.module.status`; old case-sensitive filters such as `status == "Failed"` no longer match, and a filter on `failed` no longer includes timeouts |
 | Secrets are masked in more output surfaces and transformed forms | Test redaction; do not parse masked diagnostic command input/environment as raw execution data |
 | `Md5File` returns lowercase hex | Compare hashes case-insensitively |
+| `context.Shell.PowerShell` now passes `-NoProfile -NonInteractive` by default | Scripts that rely on profile-loaded modules, aliases, or prompts must set `NoProfile = false` or `NonInteractive = false` on the options |
+| HTTP request and response bodies are no longer logged by default | Set `ShowRequestBody` / `ShowResponseBody`, or use `HttpLoggingOptions.Diagnostic`, where you need them |
+| `builder.Configuration.AddJsonFile(...)` resolves relative paths against the pipeline working directory | Check that `appsettings.json` is found when running a published pipeline; see [Entry Point](#entry-point-and-registration-changes) |
 | `IsBuildServer` becomes `IsCI`; `IsCI`, `OnCI`, and `Require.Ci()` also honor a truthy `CI` variable | Use `IsLocal` for the inverse check; check local runs that set `CI`; the startup log says when `CI` alone decided |
 
 The `modular_pipelines.module.status` tag uses telemetry strings, not the `ModuleStatus` enum names.
 V4 values are `not_started`, `running`, `succeeded`, `failed`, `failure_ignored`, `skipped`,
 `timed_out`, `canceled`, `dependency_failed`, `restored_from_history`, `restored_from_cache`,
-and `unknown`. Account for `failure_ignored` separately from `failed` when updating failure alerts.
+and `unknown`. Account for `failure_ignored` separately from `failed` when updating failure alerts;
+V3 wrote ignored failures as `IgnoredFailure` on a separate `module.status` tag.
 See [OpenTelemetry](./how-to/opentelemetry.md) for the current instrumentation contract.
 
 The output capture limit counts characters, not bytes. When a stream exceeds
@@ -1689,6 +1771,67 @@ It does not disable explicit report output or automatic CI reports. See
 [Run reports and history](./how-to/run-reports.md#local-history-and-deltas) for changing the
 history directory, retention limits, and report output settings.
 
+## Other Integration Package Changes
+
+[Git](#git), [TRX](#trx-test-results), and the
+[handwritten integration namespaces](#handwritten-integration-packages) are covered above.
+A few more packages have breaking changes of their own.
+
+### Azure resource scopes
+
+`AzureResourceIdentifier` now requires a resource type before the resource name:
+
+```csharp
+var scope = new AzureResourceIdentifier(
+    subscriptionId, resourceGroupName, "Microsoft.Web/sites", siteName);
+```
+
+Update resource scope factories in the same way:
+
+```csharp
+subscription.GetResourceIdentifier(resourceGroupName, "Microsoft.Web/sites", siteName);
+resourceGroup.GetResourceIdentifier("Microsoft.Web/sites", siteName);
+```
+
+Converting an Azure SDK `ResourceIdentifier` now retains its resource type. Resource lookup
+matches both type and name with `OrdinalIgnoreCase`, so resources of different types can
+share a name safely. A missing resource still throws `AzureResourceNotFoundException`.
+Subscription, resource-group, and management-group scopes keep their existing resolution.
+
+`ArmClient.GetResourceIdentifierAsync` now accepts an optional final `CancellationToken`.
+Pass a token to cancel resource enumeration.
+
+The Azure provisioner methods under `context.Tools.Azure.Provisioner` gain the `Async` suffix, for
+example `AuthorizationRoleDefinition` becomes `AuthorizationRoleDefinitionAsync`. That method also
+forwards its token when resolving the scope.
+
+### AWS Lambda SDK wrapper
+
+The handwritten `ModularPipelines.AmazonWebServices.Lambda` class has been removed.
+It only forwarded calls to `AmazonLambdaClient` and was never registered or exposed
+through the integration context.
+
+Add an explicit `AWSSDK.Lambda` package reference if your pipeline uses the SDK. Replace
+wrapper calls with the corresponding `AmazonLambdaClient` method, adding the `Async` suffix:
+
+```csharp
+// Before: var lambda = new ModularPipelines.AmazonWebServices.Lambda(client);
+// await lambda.Invoke(request, cancellationToken);
+await client.InvokeAsync(request, cancellationToken);
+```
+
+Keep ownership of the client in your application, including its configuration, registration,
+and disposal. The integration package no longer references `AWSSDK.Lambda` transitively.
+For CLI operations, use the separate generated `context.Tools.Aws.Lambda` service; its
+methods execute `aws lambda` commands and return command results rather than SDK responses.
+
+### Build agent variables
+
+Build-agent variable accessors are now nullable where the variable can be absent. In
+`ModularPipelines.GitHub`, `EnvironmentVariables.RunNumber` is `int?`; in
+`ModularPipelines.Azure.Pipelines`, the agent variables are `string?`. Add null handling where
+you read them.
+
 ## New Features in V4
 
 These are additions in V4; adopting them is not required to migrate:
@@ -1709,15 +1852,14 @@ These are additions in V4; adopting them is not required to migrate:
 - Planning-safe conditions: mark a condition or attribute with the `IPlanningSafe` marker interface
   when dry-run planning may evaluate it; see [Run conditions](./how-to/run-conditions.md).
 - `OnCachedResultAsync` module hook, `ModuleResult<T>.TryGetValue`, fluent `WithExecutionHint`,
-  `WithPriority`, and `WithNotInParallel`, and `git.Changes.HasChangesAsync`.
-
+  `WithPriority`, and `WithNotInParallel`, and `context.Tools.Git.Changes.HasChangesAsync`.
 
 ## Complete Migration Example
 
 The following pipeline restores and builds a project. It demonstrates entry-point configuration,
 module dependencies, retries, and the tool API together.
 
-### Before (V3)
+**Before (V3)**
 
 ```csharp
 using ModularPipelines;
@@ -1759,7 +1901,7 @@ public class BuildModule : Module<CommandResult>
 }
 ```
 
-### After (V4)
+**After (V4)**
 
 ```csharp
 using ModularPipelines;
@@ -1836,7 +1978,7 @@ public class BuildModule : Module<CommandResult>
 | `context.IsRunningInCI()` | `context.Environment.BuildSystem.IsCI` | Also honors a truthy `CI` variable |
 | `context.IsRunningLocally()` | `context.Environment.BuildSystem.IsLocal` | Inverse of `IsCI` |
 | `context.IsRunningIn(buildSystem)` | `context.Environment.BuildSystem.Is(buildSystem)` | V4 compares all enum values, including `Unknown` |
-| `[CliArgument(Placement = ...)]` | `[CliArgument(Phase = ...)]` | `BeforeOptions` becomes `EarlyOperand`; the default is `Passthrough` |
+| `[CliArgument(Placement = ...)]` | `[CliArgument(Phase = ...)]` | `BeforeOptions` and `ImmediatelyAfterCommand` both become `EarlyOperand`; the default is `Passthrough` |
 | `IPipelineValidator.Validate` | `ValidateAsync(services, cancellationToken)` | Return `Task<ValidationResult>` |
 | `[CliCommand("tool", ...)]` | `[CliTool("tool")]` + `[CliSubCommand(...)]` | Handwritten option types only |
 | `Git().Information.BranchName`, etc. | `(await Tools.Git.Information.GetRequiredInfoAsync(ct)).BranchName` | Use `GetInfoAsync` if Git may be unavailable; properties can be null |
@@ -1849,6 +1991,10 @@ public class BuildModule : Module<CommandResult>
 | `WithTimeout(TimeSpan.Zero)` | `WithTimeout(Timeout.InfiniteTimeSpan)` | Zero now throws |
 | `CommandException.ExitCode`, etc. | `CommandException.Result.ExitCode`, etc. | `ExecutionTime` becomes `Result.Duration` |
 | `Status.Successful`, etc. | `ModuleStatus.Succeeded`, etc. | See the status table |
+| `HttpLoggingOptions.LogRequest`, etc.; `None` / `Full` | `ShowRequest`, etc.; `Silent` / `Diagnostic` | Bodies are no longer logged by default |
+| `new AzureResourceIdentifier(subscription, group, name)` | `new AzureResourceIdentifier(subscription, group, resourceType, name)` | Same for the `GetResourceIdentifier` factories |
+| Azure provisioner methods such as `AuthorizationRoleDefinition` | Same names with an `Async` suffix | Handwritten `ModularPipelines.Azure` provisioners |
+| `ModularPipelines.AmazonWebServices.Lambda` | `AmazonLambdaClient` `*Async` methods | Add an explicit `AWSSDK.Lambda` reference |
 
 ## Agents / LLM Migration Reference
 
@@ -1979,7 +2125,7 @@ transformations:
     review: V4 compares all enum values, including Unknown; V3 returned false outside its four supported systems
   - old: CliArgument Placement = ArgumentPlacement.BeforeOptions
     new: CliArgument Phase = CommandLinePhase.EarlyOperand
-    scope: Handwritten option types only; AfterOptions becomes the default Passthrough
+    scope: Handwritten option types only; ImmediatelyAfterCommand also becomes EarlyOperand; AfterOptions becomes the default Passthrough
   - old: CliCommand(tool, subcommands...)
     new: CliTool(tool) + CliSubCommand(subcommands...)
     scope: Handwritten option types only
@@ -1998,7 +2144,7 @@ transformations:
     new: IPipelineValidator.ValidateAsync(services, cancellationToken)
   - old: ModularPipelines.Enums.Status
     new: ModularPipelines.ModuleStatus
-    follow_up: Map NotYetStarted, Processing, Successful, IgnoredFailure, UsedHistory per the status table
+    follow_up: Map NotYetStarted, Processing, Successful, IgnoredFailure, UsedHistory, PipelineTerminated per the status table; Retried is removed
   - old: WithTimeout(TimeSpan.Zero)
     new: WithTimeout(Timeout.InfiniteTimeSpan)
   - old: DependsOnLazy<T>()
@@ -2060,6 +2206,13 @@ rg -n 'ModuleRunType|ITaggedModule|IPipelineValidator|IModuleResultRepository|IM
 rg -n 'CliCommand\(|AllowMultiple\s*=|CustomSeparator|DependsOnLazy|SchedulerOptions|SecretMaskingOptions|CommandLogVerbosity\.Minimal' --glob '*.cs'
 rg -n 'Information\.(BranchName|LastCommitSha|Tag|DefaultBranchName|CommitsOnBranch|PreviousCommit|Root)|RootDirectory|GetGitVersioningInformation|\.Commits\(|\.Cmd\(\)' --glob '*.cs'
 rg -n 'ModularPipelinesPlugin\(|IBuildSystemDetector|IFileSystemContext|IEnvironmentDomainContext|TryGetService|WithSkipWhen' --glob '*.cs'
+rg -n 'builder\.Options\.|Services\.AddRequirement|AddPipeline(Global|Module)Hooks|AddModules<|ConfigurePipelineOptions|BuildHostAsync|RootServices|RunCategories|SetLogLevel|AddPipelineFileWriter' --glob '*.cs'
+rg -n 'ModuleName|ModuleDuration|ModuleStart|ModuleEnd|TotalDuration|Status\.(NotYetStarted|Processing|Successful|IgnoredFailure|UsedHistory|Retried)' --glob '*.cs'
+rg -n 'RunIfAny<\w+>|RunOn\w+Only|RequirementDecision\.Of|CIEnvironment|(Windows|Linux)Requirement|Services\.Get<|\.GetService<' --glob '*.cs'
+rg -n 'GenericCommandLineToolOptions|Powershell\w*Options|IncludeTimestamps|HttpLoggingType|GetLoggingHttpClient|IModuleLoggerProvider|LogToConsole|ParseTrxFile|RunCommands(OrNull)?\(' --glob '*.cs'
+rg -n 'GetEnvironmentVariables?\(|Files\.Checksum|Security\.Hasher|HashType|UnZipToFolder|ZipFolder|LastWriteTimeUtc|AsSkipDecisionIfTrue|OperatingSystemHelper|ExecutionType|IModuleRegistrationEventReceiver' --glob '*.cs'
+rg -n 'using ModularPipelines\.(Extensions|Models|Git\.(Models|Attributes|Extensions))|ModularPipelines\.\w+\.Generated' --glob '*.cs'
+rg -n 'AzureResourceIdentifier\(|GetResourceIdentifier\(|AmazonWebServices\.Lambda|ExecutionTimeout|HttpLoggingOptions\.(None|Full)|Log(Request|Response)Body' --glob '*.cs'
 ```
 
 ### Automation guardrails
@@ -2119,48 +2272,3 @@ public sealed class PrintVersionModule : Module
 2. Review the [current examples](https://github.com/thomhurst/ModularPipelines/tree/main/src/ModularPipelines.Examples).
 3. Search or open a [GitHub issue](https://github.com/thomhurst/ModularPipelines/issues), including old/new
    package versions, a minimal module or command example, and the compiler/runtime error.
-
-## Azure resource scopes
-
-`AzureResourceIdentifier` now requires a resource type before the resource name:
-
-```csharp
-var scope = new AzureResourceIdentifier(
-    subscriptionId, resourceGroupName, "Microsoft.Web/sites", siteName);
-```
-
-Update resource scope factories in the same way:
-
-```csharp
-subscription.GetResourceIdentifier(resourceGroupName, "Microsoft.Web/sites", siteName);
-resourceGroup.GetResourceIdentifier("Microsoft.Web/sites", siteName);
-```
-
-Converting an Azure SDK `ResourceIdentifier` now retains its resource type. Resource lookup
-matches both type and name with `OrdinalIgnoreCase`, so resources of different types can
-share a name safely. A missing resource still throws `AzureResourceNotFoundException`.
-Subscription, resource-group, and management-group scopes keep their existing resolution.
-
-`ArmClient.GetResourceIdentifierAsync` now accepts an optional final `CancellationToken`.
-Pass a token to cancel resource enumeration; `AzureSecurityProvisioner.AuthorizationRoleDefinitionAsync`
-also forwards its token when resolving the scope.
-
-## AWS Lambda SDK wrapper
-
-The handwritten `ModularPipelines.AmazonWebServices.Lambda` class has been removed.
-It only forwarded calls to `AmazonLambdaClient` and was never registered or exposed
-through the integration context.
-
-Add an explicit `AWSSDK.Lambda` package reference if your pipeline uses the SDK. Replace
-wrapper calls with the corresponding `AmazonLambdaClient` method, adding the `Async` suffix:
-
-```csharp
-// Before: var lambda = new ModularPipelines.AmazonWebServices.Lambda(client);
-// await lambda.Invoke(request, cancellationToken);
-await client.InvokeAsync(request, cancellationToken);
-```
-
-Keep ownership of the client in your application, including its configuration, registration,
-and disposal. The integration package no longer references `AWSSDK.Lambda` transitively.
-For CLI operations, use the separate generated `context.Tools.Aws.Lambda` service; its
-methods execute `aws lambda` commands and return command results rather than SDK responses.

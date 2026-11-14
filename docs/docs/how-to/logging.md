@@ -312,7 +312,7 @@ var logging = HttpLoggingOptions.Diagnostic with
 };
 ```
 
-For earlier V4 builds, rename HTTP `LogRequest`, `LogResponse`, `LogRequestHeaders`,
+When upgrading from V3, rename HTTP `LogRequest`, `LogResponse`, `LogRequestHeaders`,
 `LogResponseHeaders`, `LogRequestBody`, `LogResponseBody`, `LogStatusCode`, and `LogDuration` to
 `ShowRequest`, `ShowResponse`, `ShowRequestHeaders`, `ShowResponseHeaders`, `ShowRequestBody`,
 `ShowResponseBody`, `ShowStatusCode`, and `ShowDuration`. Rename `HttpLoggingOptions.None` to

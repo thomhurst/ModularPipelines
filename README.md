@@ -109,9 +109,10 @@ Built-in Roslyn analyzers catch common mistakes before you even run:
 ## Documentation
 
 The [documentation site](https://modularpipelines.tomlonghurst.dev) and this README describe
-the upcoming **v4** release. If you use a **3.x** package, read the
-[frozen v3.2.8 documentation source](https://github.com/thomhurst/ModularPipelines/tree/v3.2.8/docs/docs).
-When upgrading, follow the [V3 to V4 migration guide](https://modularpipelines.tomlonghurst.dev/docs/migrating-to-v4).
+**v4**. When upgrading from 3.x, follow the
+[V3 to V4 migration guide](https://modularpipelines.tomlonghurst.dev/docs/migrating-to-v4).
+If you are staying on a **3.x** package, read the
+[v3.2.8 documentation source](https://github.com/thomhurst/ModularPipelines/tree/v3.2.8/docs/docs).
 
 ## Quick Start
 

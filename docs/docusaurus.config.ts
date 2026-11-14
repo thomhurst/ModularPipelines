@@ -93,8 +93,8 @@ const config: Config = {
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
     announcementBar: {
-      id: 'upcoming-v4-documentation',
-      content: 'This site documents the upcoming <strong>v4</strong> release. Using 3.x? Read the <a href="https://github.com/thomhurst/ModularPipelines/tree/v3.2.8/docs/docs">frozen v3.2.8 documentation source</a>.',
+      id: 'v4-released-documentation',
+      content: 'This site documents <strong>v4</strong>. Upgrading from 3.x? Follow the <a href="/docs/migrating-to-v4">migration guide</a>. Staying on 3.x? Read the <a href="https://github.com/thomhurst/ModularPipelines/tree/v3.2.8/docs/docs">v3.2.8 documentation source</a>.',
       isCloseable: false,
     },
     navbar: {
