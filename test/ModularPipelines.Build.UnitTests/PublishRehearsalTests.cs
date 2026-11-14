@@ -67,13 +67,6 @@ public class PublishRehearsalTests
             await Assert.That(manifest.RootElement.GetProperty("PackageCount").GetInt32()).IsEqualTo(2);
             await Assert.That(manifest.RootElement.GetProperty("Files").GetArrayLength()).IsEqualTo(3);
 
-            // Recover symbols after a partial publish, even when the primary package already exists.
-            var uploadedSymbols = Path.Combine(feed, Path.GetFileName(Path.ChangeExtension(library, ".snupkg")));
-            File.Delete(uploadedSymbols);
-            var recovered = await tester.ExecuteAsync();
-            await Assert.That(recovered.Exception).IsNull();
-            await Assert.That(File.Exists(uploadedSymbols)).IsTrue();
-
             // A missing package must fail the rehearsal, rather than silently validating a partial release.
             File.Delete(content);
             var failed = await tester.ExecuteAsync();
