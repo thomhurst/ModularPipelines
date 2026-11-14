@@ -10,9 +10,10 @@ public partial class DocumentationSnippetTests
     [
         "RELEASE_NOTES_V3.md",
         "docs/docs/migrating-to-v3.md",
-        "docs/docs/migrating-to-v4.md",
         "docs/docs/advanced/migrating-to-v2.md",
     ];
+
+    private const string V4MigrationGuideDirectory = "docs/docs/migrating-to-v4/";
 
     private static readonly string[] CurrentApiXmlDocumentation =
     [
@@ -26,7 +27,8 @@ public partial class DocumentationSnippetTests
 
         foreach (var relativePath in await GetTrackedRegularMarkdownPathsAsync(repositoryRoot).ConfigureAwait(false))
         {
-            if (IntentionalLegacyDocumentation.Contains(relativePath))
+            if (IntentionalLegacyDocumentation.Contains(relativePath)
+                || relativePath.StartsWith(V4MigrationGuideDirectory, StringComparison.Ordinal))
             {
                 continue;
             }

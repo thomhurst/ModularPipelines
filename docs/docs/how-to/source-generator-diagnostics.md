@@ -26,7 +26,7 @@ type must be accessible and non-generic. The method must be static, accept one
 Retired in V4. Convenience module accessors are no longer generated, so module
 types may share a name across namespaces and libraries. Use explicit
 `context.GetModule<TModule>()` or `context.GetModuleIfRegistered<TModule>()` calls;
-see the [V4 migration guide](../migrating-to-v4.md#generated-module-accessors-removed).
+see the [V4 migration guide](../migrating-to-v4/modules.md#generated-module-accessors-are-removed).
 
 ## MPG0003
 
