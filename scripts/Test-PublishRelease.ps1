@@ -180,15 +180,26 @@ try {
     }
     $latestReleaseTag = 'v4.2.2'
 
-    Write-Fixture
-    $notesFile = Join-Path $directory '4.2.3.md'
+    $notesFile = Join-Path $directory '4.2.md'
     Set-Content -LiteralPath $notesFile -Value 'notes fixture'
-    & $publishScript @parameters -ReleaseNotesDirectory $directory
-    if ($calls.Count -ne 6 -or $calls[5][-2] -ne '--notes-file' -or $calls[5][-1] -ne $notesFile -or
-        $calls[5] -contains '--generate-notes') {
-        throw 'Hand-written notes for the version must replace generated notes.'
+    foreach ($case in @(
+            @{ Latest = 'v4.1.9'; Version = '4.2.3'; HandWritten = $true },
+            @{ Latest = $null; Version = '4.2.3'; HandWritten = $true },
+            @{ Latest = 'v4.2.2'; Version = '4.2.3'; HandWritten = $false },
+            @{ Latest = 'v4.1.9'; Version = '4.2.3-rc.1'; HandWritten = $false })) {
+        $latestReleaseTag = $case.Latest
+        Write-Fixture $case.Version
+        $parameters.ExpectedVersion = $case.Version
+        & $publishScript @parameters -ReleaseNotesDirectory $directory
+        $create = $calls[-1]
+        $usedFile = $create[-2] -eq '--notes-file' -and $create[-1] -eq $notesFile -and $create -notcontains '--generate-notes'
+        if ($usedFile -ne $case.HandWritten -or ($create -contains '--generate-notes') -eq $case.HandWritten) {
+            throw "Hand-written line notes must replace generated notes only on the line's first stable release ($($case.Version) after $($case.Latest))."
+        }
     }
     Remove-Item -LiteralPath $notesFile
+    $latestReleaseTag = 'v4.2.2'
+    $parameters.ExpectedVersion = '4.2.3'
 
     Write-Fixture
     $failUpload = $true

@@ -110,15 +110,20 @@ if (-not $releaseExists) {
     $releaseArguments = @('release', 'create', $tag, '--repo', $Repository, '--target', $Commit,
         '--title', $ExpectedVersion)
     if ($ExpectedVersion.Split('+')[0].Contains('-')) { $releaseArguments += @('--prerelease', '--latest=false') }
-    # Hand-written notes for this version replace the generated ones.
-    $notesFile = Join-Path $ReleaseNotesDirectory "$($ExpectedVersion.Split('+')[0]).md"
-    if (Test-Path -LiteralPath $notesFile) { $releaseArguments += @('--notes-file', $notesFile) }
+    $latestReleaseTag = & gh api "repos/$Repository/releases/latest" --jq '.tag_name' 2>$null
+    if ($LASTEXITCODE -ne 0) { $latestReleaseTag = $null }
+    # Hand-written notes for a major.minor line (e.g. 4.0.md) replace the generated ones on that line's
+    # first stable release, whatever patch number it gets, since every push to main is tagged.
+    $version = $ExpectedVersion.Split('+')[0]
+    $line = ($version.Split('-')[0].Split('.')[0..1]) -join '.'
+    $notesFile = Join-Path $ReleaseNotesDirectory "$line.md"
+    if (-not $version.Contains('-') -and -not "$latestReleaseTag".StartsWith("v$line.") -and
+        (Test-Path -LiteralPath $notesFile)) { $releaseArguments += @('--notes-file', $notesFile) }
     else {
         # Start the notes from the latest stable release; GitHub's default starts from the newest tag,
         # which need not be a release. Without a stable release the default range applies.
         $releaseArguments += '--generate-notes'
-        $latestReleaseTag = & gh api "repos/$Repository/releases/latest" --jq '.tag_name' 2>$null
-        if ($LASTEXITCODE -eq 0 -and $latestReleaseTag) { $releaseArguments += @('--notes-start-tag', $latestReleaseTag) }
+        if ($latestReleaseTag) { $releaseArguments += @('--notes-start-tag', $latestReleaseTag) }
     }
     & gh @releaseArguments
     if ($LASTEXITCODE -ne 0) { throw 'GitHub release creation failed.' }
