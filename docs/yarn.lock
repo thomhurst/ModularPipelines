@@ -9150,10 +9150,10 @@ undici-types@~6.11.1:
   resolved "https://registry.npmjs.org/undici-types/-/undici-types-6.11.1.tgz"
   integrity sha512-mIDEX2ek50x0OlRgxryxsenE5XaQD4on5U2inY7RApK3SOJpofyw7uW2AyfMKkhAxXIceo2DeWGVGwyvng1GNQ==
 
-undici@8.13.0, undici@^7.19.0:
-  version "8.13.0"
-  resolved "https://registry.npmjs.org/undici/-/undici-8.13.0.tgz"
-  integrity sha512-mxbeyRlRhHUTWE1zf/FwDOXTKMhE1vMQRz/o2oOir/5fIWsB79TeZrByMkj019EdDuxPg03jprCjFLxLkmxTCQ==
+undici@8.13.1, undici@^7.19.0:
+  version "8.13.1"
+  resolved "https://registry.npmjs.org/undici/-/undici-8.13.1.tgz"
+  integrity sha512-Kt7EaPjh0s93lJH/PmW3d5rhkcpUa6fS3jqZ7+YGxNd9L7Xy/i827xe4C2uhhq+pJebM4tQOl5AgHmW11G5Skg==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.1"
