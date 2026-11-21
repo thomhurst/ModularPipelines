@@ -34,7 +34,7 @@
     <PackageVersion Include="FluentFTP" Version="55.1.0" />
     <PackageVersion Include="FSharp.Core" Version="11.0.101" />
     <PackageVersion Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.44" />
-    <PackageVersion Include="Kevlar" Version="1.5.0" />
+    <PackageVersion Include="Kevlar" Version="1.5.1" />
     <PackageVersion Include="MailKit" Version="5.0.0" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.2" />
