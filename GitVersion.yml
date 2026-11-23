@@ -1,4 +1,8 @@
 mode: ContinuousDeployment
+# GitVersion only numbers validation builds (as alpha versions). Releases take their version from
+# the tag of the published GitHub release (see .github/workflows/release-draft.yml), so commit
+# messages such as +semver: no longer choose a version.
+commit-message-incrementing: Disabled
 strategies:
   - Mainline
 ignore:

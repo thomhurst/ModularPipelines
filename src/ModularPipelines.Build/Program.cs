@@ -38,9 +38,7 @@ if (Environment.GetEnvironmentVariable("MODULARPIPELINES_GITHUB_ARTIFACTS") == "
 {
     builder.Services.AddSingleton<IBuildOutputTransport, GitHubBuildOutputTransport>();
 }
-builder.Services.Configure<NuGetSettings>(builder.Configuration.GetSection("NuGet"));
 builder.Services.Configure<LocalNuGetSettings>(builder.Configuration.GetSection("LocalNuGet"));
-builder.Services.Configure<GitHubSettings>(builder.Configuration.GetSection("GitHub"));
 builder.Services.Configure<PublishSettings>(builder.Configuration.GetSection("Publish"));
 builder.Services.Configure<CodacySettings>(builder.Configuration.GetSection("Codacy"));
 builder.Services.Configure<CodeCovSettings>(builder.Configuration.GetSection("CodeCov"));
@@ -66,8 +64,7 @@ builder
     .AddModule<PackagePathsParserModule>()
     .AddModule<RehearsePublishModule>()
     .AddModule<GenerateReadMeModule>()
-    .AddModule<PrintGitInformationModule>()
-    .AddModule<PushVersionTagModule>();
+    .AddModule<PrintGitInformationModule>();
 
 // The fast-fail job already ran the OptionsGenerator tests. Registering the module would
 // either rerun them or report a pass it never produced; skipping it would cascade through
@@ -115,17 +112,13 @@ file static class BuildPipelineConfiguration
             || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TF_BUILD"))
             || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITLAB_CI"));
 
+        // Nothing here publishes to NuGet: a published GitHub release runs dotnet.yml, whose publish
+        // job pushes the rehearsed packages after every validation lane passes.
         if (builder.Environment.IsDevelopment() && !isRunningInCI)
         {
             builder.AddModule<CreateLocalNugetFolderModule>()
                 .AddModule<AddLocalNugetSourceModule>()
                 .AddModule<UploadPackagesToLocalNuGetModule>();
-        }
-        // CI publishes the rehearsed artifacts in a separate job after every validation lane passes.
-        else if (!isRunningInCI && !builder.Environment.IsDevelopment())
-        {
-            builder.AddModule<UploadPackagesToNugetModule>()
-                .AddModule<CreateReleaseModule>();
         }
     }
 }

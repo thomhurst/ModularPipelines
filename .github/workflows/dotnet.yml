@@ -9,35 +9,22 @@ on:
   # the concurrency group below.
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
+  # Publishing the draft release that release-draft.yml keeps for main validates the release's
+  # tagged commit, packs it with the tag's version, and pushes the packages to NuGet.
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
-      publish-packages:
-        description: Publish packages?
-        type: boolean
-        required: true
-        default: false
-      expected-version:
-        description: 'Exact package version required when publishing (e.g. 4.0.0 or 4.0.0-rc.1)'
-        type: string
-        required: false
-      prerelease-version:
-        description: 'Optional major.minor.patch-rc.N override (e.g. 4.0.0-rc.1); overrides GitVersion and is-alpha, also in rehearsals'
-        type: string
-        required: false
       distributed:
         description: Use Redis workers when credentials are available?
         type: boolean
         required: true
         default: true
-      is-alpha:
-        description: Alpha version?
-        type: boolean
-        required: true
-        default: false
 
+# Main pushes and releases each get their own group, so neither is ever cancelled.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_id || github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  group: ${{ github.workflow }}-${{ (github.ref == 'refs/heads/main' || github.event_name == 'release') && github.run_id || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && github.event_name != 'release' }}
 
 jobs:
   fast-fail:
@@ -64,6 +51,7 @@ jobs:
       integration_package: ${{ steps.generated_integration.outputs.package }}
       integration_project: ${{ steps.generated_integration.outputs.project }}
       integration_test_project: ${{ steps.generated_integration.outputs.test_project }}
+      release_version: ${{ steps.release.outputs.version }}
     permissions:
       contents: read
     services:
@@ -82,6 +70,32 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      # A release ships the version its tag names, and only a commit that is on main.
+      - name: Verify release
+        if: github.event_name == 'release'
+        id: release
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_TARGET: ${{ github.event.release.target_commitish }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$RELEASE_TAG" =~ ^v?(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
+            echo "::error::Release tag '$RELEASE_TAG' is not a version. Use a tag such as v4.1.0 or v4.1.0-rc.1."
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Release $RELEASE_TAG points at $GITHUB_SHA, which is not on main."
+            exit 1
+          fi
+          # Publishing a draft whose tag already exists keeps that tag, so the release would ship
+          # the tag's older commit instead of the draft's target.
+          if [[ "$RELEASE_TARGET" =~ ^[0-9a-f]{40}$ && "$RELEASE_TARGET" != "$GITHUB_SHA" ]]; then
+            echo "::error::Tag $RELEASE_TAG already pointed at $GITHUB_SHA, not the release's target $RELEASE_TARGET. Choose an unused tag."
+            exit 1
+          fi
+          echo "version=${RELEASE_TAG#v}" >> "$GITHUB_OUTPUT"
+          echo "Release version: ${RELEASE_TAG#v}"
       - name: Validate SDK pins for the GA switch
         shell: pwsh
         run: |
@@ -166,7 +180,7 @@ jobs:
         run: node --test .github/scripts/generation-artifact.test.mjs
       - name: Test release inputs
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
-        run: node --test .github/scripts/release-inputs.test.mjs .github/scripts/release-gate.test.mjs
+        run: node --test .github/scripts/release-inputs.test.mjs .github/scripts/release-gate.test.mjs .github/scripts/release-draft.test.mjs
       - name: Test generated options provenance
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
@@ -632,9 +646,9 @@ jobs:
     outputs:
       release_artifact: release-packages-${{ github.run_attempt }}
     # Only core-related changes need the full suite, on both PRs and main pushes.
-    # Manual dispatch always runs the suite and prepares packages for gated publication.
+    # Manual dispatch and releases always run the suite; releases also prepare packages for gated publication.
     if: ${{ !cancelled() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
-    environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
+    environment: ${{ (github.ref == 'refs/heads/main' || github.event_name == 'release') && 'Production' || 'Pull Requests' }}
     strategy:
       matrix: ${{ fromJSON(needs.fast-fail.outputs.matrix) }}
       fail-fast: false
@@ -728,10 +742,9 @@ jobs:
         if: needs.fast-fail.outputs.distributed != 'true'
         shell: bash
         env:
-          Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
-          Publish__ExpectedVersion: ${{ inputs.expected-version }}
-          Publish__PrereleaseVersion: ${{ inputs.prerelease-version }}
-          Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.publish-packages != true || inputs.is-alpha }}
+          Publish__ShouldPublish: ${{ github.event_name == 'release' && matrix.instance == 0 }}
+          Publish__ReleaseVersion: ${{ needs.fast-fail.outputs.release_version }}
+          Publish__IsAlpha: ${{ github.event_name != 'release' }}
         run: dotnet "$RUNNER_TEMP/pipeline-host/ModularPipelines.Build.dll" --write-package-version "$GITHUB_ENV"
 
       - name: Build solutions
@@ -777,16 +790,16 @@ jobs:
           Pipeline__BuildAlreadyCompleted: ${{ needs.fast-fail.outputs.distributed != 'true' }}
           MODULAR_PIPELINES_DIRECTORY: ${{ github.workspace }}/src/ModularPipelines.Build
           GITHUB_TOKEN: ${{ github.token }}
-          DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
+          DOTNET_ENVIRONMENT: ${{ (github.ref == 'refs/heads/main' || github.event_name == 'release') && 'Production' || 'Development' }}
           GitHub__Actor: ${{ github.actor }}
           GitHub__Repository__Id: ${{ github.repository_id }}
-          Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
-          Publish__ExpectedVersion: ${{ inputs.expected-version }}
-          Publish__PrereleaseVersion: ${{ inputs.prerelease-version }}
+          Publish__ShouldPublish: ${{ github.event_name == 'release' && matrix.instance == 0 }}
+          # A published release's tag is its version, on every instance; other runs use GitVersion.
+          Publish__ReleaseVersion: ${{ needs.fast-fail.outputs.release_version }}
           # Exercise every packed package and its symbols against a disposable local feed.
           Publish__RehearsalFeedPath: ${{ matrix.instance == 0 && runner.os == 'Linux' && format('{0}/nuget-publish-rehearsal', runner.temp) || '' }}
-          # Validation defaults to alpha; an explicit RC override applies to rehearsals and publication alike.
-          Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.publish-packages != true || inputs.is-alpha }}
+          # Validation builds are alpha versions of the GitVersion number.
+          Publish__IsAlpha: ${{ github.event_name != 'release' }}
           Codacy__ApiKey: ${{ matrix.instance == 0 && secrets.CODACY_APIKEY || '' }}
           CodeCov__Token: ${{ matrix.instance == 0 && secrets.CODECOV_TOKEN || '' }}
           EMAIL_PASSWORD: ${{ matrix.instance == 0 && secrets.EMAIL_PASSWORD || '' }}
@@ -797,7 +810,7 @@ jobs:
           REDIS_KEY: ${{ needs.fast-fail.outputs.distributed == 'true' && secrets.REDIS_KEY || '' }}
 
       - name: Upload release packages
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
+        if: ${{ github.event_name == 'release' && matrix.instance == 0 }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: release-packages-${{ github.run_attempt }}
@@ -853,7 +866,7 @@ jobs:
     name: full pipeline (${{ matrix.os }}, instance ${{ matrix.instance }})
     needs: [fast-fail, pipeline-host]
     if: ${{ !cancelled() && needs.fast-fail.outputs.run_full_pipeline == 'true' && needs.fast-fail.outputs.distributed == 'true' }}
-    environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
+    environment: ${{ (github.ref == 'refs/heads/main' || github.event_name == 'release') && 'Production' || 'Pull Requests' }}
     strategy:
       matrix: ${{ fromJSON(needs.fast-fail.outputs.worker_matrix) }}
       fail-fast: false
@@ -1191,10 +1204,12 @@ jobs:
 
   publish:
     name: Publish validated release
-    needs: [required-pipeline, pipeline]
+    needs: [fast-fail, required-pipeline, pipeline]
     # The aggregate explicitly checks applicable successes and intentional skips.
     # Override implicit success() for skipped ancestors, but never publish after cancellation.
-    if: ${{ !cancelled() && needs.required-pipeline.result == 'success' && needs.pipeline.result == 'success' && github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.publish-packages == true }}
+    # Only a published GitHub release publishes: GitHub has already created its tag and release.
+    # NuGet trusted publishing matches this workflow file and the Production environment.
+    if: ${{ !cancelled() && needs.required-pipeline.result == 'success' && needs.pipeline.result == 'success' && github.event_name == 'release' }}
     runs-on: ubuntu-latest
     environment: Production
     timeout-minutes: 30
@@ -1216,20 +1231,41 @@ jobs:
       - name: Verify release artifacts before authentication
         shell: pwsh
         env:
-          EXPECTED_VERSION: ${{ inputs.expected-version }}
+          EXPECTED_VERSION: ${{ needs.fast-fail.outputs.release_version }}
         run: ./scripts/Publish-Release.ps1 -PackageDirectory "$env:RUNNER_TEMP/release-packages" -ExpectedVersion $env:EXPECTED_VERSION -ValidateOnly
       - name: NuGet login
         uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
         id: login
         with:
           user: ${{ secrets.NUGET_USER }}
-      - name: Publish packages and create release
+      - name: Publish packages
         shell: pwsh
         env:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
           GH_TOKEN: ${{ secrets.ADMIN_TOKEN || github.token }}
-          EXPECTED_VERSION: ${{ inputs.expected-version }}
-        run: ./scripts/Publish-Release.ps1 -PackageDirectory "$env:RUNNER_TEMP/release-packages" -ExpectedVersion $env:EXPECTED_VERSION -Repository $env:GITHUB_REPOSITORY -Commit $env:GITHUB_SHA
+          EXPECTED_VERSION: ${{ needs.fast-fail.outputs.release_version }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: ./scripts/Publish-Release.ps1 -PackageDirectory "$env:RUNNER_TEMP/release-packages" -ExpectedVersion $env:EXPECTED_VERSION -Tag $env:RELEASE_TAG -Repository $env:GITHUB_REPOSITORY -Commit $env:GITHUB_SHA
+      # The draft was named, and its compare link written, for the version release-draft.yml
+      # suggested. Follow the tag if it was edited before publishing, and keep a prerelease
+      # version from becoming the latest release. Cosmetic, so it never fails a release.
+      - name: Name release after its tag
+        continue-on-error: true
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_ID: ${{ github.event.release.id }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          VERSION: ${{ needs.fast-fail.outputs.release_version }}
+        run: |
+          set -euo pipefail
+          body=$(gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" --jq '.body // ""')
+          body=$(printf '%s' "$body" | sed -E "s#(/compare/[^ )]+)\.\.\.[^ )]+#\1...$RELEASE_TAG#")
+          arguments=(-f name="$VERSION" -f body="$body")
+          if [[ "$VERSION" == *-* ]]; then
+            arguments+=(-F prerelease=true -f make_latest=false)
+          fi
+          gh api -X PATCH "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" "${arguments[@]}" > /dev/null
 
   trim-aot:
     name: trim and Native AOT

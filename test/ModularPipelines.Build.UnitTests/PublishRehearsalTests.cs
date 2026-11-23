@@ -11,12 +11,9 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.Exceptions;
 using ModularPipelines.FileSystem;
-using ModularPipelines.GitHub;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Testing;
-using Moq;
-using Octokit;
 
 namespace ModularPipelines.Build.UnitTests;
 
@@ -121,38 +118,7 @@ public class PublishRehearsalTests
         }
     }
 
-    [Test]
-    [Arguments("4.0.0", false)]
-    [Arguments("4.0.0-rc.rehearsal", true)]
-    [Arguments("4.0.0+build-1", false)]
-    [Arguments("4.0.1", false)]
-    [Arguments("4.1.0", false)]
-    [Arguments("5.0.0", false)]
-    public async Task Release_Uses_The_Packed_Version_And_Generated_Notes(string version, bool prerelease)
-    {
-        NewRelease? request = null;
-        var client = new Mock<IGitHubClient>(MockBehavior.Strict);
-        client.Setup(x => x.Repository.Release.Create(123L, It.IsAny<NewRelease>()))
-            .Callback<long, NewRelease>((_, release) => request = release)
-            .ReturnsAsync(new Release());
-        var github = Mock.Of<IGitHub>(x => x.Client == client.Object && x.EnvironmentVariables.RepositoryId == "123");
-
-        var result = await ModuleTester.For<ReleaseExecutionModule>()
-            .WithService<IOptions<GitHubSettings>>(Microsoft.Extensions.Options.Options.Create(new GitHubSettings()))
-            .WithService<IGitHub>(github)
-            .WithDependencyResult<NugetVersionGeneratorModule, string>(version)
-            .ExecuteAsync();
-
-        await Assert.That(result.Exception).IsNull();
-        await Assert.That(request!.TagName).IsEqualTo($"v{version}");
-        await Assert.That(request.Name).IsEqualTo(version);
-        await Assert.That(request.Body).IsNull();
-        await Assert.That(request.GenerateReleaseNotes).IsTrue();
-        await Assert.That(request.Prerelease).IsEqualTo(prerelease);
-        client.Verify(x => x.Repository.Release.Create(123L, It.IsAny<NewRelease>()), Times.Once);
-    }
-
-    // Exercise module bodies without CI-only branch, token, capability, or OS conditions.
+    // Exercise module bodies without CI-only capability or OS conditions.
     [DependsOn<PackagePathsParserModule>]
     public class RehearsalExecutionModule(IOptions<PublishSettings> settings) : Module<CommandResult[]>
     {
@@ -163,18 +129,6 @@ public class PublishRehearsalTests
     private class ExposedRehearsalModule(IOptions<PublishSettings> settings) : RehearsePublishModule(settings)
     {
         public Task<CommandResult[]> Execute(IModuleContext context, CancellationToken token) => base.ExecuteAsync(context, token);
-    }
-
-    [DependsOn<NugetVersionGeneratorModule>]
-    public class ReleaseExecutionModule(IOptions<GitHubSettings> settings) : Module<Release>
-    {
-        protected override Task<Release> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
-            new ExposedReleaseModule(settings).Execute(context, cancellationToken);
-    }
-
-    private class ExposedReleaseModule(IOptions<GitHubSettings> settings) : CreateReleaseModule(settings, Microsoft.Extensions.Options.Options.Create(new PublishSettings()))
-    {
-        public Task<Release> Execute(IModuleContext context, CancellationToken token) => base.ExecuteAsync(context, token);
     }
 
     private static async Task AddLargePayload(string package)

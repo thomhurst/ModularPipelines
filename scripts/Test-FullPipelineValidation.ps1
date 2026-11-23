@@ -80,6 +80,7 @@ foreach ($eventName in @('pull_request', 'push')) {
     Assert-Route 'no changes' $false @{ EventName = $eventName; ChangedPath = @() }
 }
 Assert-Route 'manual dispatch' $true @{ EventName = 'workflow_dispatch'; ChangedPath = $unrelatedPaths }
+Assert-Route 'published release' $true @{ EventName = 'release'; ChangedPath = $unrelatedPaths }
 Assert-Route 'initial push' $true @{ EventName = 'push'; BaseSha = ('0' * 40) }
 
 # Use a real history to catch diff-range mistakes that path-only tests cannot detect.
@@ -218,6 +219,7 @@ try {
         } @($routePaths.Keys)
     }
     Assert-SupplementalRoutes @{ EventName = 'workflow_dispatch'; ChangedPath = @() } @($routePaths.Keys)
+    Assert-SupplementalRoutes @{ EventName = 'release'; ChangedPath = @() } @($routePaths.Keys)
     Assert-SupplementalRoutes @{ EventName = 'push'; BaseSha = ('0' * 40) } @($routePaths.Keys)
     Assert-SupplementalRoutes @{
         EventName = 'pull_request'; ChangedPath = @('docs/docs/mp-packages/cli/docker.md')

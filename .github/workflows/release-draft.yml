@@ -1,0 +1,90 @@
+name: Release Draft
+
+# Keeps one draft release up to date with main. Its tag suggests the next patch after the latest
+# published stable release, its target is the newest commit on main, and its notes list the
+# changes since that release (categorised by .github/release.yml).
+#
+# To release, edit the draft on GitHub: change the tag to choose the version (for example
+# v4.1.0 for a minor, v5.0.0 for a major, or v4.1.0-rc.1 for a prerelease), adjust the notes,
+# and publish it. Publishing creates the tag on the draft's commit and runs dotnet.yml, which
+# validates that commit, packs it with the tag's version, and pushes the packages to NuGet.
+#
+# Every push to main rewrites the draft, so edits to it are lost if main moves before it is
+# published. The draft this workflow owns carries DRAFT_MARKER in its notes; other drafts are
+# left alone.
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions: {}
+
+# Only the newest commit's draft matters.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      DRAFT_MARKER: '<!-- release-draft -->'
+
+    steps:
+      - name: Update draft release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          repo="repos/$GITHUB_REPOSITORY"
+
+          # One line per release: id, draft, prerelease, tag, and whether this workflow owns it.
+          releases=$(gh api --paginate "$repo/releases?per_page=100" \
+            --jq '.[] | [.id, .draft, .prerelease, .tag_name, ((.body // "") | contains(env.DRAFT_MARKER))] | @tsv')
+
+          # The latest published stable release is the highest plain x.y.z tag that is neither a draft
+          # nor a prerelease. Prereleases and other releases (such as diagnostics) don't move it.
+          previous=$(awk -F '\t' '$2 == "false" && $3 == "false" && $4 ~ /^v?[0-9]+\.[0-9]+\.[0-9]+$/ {
+              version = $4; sub(/^v/, "", version); print version "\t" $4 }' <<< "$releases" \
+            | sort -t . -k1,1n -k2,2n -k3,3n | tail -n 1 | cut -f 2)
+          if [ -z "$previous" ]; then
+            echo "::error::No published stable release to suggest the next version from."
+            exit 1
+          fi
+
+          # Suggest the next patch. A tag that already exists, such as one from the retired
+          # tag-per-commit flow, is skipped: publishing a draft whose tag exists would release the
+          # tag's commit instead of the draft's.
+          IFS=. read -r major minor patch <<< "${previous#v}"
+          existing=$(gh api --paginate "$repo/git/matching-refs/tags/v$major.$minor." --jq '.[].ref')
+          patch=$((patch + 1))
+          while grep -qxF "refs/tags/v$major.$minor.$patch" <<< "$existing"; do
+            patch=$((patch + 1))
+          done
+          version="$major.$minor.$patch"
+          tag="v$version"
+
+          notes=$(gh api -X POST "$repo/releases/generate-notes" \
+            -f tag_name="$tag" -f target_commitish="$GITHUB_SHA" -f previous_tag_name="$previous" \
+            --jq .body)
+          body="$notes"$'\n\n'"$DRAFT_MARKER"
+
+          draft_id=$(awk -F '\t' '$2 == "true" && $5 == "true" { print $1; exit }' <<< "$releases")
+          if [ -n "$draft_id" ]; then
+            method=PATCH
+            endpoint="$repo/releases/$draft_id"
+          else
+            method=POST
+            endpoint="$repo/releases"
+          fi
+
+          url=$(gh api -X "$method" "$endpoint" \
+            -f tag_name="$tag" -f target_commitish="$GITHUB_SHA" -f name="$version" \
+            -F draft=true -F prerelease=false -f body="$body" --jq .html_url)
+
+          echo "Draft release $tag for $GITHUB_SHA (previous release $previous): $url" | tee -a "$GITHUB_STEP_SUMMARY"
