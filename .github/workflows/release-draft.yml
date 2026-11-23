@@ -9,8 +9,10 @@ name: Release Draft
 # and publish it. Publishing creates the tag on the draft's commit and runs dotnet.yml, which
 # validates that commit, packs it with the tag's version, and pushes the packages to NuGet.
 #
-# Every push to main rewrites the draft, so edits to it are lost if main moves before it is
-# published. The draft this workflow owns carries DRAFT_MARKER, a hidden comment, at the end of its
+# Change the draft's tag to override the version; later pushes keep a higher version you set
+# (if no tag for it exists yet). Set it back to the suggestion (or lower) to return to the
+# default. Every push to main refreshes the draft's commit and notes, so edits to the notes are
+# lost if main moves before it is published. A re-run of an older main run leaves the draft alone. The draft this workflow owns carries DRAFT_MARKER, a hidden comment, at the end of its
 # notes; other drafts are left alone. Keep the marker when editing the notes: without it the next
 # push creates a second draft.
 
@@ -44,7 +46,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          # Failures inside $(...) and functions stop the run too (bash 4.4+; runners have bash 5).
+          shopt -s inherit_errexit 2>/dev/null || true
           repo="repos/$GITHUB_REPOSITORY"
+
+          # A re-run of an older main run keeps its old commit: it must not move the draft back.
+          tip=$(gh api "$repo/git/ref/heads/main" --jq .object.sha)
+          if [ "$tip" != "$GITHUB_SHA" ]; then
+            echo "Main has moved on to $tip, so this run for $GITHUB_SHA leaves the draft alone." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
 
           # One line per release: id, draft, prerelease, tag, and whether this workflow owns it.
           releases=$(gh api --paginate "$repo/releases?per_page=100" \
@@ -72,25 +83,116 @@ jobs:
           while grep -qxF -e "refs/tags/v$major.$minor.$patch" -e "refs/tags/$major.$minor.$patch" <<< "$existing"; do
             patch=$((patch + 1))
           done
+          if [ "$patch" -gt 65534 ]; then
+            echo "::error::The next free patch after $previous is $patch, above the AssemblyVersion limit of 65534. Publish a new minor version."
+            exit 1
+          fi
           version="$major.$minor.$patch"
           tag="v$version"
+
+          # The release tag grammar, shared with dotnet.yml's "Verify release" step: SemVer 2.0
+          # without build metadata, an optional v prefix, and no number above 65534.
+          is_release_tag() {
+            local number='(0|[1-9][0-9]*)' identifier='(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)'
+            local pattern="^v?$number\\.$number\\.$number(-$identifier(\\.$identifier)*)?$" part
+            [[ "$1" =~ $pattern ]] || return 1
+            for part in "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}"; do
+              if [ "${#part}" -gt 5 ] || [ "$part" -gt 65534 ]; then return 1; fi
+            done
+          }
+
+          # Compares two numeric identifiers of any length: prints -1, 0 or 1.
+          compare_numbers() {
+            if [ "${#1}" -ne "${#2}" ]; then
+              [ "${#1}" -gt "${#2}" ] && echo 1 || echo -1
+            elif [ "$1" = "$2" ]; then echo 0
+            elif [[ "$1" > "$2" ]]; then echo 1
+            else echo -1
+            fi
+          }
+
+          # Succeeds when version $1 has higher SemVer 2.0 precedence than $2 (both without v).
+          version_greater() {
+            local LC_ALL=C IFS=. a_pre="" b_pre="" order i a_id b_id
+            local -a a_core b_core a_ids b_ids
+            [[ "$1" == *-* ]] && a_pre="${1#*-}"
+            [[ "$2" == *-* ]] && b_pre="${2#*-}"
+            a_core=(${1%%-*}); b_core=(${2%%-*})
+            for i in 0 1 2; do
+              order=$(compare_numbers "${a_core[i]}" "${b_core[i]}")
+              [ "$order" = 1 ] && return 0
+              [ "$order" = -1 ] && return 1
+            done
+            # A release is higher than its prereleases.
+            [ -z "$a_pre" ] && [ -n "$b_pre" ] && return 0
+            [ -z "$a_pre" ] || [ -z "$b_pre" ] && return 1
+            a_ids=($a_pre); b_ids=($b_pre)
+            for ((i = 0; i < ${#a_ids[@]} && i < ${#b_ids[@]}; i++)); do
+              a_id="${a_ids[i]}"; b_id="${b_ids[i]}"
+              if [[ "$a_id" =~ ^[0-9]+$ && "$b_id" =~ ^[0-9]+$ ]]; then
+                order=$(compare_numbers "$a_id" "$b_id")
+              elif [[ "$a_id" =~ ^[0-9]+$ ]]; then order=-1
+              elif [[ "$b_id" =~ ^[0-9]+$ ]]; then order=1
+              elif [ "$a_id" = "$b_id" ]; then order=0
+              elif [[ "$a_id" > "$b_id" ]]; then order=1
+              else order=-1
+              fi
+              [ "$order" = 1 ] && return 0
+              [ "$order" = -1 ] && return 1
+            done
+            [ "${#a_ids[@]}" -gt "${#b_ids[@]}" ]
+          }
+
+          # Normally one draft carries the marker. If there are several (a copied marker, say),
+          # warn and update the newest; release ids increase with creation.
+          draft_ids=$(awk -F '\t' '$2 == "true" && $5 == "true" { print $1 }' <<< "$releases" | sort -n)
+          draft_id=$(tail -n 1 <<< "$draft_ids")
+          if [ "$(grep -c . <<< "$draft_ids")" -gt 1 ]; then
+            echo "::warning::Several drafts carry the release-draft marker ($(paste -sd ' ' - <<< "$draft_ids")); updating the newest, $draft_id. Delete the others or remove their marker."
+          fi
+          keep=false
+          if [ -n "$draft_id" ]; then
+            # The draft may have been published since it was listed. Re-read it and leave a
+            # published release alone. Publishing between this read and the update below (one
+            # notes request later) is not prevented; the update never sends draft, so it cannot
+            # unpublish a release.
+            current=$(gh api "$repo/releases/$draft_id" --jq '[.draft, .tag_name] | @tsv')
+            IFS=$'\t' read -r still_draft current_tag <<< "$current"
+            if [ "$still_draft" != true ]; then
+              echo "Release $draft_id was published meanwhile; leaving it unchanged." | tee -a "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            # Keep a higher version the owner set on the draft, unless a tag for it already exists
+            # in either accepted form. The lookups run outside any condition, so a failed request
+            # fails the step instead of reading as "no tag".
+            if is_release_tag "$current_tag" && version_greater "${current_tag#v}" "$version"; then
+              kept="${current_tag#v}"
+              refs=$(gh api --paginate "$repo/git/matching-refs/tags/v$kept" --jq '.[].ref')
+              unprefixed_refs=$(gh api --paginate "$repo/git/matching-refs/tags/$kept" --jq '.[].ref')
+              if grep -qxF -e "refs/tags/v$kept" -e "refs/tags/$kept" <<< "$refs"$'\n'"$unprefixed_refs"; then
+                echo "The draft's tag $current_tag already exists, so the draft returns to the suggestion." | tee -a "$GITHUB_STEP_SUMMARY"
+              else
+                keep=true
+                echo "Keeping the draft's tag $current_tag, which is higher than the suggested $tag." | tee -a "$GITHUB_STEP_SUMMARY"
+                tag="$current_tag"
+              fi
+            fi
+          fi
+          if [ "$keep" != true ]; then
+            echo "Using the suggested tag $tag." | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
 
           notes=$(gh api -X POST "$repo/releases/generate-notes" \
             -f tag_name="$tag" -f target_commitish="$GITHUB_SHA" -f previous_tag_name="$previous" \
             --jq .body)
           body="$notes"$'\n\n'"$DRAFT_MARKER"
 
-          fields=(-f tag_name="$tag" -f target_commitish="$GITHUB_SHA" -f name="$version" -f body="$body")
-          draft_id=$(awk -F '\t' '$2 == "true" && $5 == "true" { print $1; exit }' <<< "$releases")
+          # A kept tag also keeps the draft's name; only the target and notes are refreshed.
+          fields=(-f target_commitish="$GITHUB_SHA" -f body="$body")
+          if [ "$keep" != true ]; then
+            fields+=(-f tag_name="$tag" -f name="$version")
+          fi
           if [ -n "$draft_id" ]; then
-            # The draft may have been published since it was listed. Re-read it and leave a
-            # published release alone. Publishing in the sub-second gap between this read and the
-            # update below is not prevented; the update never sends draft, so it cannot unpublish.
-            still_draft=$(gh api "$repo/releases/$draft_id" --jq .draft)
-            if [ "$still_draft" != true ]; then
-              echo "Release $draft_id was published meanwhile; leaving it unchanged." | tee -a "$GITHUB_STEP_SUMMARY"
-              exit 0
-            fi
             url=$(gh api -X PATCH "$repo/releases/$draft_id" "${fields[@]}" --jq .html_url)
           else
             url=$(gh api -X POST "$repo/releases" "${fields[@]}" -F draft=true -F prerelease=false --jq .html_url)

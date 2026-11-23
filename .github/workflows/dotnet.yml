@@ -88,6 +88,7 @@ jobs:
           RELEASE_TARGET: ${{ github.event.release.target_commitish }}
         run: |
           set -euo pipefail
+          shopt -s inherit_errexit 2>/dev/null || true
           # SemVer 2.0 without build metadata, with an optional v prefix. Each version number feeds
           # AssemblyVersion, so it must not exceed 65534. NugetVersionGeneratorModule and
           # release-draft.test.mjs share this grammar.
@@ -1274,6 +1275,7 @@ jobs:
           VERSION: ${{ needs.fast-fail.outputs.release_version }}
         run: |
           set -euo pipefail
+          shopt -s inherit_errexit 2>/dev/null || true
           body=$(gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" --jq '.body // ""')
           # Only the generated "**Full Changelog**: .../compare/A...B" line; other links stay as written.
           body=$(printf '%s' "$body" | sed -E "/^\*\*Full Changelog\*\*: /s#(/compare/[^ )]+)\.\.\.[^ )]+#\1...$RELEASE_TAG#")

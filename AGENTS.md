@@ -38,7 +38,8 @@ if ($changed) {
 
 ## Releasing
 
-- Releases are made by publishing the draft release that [release-draft.yml](.github/workflows/release-draft.yml) keeps for main; that workflow's header explains how to choose the version. Keep the hidden `<!-- release-draft -->` marker in the draft's notes: without it the next push to main creates a second draft. Never push version tags or create releases from scripts or pipeline modules: publishing the draft creates both, and [the .NET workflow](.github/workflows/dotnet.yml) then validates the tagged commit and pushes its packages to NuGet.
+- Releases are made by publishing the draft release that [release-draft.yml](.github/workflows/release-draft.yml) keeps for main; that workflow's header explains how to choose the version. Keep the hidden `<!-- release-draft -->` marker in the draft's notes: without it the next push to main creates a second draft. Change the draft's tag to override the version; later pushes keep a higher version you set. Set it back to the suggestion (or lower) to return to the default. Every push to main refreshes the draft's commit and notes, so edits to the notes are lost if main moves before publishing. Release runs deploy to the `Production` environment, which must allow the release tags (for example a `v*` tag rule) as well as `main`. Never push version tags or create releases from scripts or pipeline modules: publishing the draft creates both, and [the .NET workflow](.github/workflows/dotnet.yml) then validates the tagged commit and pushes its packages to NuGet.
+- Release notes are generated with the categories in [release.yml](.github/release.yml). Label a pull request `breaking` for a breaking change, or `ignore-for-release` to leave it out. Dependency pull requests are grouped automatically (Renovate labels them `dependencies`).
 
 ## Code constraints
 
