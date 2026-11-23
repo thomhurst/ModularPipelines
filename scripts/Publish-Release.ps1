@@ -15,6 +15,14 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+
+# SemVer 2.0 without build metadata; each version number must fit AssemblyVersion. The release
+# workflow's "Verify release" step and NugetVersionGeneratorModule share this grammar.
+function Test-ReleaseVersion([string]$Version) {
+    $identifier = '(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)'
+    $match = [regex]::Match($Version, "\A(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-$identifier(?:\.$identifier)*)?\z")
+    return $match.Success -and @(1..3 | Where-Object { $match.Groups[$_].Value.Length -gt 5 -or [int]$match.Groups[$_].Value -gt 65534 }).Count -eq 0
+}
 $manifest = Get-Content -LiteralPath (Join-Path $PackageDirectory 'manifest.json') -Raw | ConvertFrom-Json
 if ($manifest.RetrySucceeded -ne $true -or $manifest.PackageCount -lt 1 -or @($manifest.Files).Count -lt 1) {
     throw 'The release requires a successful, nonempty publishing rehearsal.'
@@ -54,7 +62,7 @@ try {
     try { [xml]$nuspec = $reader.ReadToEnd() } finally { $reader.Dispose() }
     $metadata = $nuspec.SelectSingleNode('/*[local-name()="package"]/*[local-name()="metadata"]')
     if ($metadata.id -ne 'ModularPipelines' -or
-        $ExpectedVersion -notmatch '^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$' -or
+        -not (Test-ReleaseVersion $ExpectedVersion) -or
         $metadata.version.Split('+')[0] -cne $ExpectedVersion.Split('+')[0]) {
         throw 'The packed core version does not match the expected release version.'
     }

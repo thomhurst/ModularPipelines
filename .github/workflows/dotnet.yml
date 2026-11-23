@@ -70,9 +70,17 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Validate SDK pins for the GA switch
+        shell: pwsh
+        run: |
+          ./scripts/Test-SdkPins.ps1
+          ./scripts/Assert-SdkPins.ps1
+      - name: Detect generated integration pull request
+        id: generated_integration
+        uses: ./.github/actions/detect-generated-integration
       # A release ships the version its tag names, and only a commit that is on main.
       - name: Verify release
-        if: github.event_name == 'release'
+        if: github.event_name == 'release' && steps.generated_integration.outputs.is_generated_integration != 'true'
         id: release
         shell: bash
         env:
@@ -80,7 +88,20 @@ jobs:
           RELEASE_TARGET: ${{ github.event.release.target_commitish }}
         run: |
           set -euo pipefail
-          if [[ ! "$RELEASE_TAG" =~ ^v?(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
+          # SemVer 2.0 without build metadata, with an optional v prefix. Each version number feeds
+          # AssemblyVersion, so it must not exceed 65534. NugetVersionGeneratorModule and
+          # release-draft.test.mjs share this grammar.
+          number='(0|[1-9][0-9]*)'
+          identifier='(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)'
+          pattern="^v?$number\\.$number\\.$number(-$identifier(\\.$identifier)*)?$"
+          valid=false
+          if [[ "$RELEASE_TAG" =~ $pattern ]]; then
+            valid=true
+            for part in "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}"; do
+              if [ "${#part}" -gt 5 ] || [ "$part" -gt 65534 ]; then valid=false; fi
+            done
+          fi
+          if [ "$valid" != true ]; then
             echo "::error::Release tag '$RELEASE_TAG' is not a version. Use a tag such as v4.1.0 or v4.1.0-rc.1."
             exit 1
           fi
@@ -96,14 +117,6 @@ jobs:
           fi
           echo "version=${RELEASE_TAG#v}" >> "$GITHUB_OUTPUT"
           echo "Release version: ${RELEASE_TAG#v}"
-      - name: Validate SDK pins for the GA switch
-        shell: pwsh
-        run: |
-          ./scripts/Test-SdkPins.ps1
-          ./scripts/Assert-SdkPins.ps1
-      - name: Detect generated integration pull request
-        id: generated_integration
-        uses: ./.github/actions/detect-generated-integration
       - name: Detect validation routes
         id: full_pipeline
         shell: pwsh
@@ -1248,8 +1261,10 @@ jobs:
         run: ./scripts/Publish-Release.ps1 -PackageDirectory "$env:RUNNER_TEMP/release-packages" -ExpectedVersion $env:EXPECTED_VERSION -Tag $env:RELEASE_TAG -Repository $env:GITHUB_REPOSITORY -Commit $env:GITHUB_SHA
       # The draft was named, and its compare link written, for the version release-draft.yml
       # suggested. Follow the tag if it was edited before publishing, and keep a prerelease
-      # version from becoming the latest release. Cosmetic, so it never fails a release.
+      # version from becoming the latest release. Cosmetic: it runs whatever happened to the
+      # steps above, so packages that went up still get a matching release, and never fails.
       - name: Name release after its tag
+        if: always()
         continue-on-error: true
         shell: bash
         env:
@@ -1260,7 +1275,8 @@ jobs:
         run: |
           set -euo pipefail
           body=$(gh api "repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID" --jq '.body // ""')
-          body=$(printf '%s' "$body" | sed -E "s#(/compare/[^ )]+)\.\.\.[^ )]+#\1...$RELEASE_TAG#")
+          # Only the generated "**Full Changelog**: .../compare/A...B" line; other links stay as written.
+          body=$(printf '%s' "$body" | sed -E "/^\*\*Full Changelog\*\*: /s#(/compare/[^ )]+)\.\.\.[^ )]+#\1...$RELEASE_TAG#")
           arguments=(-f name="$VERSION" -f body="$body")
           if [[ "$VERSION" == *-* ]]; then
             arguments+=(-F prerelease=true -f make_latest=false)

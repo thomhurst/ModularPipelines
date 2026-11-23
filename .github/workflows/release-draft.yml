@@ -10,8 +10,9 @@ name: Release Draft
 # validates that commit, packs it with the tag's version, and pushes the packages to NuGet.
 #
 # Every push to main rewrites the draft, so edits to it are lost if main moves before it is
-# published. The draft this workflow owns carries DRAFT_MARKER in its notes; other drafts are
-# left alone.
+# published. The draft this workflow owns carries DRAFT_MARKER, a hidden comment, at the end of its
+# notes; other drafts are left alone. Keep the marker when editing the notes: without it the next
+# push creates a second draft.
 
 on:
   push:
@@ -27,6 +28,8 @@ concurrency:
 
 jobs:
   draft:
+    # A dispatch from another branch must not point main's draft at an unmerged commit.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -49,7 +52,7 @@ jobs:
 
           # The latest published stable release is the highest plain x.y.z tag that is neither a draft
           # nor a prerelease. Prereleases and other releases (such as diagnostics) don't move it.
-          previous=$(awk -F '\t' '$2 == "false" && $3 == "false" && $4 ~ /^v?[0-9]+\.[0-9]+\.[0-9]+$/ {
+          previous=$(awk -F '\t' '$2 == "false" && $3 == "false" && $4 ~ /^v?(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$/ {
               version = $4; sub(/^v/, "", version); print version "\t" $4 }' <<< "$releases" \
             | sort -t . -k1,1n -k2,2n -k3,3n | tail -n 1 | cut -f 2)
           if [ -z "$previous" ]; then
@@ -57,13 +60,16 @@ jobs:
             exit 1
           fi
 
-          # Suggest the next patch. A tag that already exists, such as one from the retired
-          # tag-per-commit flow, is skipped: publishing a draft whose tag exists would release the
-          # tag's commit instead of the draft's.
+          # Suggest the next patch. A version whose tag already exists in either accepted form
+          # (v1.2.3 or 1.2.3), such as one from the retired tag-per-commit flow or a published
+          # release, is skipped: publishing a draft whose tag exists would release the tag's commit
+          # instead of the draft's.
           IFS=. read -r major minor patch <<< "${previous#v}"
-          existing=$(gh api --paginate "$repo/git/matching-refs/tags/v$major.$minor." --jq '.[].ref')
+          prefixed=$(gh api --paginate "$repo/git/matching-refs/tags/v$major.$minor." --jq '.[].ref')
+          unprefixed=$(gh api --paginate "$repo/git/matching-refs/tags/$major.$minor." --jq '.[].ref')
+          existing="$prefixed"$'\n'"$unprefixed"
           patch=$((patch + 1))
-          while grep -qxF "refs/tags/v$major.$minor.$patch" <<< "$existing"; do
+          while grep -qxF -e "refs/tags/v$major.$minor.$patch" -e "refs/tags/$major.$minor.$patch" <<< "$existing"; do
             patch=$((patch + 1))
           done
           version="$major.$minor.$patch"
@@ -74,17 +80,20 @@ jobs:
             --jq .body)
           body="$notes"$'\n\n'"$DRAFT_MARKER"
 
+          fields=(-f tag_name="$tag" -f target_commitish="$GITHUB_SHA" -f name="$version" -f body="$body")
           draft_id=$(awk -F '\t' '$2 == "true" && $5 == "true" { print $1; exit }' <<< "$releases")
           if [ -n "$draft_id" ]; then
-            method=PATCH
-            endpoint="$repo/releases/$draft_id"
+            # The draft may have been published since it was listed. Re-read it and leave a
+            # published release alone. Publishing in the sub-second gap between this read and the
+            # update below is not prevented; the update never sends draft, so it cannot unpublish.
+            still_draft=$(gh api "$repo/releases/$draft_id" --jq .draft)
+            if [ "$still_draft" != true ]; then
+              echo "Release $draft_id was published meanwhile; leaving it unchanged." | tee -a "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            url=$(gh api -X PATCH "$repo/releases/$draft_id" "${fields[@]}" --jq .html_url)
           else
-            method=POST
-            endpoint="$repo/releases"
+            url=$(gh api -X POST "$repo/releases" "${fields[@]}" -F draft=true -F prerelease=false --jq .html_url)
           fi
-
-          url=$(gh api -X "$method" "$endpoint" \
-            -f tag_name="$tag" -f target_commitish="$GITHUB_SHA" -f name="$version" \
-            -F draft=true -F prerelease=false -f body="$body" --jq .html_url)
 
           echo "Draft release $tag for $GITHUB_SHA (previous release $previous): $url" | tee -a "$GITHUB_STEP_SUMMARY"

@@ -11,8 +11,12 @@ public class NugetVersionGeneratorTests
     [Test]
     [Arguments(false, "4.1.0")]
     [Arguments(true, "4.1.0")]
+    [Arguments(true, "0.0.0")]
     [Arguments(true, "4.1.0-rc.1")]
+    [Arguments(true, "1.2.3-beta01")]
+    [Arguments(true, "1.2.3-0")]
     [Arguments(true, "5.0.0-beta.2.x-y")]
+    [Arguments(true, "65534.65534.65534")]
     public async Task Release_Version_Overrides_GitVersion_And_Alpha(bool shouldPublish, string version)
     {
         var (module, context) = CreateModule(shouldPublish, true, version, "3.2.2838");
@@ -26,8 +30,15 @@ public class NugetVersionGeneratorTests
     [Arguments("4.0")]
     [Arguments("4.0.0.0")]
     [Arguments("04.0.0")]
+    [Arguments("1.02.3")]
     [Arguments("4.0.0-")]
     [Arguments("4.0.0-rc..1")]
+    [Arguments("1.2.3-beta.01")]
+    [Arguments("1.2.3-01")]
+    [Arguments("65535.0.0")]
+    [Arguments("1.65535.0")]
+    [Arguments("1.0.9999999999")]
+    [Arguments("release-1")]
     [Arguments("4.0.0+build.1")]
     [Arguments("4.0.0\n")]
     [Arguments(" ")]

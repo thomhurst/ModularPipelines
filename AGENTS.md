@@ -38,7 +38,7 @@ if ($changed) {
 
 ## Releasing
 
-- Releases are made by publishing the draft release that [release-draft.yml](.github/workflows/release-draft.yml) keeps for main; that workflow's header explains how to choose the version. Never push version tags or create releases from scripts or pipeline modules: publishing the draft creates both, and [the .NET workflow](.github/workflows/dotnet.yml) then validates the tagged commit and pushes its packages to NuGet.
+- Releases are made by publishing the draft release that [release-draft.yml](.github/workflows/release-draft.yml) keeps for main; that workflow's header explains how to choose the version. Keep the hidden `<!-- release-draft -->` marker in the draft's notes: without it the next push to main creates a second draft. Never push version tags or create releases from scripts or pipeline modules: publishing the draft creates both, and [the .NET workflow](.github/workflows/dotnet.yml) then validates the tagged commit and pushes its packages to NuGet.
 
 ## Code constraints
 

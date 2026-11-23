@@ -14,6 +14,9 @@ namespace ModularPipelines.Build.Modules;
 [RequiresCapability("ci-master")]
 public partial class NugetVersionGeneratorModule(IOptions<PublishSettings> publishSettings, IOptions<PipelineSettings> pipelineSettings) : Module<string>
 {
+    // Each version number feeds AssemblyVersion, whose parts cannot exceed 65534.
+    private const int MaximumVersionNumber = 65534;
+
     private readonly IOptions<PublishSettings> _publishSettings = publishSettings;
 
     protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -35,13 +38,22 @@ public partial class NugetVersionGeneratorModule(IOptions<PublishSettings> publi
 
     private static void ValidateReleaseVersion(string? releaseVersion)
     {
-        if (!string.IsNullOrEmpty(releaseVersion) && !ReleaseVersionPattern().IsMatch(releaseVersion))
+        if (string.IsNullOrEmpty(releaseVersion))
+        {
+            return;
+        }
+
+        // SemVer 2.0 without build metadata; each version number must fit AssemblyVersion.
+        // The release workflow's "Verify release" step applies the same grammar to the tag.
+        var match = ReleaseVersionPattern().Match(releaseVersion);
+        if (!match.Success || !Enumerable.Range(1, 3).All(group => match.Groups[group].Value.Length <= 5
+            && int.Parse(match.Groups[group].Value, System.Globalization.CultureInfo.InvariantCulture) <= MaximumVersionNumber))
         {
             throw new InvalidOperationException("Publish:ReleaseVersion must be a major.minor.patch version with an optional prerelease suffix, such as 4.1.0 or 4.1.0-rc.1.");
         }
     }
 
-    [GeneratedRegex(@"\A(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?\z", RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"\A(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?\z", RegexOptions.CultureInvariant)]
     private static partial Regex ReleaseVersionPattern();
 
     private async Task<string> ResolveVersionAsync(IModuleContext context, PublishSettings settings, CancellationToken cancellationToken)

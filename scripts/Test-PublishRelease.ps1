@@ -102,7 +102,7 @@ try {
         if (-not $failed -or $calls.Count -ne 3) { throw "A release that is not published ('$state') must not upload." }
     }
     $releaseDraft = 'false'
-    foreach ($version in @('4.2.3', '4.2.3-alpha0012', '4.2.3+build.1', '4.0.0-rc.1')) {
+    foreach ($version in @('4.2.3', '4.2.3-alpha0012', '4.2.3-beta01', '0.0.0', '4.0.0-rc.1')) {
         Write-Fixture $version
         $parameters.ExpectedVersion = $version
         & $publishScript @parameters -ValidateOnly | Out-Null
@@ -197,6 +197,12 @@ try {
     Write-Fixture
     $parameters.ExpectedVersion = '4.2.4'
     Assert-Rejected { & $publishScript @parameters } 'wrong version'
+    $parameters.ExpectedVersion = '4.2.3'
+    foreach ($version in @('4.2.3+build.1', '4.02.3', '4.2.3-beta.01', '4.2.3-01', '4.2.3-', '4.2.3-beta..1', '65535.0.0', '4.2', 'v4.2.3')) {
+        Write-Fixture $version
+        $parameters.ExpectedVersion = $version
+        Assert-Rejected { & $publishScript @parameters -ValidateOnly } "invalid version $version"
+    }
     $parameters.ExpectedVersion = '4.2.3'
 
     foreach ($mutation in @(

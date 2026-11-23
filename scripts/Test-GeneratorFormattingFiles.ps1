@@ -46,6 +46,9 @@ try {
     Assert-Files 'manual verification includes all handwritten files' @("$source/Generator/Existing.cs", "$source/Generator/Added with space.cs") @{
         EventName = 'workflow_dispatch'
     }
+    Assert-Files 'release verification includes all handwritten files' @("$source/Generator/Existing.cs", "$source/Generator/Added with space.cs") @{
+        EventName = 'release'
+    }
     Assert-Files 'initial push includes all handwritten files' @("$source/Generator/Existing.cs", "$source/Generator/Added with space.cs") @{
         EventName = 'push'; BaseSha = ('0' * 40)
     }
@@ -71,7 +74,7 @@ try {
         EventName = 'pull_request'; BaseSha = $renamed
     }
 
-    foreach ($eventName in @('push', 'pull_request', 'workflow_dispatch')) {
+    foreach ($eventName in @('push', 'pull_request', 'workflow_dispatch', 'release')) {
         $failed = $false
         try {
             & $selector -RepositoryRoot $repository -EventName $eventName -BaseSha 'missing' -HeadSha 'missing' 2>$null

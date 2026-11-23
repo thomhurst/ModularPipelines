@@ -86,6 +86,8 @@ test('the draft workflow owns a marked draft for main', () => {
   assert.match(draftWorkflow, /push:\r?\n {4}branches: \["main"\]/);
   assert.match(draftWorkflow, /permissions: \{\}/);
   assert.match(draftWorkflow, /contents: write/);
+  assert.match(draftWorkflow, /^ {4}if: github.ref == 'refs\/heads\/main'$/m, 'A dispatch from another branch must not move the draft');
+  assert.match(draftWorkflow, /Keep the marker/, 'Document that the marker must stay');
   assert.doesNotMatch(stepScript(draftWorkflow, 'Update draft release'), /\$\{\{/, 'Pass expressions through env');
 });
 
@@ -96,6 +98,9 @@ for (const { name, releases, tags, version, previous } of [
     releases: [release(9, 'v5.0.0-rc.1', { prerelease: true }), release(8, 'v4.9.9'), release(7, 'v4.10.2'), release(6, 'v4.2.10'),
       release(5, 'v6.0.0-beta.1'), release(4, 'v7.0.0', { draft: true })] },
   { name: 'accepts a release tag without the v prefix', releases: [release(1, '4.3.0')], tags: [], version: '4.3.1', previous: '4.3.0' },
+  { name: 'skips existing tags in either form', releases: published, tags: ['v4.0.1', '4.0.2', 'v4.0.3'], version: '4.0.4', previous: 'v4.0.0' },
+  { name: 'ignores releases that are not strict versions', version: '4.0.1', previous: 'v4.0.0',
+    releases: [release(3, 'v4.01.0'), release(2, 'v04.1.0'), release(1, 'v4.0.0')] },
 ]) {
   test(`draft version ${name}`, () => {
     const result = run(stepScript(draftWorkflow, 'Update draft release'), { releases, tags });
@@ -114,16 +119,37 @@ for (const { name, releases, tags, version, previous } of [
   });
 }
 
-test('the draft updates only its own draft release', () => {
-  const releases = [release(88, 'v9.9.9', { draft: true, body: 'hand-written draft' }),
-    release(77, 'v4.0.5', { draft: true, body: `notes\n\n${marker}` }),
-    release(66, 'v4.0.4', { body: `published\n\n${marker}` }), ...published];
-  const result = run(stepScript(draftWorkflow, 'Update draft release'), { releases });
+const ownedReleases = [release(88, 'v9.9.9', { draft: true, body: 'hand-written draft' }),
+  release(77, 'v4.0.5', { draft: true, body: `notes\n\n${marker}` }),
+  release(66, 'v4.0.4', { body: `published\n\n${marker}` }), ...published];
+const releaseWrites = calls => calls.filter(call => call.includes('PATCH') || call.includes('POST'))
+  .filter(call => !call.includes('repos/o/r/releases/generate-notes'));
+
+test('the draft updates only its own draft release, without resending draft', () => {
+  const result = run(stepScript(draftWorkflow, 'Update draft release'), { releases: ownedReleases, release: { draft: true } });
   assert.equal(result.status, 0, result.stderr + result.stdout);
-  const writes = result.calls.filter(call => call.includes('PATCH') || call.includes('POST'))
-    .filter(call => !call.includes('repos/o/r/releases/generate-notes'));
+  const writes = releaseWrites(result.calls);
   assert.deepEqual(writes.map(call => call.slice(0, 4)), [['api', '-X', 'PATCH', 'repos/o/r/releases/77']]);
   assert.equal(field(writes[0], 'tag_name'), 'v4.0.5');
+  assert.equal(field(writes[0], 'draft'), undefined, 'An update must never set draft');
+  assert.equal(field(writes[0], 'prerelease'), undefined);
+  const reread = result.calls.findIndex(call => call[1] === 'repos/o/r/releases/77');
+  assert.ok(reread >= 0 && reread < result.calls.indexOf(writes[0]), 'Re-read the draft right before updating it');
+});
+
+test('a draft published since it was listed is left alone', () => {
+  const result = run(stepScript(draftWorkflow, 'Update draft release'), { releases: ownedReleases, release: { draft: false } });
+  assert.equal(result.status, 0, result.stderr + result.stdout);
+  assert.deepEqual(releaseWrites(result.calls), []);
+  assert.match(result.stdout, /published meanwhile/);
+});
+
+test('a failed GitHub lookup fails the draft instead of using defaults', () => {
+  const failing = stepScript(draftWorkflow, 'Update draft release')
+    .replace('set -euo pipefail', 'set -euo pipefail\ngh() { return 1; }');
+  const result = run(failing, { releases: published });
+  assert.notEqual(result.status, 0);
+  assert.doesNotMatch(result.stdout, /Draft release/);
 });
 
 test('the draft needs a published stable release', () => {
@@ -134,7 +160,8 @@ test('the draft needs a published stable release', () => {
   assert.ok(!result.calls.some(call => call.includes('POST')));
 });
 
-for (const tag of ['v4.1.0', '4.1.0', 'v4.1.0-rc.1', 'v5.0.0-beta.2.x-y', 'v0.0.0']) {
+for (const tag of ['v4.1.0', '4.1.0', 'v1.2.3', '1.2.3', 'v0.0.0', 'v1.2.3-beta.1', 'v1.2.3-beta01', 'v1.2.3-0', 'v4.1.0-rc.1',
+  'v5.0.0-beta.2.x-y', 'v65534.65534.65534']) {
   test(`release ${tag} publishes its tag's version`, () => {
     const result = run(stepScript(dotnetWorkflow, 'Verify release'), { env: { RELEASE_TAG: tag, RELEASE_TARGET: sha } });
     assert.equal(result.status, 0, result.stderr + result.stdout);
@@ -142,7 +169,8 @@ for (const tag of ['v4.1.0', '4.1.0', 'v4.1.0-rc.1', 'v5.0.0-beta.2.x-y', 'v0.0.
   });
 }
 
-for (const tag of ['v4.1', 'release-1', 'v4.1.0+build.1', 'v04.1.0', 'v4.1.0-', 'v4.1.0-rc..1', 'V4.1.0', 'v4.1.0 ', '']) {
+for (const tag of ['v1.02.3', 'v01.2.3', 'v1.2.3-beta..1', 'v1.2.3-beta.01', 'v1.2.3-01', 'v1.2.3-', 'v1.2', 'v65535.0.0',
+  'v1.65535.0', 'v1.2.9999999999', 'release-1', 'v4.1.0+build.1', 'V4.1.0', 'v4.1.0 ', '']) {
   test(`release tag '${tag}' is rejected`, () => {
     const result = run(stepScript(dotnetWorkflow, 'Verify release'), { env: { RELEASE_TAG: tag, RELEASE_TARGET: sha } });
     assert.notEqual(result.status, 0);
@@ -167,7 +195,8 @@ for (const [target, allowed] of [['b'.repeat(40), false], ['main', true], [sha, 
 
 for (const [tag, prerelease] of [['v4.1.0', false], ['v4.1.0-rc.1', true]]) {
   test(`release ${tag} is renamed after its edited tag`, () => {
-    const body = `## Changes\n* Something\n\n**Full Changelog**: https://github.com/o/r/compare/v4.0.0...v4.0.29\n\n${marker}`;
+    const body = `## Changes\n* Compare https://github.com/o/r/compare/v3.0.0...v3.1.0 for context\n\n`
+      + `**Full Changelog**: https://github.com/o/r/compare/v4.0.0...v4.0.29\n\n${marker}`;
     const result = run(stepScript(dotnetWorkflow, 'Name release after its tag'), {
       release: { body }, env: { RELEASE_ID: '42', RELEASE_TAG: tag, VERSION: tag.slice(1) },
     });
@@ -180,6 +209,12 @@ for (const [tag, prerelease] of [['v4.1.0', false], ['v4.1.0-rc.1', true]]) {
     assert.equal(field(patch, 'make_latest') === 'false', prerelease);
   });
 }
+
+test('the release is renamed even when publishing failed part-way', () => {
+  const step = dotnetWorkflow.match(/- name: Name release after its tag\r?\n([\s\S]*?)run: \|/)?.[1];
+  assert.match(step, /^ {8}if: always\(\)$/m);
+  assert.match(step, /^ {8}continue-on-error: true$/m);
+});
 
 test('release metadata reaches scripts only through env', () => {
   for (const name of ['Verify release', 'Name release after its tag']) {
