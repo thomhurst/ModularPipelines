@@ -2,7 +2,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)]
-    [ValidateSet('pull_request', 'push', 'workflow_dispatch')]
+    [ValidateSet('pull_request', 'push', 'workflow_dispatch', 'release')]
     [string]$EventName,
     [string]$BaseSha,
     [string]$HeadSha = 'HEAD',
@@ -12,7 +12,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $sourcePath = 'tools/ModularPipelines.OptionsGenerator/src'
 
-if ($EventName -eq 'workflow_dispatch' -or
+# Manual runs and releases verify every handwritten generator file.
+if ($EventName -in @('workflow_dispatch', 'release') -or
     ($EventName -eq 'push' -and ([string]::IsNullOrWhiteSpace($BaseSha) -or $BaseSha -match '^0+$'))) {
     $paths = @(git -C $RepositoryRoot -c core.quotepath=false ls-tree -r --name-only $HeadSha -- $sourcePath)
 }

@@ -10,31 +10,27 @@ const workflow = readFileSync(new URL('../workflows/dotnet.yml', import.meta.url
 const expression = [...workflow.matchAll(/Publish__IsAlpha:\s*\$\{\{\s*(.*?)\s*\}\}/g)].at(-1)?.[1];
 assert.ok(expression, 'The workflow must set Publish__IsAlpha');
 
-test('manual releases default to stable', () => {
-  assert.match(workflow, /is-alpha:\r?\n(?: {8}[^\r\n]*\r?\n)*? {8}default: false/);
-});
-
 // These boolean operators and property lookups share GitHub Actions and JavaScript semantics.
-for (const { name, event, inputs, expected } of [
-  { name: 'push without dispatch inputs stays alpha', event: 'push', inputs: {}, expected: true },
-  { name: 'pull request without dispatch inputs stays alpha', event: 'pull_request', inputs: {}, expected: true },
-  { name: 'validation dispatch with default inputs stays alpha', event: 'workflow_dispatch', inputs: { 'publish-packages': false, 'is-alpha': false }, expected: true },
-  { name: 'validation dispatch with explicit alpha stays alpha', event: 'workflow_dispatch', inputs: { 'publish-packages': false, 'is-alpha': true }, expected: true },
-  { name: 'publishing dispatch with default alpha input selects stable', event: 'workflow_dispatch', inputs: { 'publish-packages': true, 'is-alpha': false }, expected: false },
-  { name: 'publishing dispatch with explicit alpha stays alpha', event: 'workflow_dispatch', inputs: { 'publish-packages': true, 'is-alpha': true }, expected: true },
+for (const { event, expected } of [
+  { event: 'push', expected: true },
+  { event: 'pull_request', expected: true },
+  { event: 'workflow_dispatch', expected: true },
+  { event: 'release', expected: false },
 ]) {
-  test(name, () => {
-    // Hyphenated GitHub Actions property names use bracket lookup in JavaScript.
-    const javascript = expression.replace(/inputs\.([a-z-]+)/g, "inputs['$1']");
-    assert.equal(runInNewContext(javascript, { github: { event_name: event }, inputs }), expected);
+  test(`${event} runs ${expected ? 'build alpha versions' : 'build the release version'}`, () => {
+    assert.equal(runInNewContext(expression, { github: { event_name: event } }), expected);
   });
 }
 
-test('publishing dispatches accept an explicit expected package version', () => {
-  assert.match(workflow, /expected-version:\r?\n(?: {8}[^\r\n]*\r?\n)*? {8}type: string/);
-  // Validation dispatches may omit it; the version module requires it when publishing.
-  assert.match(workflow, /expected-version:\r?\n(?: {8}[^\r\n]*\r?\n)*? {8}required: false/);
-  assert.match(workflow, /Publish__ExpectedVersion:\s*\$\{\{\s*inputs\.expected-version\s*\}\}/);
+test('only a published release supplies the version and publishes', () => {
+  assert.match(workflow, /^  release:\r?\n {4}types: \[published\]/m);
+  for (const input of ['publish-packages', 'expected-version', 'prerelease-version', 'is-alpha']) {
+    assert.doesNotMatch(workflow, new RegExp(`^ {6}${input}:`, 'm'), `The ${input} dispatch input is replaced by publishing a release`);
+  }
+  assert.match(workflow, /release_version: \$\{\{ steps.release.outputs.version \}\}/);
+  for (const value of [...workflow.matchAll(/Publish__ShouldPublish:\s*\$\{\{\s*(.*?)\s*\}\}/g)].map(match => match[1])) {
+    assert.equal(value, "github.event_name == 'release' && matrix.instance == 0");
+  }
 });
 
 test('prebuild and packing share the publishing policy and compiled version', () => {
@@ -43,7 +39,7 @@ test('prebuild and packing share the publishing policy and compiled version', ()
   assert.match(resolution, /working-directory: src\/ModularPipelines.Build/);
   assert.match(resolution, /--write-package-version "\$GITHUB_ENV"/);
   assert.equal(resolution.match(/Publish__IsAlpha:\s*\$\{\{\s*(.*?)\s*\}\}/)?.[1], expression);
-  for (const setting of ['ShouldPublish', 'ExpectedVersion']) {
+  for (const setting of ['ShouldPublish', 'ReleaseVersion']) {
     const pattern = new RegExp(`Publish__${setting}:\\s*\\$\\{\\{\\s*(.*?)\\s*\\}\\}`, 'g');
     const values = [...workflow.matchAll(pattern)].map(match => match[1]);
     assert.equal(values.length, 2);

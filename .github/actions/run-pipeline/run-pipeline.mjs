@@ -7,10 +7,6 @@ import { artifactErrorMessage } from './artifact-errors.mjs';
 // Keep it in this process tree rather than exporting it to subsequent steps.
 export function startPipeline(sourceEnvironment, startProcess = spawn) {
   const environment = { ...sourceEnvironment };
-  // version-tag.yml owns tags for pushes to main.
-  if (environment.GITHUB_EVENT_NAME === 'push') {
-    delete environment.GitHub__StandardToken;
-  }
   // Preserve the native compiler's GC defaults on macOS.
   if (environment.RUNNER_OS === 'macOS') {
     delete environment.DOTNET_gcServer;

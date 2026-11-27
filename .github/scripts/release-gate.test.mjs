@@ -12,11 +12,11 @@ const expression = jobs.publish.match(/^    if: \$\{\{ (.*?) \}\}/m)?.[1];
 assert.ok(expression, 'Publication must have an explicit job gate');
 
 function canPublish(options = {}) {
-  const { aggregate, pipeline, event, ref, publish, cancelled } = { aggregate: 'success', pipeline: 'success',
-    event: 'workflow_dispatch', ref: 'refs/heads/main', publish: true, cancelled: false, ...options };
-  const javascript = expression.replace(/(needs|inputs)\.([a-z-]+)/g, "$1['$2']");
+  const { aggregate, pipeline, event, ref, cancelled } = { aggregate: 'success', pipeline: 'success',
+    event: 'release', ref: 'refs/tags/v4.1.0', cancelled: false, ...options };
+  const javascript = expression.replace(/needs\.([a-z-]+)/g, "needs['$1']");
   return runInNewContext(javascript, { needs: { 'required-pipeline': { result: aggregate }, pipeline: { result: pipeline } },
-    github: { event_name: event, ref }, inputs: { 'publish-packages': publish }, cancelled: () => cancelled });
+    github: { event_name: event, ref }, cancelled: () => cancelled });
 }
 
 test('only a successful aggregate and package producer allow a release', () => {
@@ -31,18 +31,16 @@ test('only a successful aggregate and package producer allow a release', () => {
   }
 });
 
-test('PRs, pushes, validation dispatches and feature branches cannot publish', () => {
-  for (const event of ['pull_request', 'push', 'workflow_dispatch']) {
-    for (const ref of ['refs/heads/main', 'refs/heads/feature']) {
-      for (const publish of [true, false, undefined]) {
-        assert.equal(canPublish({ event, ref, publish }), event === 'workflow_dispatch' && ref === 'refs/heads/main' && publish === true);
-      }
+test('only a published release can publish: PRs, pushes and dispatches cannot', () => {
+  for (const event of ['pull_request', 'push', 'workflow_dispatch', 'release']) {
+    for (const ref of ['refs/heads/main', 'refs/heads/feature', 'refs/tags/v4.1.0']) {
+      assert.equal(canPublish({ event, ref }), event === 'release');
     }
   }
 });
 
 test('the publication graph waits for every validation without holding up workers', () => {
-  assert.deepEqual(dependencies('publish'), ['required-pipeline', 'pipeline']);
+  assert.deepEqual(dependencies('publish'), ['fast-fail', 'required-pipeline', 'pipeline']);
   assert.deepEqual(dependencies('required-pipeline').sort(), ['fast-fail', 'pipeline', 'pipeline-workers',
     'cross-platform-build', 'generated-integration', 'changed-integration', 'artifact-storage', 'analyzers', 'trim-aot', 'cmd-tests',
     'distributed-template', 'go-validation', 'docs-deploy'].sort());
@@ -64,6 +62,7 @@ test('the aggregate owns skip applicability and cancelled runs never publish', (
   assert.match(jobs['fast-fail'], /Test-RequiredPipelineContext.ps1/);
   assert.match(jobs['fast-fail'], /Test-PublishRelease.ps1/);
   assert.match(jobs['fast-fail'], /release-gate.test.mjs/);
+  assert.match(jobs['fast-fail'], /release-draft.test.mjs/);
 });
 
 test('only the gated job receives publishing credentials and identity permissions', () => {
@@ -76,8 +75,9 @@ test('only the gated job receives publishing credentials and identity permission
   for (const [name, body] of Object.entries(jobs)) {
     if (name !== 'publish') assert.doesNotMatch(body, /NuGet\/login@|NUGET_API_KEY|secrets.ADMIN_TOKEN|id-token: write|Publish-Release.ps1/, name);
   }
+  // The pipeline never publishes, tags or creates releases itself, locally or in CI.
   const program = readFileSync(new URL('../../src/ModularPipelines.Build/Program.cs', import.meta.url), 'utf8');
-  assert.match(program, /else if \(!isRunningInCI && !builder.Environment.IsDevelopment\(\)\)\s*\{\s*builder.AddModule<UploadPackagesToNugetModule>\(\)\s*\.AddModule<CreateReleaseModule>\(\);/);
+  assert.doesNotMatch(program, /UploadPackagesToNugetModule|CreateReleaseModule|PushVersionTagModule/);
 });
 
 test('publication consumes the producer attempt and the exact rehearsed packages', () => {
@@ -87,6 +87,7 @@ test('publication consumes the producer attempt and the exact rehearsed packages
   assert.match(jobs.pipeline, /if-no-files-found: error/);
   assert.match(jobs.publish, /name: \$\{\{ needs.pipeline.outputs.release_artifact \}\}/);
   assert.match(jobs.publish, /-Commit \$env:GITHUB_SHA/);
+  assert.match(jobs.publish, /EXPECTED_VERSION: \$\{\{ needs.fast-fail.outputs.release_version \}\}/);
   assert.doesNotMatch(jobs.publish, /dotnet (?:build|pack|run)/);
 });
 

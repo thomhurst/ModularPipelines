@@ -1,8 +1,59 @@
+# Categories for the notes GitHub generates for each release draft (see
+# .github/workflows/release-draft.yml). GitHub puts a pull request in the first category it
+# matches, in file order. Breaking changes come first, so a breaking dependency update still shows
+# there. Every later category except Dependencies excludes the dependencies label, so dependency
+# updates stay grouped under Dependencies, which comes last.
 changelog:
+  exclude:
+    labels:
+      - ignore-for-release
   categories:
     - title: ⚠️ Breaking Changes
       labels:
         - breaking
+        - breaking-change
+    - title: New Features
+      labels:
+        - enhancement
+        - feature
+      exclude:
+        labels:
+          - dependencies
+    - title: Bug Fixes
+      labels:
+        - bug
+        - fix
+      exclude:
+        labels:
+          - dependencies
+    - title: Performance
+      labels:
+        - performance
+      exclude:
+        labels:
+          - dependencies
+    - title: Documentation
+      labels:
+        - documentation
+        - docs
+      exclude:
+        labels:
+          - dependencies
     - title: Other Changes
       labels:
         - "*"
+      exclude:
+        labels:
+          - dependencies
+          - breaking
+          - breaking-change
+          - enhancement
+          - feature
+          - bug
+          - fix
+          - performance
+          - documentation
+          - docs
+    - title: Dependencies
+      labels:
+        - dependencies

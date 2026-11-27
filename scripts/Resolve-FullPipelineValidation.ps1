@@ -2,7 +2,7 @@
 [CmdletBinding(DefaultParameterSetName = 'Git')]
 param(
     [Parameter(Mandatory)]
-    [ValidateSet('pull_request', 'push', 'workflow_dispatch')]
+    [ValidateSet('pull_request', 'push', 'workflow_dispatch', 'release')]
     [string]$EventName,
     [Parameter(ParameterSetName = 'Git')][string]$BaseSha,
     [Parameter(ParameterSetName = 'Git')][string]$HeadSha = 'HEAD',
@@ -104,7 +104,8 @@ $sharedSupplementalPaths = @(
     'scripts/Test-RequiredPipelineContext.ps1'
 )
 
-$runFullPipeline = $EventName -eq 'workflow_dispatch'
+# A manual run validates everything, and so does a release before it publishes.
+$runFullPipeline = $EventName -in @('workflow_dispatch', 'release')
 $runAllValidation = $runFullPipeline
 if (-not $runFullPipeline -and $PSCmdlet.ParameterSetName -eq 'Git') {
     if ($EventName -eq 'push' -and ([string]::IsNullOrWhiteSpace($BaseSha) -or $BaseSha -match '^0+$')) {
