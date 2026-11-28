@@ -42,4 +42,8 @@
     '$(MSBuildProjectName)' == 'ModularPipelines.UnitTests'">
     <Compile Include="$(MSBuildThisFileDirectory)Shared\GlobalTestSetup.cs" Link="GlobalTestSetup.cs" />
   </ItemGroup>
+  <!-- Concurrent pwsh starts corrupt PowerShell's shared startup profile; see the file for details. -->
+  <ItemGroup Condition="'$(IsTestProject)' == 'true'">
+    <Compile Include="$(MSBuildThisFileDirectory)Shared\PowerShellStartupProfileWorkaround.cs" Link="PowerShellStartupProfileWorkaround.cs" />
+  </ItemGroup>
 </Project>
